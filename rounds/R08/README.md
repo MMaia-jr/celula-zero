@@ -44,11 +44,9 @@ Esta organização está sendo testada empiricamente antes de qualquer alteraç�
 
 ## Estado dos participantes
 
-- Marcos Antonio Maia junior — diálogo original com GPT migrado nesta rodada.
-- GPT — perguntas originais do diálogo migradas; posição substantiva separada ainda pendente.
-- Kimi — contribuição pendente.
-
-Kimi deverá receber acesso ao diálogo original antes de produzir sua contribuição para esta rodada.
+- Marcos Antonio Maia junior — diálogo original registrado.
+- GPT — perguntas originais registradas; posição substantiva separada ainda pendente.
+- Kimi — posição original registrada em `rounds/R08/Kimi.md`.
 
 ## Limite
 
