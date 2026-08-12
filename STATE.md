@@ -105,3 +105,21 @@ Estas linhas são um índice temático, não citações nem substitutos dos Regi
 ## Estado da Rodada 7
 
 O formato anterior da Rodada 7 fica suspenso, não apagado. O arquivo `rounds/R07-prompt.md` permanece preservado.
+
+## Rodada 8
+
+Rodada aberta para aprofundamento das Perguntas Geradoras através do núcleo ativo.
+
+O primeiro material registrado é o diálogo gerador entre Marcos Antonio Maia junior e GPT:
+
+`rounds/R08/DIALOGUE-MARCOS-GPT.md`
+
+Estado atual:
+
+- Marcos Antonio Maia junior — respostas originais do diálogo migradas.
+- GPT — perguntas originais do diálogo migradas; posição substantiva separada ainda pendente.
+- Kimi — contribuição pendente.
+
+Nesta rodada está sendo testada, sem alteração ainda do protocolo, a preservação explícita da relação pergunta → resposta como parte da proveniência.
+
+Nenhuma síntese, claim, alteração de protocolo ou decisão coletiva da Rodada 8 foi registrada.
