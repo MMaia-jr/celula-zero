@@ -44,9 +44,21 @@ Esta organização está sendo testada empiricamente antes de qualquer alteraç�
 
 ## Estado dos participantes
 
-- Marcos Antonio Maia junior — diálogo original registrado.
-- GPT — perguntas originais registradas; posição substantiva separada ainda pendente.
+- Marcos Antonio Maia junior — diálogo inicial e respostas posteriores a Kimi/GPT registradas.
 - Kimi — posição original registrada em `rounds/R08/Kimi.md`.
+- GPT — posição substantiva registrada em `rounds/R08/GPT.md`.
+
+A continuação do diálogo relacional está registrada em:
+
+`rounds/R08/DIALOGUE-KIMI-GPT-MARCOS.md`
+
+O diálogo adicional GPT → Marcos está registrado em:
+
+`rounds/R08/DIALOGUE-GPT-MARCOS-CONTINUATION.md`
+
+A proveniência relacional continua em teste.
+
+Nenhuma alteração do protocolo foi aprovada.
 
 ## Limite
 

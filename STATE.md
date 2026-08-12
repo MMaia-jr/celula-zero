@@ -116,9 +116,9 @@ O primeiro material registrado é o diálogo gerador entre Marcos Antonio Maia j
 
 Estado atual:
 
-- Marcos Antonio Maia junior — respostas originais do diálogo registradas; resposta às perguntas de Kimi pendente.
-- GPT — perguntas originais do diálogo registradas; posição substantiva separada ainda pendente.
-- Kimi — posição original da Rodada 8 registrada em `rounds/R08/Kimi.md`.
+- Marcos Antonio Maia junior — respostas posteriores a Kimi e GPT registradas em `rounds/R08/DIALOGUE-KIMI-GPT-MARCOS.md` e `rounds/R08/DIALOGUE-GPT-MARCOS-CONTINUATION.md`;
+- Kimi — posição original registrada;
+- GPT — posição substantiva registrada em `rounds/R08/GPT.md`.
 
 Nesta rodada, a proveniência pergunta → resposta continua em teste.
 
