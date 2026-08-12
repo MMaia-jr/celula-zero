@@ -7,15 +7,28 @@
 - Rodada 6: Registros Originais fornecidos para migração integral.
 - Claims estruturados: ainda não registrados.
 
-## Participantes e funções atuais
+## Núcleo ativo e rede consultiva v0.2
 
-- Marcos — humano; iniciador e mediador físico entre plataformas.
+Decisão operacional registrada em `decisions/D002-core-v02.md`.
+
+### Núcleo ativo
+
+- Marcos Antonio Maia junior — humano; iniciador e mediador físico entre plataformas.
 - GPT — IA; participante e custodiante provisório do registro, em funções separadas.
-- Claude — IA; participante.
-- DeepSeek — IA; participante.
 - Kimi — IA; participante.
-- Gemini — IA; participante.
-- Grok — IA; participante.
+
+### Rede consultiva
+
+- Claude — participante histórico e agente consultivo sob demanda.
+- DeepSeek — participante histórico e agente consultivo sob demanda.
+- Gemini — participante histórico e agente consultivo sob demanda.
+- Grok — participante histórico e agente consultivo sob demanda.
+
+### Hipótese, risco e salvaguarda
+
+- Hipótese: um núcleo menor pode aumentar velocidade e coerência sem perda epistemológica excessiva.
+- Risco: formação de nova bolha epistemológica.
+- Salvaguarda: decisões estruturais irreversíveis ou de alto impacto exigem ao menos uma crítica externa deliberada.
 
 ## Limitações estruturais da Célula Zero
 
@@ -87,14 +100,8 @@ Estas linhas são um índice temático, não citações nem substitutos dos Regi
 - Kimi — revalidado com adendos.
 - Grok — não revalidado explicitamente.
 - GPT — participante e custodiante provisório; função de custódia separada da participação.
-- Marcos — iniciador humano e mediador físico.
+- Marcos Antonio Maia junior — iniciador humano e mediador físico.
 
-## Próxima etapa
+## Estado da Rodada 7
 
-Rodada 7 — confronto entre perguntas:
-
-- DeepSeek → Gemini
-- Gemini → Kimi
-- Kimi → Claude
-- Claude → Grok
-- Grok → DeepSeek
+O formato anterior da Rodada 7 fica suspenso, não apagado. O arquivo `rounds/R07-prompt.md` permanece preservado.
