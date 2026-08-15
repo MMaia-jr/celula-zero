@@ -125,3 +125,28 @@ Nesta rodada, a proveniência pergunta → resposta continua em teste.
 Nenhuma síntese coletiva foi produzida.
 
 Nenhuma alteração de protocolo foi aprovada.
+
+## Teste textual T002
+
+T002 — Sarkar: consciência, continuidade, memória e transmissão está aberto em:
+
+`tests/T002-sarkar-memory-consciousness-continuity.md`
+
+Estado atual:
+
+- Kimi-01 recebida e preservada em `tests/T002-Kimi-01.md`;
+- verificação adversarial realizada;
+- Kimi-02/errata recebida e preservada em `tests/T002-Kimi-02-errata.md`;
+- leitura integral de `A Guide to Human Conduct` pendente;
+- síntese T002 ainda não produzida.
+
+A abertura e o estado deste teste não alteram o estado epistemológico das hipóteses da Rodada 8 nem transformam qualquer hipótese em decisão.
+
+## GRAPH-000
+
+- GRAPH-000 foi formulado conceitualmente.
+- Ainda não está implementado como sistema.
+- A Célula Zero será o primeiro caso de teste do grafo.
+- Existe uma contribuição derivada externa de Kimi com extração inicial de 20 nós e 31 arestas.
+- Nenhuma ontologia final foi decidida.
+- Nenhuma decisão final sobre DAO, token, blockchain operacional ou arquitetura final foi tomada.
