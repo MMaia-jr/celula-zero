@@ -166,3 +166,11 @@ A abertura e o estado deste teste não alteram o estado epistemológico das hip�
 - Parte das lacunas do GTEST-001 será submetida a tentativa de recuperação por Registros Originais externos.
 - Resultado pendente.
 - GTEST-001 permanece FALHA.
+
+## Genesis Cell e INTENT-000
+
+- Genesis Cell materializada conceitualmente.
+- INTENT-000 criada.
+- Caminho crítico atual: testar a própria intenção.
+- GTEST-002 permanece aberto, mas não prioritário.
+- Nenhuma decisão de token, DAO operacional, smart contract, blockchain, equity ou arquitetura final foi tomada.
