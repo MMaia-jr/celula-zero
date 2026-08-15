@@ -158,3 +158,11 @@ A abertura e o estado deste teste não alteram o estado epistemológico das hip�
 - Nenhuma alteração foi feita no GRAPH-000.
 - Resultado: FALHA.
 - Motivo: o repositório demonstra partes e extremos da trajetória, mas não preserva proveniência suficiente para reconstruir seus elos históricos centrais sem inferência ou memória externa.
+
+## GTEST-002
+
+- GTEST-002 está aberto.
+- Objetivo: testar se Registros Originais externos hoje ausentes podem reduzir lacunas de proveniência sem converter memória posterior, síntese retrospectiva ou inferência em evidência histórica.
+- Parte das lacunas do GTEST-001 será submetida a tentativa de recuperação por Registros Originais externos.
+- Resultado pendente.
+- GTEST-001 permanece FALHA.
