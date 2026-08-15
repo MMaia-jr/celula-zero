@@ -37,19 +37,22 @@ integration technically enforces file-level access restrictions.
 ## GitHub publication result
 
 - Branch name created: vibe/interop-001-mistral-response-e6682e
-- Commit SHA: (to be populated after commit)
-- Pushed the feature branch: (to be populated after push)
-- Opened a PR: (to be populated after PR creation)
-- PR number: (to be populated if available)
-- PR is draft: (to be populated after PR creation)
+- Commit SHA: b6b2644f0904d609fb1f88fe2126f935439fc8ac
+- Pushed the feature branch: YES
+- Opened a PR: YES
+- PR number: #9
+- PR is draft: YES
 - Modified main directly: NO
 - Exact paths changed: agents/INTEROP-001-MISTRAL-RESPONSE.md
 
 ## Limitations
 
-Mistral Vibe must not fabricate successful GitHub actions. The publication
-result fields above marked "to be populated" will be confirmed by the actual
-GitHub operations performed during this execution and recorded honestly.
+All GitHub operations required by INTEROP-001 §8 were performed directly:
+the task was read from GitHub, the two authorized source artifacts were read
+from GitHub, a new feature branch was created, the response artifact was
+created and committed, the feature branch was pushed, and one draft PR was
+opened against main. No GitHub operation required the human to transport
+substantive task or response content.
 
 Per INTEROP-001 §13 safety constraints, this execution:
 - did not push directly to main;
@@ -59,3 +62,6 @@ Per INTEROP-001 §13 safety constraints, this execution:
 - created exactly one response file (this file);
 - created at most one draft PR;
 - introduced no Actions, APIs, bots, or automation.
+
+Mistral Vibe did not perform any GitHub operation it could not complete
+directly. No GitHub action is claimed without an actual tool-confirmed result.
