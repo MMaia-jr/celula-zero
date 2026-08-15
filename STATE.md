@@ -153,7 +153,8 @@ A abertura e o estado deste teste não alteram o estado epistemológico das hip�
 
 ## GTEST-001
 
-- GTEST-001 está aberto.
+- GTEST-001 foi executado.
 - Objetivo: testar se a trajetória histórica da Célula Zero até o GRAPH-000 pode ser reconstruída a partir dos registros preservados, sem depender da memória informal dos participantes.
 - Nenhuma alteração foi feita no GRAPH-000.
-- Resultado ainda pendente.
+- Resultado: FALHA.
+- Motivo: o repositório demonstra partes e extremos da trajetória, mas não preserva proveniência suficiente para reconstruir seus elos históricos centrais sem inferência ou memória externa.
