@@ -756,7 +756,9 @@ Adopt provisionally D1, D2, D4, D5 and D6.
 
 Retain D3 as VISION/HYPOTHESIS, not present identity.
 
-Do not decide D7 until VALUE-TEST-001 is separately preregistered and audited.
+Authorize D7 only to preregister VALUE-TEST-001.
+
+Do not authorize execution of VALUE-TEST-001 until the preregistration is separately audited and explicitly approved by the human founder.
 
 Create D8 only after the human has explicitly adopted the relevant strategic
 changes.
