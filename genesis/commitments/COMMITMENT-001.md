@@ -60,9 +60,11 @@ Kimi respondeu explicitamente:
 
 ## Estado
 
-ENTREGA RECEBIDA / VERIFICAÇÃO PENDENTE
+CUMPRIDO / VERIFICADO
 
 Entrega recebida: genesis/contributions/KIMI-ENTREGA-001.md
+
+Verificação: genesis/verifications/VERIFICATION-001.md
 
 ## Observação epistemológica
 
