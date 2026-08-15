@@ -1,0 +1,44 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "czv": "urn:celula-zero:vocab:",
+    "id": "@id",
+    "type": "@type"
+  },
+  "@graph": [
+    {
+      "id": "czv:assertedRepositoryChange",
+      "type": "rdf:Property",
+      "rdfs:label": "asserted repository change",
+      "skos:definition": "Records a contributor's explicit assertion about whether the contributor changed the repository. When the boolean value is false, the contributor explicitly asserted that they did not change the repository.",
+      "skos:scopeNote": "This property records the contributor's assertion; it does not independently prove what physically happened in Git. A false value is distinct from absence of an assertion and from an unknown repository-change status.",
+      "skos:note": "EXPERIMENTAL CANDIDATE DEFINITION FOR TECH-SPIKE-005 — NOT AN APPROVED VOCABULARY STANDARD."
+    },
+    {
+      "id": "czv:storedIn",
+      "type": "rdf:Property",
+      "rdfs:label": "stored in",
+      "skos:definition": "Explicitly relates an entity to a store in which that entity is represented as stored. When an entity is explicitly related to CanonicalGitStore, that relation supports an explicit canonical-storage assertion.",
+      "skos:scopeNote": "Absence of storedIn does not entail non-canonicity. Absence of assertion ≠ assertion of absence. Not represented ≠ false. This property does not define a complete global canonicity model.",
+      "skos:note": "EXPERIMENTAL CANDIDATE DEFINITION FOR TECH-SPIKE-005 — NOT AN APPROVED VOCABULARY STANDARD."
+    },
+    {
+      "id": "czv:doesNotApproveTemplate",
+      "type": "rdf:Property",
+      "rdfs:label": "does not approve template",
+      "skos:definition": "When true, states that the referenced verification or commitment does not establish the candidate template as an approved standard.",
+      "skos:scopeNote": "This property alone does not mean that the candidate template was rejected, invalidated, prohibited or failed.",
+      "skos:note": "EXPERIMENTAL CANDIDATE DEFINITION FOR TECH-SPIKE-005 — NOT AN APPROVED VOCABULARY STANDARD."
+    },
+    {
+      "id": "czv:orderedMember",
+      "type": "rdf:Property",
+      "rdfs:label": "ordered member",
+      "skos:definition": "Represents the declared process/logical ordering of members in a represented cycle or collection.",
+      "skos:scopeNote": "This property alone does not establish exact timestamps, duration, strict physical chronology or causality beyond separately represented provenance relations. List order is not equivalent to temporal proof.",
+      "skos:note": "EXPERIMENTAL CANDIDATE DEFINITION FOR TECH-SPIKE-005 — NOT AN APPROVED VOCABULARY STANDARD."
+    }
+  ]
+}
