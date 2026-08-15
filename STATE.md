@@ -150,3 +150,10 @@ A abertura e o estado deste teste não alteram o estado epistemológico das hip�
 - Existe uma contribuição derivada externa de Kimi com extração inicial de 20 nós e 31 arestas.
 - Nenhuma ontologia final foi decidida.
 - Nenhuma decisão final sobre DAO, token, blockchain operacional ou arquitetura final foi tomada.
+
+## GTEST-001
+
+- GTEST-001 está aberto.
+- Objetivo: testar se a trajetória histórica da Célula Zero até o GRAPH-000 pode ser reconstruída a partir dos registros preservados, sem depender da memória informal dos participantes.
+- Nenhuma alteração foi feita no GRAPH-000.
+- Resultado ainda pendente.
