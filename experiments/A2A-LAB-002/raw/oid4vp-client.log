@@ -1,0 +1,77 @@
+
+> oid4vp-in-task-auth-sample@0.1.0 client /Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample
+> tsx src/cli.ts
+
+[1mA2A Terminal Client[0m
+[2mAgent Base URL: http://localhost:10003[0m
+INFO: Creating agent with config {
+  "agentConfig": {
+    "logger": 3,
+    "allowInsecureHttpUrls": true,
+    "agentDependencies": true
+  }
+}
+INFO: Agent storage is up to date.
+[2mAttempting to fetch agent card from agent at: http://localhost:10003[0m
+[32m✓ Agent Card Found:[0m
+  Name:        [1mSample Agent[0m
+  Description: A sample agent that can answer questions about decentralized identity.
+  Version:     1.0.0
+  Streaming:   [32mSupported[0m
+  OID4VP Auth: [32mAdvertised[0m
+[2mNo active task or context initially. Use '/new' to start a fresh session or send a message.[0m
+[32mEnter messages, or use '/new' to start a new session. '/exit' to quit.[0m
+[31mUnhandled error in main:[0m Error [ERR_USE_AFTER_CLOSE]: readline was closed
+    at [kQuestion] (node:internal/readline/interface:441:13)
+    at Interface.question (node:readline:158:20)
+    at <anonymous> (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/src/cli.ts:77:38)
+    at new Promise (<anonymous>)
+    at question (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/src/cli.ts:77:10)
+    at main (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/src/cli.ts:431:26)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  code: 'ERR_USE_AFTER_CLOSE'
+}
+ ELIFECYCLE  Command failed with exit code 1.
+
+> oid4vp-in-task-auth-sample@0.1.0 client /Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample
+> tsx src/cli.ts
+
+[1mA2A Terminal Client[0m
+[2mAgent Base URL: http://localhost:10003[0m
+INFO: Creating agent with config {
+  "agentConfig": {
+    "logger": 3,
+    "allowInsecureHttpUrls": true,
+    "agentDependencies": true
+  }
+}
+INFO: Agent storage is up to date.
+[2mAttempting to fetch agent card from agent at: http://localhost:10003[0m
+[32m✓ Agent Card Found:[0m
+  Name:        [1mSample Agent[0m
+  Description: A sample agent that can answer questions about decentralized identity.
+  Version:     1.0.0
+  Streaming:   [32mSupported[0m
+  OID4VP Auth: [32mAdvertised[0m
+[2mNo active task or context initially. Use '/new' to start a fresh session or send a message.[0m
+[32mEnter messages, or use '/new' to start a new session. '/exit' to quit.[0m
+[36m
+Sample Agent > You: [0m[31mSending message...[0m
+[35m
+Sample Agent [10:03:34 PM]:[0m [34mℹ️ Task Stream Event:[0m ID: 79968096-a2c4-4f13-819a-5dee924e8cb5, Context: 72678f25-00ab-490c-a91c-a1c00c747e26, Status: submitted
+[35m
+Sample Agent [10:03:34 PM]:[0m 🔐 Status: [36mauth-required[0m (Task: 79968096-a2c4-4f13-819a-5dee924e8cb5, Context: 72678f25-00ab-490c-a91c-a1c00c747e26) 
+[31m  Part 1:[0m [32m📝 Text:[0m Additional authorization is required for this task.
+[32mAgent requested additional authorization.[0m
+The following data will be shared with the agent: SampleCredential
+Please confirm the action (yes / no): [35m
+Sample Agent [10:03:42 PM]:[0m ⏳ Status: [36mworking[0m (Task: 79968096-a2c4-4f13-819a-5dee924e8cb5, Context: 72678f25-00ab-490c-a91c-a1c00c747e26) 
+[31m  Part 1:[0m [32m📝 Text:[0m Thinking...
+[35m
+Sample Agent [10:03:42 PM]:[0m ❌ Status: [36mfailed[0m (Task: 79968096-a2c4-4f13-819a-5dee924e8cb5, Context: 72678f25-00ab-490c-a91c-a1c00c747e26) [1m[FINAL][0m
+[31m  Part 1:[0m [32m📝 Text:[0m Agent error: PERMISSION_DENIED: 401 Incorrect API key provided: placehol**************-key. You can find your API key at https://platform.openai.com/account/api-keys.
+[33m   Task 79968096-a2c4-4f13-819a-5dee924e8cb5 is final. Clearing current task ID.[0m
+[2m--- End of response stream for this input ---[0m
+[36m
+Sample Agent > You: [0m[33m
+Exiting A2A Terminal Client. Goodbye![0m

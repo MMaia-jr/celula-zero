@@ -1,0 +1,37 @@
+
+> oid4vp-in-task-auth-sample@0.1.0 agent /Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample
+> tsx src/agent/index.ts
+
+[dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+INFO: Creating agent with config {
+  "agentConfig": {
+    "logger": 3,
+    "allowInsecureHttpUrls": true,
+    "agentDependencies": true
+  }
+}
+INFO: Agent storage is up to date.
+[SampleAgent] OID4VP verifier listening on http://localhost:3001/oid4vp
+[SampleAgent] Server started on http://localhost:10003
+[SampleAgent] Agent Card: http://localhost:10003/.well-known/agent-card.json
+[SampleAgent] Press Ctrl+C to stop the server
+[SampleAgentExecutor] Processing message c1725ee7-aa11-4c2b-9c07-1a89ad1cea67 for task 79968096-a2c4-4f13-819a-5dee924e8cb5 (context: 72678f25-00ab-490c-a91c-a1c00c747e26)
+[SampleAgentExecutor] Error processing task 79968096-a2c4-4f13-819a-5dee924e8cb5: GenkitError: PERMISSION_DENIED: 401 Incorrect API key provided: placehol**************-key. You can find your API key at https://platform.openai.com/account/api-keys.
+    at <anonymous> (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+compat-oai@1.28.0_genkit@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1__ws@8.19.0_zod@3.25.76/node_modules/@genkit-ai/compat-oai/src/model.ts:633:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+core@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28_a2adb7b522f9f7c30d1fe96656a1a16b/node_modules/@genkit-ai/core/src/action.ts:391:26)
+    at async <anonymous> (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+core@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28_a2adb7b522f9f7c30d1fe96656a1a16b/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:142:24)
+    at async runInNewSpan (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+core@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28_a2adb7b522f9f7c30d1fe96656a1a16b/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:110:10)
+    at async actionFn.actionFn.run (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+core@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28_a2adb7b522f9f7c30d1fe96656a1a16b/node_modules/@genkit-ai/core/src/action.ts:340:18)
+    at async dispatch (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+core@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28_a2adb7b522f9f7c30d1fe96656a1a16b/node_modules/@genkit-ai/core/src/action.ts:263:24)
+    at async wrapped.wrapped.run (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+core@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28_a2adb7b522f9f7c30d1fe96656a1a16b/node_modules/@genkit-ai/core/src/action.ts:287:22)
+    at async wrapped (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+core@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28_a2adb7b522f9f7c30d1fe96656a1a16b/node_modules/@genkit-ai/core/src/action.ts:248:13)
+    at async dispatch (/Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002/experimental-ext-oid4vp-auth/sample/node_modules/.pnpm/@genkit-ai+ai@1.28.0_@google-cloud+firestore@7.11.6_firebase-admin@13.6.1_genkit@1.28.0_8bbf0734f1739a7fb73aa1454f9cdace/node_modules/@genkit-ai/ai/src/generate/action.ts:342:14) {
+  source: undefined,
+  status: 'PERMISSION_DENIED',
+  detail: undefined,
+  code: 403,
+  originalMessage: '401 Incorrect API key provided: placehol**************-key. You can find your API key at https://platform.openai.com/account/api-keys.',
+  traceId: '9f8403fd2237e943ddb436c09a28facb',
+  ignoreFailedSpan: true
+}

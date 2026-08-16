@@ -1,0 +1,79 @@
+
+Starting an internactive session with A2A Server [http://127.0.0.1:9999]
+Use `exit` to quit.
+user > Initializes the A2ACardResolver instance with an HTTP client
+
+Successfully fetched the public agent card:
+
+--- Public Agent Card - Non-Streaming Call ---
+
+Initializing a non-streaming client.
+Response:
+task {
+  id: "e101ed17-b469-4dc7-a735-b90a4f024e77"
+  context_id: "23e10a7d-3c60-4ab7-b8dd-707478d472c6"
+  status {
+    state: TASK_STATE_COMPLETED
+    message {
+      message_id: "428c3579-5885-4bc4-ad82-afa92c56a730"
+      context_id: "23e10a7d-3c60-4ab7-b8dd-707478d472c6"
+      task_id: "e101ed17-b469-4dc7-a735-b90a4f024e77"
+      role: ROLE_AGENT
+      parts {
+        text: "Request is completed!"
+        media_type: "text/plain"
+      }
+      metadata {
+      }
+    }
+    timestamp {
+      seconds: 1786842296
+      nanos: 15000000
+    }
+  }
+  artifacts {
+    artifact_id: "23489f82-6391-4376-8400-5018e1b692e1"
+    name: "Result"
+    description: "The response from the Hello World agent."
+    parts {
+      text: "Hello, World! I have received your request (Hello from Python client.)"
+      media_type: "text/plain"
+    }
+  }
+  history {
+    message_id: "799cd55a-f3b4-4c85-a9dc-e179e3508b69"
+    context_id: "23e10a7d-3c60-4ab7-b8dd-707478d472c6"
+    task_id: "e101ed17-b469-4dc7-a735-b90a4f024e77"
+    role: ROLE_USER
+    parts {
+      text: "Hello from Python client."
+    }
+  }
+  history {
+    message_id: "dfe828fb-0d56-4fdd-9efd-3cb92c57d425"
+    context_id: "23e10a7d-3c60-4ab7-b8dd-707478d472c6"
+    task_id: "e101ed17-b469-4dc7-a735-b90a4f024e77"
+    role: ROLE_AGENT
+    parts {
+      text: "Processing request..."
+      media_type: "text/plain"
+    }
+    metadata {
+    }
+  }
+  history {
+    message_id: "428c3579-5885-4bc4-ad82-afa92c56a730"
+    context_id: "23e10a7d-3c60-4ab7-b8dd-707478d472c6"
+    task_id: "e101ed17-b469-4dc7-a735-b90a4f024e77"
+    role: ROLE_AGENT
+    parts {
+      text: "Request is completed!"
+      media_type: "text/plain"
+    }
+    metadata {
+    }
+  }
+}
+
+--
+user > 
