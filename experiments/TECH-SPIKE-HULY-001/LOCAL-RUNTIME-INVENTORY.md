@@ -10,7 +10,7 @@ modificados ou versionados.
 
 ## Containers relevantes
 
-Todos os 20 containers abaixo estavam em estado `running` durante a inspeção.
+Todos os 19 containers abaixo estavam em estado `running` durante a inspeção.
 `none` significa que o container não expunha healthcheck Docker.
 
 | Container | Image | Image SHA (prefixo) | Health | Portas publicadas |
