@@ -1,0 +1,676 @@
+CASE=accepted
+CARD_EXTENSIONS=0
+task {
+  id: "6fa2b551-ad88-4d41-8912-6b9f47819d4c"
+  context_id: "fbe37081-c1b9-470b-a592-60cad9c0bacf"
+  status {
+    state: TASK_STATE_SUBMITTED
+  }
+  history {
+    message_id: "msg-accepted"
+    context_id: "fbe37081-c1b9-470b-a592-60cad9c0bacf"
+    task_id: "6fa2b551-ad88-4d41-8912-6b9f47819d4c"
+    role: ROLE_USER
+    parts {
+      data {
+        struct_value {
+          fields {
+            key: "target"
+            value {
+              string_value: "OK"
+            }
+          }
+          fields {
+            key: "maxChars"
+            value {
+              number_value: 2
+            }
+          }
+          fields {
+            key: "intent"
+            value {
+              string_value: "produce_file"
+            }
+          }
+          fields {
+            key: "conditions"
+            value {
+              list_value {
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        string_value: "result.txt"
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "equals"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "artifact_name"
+                      }
+                    }
+                  }
+                }
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        string_value: "text/plain"
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "equals"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "media_type"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          fields {
+            key: "acceptanceCriteria"
+            value {
+              list_value {
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        string_value: "OK"
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "equals"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "content"
+                      }
+                    }
+                  }
+                }
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        number_value: 2
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "lte"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "character_count"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      media_type: "application/json"
+    }
+    metadata {
+      fields {
+        key: "representationNote"
+        value {
+          string_value: "Unnamespaced application metadata; no A2A extension semantics."
+        }
+      }
+    }
+  }
+}
+
+status_update {
+  task_id: "6fa2b551-ad88-4d41-8912-6b9f47819d4c"
+  context_id: "fbe37081-c1b9-470b-a592-60cad9c0bacf"
+  status {
+    state: TASK_STATE_WORKING
+    message {
+      message_id: "6b20d11a-faaa-45a4-9d6c-e55b049aa838"
+      role: ROLE_AGENT
+      parts {
+        text: "Request acknowledged; executing. This is application text, not a protocol commitment."
+      }
+    }
+    timestamp {
+      seconds: 1786842031
+      nanos: 863970000
+    }
+  }
+}
+
+artifact_update {
+  task_id: "6fa2b551-ad88-4d41-8912-6b9f47819d4c"
+  context_id: "fbe37081-c1b9-470b-a592-60cad9c0bacf"
+  artifact {
+    artifact_id: "8e4f5221-399e-4a2a-9c80-0c8567c9b530"
+    name: "result.txt"
+    parts {
+      text: "OK"
+      media_type: "text/plain"
+    }
+    metadata {
+      fields {
+        key: "claimedConditions"
+        value {
+          list_value {
+            values {
+              struct_value {
+                fields {
+                  key: "value"
+                  value {
+                    string_value: "result.txt"
+                  }
+                }
+                fields {
+                  key: "operator"
+                  value {
+                    string_value: "equals"
+                  }
+                }
+                fields {
+                  key: "field"
+                  value {
+                    string_value: "artifact_name"
+                  }
+                }
+              }
+            }
+            values {
+              struct_value {
+                fields {
+                  key: "value"
+                  value {
+                    string_value: "text/plain"
+                  }
+                }
+                fields {
+                  key: "operator"
+                  value {
+                    string_value: "equals"
+                  }
+                }
+                fields {
+                  key: "field"
+                  value {
+                    string_value: "media_type"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      fields {
+        key: "applicationRole"
+        value {
+          string_value: "candidate-output"
+        }
+      }
+    }
+  }
+}
+
+artifact_update {
+  task_id: "6fa2b551-ad88-4d41-8912-6b9f47819d4c"
+  context_id: "fbe37081-c1b9-470b-a592-60cad9c0bacf"
+  artifact {
+    artifact_id: "5555996b-0721-43bc-89fa-2129c6f1c49c"
+    name: "application-verification.json"
+    parts {
+      data {
+        struct_value {
+          fields {
+            key: "decision"
+            value {
+              string_value: "ACCEPTED"
+            }
+          }
+          fields {
+            key: "checks"
+            value {
+              list_value {
+                values {
+                  struct_value {
+                    fields {
+                      key: "passed"
+                      value {
+                        bool_value: true
+                      }
+                    }
+                    fields {
+                      key: "criterion"
+                      value {
+                        string_value: "content_equals_target"
+                      }
+                    }
+                  }
+                }
+                values {
+                  struct_value {
+                    fields {
+                      key: "passed"
+                      value {
+                        bool_value: true
+                      }
+                    }
+                    fields {
+                      key: "criterion"
+                      value {
+                        string_value: "length_lte_max_chars"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      media_type: "application/json"
+    }
+    metadata {
+      fields {
+        key: "applicationDecision"
+        value {
+          string_value: "ACCEPTED"
+        }
+      }
+    }
+  }
+}
+
+status_update {
+  task_id: "6fa2b551-ad88-4d41-8912-6b9f47819d4c"
+  context_id: "fbe37081-c1b9-470b-a592-60cad9c0bacf"
+  status {
+    state: TASK_STATE_COMPLETED
+    message {
+      message_id: "138de936-6c4d-4000-8b9e-87f2b172bc07"
+      role: ROLE_AGENT
+      parts {
+        text: "Execution completed; application-level result decision: ACCEPTED. TASK_STATE_COMPLETED does not encode that decision."
+      }
+    }
+    timestamp {
+      seconds: 1786842031
+      nanos: 864461000
+    }
+  }
+  metadata {
+    fields {
+      key: "applicationDecision"
+      value {
+        string_value: "ACCEPTED"
+      }
+    }
+  }
+}
+
+CASE=rejected-result
+CARD_EXTENSIONS=0
+task {
+  id: "db6af21a-11bd-4cb1-ae0a-d759758abf37"
+  context_id: "4840679c-19b7-44fa-a37f-ecd384494297"
+  status {
+    state: TASK_STATE_SUBMITTED
+  }
+  history {
+    message_id: "msg-rejected-result"
+    context_id: "4840679c-19b7-44fa-a37f-ecd384494297"
+    task_id: "db6af21a-11bd-4cb1-ae0a-d759758abf37"
+    role: ROLE_USER
+    parts {
+      data {
+        struct_value {
+          fields {
+            key: "target"
+            value {
+              string_value: "TOOLONG"
+            }
+          }
+          fields {
+            key: "maxChars"
+            value {
+              number_value: 3
+            }
+          }
+          fields {
+            key: "intent"
+            value {
+              string_value: "produce_file"
+            }
+          }
+          fields {
+            key: "conditions"
+            value {
+              list_value {
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        string_value: "result.txt"
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "equals"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "artifact_name"
+                      }
+                    }
+                  }
+                }
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        string_value: "text/plain"
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "equals"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "media_type"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          fields {
+            key: "acceptanceCriteria"
+            value {
+              list_value {
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        string_value: "TOOLONG"
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "equals"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "content"
+                      }
+                    }
+                  }
+                }
+                values {
+                  struct_value {
+                    fields {
+                      key: "value"
+                      value {
+                        number_value: 3
+                      }
+                    }
+                    fields {
+                      key: "operator"
+                      value {
+                        string_value: "lte"
+                      }
+                    }
+                    fields {
+                      key: "field"
+                      value {
+                        string_value: "character_count"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      media_type: "application/json"
+    }
+    metadata {
+      fields {
+        key: "representationNote"
+        value {
+          string_value: "Unnamespaced application metadata; no A2A extension semantics."
+        }
+      }
+    }
+  }
+}
+
+status_update {
+  task_id: "db6af21a-11bd-4cb1-ae0a-d759758abf37"
+  context_id: "4840679c-19b7-44fa-a37f-ecd384494297"
+  status {
+    state: TASK_STATE_WORKING
+    message {
+      message_id: "27a42400-c3f3-4737-be07-3b3e64f41fbb"
+      role: ROLE_AGENT
+      parts {
+        text: "Request acknowledged; executing. This is application text, not a protocol commitment."
+      }
+    }
+    timestamp {
+      seconds: 1786842031
+      nanos: 925187000
+    }
+  }
+}
+
+artifact_update {
+  task_id: "db6af21a-11bd-4cb1-ae0a-d759758abf37"
+  context_id: "4840679c-19b7-44fa-a37f-ecd384494297"
+  artifact {
+    artifact_id: "8e19aa0c-cf65-4eea-afa3-28f2c371686f"
+    name: "result.txt"
+    parts {
+      text: "TOOLONG"
+      media_type: "text/plain"
+    }
+    metadata {
+      fields {
+        key: "claimedConditions"
+        value {
+          list_value {
+            values {
+              struct_value {
+                fields {
+                  key: "value"
+                  value {
+                    string_value: "result.txt"
+                  }
+                }
+                fields {
+                  key: "operator"
+                  value {
+                    string_value: "equals"
+                  }
+                }
+                fields {
+                  key: "field"
+                  value {
+                    string_value: "artifact_name"
+                  }
+                }
+              }
+            }
+            values {
+              struct_value {
+                fields {
+                  key: "value"
+                  value {
+                    string_value: "text/plain"
+                  }
+                }
+                fields {
+                  key: "operator"
+                  value {
+                    string_value: "equals"
+                  }
+                }
+                fields {
+                  key: "field"
+                  value {
+                    string_value: "media_type"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      fields {
+        key: "applicationRole"
+        value {
+          string_value: "candidate-output"
+        }
+      }
+    }
+  }
+}
+
+artifact_update {
+  task_id: "db6af21a-11bd-4cb1-ae0a-d759758abf37"
+  context_id: "4840679c-19b7-44fa-a37f-ecd384494297"
+  artifact {
+    artifact_id: "7bf94b75-48c3-411f-a34f-87b6d59f8a4f"
+    name: "application-verification.json"
+    parts {
+      data {
+        struct_value {
+          fields {
+            key: "decision"
+            value {
+              string_value: "REJECTED"
+            }
+          }
+          fields {
+            key: "checks"
+            value {
+              list_value {
+                values {
+                  struct_value {
+                    fields {
+                      key: "passed"
+                      value {
+                        bool_value: true
+                      }
+                    }
+                    fields {
+                      key: "criterion"
+                      value {
+                        string_value: "content_equals_target"
+                      }
+                    }
+                  }
+                }
+                values {
+                  struct_value {
+                    fields {
+                      key: "passed"
+                      value {
+                        bool_value: false
+                      }
+                    }
+                    fields {
+                      key: "criterion"
+                      value {
+                        string_value: "length_lte_max_chars"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      media_type: "application/json"
+    }
+    metadata {
+      fields {
+        key: "applicationDecision"
+        value {
+          string_value: "REJECTED"
+        }
+      }
+    }
+  }
+}
+
+status_update {
+  task_id: "db6af21a-11bd-4cb1-ae0a-d759758abf37"
+  context_id: "4840679c-19b7-44fa-a37f-ecd384494297"
+  status {
+    state: TASK_STATE_COMPLETED
+    message {
+      message_id: "dff9e720-dde7-4193-b1ce-d9d91355c3ab"
+      role: ROLE_AGENT
+      parts {
+        text: "Execution completed; application-level result decision: REJECTED. TASK_STATE_COMPLETED does not encode that decision."
+      }
+    }
+    timestamp {
+      seconds: 1786842031
+      nanos: 925546000
+    }
+  }
+  metadata {
+    fields {
+      key: "applicationDecision"
+      value {
+        string_value: "REJECTED"
+      }
+    }
+  }
+}
+

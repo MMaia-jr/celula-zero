@@ -1,0 +1,7 @@
+
+> helloworld-agent-js@1.0.0 start
+> tsx index.ts
+
+[HelloWorldAgent] Server started on http://127.0.0.1:9999
+[HelloWorldAgent] Agent Card: http://127.0.0.1:9999/.well-known/agent-card.json
+Result:  Hello, World! I have received your request (Hello from Python client.)

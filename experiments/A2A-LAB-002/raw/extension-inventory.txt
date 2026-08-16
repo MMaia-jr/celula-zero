@@ -1,0 +1,23 @@
+Extension inventory inspected on 2026-08-15
+
+Governed A2A organization repositories:
+- experimental-ext-oid4vp-auth: experimental, draft v1. Covers OID4VP verifiable-presentation based in-task authorization.
+- GitHub organization repository listing returned no other ext-* or experimental-ext-* repository.
+
+Examples present in a2a-samples and listed by the official A2A extensions documentation:
+- Secure Passport v1: caller identity/context plus optional signature over caller state. Covers origin/integrity of supplied context, not result validation.
+- Timestamp v1: creation timestamp metadata for Message/Artifact.
+- Traceability v1: trace IDs, agent/tool invocation steps, parameters, costs, tokens, latency and timestamps. Covers execution trace/provenance-like information, not correctness.
+- AGP v1: Intent payloads, capability announcements and policy constraints for routing. Covers intent/constraints/policy-based route selection, not obligation acceptance or result acceptance.
+
+Core mechanisms, not extensions:
+- AgentCard securitySchemes/securityRequirements: authentication requirements.
+- AgentCard JWS signatures: authenticity/integrity of AgentCard.
+- TASK_STATE_AUTH_REQUIRED: protocol interruption point requesting authorization; scope, representation, validity and revocation semantics are explicitly not defined by core A2A.
+
+No inspected official/experimental existing extension defined:
+- an obligation/commitment object;
+- acceptance criteria for task output;
+- protocol-level result verification;
+- protocol-level result ACCEPTED/REJECTED decision;
+- correction/revision lifecycle for a completed result.

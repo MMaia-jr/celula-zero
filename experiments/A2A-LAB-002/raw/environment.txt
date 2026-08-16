@@ -1,0 +1,28 @@
+Laboratory: /Users/alexandrechagasleaocryptoboy/labs/a2a-lab-002
+Date: 2026-08-15 America/Sao_Paulo
+Operating system: macOS 15.7.3 (Build 24G419), x86_64
+
+Repositories and commits:
+- a2aproject/a2a-samples: 6603ba3f2c31a7ef33e70b9d8b5b5f8be42ac9a3
+- a2aproject/A2A: 134a382ed38a0c527902e21b5b61c1666a60402e
+- a2aproject/experimental-ext-oid4vp-auth: e86356d4a330ede795eb5b458fd2a838ffea0064
+
+Runtimes:
+- Python 3.12.14 (disposable runtime inside laboratory)
+- a2a-sdk 1.1.0
+- Node.js 24.19.0 (disposable runtime inside laboratory)
+- npm 11.17.0
+- pnpm 10.29.3 used for the OID4VP install/run (packageManager pin)
+- A later environment inspection caused Corepack to expose pnpm 11.22.0; no source or lockfile changed.
+- @a2a-js/sdk 1.0.1 in OID4VP sample
+- @a2a-js/sdk 1.0.0 in JavaScript Hello World sample
+
+Execution summary:
+- Native A2A model: two streaming Tasks, one application ACCEPTED and one application REJECTED; both protocol Tasks ended COMPLETED.
+- OID4VP: extension advertised; SUBMITTED -> AUTH_REQUIRED -> credential presentation -> WORKING observed. Task then FAILED because no real OPENAI_API_KEY was available. A placeholder was used only to reach the credential flow; it was rejected by the API as expected.
+- Heterogeneous test: official Python client successfully called official JavaScript Hello World server over JSON-RPC.
+
+Integrity:
+- No tracked file in A2A, a2a-samples, or experimental-ext-oid4vp-auth was modified.
+- No commits or pull requests were created.
+- No Célula Zero repository was accessed.
