@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VERTICAL-SLICE-001 — Original Record → Next Move</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1d212b; --line:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa3b2; --accent:#5b8cff; --ok:#3fbf7f;
+    --warn:#e0a23f; --danger:#e05f5f; --sim:#8a6fd6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{padding:20px 24px;border-bottom:1px solid var(--line)}
+  h1{font-size:18px;margin:0 0 6px}
+  .sim-tag{display:inline-block;font-size:12px;color:#fff;background:var(--sim);
+    padding:3px 10px;border-radius:999px}
+  main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;
+    padding:20px 24px;max-width:1220px;margin:0 auto}
+  @media(max-width:900px){main{grid-template-columns:1fr}}
+  section,aside{background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:18px;margin-bottom:16px}
+  h2{font-size:15px;margin:0 0 4px;color:var(--accent)}
+  .stepnote{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+  textarea{width:100%;min-height:90px;background:var(--panel2);color:var(--text);
+    border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;resize:vertical}
+  button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);
+    color:var(--text);border-radius:8px;padding:8px 14px;font:inherit;margin:6px 8px 0 0}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#0b1020;font-weight:600}
+  button.ok{background:var(--ok);border-color:var(--ok);color:#06281a;font-weight:600}
+  button.danger{background:transparent;border-color:var(--danger);color:var(--danger)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  @media(max-width:700px){.pair{grid-template-columns:1fr}}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:12px}
+  .card h3{margin:0 0 6px;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .card p{margin:0;white-space:pre-wrap}
+  .simulated{border-left:3px solid var(--sim);padding-left:10px}
+  aside h2{color:var(--warn)}
+  .field{margin:10px 0;padding:8px 10px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:8px;font-size:13px}
+  .field .k{color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
+  .field .v{white-space:pre-wrap;word-break:break-word}
+  .null{color:var(--muted);font-style:italic}
+  .locked{color:var(--ok)}
+  .warnbox{border:1px solid var(--warn);border-radius:8px;padding:10px 12px;
+    background:rgba(224,162,63,.08);font-size:13px;margin-top:10px}
+  .status-pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;
+    border:1px solid var(--line);color:var(--muted);margin-left:6px}
+  .status-pill.proposed{color:var(--warn);border-color:var(--warn)}
+  .status-pill.accepted{color:var(--ok);border-color:var(--ok)}
+  .status-pill.rejected{color:var(--danger);border-color:var(--danger)}
+  .history-item{margin:8px 0;padding:8px;border-left:2px solid var(--line);font-size:12.5px}
+  .audit-test{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<header>
+  <h1>VERTICAL-SLICE-001 — Original Record → Human Gate → Next Move</h1>
+  <span class="sim-tag">SIMULAÇÃO: não há IA real; interpretações e propostas são determinísticas.</span>
+</header>
+<main>
+  <div>
+    <!-- MOMENTO 1 -->
+    <section id="step1">
+      <h2>1 · Expressão livre</h2>
+      <p class="stepnote">Diga o que você quer, com suas palavras. O primeiro registro vira a origem histórica e não será silenciosamente substituído.</p>
+      <textarea id="dreamInput" placeholder="Ex.: Quero criar alguma coisa com IA que mude minha vida, mas não sei exatamente o quê nem por onde começar."></textarea>
+      <br/>
+      <button class="primary" id="btnRecord">Registrar o que eu disse</button>
+    </section>
+
+    <!-- MOMENTO 2 -->
+    <section id="step2" hidden>
+      <h2>2 · Interpretação + Human Gate</h2>
+      <p class="stepnote">A interpretação é uma hipótese simulada. Ela só se torna Current Intent após sua decisão.</p>
+      <div class="pair">
+        <div class="card">
+          <h3>O que você disse — Original Record</h3>
+          <p id="originalView"></p>
+        </div>
+        <div class="card simulated">
+          <h3>Entendi que você quer — interpretação (SIMULADA)</h3>
+          <p id="interpretationView"></p>
+        </div>
+      </div>
+      <div id="gateButtons">
+        <button class="ok" id="btnConfirm">Sim, é isso</button>
+        <button id="btnAdjust">Ajustar</button>
+      </div>
+      <div id="adjustBox" hidden>
+        <p class="stepnote">Edite a interpretação. Isso corrige a interpretação proposta — não o Original Record.</p>
+        <textarea id="adjustInput"></textarea>
+        <br/>
+        <button class="ok" id="btnConfirmAdjusted">Confirmar versão ajustada</button>
+        <button id="btnCancelAdjust">Cancelar</button>
+      </div>
+    </section>
+
+    <!-- MOMENTO 3 -->
+    <section id="step3" hidden>
+      <h2>3 · Restrições e incertezas relevantes</h2>
+      <p class="stepnote">Preencha somente o que for útil. Estes campos são declarações humanas e permanecem distintos.</p>
+      <div class="pair">
+        <div>
+          <label for="constraintsInput"><strong>O que pode atrapalhar ou limitar você?</strong></label>
+          <textarea id="constraintsInput" placeholder="Opcional. Uma ideia por linha."></textarea>
+        </div>
+        <div>
+          <label for="unknownsInput"><strong>O que você ainda não sabe?</strong></label>
+          <textarea id="unknownsInput" placeholder="Opcional. Uma dúvida por linha."></textarea>
+        </div>
+      </div>
+      <button class="primary" id="btnToNextMove">Continuar para proposta de Next Move</button>
+    </section>
+
+    <!-- MOMENTO 4 -->
+    <section id="step4" hidden>
+      <h2>4 · Next Move + decisão humana</h2>
+      <p class="stepnote">A IA propõe um movimento e o que ele deve produzir/aprender. O par continua sendo proposta até sua decisão.</p>
+      <div class="card simulated">
+        <h3>Next Move proposto (SIMULADO) <span class="status-pill proposed" id="nmStatus">proposta — aguardando decisão humana</span></h3>
+        <p id="nextMoveView"></p>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <h3>expectedOutputOrLearning</h3>
+        <p id="expectedView"></p>
+      </div>
+      <div id="nmButtons">
+        <button class="ok" id="btnAcceptNM">Aceitar par</button>
+        <button id="btnAdjustNM">Ajustar ação + aprendizagem</button>
+        <button class="danger" id="btnRejectNM">Rejeitar proposta</button>
+      </div>
+      <div id="nmAdjustBox" hidden>
+        <label for="nmAdjustInput"><strong>Ajuste o Next Move</strong></label>
+        <textarea id="nmAdjustInput"></textarea>
+        <label for="expectedAdjustInput"><strong>Ajuste ou confirme o expectedOutputOrLearning</strong></label>
+        <textarea id="expectedAdjustInput"></textarea>
+        <br/>
+        <button class="ok" id="btnConfirmNMAdjust">Confirmar par ajustado</button>
+        <button id="btnCancelNMAdjust">Cancelar</button>
+      </div>
+      <div class="warnbox" id="acceptedSummary" hidden>
+        Next Move aceito por decisão humana. A experiência principal termina aqui. Execução, resultado, evidência e verificação permanecem conceitos separados no painel de auditoria.
+      </div>
+    </section>
+  </div>
+
+  <aside>
+    <h2>Registro de estado (somente leitura)</h2>
+    <p class="stepnote">Painel de auditoria. Não faz parte dos quatro momentos principais e não altera o estado por edição direta.</p>
+    <div id="stateFields"></div>
+
+    <div class="field">
+      <div class="k">interpretation history</div>
+      <div class="v" id="interpretationHistoryView"><span class="null">— nenhum</span></div>
+    </div>
+
+    <div class="field">
+      <div class="k">next move history</div>
+      <div class="v" id="nextMoveHistoryView"><span class="null">— nenhum</span></div>
+    </div>
+
+    <div class="audit-test">
+      <h2>Modo de teste semântico</h2>
+      <p class="stepnote">Serve apenas para demonstrar que execução não cria automaticamente resultado, evidência ou verificação.</p>
+      <button id="btnMarkDoneAudit" disabled>Marcar execução declarada</button>
+      <div class="warnbox" id="doneWarning" hidden>
+        Execução declarada registrada. `result`, `evidence` e `verification` continuam vazios e independentes.
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script>
+"use strict";
+
+const state = {
+  originalRecord: null,
+  interpretation: null,
+  interpretationHistory: [],
+  currentIntent: null,
+  constraints: [],
+  unknowns: [],
+  nextMove: null,
+  nextMoveHistory: [],
+  execution: null,
+  result: null,
+  evidence: null,
+  verification: null,
+};
+
+let nextMoveSeq = 0;
+
+const DEMO = {
+  match: /ia|intelig[eê]ncia|mudar minha vida/i,
+  interpretation:
+    "Quero usar IA para resolver um problema real no meu dia a dia, mas ainda não sei qual problema priorizar nem como a IA pode ajudar.",
+  nextMove:
+    "Escolha uma situação concreta da última semana em que você perdeu tempo, dinheiro ou energia e descreva o que aconteceu em poucas frases.",
+  expected:
+    "Descobrir se existe um problema real e observável que valha investigar antes de pensar em uma solução com IA.",
+  alternativeNextMove:
+    "Escolha um momento da última semana em que você pensou ‘isso poderia ser mais fácil’ e descreva o que tornou a situação difícil.",
+  alternativeExpected:
+    "Verificar se existe um padrão concreto de fricção que mereça investigação antes de escolher uma solução."
+};
+
+function simulateInterpretation(text) {
+  if (DEMO.match.test(text)) return DEMO.interpretation;
+  const short = text.length > 120 ? text.slice(0, 117) + "…" : text;
+  return "Você quer avançar em algo relacionado a: “" + short + "” — mas ainda não definiu um próximo passo concreto e observável.";
+}
+
+function simulateNextMove(text, alternative = false) {
+  if (DEMO.match.test(text)) {
+    return alternative
+      ? { text: DEMO.alternativeNextMove, expected: DEMO.alternativeExpected }
+      : { text: DEMO.nextMove, expected: DEMO.expected };
+  }
+  return alternative
+    ? {
+        text: "Escolha uma situação recente ligada ao que você descreveu e registre o que aconteceu antes, durante e depois.",
+        expected: "Descobrir se há um padrão observável que permita formular um problema mais concreto."
+      }
+    : {
+        text: "Escreva, em até três frases, como você saberia que avançou de verdade em relação ao que descreveu.",
+        expected: "Tornar observável o que conta como progresso antes de investir em qualquer solução."
+      };
+}
+
+const $ = (id) => document.getElementById(id);
+function show(id){ $(id).hidden = false; $(id).scrollIntoView({behavior:"smooth", block:"start"}); }
+function esc(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+function now(){ return new Date().toISOString(); }
+function lines(text){ return text.split(/\n+/).map(s => s.trim()).filter(Boolean); }
+function fieldView(k, val, extraClass){
+  const v = val === null || val === undefined || val === ""
+    ? '<span class="null">— ainda não existe</span>'
+    : esc(String(val));
+  return '<div class="field"><div class="k">'+k+'</div><div class="v '+(extraClass||"")+'">'+v+'</div></div>';
+}
+function makeProposal(text, expected, replaces = null){
+  return {
+    id: "nm-" + (++nextMoveSeq),
+    text,
+    expectedOutputOrLearning: expected,
+    status: "proposed",
+    proposedAt: now(),
+    replaces
+  };
+}
+
+function renderState(){
+  const nm = state.nextMove;
+  $("stateFields").innerHTML =
+    fieldView("originalRecord (origem histórica, imutável)",
+      state.originalRecord ? state.originalRecord.text : null, "locked") +
+    fieldView("interpretation (hipótese SIMULADA da IA)", state.interpretation) +
+    fieldView("currentIntent (só após Human Gate)", state.currentIntent) +
+    fieldView("constraints (declaração humana)", state.constraints.length ? state.constraints.join(" | ") : null) +
+    fieldView("unknowns (declaração humana)", state.unknowns.length ? state.unknowns.join(" | ") : null) +
+    fieldView("nextMove atual", nm ? nm.text + "  [status: " + nm.status + "]" : null) +
+    fieldView("expectedOutputOrLearning atual", nm ? nm.expectedOutputOrLearning : null) +
+    fieldView("execution (declaração de execução)", state.execution ? "marcada em " + state.execution.markedDoneAt : null) +
+    fieldView("result", state.result) +
+    fieldView("evidence", state.evidence) +
+    fieldView("verification", state.verification);
+
+  $("interpretationHistoryView").innerHTML = state.interpretationHistory.length
+    ? state.interpretationHistory.map((h,i) =>
+        '<div class="history-item">#'+(i+1)+
+        ' decisão='+esc(h.decision)+
+        '<br>IA: '+esc(h.aiProposal)+
+        '<br>Current Intent: '+esc(h.currentIntent)+
+        '<br>'+esc(h.at)+'</div>').join("")
+    : '<span class="null">— nenhum</span>';
+
+  $("nextMoveHistoryView").innerHTML = state.nextMoveHistory.length
+    ? state.nextMoveHistory.map((h,i) => {
+        let detail = '<div class="history-item">#'+(i+1)+
+          ' proposal='+esc(h.proposalId)+
+          ' decisão='+esc(h.decision)+
+          '<br>proposto: '+esc(h.proposedText)+
+          '<br>expected proposto: '+esc(h.proposedExpected);
+        if (h.acceptedText !== null) detail += '<br>aceito: '+esc(h.acceptedText);
+        if (h.acceptedExpected !== null) detail += '<br>expected aceito: '+esc(h.acceptedExpected);
+        if (h.replacedBy) detail += '<br>substituído por proposta: '+esc(h.replacedBy);
+        detail += '<br>'+esc(h.decidedAt)+'</div>';
+        return detail;
+      }).join("")
+    : '<span class="null">— nenhum</span>';
+
+  $("btnMarkDoneAudit").disabled = !(nm && nm.status === "accepted") || !!state.execution;
+}
+
+function setNMPill(){
+  const p = $("nmStatus");
+  const s = state.nextMove ? state.nextMove.status : "proposed";
+  p.className = "status-pill " + (s === "accepted" ? "accepted" : s === "rejected" ? "rejected" : "proposed");
+  p.textContent = s === "accepted" ? "aceito por decisão humana"
+    : s === "rejected" ? "rejeitado"
+    : "proposta — aguardando decisão humana";
+}
+
+function renderNextMove(){
+  if (!state.nextMove) return;
+  $("nextMoveView").textContent = state.nextMove.text;
+  $("expectedView").textContent = state.nextMove.expectedOutputOrLearning;
+  setNMPill();
+}
+
+/* MOMENTO 1 */
+$("btnRecord").addEventListener("click", () => {
+  const text = $("dreamInput").value.trim();
+  if (!text) { $("dreamInput").focus(); return; }
+  if (state.originalRecord) return;
+
+  state.originalRecord = Object.freeze({ text, at: now() });
+  $("dreamInput").disabled = true;
+  $("btnRecord").disabled = true;
+
+  state.interpretation = simulateInterpretation(text);
+  $("originalView").textContent = state.originalRecord.text;
+  $("interpretationView").textContent = state.interpretation;
+  renderState();
+  show("step2");
+});
+
+/* MOMENTO 2 — Human Gate */
+$("btnConfirm").addEventListener("click", () => {
+  state.currentIntent = state.interpretation;
+  state.interpretationHistory.push({
+    aiProposal: state.interpretation,
+    decision: "accepted",
+    humanCorrection: null,
+    currentIntent: state.currentIntent,
+    at: now()
+  });
+  afterGate();
+});
+
+$("btnAdjust").addEventListener("click", () => {
+  $("adjustInput").value = state.interpretation;
+  $("adjustBox").hidden = false;
+});
+
+$("btnCancelAdjust").addEventListener("click", () => { $("adjustBox").hidden = true; });
+
+$("btnConfirmAdjusted").addEventListener("click", () => {
+  const adjusted = $("adjustInput").value.trim();
+  if (!adjusted) return;
+
+  state.currentIntent = adjusted;
+  state.interpretationHistory.push({
+    aiProposal: state.interpretation,
+    decision: "adjusted-and-accepted",
+    humanCorrection: adjusted,
+    currentIntent: adjusted,
+    at: now()
+  });
+  afterGate();
+});
+
+function afterGate(){
+  $("gateButtons").hidden = true;
+  $("adjustBox").hidden = true;
+  renderState();
+  show("step3");
+}
+
+/* MOMENTO 3 — estado humano, não inferência silenciosa */
+$("btnToNextMove").addEventListener("click", () => {
+  state.constraints = lines($("constraintsInput").value);
+  state.unknowns = lines($("unknownsInput").value);
+
+  if (!state.nextMove) {
+    const demo = simulateNextMove(state.originalRecord.text, false);
+    state.nextMove = makeProposal(demo.text, demo.expected, null);
+  }
+  renderNextMove();
+  renderState();
+  show("step4");
+});
+
+/* MOMENTO 4 — decisão sobre o par ação + aprendizagem */
+$("btnAcceptNM").addEventListener("click", () => {
+  const p = state.nextMove;
+  state.nextMoveHistory.push({
+    proposalId: p.id,
+    proposedText: p.text,
+    proposedExpected: p.expectedOutputOrLearning,
+    decision: "accepted",
+    acceptedText: p.text,
+    acceptedExpected: p.expectedOutputOrLearning,
+    replacedBy: null,
+    decidedAt: now()
+  });
+  state.nextMove = { ...p, status: "accepted", acceptedAt: now() };
+  $("nmButtons").hidden = true;
+  $("nmAdjustBox").hidden = true;
+  $("acceptedSummary").hidden = false;
+  renderNextMove();
+  renderState();
+});
+
+$("btnAdjustNM").addEventListener("click", () => {
+  $("nmAdjustInput").value = state.nextMove.text;
+  $("expectedAdjustInput").value = state.nextMove.expectedOutputOrLearning;
+  $("nmAdjustBox").hidden = false;
+});
+
+$("btnCancelNMAdjust").addEventListener("click", () => { $("nmAdjustBox").hidden = true; });
+
+$("btnConfirmNMAdjust").addEventListener("click", () => {
+  const adjustedText = $("nmAdjustInput").value.trim();
+  const adjustedExpected = $("expectedAdjustInput").value.trim();
+  if (!adjustedText || !adjustedExpected) return;
+
+  const p = state.nextMove;
+  state.nextMoveHistory.push({
+    proposalId: p.id,
+    proposedText: p.text,
+    proposedExpected: p.expectedOutputOrLearning,
+    decision: "adjusted-and-accepted",
+    acceptedText: adjustedText,
+    acceptedExpected: adjustedExpected,
+    replacedBy: null,
+    decidedAt: now()
+  });
+
+  state.nextMove = {
+    ...p,
+    text: adjustedText,
+    expectedOutputOrLearning: adjustedExpected,
+    status: "accepted",
+    acceptedAt: now(),
+    adjustedFrom: {
+      text: p.text,
+      expectedOutputOrLearning: p.expectedOutputOrLearning
+    }
+  };
+
+  $("nmButtons").hidden = true;
+  $("nmAdjustBox").hidden = true;
+  $("acceptedSummary").hidden = false;
+  renderNextMove();
+  renderState();
+});
+
+$("btnRejectNM").addEventListener("click", () => {
+  const rejected = state.nextMove;
+  const alternative = simulateNextMove(state.originalRecord.text, true);
+  const replacement = makeProposal(alternative.text, alternative.expected, rejected.id);
+
+  state.nextMoveHistory.push({
+    proposalId: rejected.id,
+    proposedText: rejected.text,
+    proposedExpected: rejected.expectedOutputOrLearning,
+    decision: "rejected",
+    acceptedText: null,
+    acceptedExpected: null,
+    replacedBy: replacement.id,
+    decidedAt: now()
+  });
+
+  state.nextMove = replacement;
+  $("nmAdjustBox").hidden = true;
+  renderNextMove();
+  renderState();
+});
+
+/* MODO DE TESTE NO PAINEL — não é quinto momento da experiência principal */
+$("btnMarkDoneAudit").addEventListener("click", () => {
+  if (!state.nextMove || state.nextMove.status !== "accepted" || state.execution) return;
+  state.execution = { markedDoneAt: now() };
+  $("doneWarning").hidden = false;
+  renderState();
+});
+
+renderState();
+</script>
+</body>
+</html>
