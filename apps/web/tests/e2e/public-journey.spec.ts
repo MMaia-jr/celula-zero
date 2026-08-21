@@ -3,7 +3,12 @@ import { expect, test } from "@playwright/test";
 test("visitor understands the product and opens a public project", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Projetos encontram pessoas");
-  await expect(page.getByText("0 fundos movimentados")).toBeVisible();
+  const fundsMetric = page
+    .getByLabel("Resumo do ciclo operacional")
+    .locator(".hero-metrics > div")
+    .filter({ hasText: "fundos movimentados" });
+  await expect(fundsMetric.locator("strong")).toHaveText("0");
+  await expect(fundsMetric.locator("span")).toHaveText("fundos movimentados");
 
   await page.getByRole("link", { name: "Explorar projetos" }).first().click();
   await expect(page).toHaveURL(/\/projects$/);
