@@ -59,12 +59,19 @@ jobs:
           retention-days: 7
 
   database:
-    name: PostgreSQL, RLS and pgTAP
+    name: PostgreSQL, RLS and authenticated journey
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout exact revision
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Use Node 24
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install from lockfile
+        run: npm ci
       - name: Install Supabase CLI
         uses: supabase/setup-cli@46f7f98c7f948ad727d22c1e67fab04c223a0520 # v3.0.0
         with:
@@ -75,3 +82,26 @@ jobs:
         run: supabase db reset --local
       - name: Run pgTAP authorization tests
         run: supabase test db
+      - name: Export public local test environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          status_file="$(mktemp)"
+          chmod 600 "$status_file"
+          trap 'rm -f "$status_file"' EXIT
+          supabase status -o env > "$status_file"
+          set -a
+          source "$status_file"
+          set +a
+          public_key="${PUBLISHABLE_KEY:-${ANON_KEY:-}}"
+          test -n "$public_key"
+          {
+            printf 'NEXT_PUBLIC_SUPABASE_URL=%s\n' "${API_URL:-http://127.0.0.1:54321}"
+            printf 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=%s\n' "$public_key"
+            printf 'NEXT_PUBLIC_SITE_URL=%s\n' "http://127.0.0.1:3000"
+            printf 'LOCAL_MAILPIT_URL=%s\n' "${MAILPIT_URL:-${INBUCKET_URL:-http://127.0.0.1:54324}}"
+          } >> "$GITHUB_ENV"
+      - name: Install Chromium for authenticated local journey
+        run: npx playwright install --with-deps chromium
+      - name: Login, create, persist, reload and read anonymously
+        run: npm run test:e2e:auth

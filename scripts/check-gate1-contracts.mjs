@@ -7,9 +7,13 @@ const files = {
   migration: resolve(root, "supabase/migrations/20260821190000_gate_1_foundation.sql"),
   seed: resolve(root, "supabase/seed.sql"),
   tests: resolve(root, "supabase/tests/database/gate1.test.sql"),
+  authJourney: resolve(root, "apps/web/tests/e2e-auth/authenticated-project.spec.ts"),
+  workflow: resolve(root, ".github/workflows/gate-1-ci.yml"),
 };
 
-const [migration, seed, tests] = await Promise.all(Object.values(files).map((file) => readFile(file, "utf8")));
+const [migration, seed, tests, authJourney, workflow] = await Promise.all(
+  Object.values(files).map((file) => readFile(file, "utf8")),
+);
 
 const contracts = [
   [migration.includes("create_project_atomic"), "atomic project creation function"],
@@ -24,6 +28,20 @@ const contracts = [
   [seed.includes("FAIL"), "FAIL counterexample preserved"],
   [tests.includes("pilot A cannot read pilot B draft"), "cross-tenant adversarial test"],
   [tests.includes("failed authorization leaves no orphan event"), "atomic rollback assertion"],
+  [
+    authJourney.includes("Receber link local") &&
+      authJourney.includes("Criar projeto") &&
+      authJourney.includes("page.reload()") &&
+      authJourney.includes("browser.newContext()"),
+    "authenticated create-reload-anonymous journey",
+  ],
+  [workflow.includes("npm run test:e2e:auth"), "authenticated journey enforced by CI"],
+  [
+    !authJourney.toLowerCase().includes("service_role") &&
+      !workflow.toLowerCase().includes("service_role") &&
+      !workflow.toLowerCase().includes("secret_key"),
+    "no privileged key in authenticated journey",
+  ],
 ];
 
 const failed = contracts.filter(([passed]) => !passed);
