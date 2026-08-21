@@ -12,7 +12,7 @@ test("visitor understands the product and opens a public project", async ({ page
 
   await page.getByRole("link", { name: "Explorar projetos" }).first().click();
   await expect(page).toHaveURL(/\/projects$/);
-  await page.getByRole("link", { name: "Célula Zero — Solo fértil" }).click();
+  await page.getByRole("link", { name: "Célula Zero — Solo fértil", exact: true }).click();
   await expect(page.getByText("Registro Original · imutável")).toBeVisible();
   await expect(page.getByRole("link", { name: "Exportar JSON" })).toBeVisible();
 });
