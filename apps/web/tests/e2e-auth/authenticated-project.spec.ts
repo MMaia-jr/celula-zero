@@ -32,7 +32,7 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   browser,
   page,
   request,
-}, testInfo) => {
+}) => {
   await page.goto("/login");
   await expect(page.getByRole("heading", { name: "Escrita controlada. Leitura pública." })).toBeVisible();
 
@@ -57,7 +57,7 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
     page.getByRole("heading", { name: "Plante um projeto com intenção e limites explícitos." }),
   ).toBeVisible();
 
-  const uniqueSuffix = `${Date.now()}-${testInfo.retry}`;
+  const uniqueSuffix = `${Date.now()}`;
   const title = `Projeto autenticado Gate 1 ${uniqueSuffix}`;
   const originalIntent = "Preservar uma intenção original verificável pela jornada autenticada do Gate 1.";
 
