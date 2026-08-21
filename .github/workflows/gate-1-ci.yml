@@ -1,0 +1,76 @@
+name: Gate 1 CI
+
+on:
+  pull_request:
+    paths:
+      - "apps/web/**"
+      - "supabase/**"
+      - "scripts/check-gate1-contracts.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/gate-1-ci.yml"
+  push:
+    branches:
+      - "feat/mvp-001-gate-1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-1-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Web, domain and portability
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Use Node 24
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install from lockfile
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit and component tests
+        run: npm run test
+      - name: Domain contract checks
+        run: npm run test:contracts
+      - name: Production build
+        run: npm run build
+      - name: Install Chromium for local-only smoke tests
+        run: npx playwright install --with-deps chromium
+      - name: Public journey smoke tests
+        run: npm run test:e2e
+      - name: Preserve Playwright report on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 7
+
+  database:
+    name: PostgreSQL, RLS and pgTAP
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v1
+        with:
+          version: 2.115.0
+      - name: Start isolated local stack
+        run: supabase start
+      - name: Reset from migrations and seed
+        run: supabase db reset --local
+      - name: Run pgTAP authorization tests
+        run: supabase test db

@@ -1,0 +1,29 @@
+import { expect, test } from "@playwright/test";
+
+test("visitor understands the product and opens a public project", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Projetos encontram pessoas");
+  await expect(page.getByText("0 fundos movimentados")).toBeVisible();
+
+  await page.getByRole("link", { name: "Explorar projetos" }).first().click();
+  await expect(page).toHaveURL(/\/projects$/);
+  await page.getByRole("link", { name: "Célula Zero — Solo fértil" }).click();
+  await expect(page.getByText("Registro Original · imutável")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Exportar JSON" })).toBeVisible();
+});
+
+test("write route stays closed when local auth is not configured", async ({ page }) => {
+  await page.goto("/projects/new");
+  await expect(page.getByRole("heading", { name: /Conecte o Supabase local/ })).toBeVisible();
+  await expect(page.getByText(/A escrita só é habilitada/)).toBeVisible();
+});
+
+test("health endpoint states the economic and publication boundaries", async ({ request }) => {
+  const response = await request.get("/api/health");
+  expect(response.ok()).toBeTruthy();
+  await expect(response.json()).resolves.toMatchObject({
+    gate: 1,
+    financialMovement: false,
+    externalPublication: false,
+  });
+});
