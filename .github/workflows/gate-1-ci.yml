@@ -8,6 +8,7 @@ on:
       - "scripts/check-gate1-contracts.mjs"
       - "package.json"
       - "package-lock.json"
+      - "GATE-1-RESULT.md"
       - ".github/workflows/gate-1-ci.yml"
   push:
     branches:
