@@ -7,6 +7,7 @@
 - Estado: `NOT TESTED`
 - Autorização de registro: `decisions/D005-contextual-truth-and-web3-hypothesis.md`
 - Dependência: direção humana aceita provisoriamente em `HUMAN-DIRECTION-001`, ainda pendente de canonicalização
+- Repositório experimental citado: `MMaia-jr/celula-zero-lab` (`experiments/AGENT-COUNCIL-MVP-002/`)
 - Prioridade: não bloqueia o MVP da comunidade
 
 ## Hipótese
@@ -17,6 +18,10 @@ evidências mantidos fora da blockchain, sem publicar o conteúdo integral ou
 dados sensíveis on-chain.
 
 ## Problema observado
+
+As observações abaixo se originam da auditoria do experimento mantido no
+repositório separado `MMaia-jr/celula-zero-lab`. Esta hipótese não incorpora nem
+preserva os arquivos do experimento ou de sua auditoria.
 
 No `AGENT-COUNCIL-MVP-002`, a cadeia de eventos permaneceu matematicamente
 válida enquanto objetos materiais foram modificados:
@@ -227,7 +232,8 @@ Não permitirá afirmar:
 Este experimento não deverá consumir trabalho técnico antes de:
 
 1. `HUMAN-DIRECTION-001` ser aceito pelo fundador — satisfeito em 2026-08-21 por `D005`;
-2. o `AGENT-COUNCIL-MVP-002` ser preservado com sua auditoria `FAIL`;
+2. o `AGENT-COUNCIL-MVP-002` ser preservado com sua auditoria `FAIL` no
+   repositório separado `MMaia-jr/celula-zero-lab`;
 3. a pergunta de produto beneficiada pelo teste ser declarada;
 4. existir autorização explícita de workspace, branch, escopo e operações Git;
 5. o trabalho não interromper o MVP da comunidade e a busca de utilidade externa.

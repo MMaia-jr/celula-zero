@@ -6,6 +6,7 @@
 - Autoridade: Marcos, fundador humano
 - Estado: `HUMAN DIRECTION — ACCEPTED PROVISIONALLY, PENDING CANONICALIZATION`
 - Origem: auditoria independente do `AGENT-COUNCIL-MVP-002` e reflexão humana posterior
+- Repositório experimental citado: `MMaia-jr/celula-zero-lab` (`experiments/AGENT-COUNCIL-MVP-002/`)
 - Decisão de aceitação: `decisions/D005-contextual-truth-and-web3-hypothesis.md`
 - Próxima revisão: após o primeiro experimento de ancoragem externa ou nova decisão explícita do fundador
 
@@ -216,6 +217,11 @@ Permanecem como hipóteses:
 - chain própria como instrumento de soberania futura.
 
 ## Relação com o AGENT-COUNCIL-MVP-002
+
+O experimento pertence ao repositório separado `MMaia-jr/celula-zero-lab`, no
+caminho `experiments/AGENT-COUNCIL-MVP-002/`. Esta direção não incorpora nem
+canonicaliza os arquivos do laboratório; seu estado deverá ser verificado no
+próprio repositório experimental.
 
 O experimento demonstrou validação de inserções, atomicidade e consistência
 interna de uma hash chain. A auditoria demonstrou que votos, autorizações,

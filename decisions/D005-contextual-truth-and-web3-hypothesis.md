@@ -12,6 +12,18 @@ Marcos Antonio Maia junior — fundador humano
 - `decisions/HUMAN-DIRECTION-001-CONTEXTUAL-TRUTH.md`
 - `tests/HYPOTHESIS-WEB3-001-EXTERNAL-ANCHOR.md`
 
+## Fronteira entre repositórios
+
+Esta decisão pertence ao repositório canônico `MMaia-jr/celula-zero`.
+
+O `AGENT-COUNCIL-MVP-002` citado nos documentos vinculados pertence ao
+repositório experimental separado `MMaia-jr/celula-zero-lab`, no caminho
+`experiments/AGENT-COUNCIL-MVP-002/`.
+
+Esta decisão não incorpora nem canonicaliza os arquivos do laboratório. O
+estado de preservação do experimento e de sua auditoria deverá ser verificado no
+próprio `celula-zero-lab`, não inferido a partir deste registro.
+
 ## Registro Original da declaração humana
 
 > ACEITO HUMAN-DIRECTION-001 COMO DIREÇÃO HUMANA PROVISÓRIA E AUTORIZO REGISTRAR HYPOTHESIS-WEB3-001 COMO HIPÓTESE NÃO TESTADA. ISSO NÃO AUTORIZA EXECUÇÃO TÉCNICA.
@@ -104,7 +116,8 @@ explícita, após os gates definidos na própria hipótese.
 
 Entre eles permanecem:
 
-1. preservar `AGENT-COUNCIL-MVP-002` com sua auditoria `FAIL`;
+1. preservar `AGENT-COUNCIL-MVP-002` com sua auditoria `FAIL` no repositório
+   separado `MMaia-jr/celula-zero-lab`;
 2. declarar a pergunta de produto beneficiada pelo teste;
 3. definir workspace, branch, escopo e operações Git autorizadas;
 4. garantir que o trabalho não interrompa o MVP da comunidade e a busca de
