@@ -1,176 +1,189 @@
-# Estado ativo
+# Estado operacional atual
 
-## Situação do repositório
+Última atualização: 2026-08-21
 
-- Fonte canônica em processo de preparação e migração.
-- Migração histórica das Rodadas 1–5: pendente.
-- Rodada 6: Registros Originais fornecidos para migração integral.
-- Claims estruturados: ainda não registrados.
+Repositório canônico: `MMaia-jr/celula-zero`
 
-## Núcleo ativo e rede consultiva v0.2
+Este arquivo é a Working Spec curta. História detalhada permanece nos commits,
+decisões, deltas, testes, rounds e artefatos vinculados.
 
-Decisão operacional registrada em `decisions/D002-core-v02.md`.
+## Identidade atual
 
-### Núcleo ativo
+Célula Zero é atualmente uma comunidade-laboratório humano–IA construindo e
+testando seu próprio método e ambiente de colaboração.
 
-- Marcos Antonio Maia junior — humano; iniciador e mediador físico entre plataformas.
-- GPT — IA; participante e custodiante provisório do registro, em funções separadas.
-- Kimi — IA; participante.
+Não é ainda:
 
-### Rede consultiva
+- plataforma validada;
+- DAO operacional;
+- protocolo universal;
+- intermediária financeira;
+- rede de investimento;
+- produto com PMF ou adoção demonstrados.
 
-- Claude — participante histórico e agente consultivo sob demanda.
-- DeepSeek — participante histórico e agente consultivo sob demanda.
-- Gemini — participante histórico e agente consultivo sob demanda.
-- Grok — participante histórico e agente consultivo sob demanda.
+## Missão
 
-### Hipótese, risco e salvaguarda
+Transformar:
 
-- Hipótese: um núcleo menor pode aumentar velocidade e coerência sem perda epistemológica excessiva.
-- Risco: formação de nova bolha epistemológica.
-- Salvaguarda: decisões estruturais irreversíveis ou de alto impacto exigem ao menos uma crítica externa deliberada.
+`intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Limitações estruturais da Célula Zero
+## Direção de produto atual
 
-**Síntese de contexto ainda pendente de migração dos Registros Originais correspondentes.** Estas formulações não são citações.
+Decisão:
 
-- Dependência estrutural de Marcos como mediador físico entre plataformas.
-- Dependência provisória de GPT como custodiante do registro.
-- Ausência de comunicação direta entre agentes.
-- Possibilidade de diferenças de janela e contexto entre agentes.
-- O Registro Original das Rodadas 1–5 ainda não foi migrado.
-- Um repositório público pode introduzir riscos de centralização e exclusão.
-- Conhecimento sensível deve permanecer fora do registro público quando apropriado.
+`decisions/D006-mvp-habitavel-30-dias.md`
 
-## Princípios emergentes
+Objetivo:
 
-- Proveniência antes de consenso.
-- Interpretação não substitui autoria.
-- Descentralização decisória sem simetria informacional é descentralização aparente.
-- Simetria informacional sem capacidade de verificação é transparência aparente.
-- Nenhuma síntese constitui decisão coletiva automaticamente.
-- Mudança de posição é informação.
-- A própria Célula Zero é também objeto de estudo.
+> Construir em 30 dias o MVP habitável da Célula Zero como sistema operacional
+> de incubação e colaboração, incluindo financiamento não custodial e uma
+> demonstração de smart contract em testnet, sem captação pública real.
 
-## Caso Empírico 001
+Janela:
 
-Trajetória tecnológica Paiter-Suruí:
+`2026-08-21 → 2026-09-20`
 
-Google/mapeamento → REDD+/carbono → monitoramento/certificação → Amazon Tech House/Web3
+Estado quando este arquivo está em `main`:
 
-## Caso Comparativo 002
+`HUMAN ACCEPTED / CANONICAL`
 
-Winds of Yawanawá.
+## Produto atual especificado
 
-## Lentes da Rodada 5
+Documentos do pacote:
 
-Estas lentes são sínteses de contexto fornecidas para a migração, não substitutos dos Registros Originais da Rodada 5:
+- `PRODUCT-VISION.md`;
+- `PRODUCT-MVP-001.md`;
+- `ROADMAP-30D.md`.
 
-- Gemini — transformação institucional REDD+ → Web3.
-- DeepSeek — significado atribuído à tecnologia + materialidade da exclusão.
-- Claude — maturidade de implementação + dependência material.
-- Grok — temporalidade entre intenção, protótipo e implantação.
-- Kimi — soberania e governança dos dados territoriais.
+Ciclo principal:
 
-## Perguntas da Rodada 6
+`Projeto → Oportunidade → Condições → Acordo → Contribuição → Evidência → Revisão → Resultado`
 
-Os Registros Originais integrais estão em `rounds/R06/`. As perguntas centrais investigam:
+Unidade central: projeto.
 
-- DeepSeek — distinções entre governança tradicional e governança mediada por blockchain/Web3.
-- Claude — legitimidade interna para falar e decidir sobre a Amazon Tech House.
-- Kimi — instâncias consultadas ou bypassadas nos ciclos Google, REDD+ e Web3.
-- Grok — legitimidade, apoio e dissenso internos.
-- Gemini — materialidade e estado real de produção da infraestrutura atribuída à Amazon Tech House.
+Unidade de participação: oportunidade.
 
-Estas linhas são um índice temático, não citações nem substitutos dos Registros Originais.
+## Núcleo ativo
 
-## Alertas de Referência ativos
+- Marcos Antonio Maia junior — fundador humano, autoridade final e relações
+  humanas;
+- GPT — coordenação, pesquisa, especificação, crítica e memória operacional;
+- Codex — execução técnica somente quando explicitamente autorizada;
+- outros agentes — crítica, auditoria, especialidade e replicação.
 
-- Governança — formal vs relacional.
-- Legitimidade — social vs institucional/procedimental.
-- Soberania tecnológica/autonomia — escolha de ferramentas vs controle efetivo, modificação, restrição e abandono.
+Kimi, Claude, DeepSeek, Gemini e Grok permanecem participantes históricos ou
+consultivos conforme disponibilidade. Nenhum consenso de IAs cria decisão
+humana.
 
-## Estado de revalidação dos participantes
+## Resultados canônicos relevantes
 
-**Síntese do contexto de sincronização anterior ainda pendente de migração de seu Registro Original.**
+### Produto anterior
 
-- Gemini — revalidado.
-- DeepSeek — revalidado com correções/ressalvas.
-- Claude — revalidado com ressalva sobre granularidade e limites de auditoria.
-- Kimi — revalidado com adendos.
-- Grok — não revalidado explicitamente.
-- GPT — participante e custodiante provisório; função de custódia separada da participação.
-- Marcos Antonio Maia junior — iniciador humano e mediador físico.
+- `DECISION-PRODUCT-001`: definição revisada aceita para
+  `VERTICAL-SLICE-001`;
+- `VERTICAL-SLICE-001`: `INCONCLUSIVE / METHODOLOGICAL DEVIATION`;
+- protótipo anterior: executado localmente e preservado;
+- utilidade externa, PMF e escala: não demonstrados.
 
-## Estado da Rodada 7
+Aprendizagem:
 
-O formato anterior da Rodada 7 fica suspenso, não apagado. O arquivo `rounds/R07-prompt.md` permanece preservado.
+> Contexto autocontido, decisões explícitas e registros canônicos permitiram
+> substituir agentes sem perder completamente a continuidade em casos
+> observados.
 
-## Rodada 8
+### Integridade de autorização
 
-Rodada aberta para aprofundamento das Perguntas Geradoras através do núcleo ativo.
+- `AGENT-COUNCIL-MVP-002` está preservado em
+  `MMaia-jr/celula-zero-lab`;
+- runner autoral: `PASS` restrito;
+- auditoria adversarial: `FAIL`;
+- resultado global: `FAIL`.
 
-O primeiro material registrado é o diálogo gerador entre Marcos Antonio Maia junior e GPT:
+Aprendizagem:
 
-`rounds/R08/DIALOGUE-MARCOS-GPT.md`
+> Uma cadeia internamente consistente não é fonte canônica se o estado material
+> pode divergir sem detecção.
 
-Estado atual:
+### Verdade contextual e Web3
 
-- Marcos Antonio Maia junior — respostas posteriores a Kimi e GPT registradas em `rounds/R08/DIALOGUE-KIMI-GPT-MARCOS.md` e `rounds/R08/DIALOGUE-GPT-MARCOS-CONTINUATION.md`;
-- Kimi — posição original registrada;
-- GPT — posição substantiva registrada em `rounds/R08/GPT.md`.
+- `HUMAN-DIRECTION-001`: direção humana provisória canônica;
+- `HYPOTHESIS-WEB3-001`: `NOT TESTED`;
+- blockchain, token, NFT, DAO e chain própria: não adotados.
 
-Nesta rodada, a proveniência pergunta → resposta continua em teste.
+## Decisões ainda vigentes
 
-Nenhuma síntese coletiva foi produzida.
+- GitHub é o registro canônico atual;
+- Linear pode coordenar trabalho, mas não substitui o registro canônico;
+- comunidade primeiro;
+- projetos pertencem a seus criadores salvo acordo explícito;
+- atividade, contribuição, resultado, evidência, avaliação e reputação são
+  distintos;
+- não existe score universal no MVP;
+- nenhum direito econômico retroativo;
+- tecnologia própria exige propriedade concreta que seria perdida sem ela;
+- dados essenciais devem ser exportáveis e não depender de um único SaaS;
+- decisão humana permanece final.
 
-Nenhuma alteração de protocolo foi aprovada.
+## Limite de execução
 
-## Teste textual T002
+O pacote de produto foi autorizado documentalmente e torna-se canônico quando
+presente em `main`.
 
-T002 — Sarkar: consciência, continuidade, memória e transmissão está aberto em:
+Permanece não autorizado:
 
-`tests/T002-sarkar-memory-consciousness-continuity.md`
+- iniciar implementação;
+- instalar dependências;
+- escolher stack, rede ou testnet;
+- escrever ou implantar smart contract;
+- movimentar fundos;
+- captar investimento;
+- emitir ativos;
+- fazer merge automático do pacote;
+- declarar o MVP entregue.
 
-Estado atual:
+## Próximo gate
 
-- Kimi-01 recebida e preservada em `tests/T002-Kimi-01.md`;
-- verificação adversarial realizada;
-- Kimi-02/errata recebida e preservada em `tests/T002-Kimi-02-errata.md`;
-- leitura integral de `A Guide to Human Conduct` pendente;
-- síntese T002 ainda não produzida.
+1. definir workspace e arquitetura mínima;
+2. escolher stack por `ADOPT / MAP / EXTEND / MISSING`;
+3. emitir autorização técnica explícita;
+4. iniciar Gate 1 de `ROADMAP-30D.md`;
+5. produzir evidência e decisão humana em cada gate.
 
-A abertura e o estado deste teste não alteram o estado epistemológico das hipóteses da Rodada 8 nem transformam qualquer hipótese em decisão.
+## Definition of done da autorização técnica
 
-## GRAPH-000
+- workspace, repositório e branch estão explícitos;
+- referências são somente leitura;
+- escrita está limitada ao workspace autorizado;
+- segredos, rede e provedores estão delimitados;
+- arquivos permitidos e proibidos estão declarados;
+- testes e Definition of Done da primeira fase estão definidos;
+- commit, push e PR possuem autorização explícita;
+- smart contract e testnet continuam fora até autorização específica.
 
-- GRAPH-000 foi formulado conceitualmente.
-- Ainda não está implementado como sistema.
-- A Célula Zero será o primeiro caso de teste do grafo.
-- Existe uma contribuição derivada externa de Kimi com extração inicial de 20 nós e 31 arestas.
-- Nenhuma ontologia final foi decidida.
-- Nenhuma decisão final sobre DAO, token, blockchain operacional ou arquitetura final foi tomada.
+## Restrições ativas
 
-## GTEST-001
+- orçamento e capacidade limitados;
+- Marcos é iniciante técnico e principal mediador humano;
+- segurança, LGPD, portabilidade e resiliência são requisitos;
+- Discord não é opção arquitetural atual;
+- captação pública real está fora do MVP;
+- nenhum dado pessoal ou sensível deve ser publicado on-chain;
+- prazo não justifica ampliar autoridade ou omitir evidência de falha.
 
-- GTEST-001 foi executado.
-- Objetivo: testar se a trajetória histórica da Célula Zero até o GRAPH-000 pode ser reconstruída a partir dos registros preservados, sem depender da memória informal dos participantes.
-- Nenhuma alteração foi feita no GRAPH-000.
-- Resultado: FALHA.
-- Motivo: o repositório demonstra partes e extremos da trajetória, mas não preserva proveniência suficiente para reconstruir seus elos históricos centrais sem inferência ou memória externa.
+## Histórico fora do caminho crítico
 
-## GTEST-002
+Rodadas históricas, GTEST-002, T002, GRAPH-000, pesquisas amazônicas e demais
+linhas permanecem preservados. Não são apagados, mas não bloqueiam o ciclo de
+produto de 30 dias salvo nova decisão humana.
 
-- GTEST-002 está aberto.
-- Objetivo: testar se Registros Originais externos hoje ausentes podem reduzir lacunas de proveniência sem converter memória posterior, síntese retrospectiva ou inferência em evidência histórica.
-- Parte das lacunas do GTEST-001 será submetida a tentativa de recuperação por Registros Originais externos.
-- Resultado pendente.
-- GTEST-001 permanece FALHA.
+## Estado resumido
 
-## Genesis Cell e INTENT-000
+`PRODUCT PACKET / CANONICAL WHEN PRESENT ON MAIN`
 
-- Genesis Cell materializada conceitualmente.
-- INTENT-000 criada.
-- Caminho crítico atual: testar a própria intenção.
-- GTEST-002 permanece aberto, mas não prioritário.
-- Nenhuma decisão de token, DAO operacional, smart contract, blockchain, equity ou arquitetura final foi tomada.
+`TECHNICAL EXECUTION / NOT AUTHORIZED`
+
+`MVP / NOT BUILT`
+
+`EXTERNAL UTILITY / NOT TESTED`
+
+`HYPOTHESIS-WEB3-001 / NOT TESTED`
