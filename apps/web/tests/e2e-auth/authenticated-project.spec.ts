@@ -2,6 +2,7 @@ import { expect, test, type APIRequestContext } from "@playwright/test";
 
 const pilotEmail = "pilot@celulazero.local";
 const mailpitUrl = process.env.LOCAL_MAILPIT_URL ?? "http://127.0.0.1:54324";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000";
 
 interface MailpitMessage {
   HTML?: string;
@@ -52,7 +53,20 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
     .toMatch(/^http:\/\/127\.0\.0\.1:54321\/auth\/v1\/verify\?/);
 
   await page.goto(magicLink);
-  await expect(page).toHaveURL(/\/projects\/new$/, { timeout: 15_000 });
+  await expect(page).toHaveURL(`${siteUrl}/projects/new`, { timeout: 15_000 });
+  await expect
+    .poll(
+      async () =>
+        (await page.context().cookies(siteUrl)).some(
+          ({ name, value }) =>
+            name.startsWith("sb-") &&
+            name.includes("-auth-token") &&
+            !name.endsWith("-code-verifier") &&
+            value.length > 0,
+        ),
+      { message: "o callback deve persistir uma sessão no mesmo host da aplicação" },
+    )
+    .toBe(true);
   await expect(
     page.getByRole("heading", { name: "Plante um projeto com intenção e limites explícitos." }),
   ).toBeVisible({ timeout: 15_000 });

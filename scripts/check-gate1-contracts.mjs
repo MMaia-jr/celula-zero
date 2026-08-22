@@ -9,13 +9,14 @@ const files = {
   seed: resolve(root, "supabase/seed.sql"),
   tests: resolve(root, "supabase/tests/database/gate1.test.sql"),
   authCallback: resolve(root, "apps/web/app/auth/callback/route.ts"),
+  authRedirect: resolve(root, "apps/web/lib/auth/redirect.ts"),
   authJourney: resolve(root, "apps/web/tests/e2e-auth/authenticated-project.spec.ts"),
   loginAction: resolve(root, "apps/web/app/login/actions.ts"),
   projectAction: resolve(root, "apps/web/app/projects/new/actions.ts"),
   workflow: resolve(root, ".github/workflows/gate-1-ci.yml"),
 };
 
-const [migration, actorPolicyFix, seed, tests, authCallback, authJourney, loginAction, projectAction, workflow] = await Promise.all(
+const [migration, actorPolicyFix, seed, tests, authCallback, authRedirect, authJourney, loginAction, projectAction, workflow] = await Promise.all(
   Object.values(files).map((file) => readFile(file, "utf8")),
 );
 
@@ -49,8 +50,17 @@ const contracts = [
   [
     authCallback.includes("redirectResponse.cookies.set") &&
       authCallback.includes("exchangeCodeForSession") &&
-      authCallback.includes('!requestedNext.startsWith("//")'),
+      authCallback.includes("client.auth.initialize()") &&
+      authCallback.includes("client.auth.setSession") &&
+      authRedirect.includes('!requestedNext.startsWith("//")') &&
+      authRedirect.includes("configuredSiteUrl"),
     "auth callback persists session cookies on a safe redirect",
+  ],
+  [
+    authJourney.includes('toHaveURL(`${siteUrl}/projects/new`') &&
+      authJourney.includes("page.context().cookies(siteUrl)") &&
+      authJourney.includes("isSupabaseSessionCookie") === false,
+    "authenticated journey enforces stable origin and session cookie",
   ],
   [
     workflow.includes("playwright-auth-report") &&
