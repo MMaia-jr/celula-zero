@@ -1,20 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import type { ProjectActionState } from "@/app/projects/new/state";
 import { projectInputFromFormData, slugifyProjectTitle } from "@/lib/domain/project-schema";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-
-export interface ProjectActionState {
-  status: "IDLE" | "ERROR";
-  message: string;
-  fieldErrors: Record<string, string[]>;
-}
-
-export const initialProjectActionState: ProjectActionState = {
-  status: "IDLE",
-  message: "",
-  fieldErrors: {},
-};
 
 export async function createProjectAction(
   _previousState: ProjectActionState,

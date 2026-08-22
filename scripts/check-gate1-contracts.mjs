@@ -9,10 +9,12 @@ const files = {
   seed: resolve(root, "supabase/seed.sql"),
   tests: resolve(root, "supabase/tests/database/gate1.test.sql"),
   authJourney: resolve(root, "apps/web/tests/e2e-auth/authenticated-project.spec.ts"),
+  loginAction: resolve(root, "apps/web/app/login/actions.ts"),
+  projectAction: resolve(root, "apps/web/app/projects/new/actions.ts"),
   workflow: resolve(root, ".github/workflows/gate-1-ci.yml"),
 };
 
-const [migration, actorPolicyFix, seed, tests, authJourney, workflow] = await Promise.all(
+const [migration, actorPolicyFix, seed, tests, authJourney, loginAction, projectAction, workflow] = await Promise.all(
   Object.values(files).map((file) => readFile(file, "utf8")),
 );
 
@@ -43,6 +45,10 @@ const contracts = [
     "authenticated create-reload-anonymous journey",
   ],
   [workflow.includes("npm run test:e2e:auth"), "authenticated journey enforced by CI"],
+  [
+    !loginAction.includes("export const") && !projectAction.includes("export const"),
+    "server action modules export async functions only",
+  ],
   [
     !authJourney.toLowerCase().includes("service_role") &&
       !workflow.toLowerCase().includes("service_role") &&

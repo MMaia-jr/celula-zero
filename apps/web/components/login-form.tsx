@@ -1,7 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
-import { initialLoginState, requestAccessLink } from "@/app/login/actions";
+import { requestAccessLink } from "@/app/login/actions";
+import { initialLoginState } from "@/app/login/state";
 
 export function LoginForm({ enabled }: { enabled: boolean }) {
   const [state, action, pending] = useActionState(requestAccessLink, initialLoginState);

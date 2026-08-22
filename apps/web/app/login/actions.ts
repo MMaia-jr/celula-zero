@@ -2,13 +2,7 @@
 
 import { z } from "zod";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-
-export interface LoginActionState {
-  status: "IDLE" | "ERROR" | "SENT";
-  message: string;
-}
-
-export const initialLoginState: LoginActionState = { status: "IDLE", message: "" };
+import type { LoginActionState } from "@/app/login/state";
 
 export async function requestAccessLink(
   _previousState: LoginActionState,

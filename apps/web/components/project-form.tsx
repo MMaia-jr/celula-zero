@@ -1,7 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
-import { createProjectAction, initialProjectActionState } from "@/app/projects/new/actions";
+import { createProjectAction } from "@/app/projects/new/actions";
+import { initialProjectActionState } from "@/app/projects/new/state";
 
 function FieldError({ errors }: { errors: string[] | undefined }) {
   if (!errors?.length) return null;
