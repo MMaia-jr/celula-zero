@@ -105,10 +105,40 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
   await expect(page.getByText(originalIntent, { exact: true })).toBeVisible();
 
+  await page.goto("/workbench");
+  await expect(page.getByRole("heading", { level: 1, name: "Operar a Célula Zero" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: title })).toBeVisible();
+
+  const opportunityTitle = `Oportunidade H1 ${uniqueSuffix}`;
+  await page.getByText("Nova oportunidade").click();
+  await page.getByLabel("Título da oportunidade").fill(opportunityTitle);
+  await page
+    .getByLabel("Problema ou necessidade")
+    .fill("Precisamos conduzir uma parte real da evolução da Célula Zero dentro da própria infraestrutura.");
+  await page
+    .getByLabel("Condições")
+    .fill("Escopo pequeno, autoridade explícita, artefato atribuível e nenhuma expansão silenciosa de escopo.");
+  await page
+    .getByLabel("Resultado esperado")
+    .fill("Uma oportunidade real permanece visível no workbench após recarregar a página.");
+  await page.getByLabel("Capacidade").fill("1");
+  await expect(page.getByLabel("Publicar após criar")).toBeChecked();
+  await page.getByRole("button", { name: "Criar oportunidade" }).click();
+
+  await expect(page).toHaveURL(/\/workbench\?created=.*state=OPEN/, { timeout: 15_000 });
+  await expect(page.getByRole("heading", { level: 3, name: opportunityTitle })).toBeVisible();
+  await expect(page.getByText("Aberta", { exact: true })).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 3, name: opportunityTitle })).toBeVisible();
+
   const anonymousContext = await browser.newContext();
   const anonymousPage = await anonymousContext.newPage();
   await anonymousPage.goto(persistedUrl);
   await expect(anonymousPage.getByRole("heading", { level: 1, name: title })).toBeVisible();
   await expect(anonymousPage.getByText(originalIntent, { exact: true })).toBeVisible();
+
+  await anonymousPage.goto("/workbench");
+  await expect(anonymousPage).toHaveURL(/\/login$/, { timeout: 15_000 });
   await anonymousContext.close();
 });

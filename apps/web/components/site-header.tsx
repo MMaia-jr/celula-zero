@@ -12,6 +12,7 @@ export function SiteHeader() {
         </Link>
         <nav aria-label="Navegação principal">
           <Link href="/projects">Projetos</Link>
+          <Link href="/workbench">Operar</Link>
           <Link href="/about/gate-1">Como funciona</Link>
           <Link className="nav-access" href="/login">Acesso piloto <span aria-hidden="true">↗</span></Link>
         </nav>
