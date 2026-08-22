@@ -93,7 +93,7 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   await expect(page.getByLabel("Publicar após criar")).toBeChecked();
 
   await page.getByRole("button", { name: "Criar projeto" }).click();
-  await expect(page).toHaveURL(/\/projects\/[a-z0-9-]+$/, { timeout: 15_000 });
+  await expect(page).toHaveURL(/\/projects\/(?!new$)[a-z0-9-]+$/, { timeout: 15_000 });
   const persistedUrl = page.url();
 
   await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
