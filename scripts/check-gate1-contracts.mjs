@@ -5,13 +5,14 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const files = {
   migration: resolve(root, "supabase/migrations/20260821190000_gate_1_foundation.sql"),
+  actorPolicyFix: resolve(root, "supabase/migrations/20260822002000_fix_actor_visibility_policy.sql"),
   seed: resolve(root, "supabase/seed.sql"),
   tests: resolve(root, "supabase/tests/database/gate1.test.sql"),
   authJourney: resolve(root, "apps/web/tests/e2e-auth/authenticated-project.spec.ts"),
   workflow: resolve(root, ".github/workflows/gate-1-ci.yml"),
 };
 
-const [migration, seed, tests, authJourney, workflow] = await Promise.all(
+const [migration, actorPolicyFix, seed, tests, authJourney, workflow] = await Promise.all(
   Object.values(files).map((file) => readFile(file, "utf8")),
 );
 
@@ -23,6 +24,12 @@ const contracts = [
   [migration.includes("reconcile_project"), "independent material reconciler"],
   [migration.includes("revoke all on all tables"), "minimum table grants"],
   [migration.includes("active pilot invite required"), "invite-controlled write"],
+  [
+    actorPolicyFix.includes("security definer") &&
+      actorPolicyFix.includes("private.actor_is_visible(id, auth.uid())") &&
+      !actorPolicyFix.includes("grant select on public.actor_memberships to anon"),
+    "public actor visibility without membership disclosure",
+  ],
   [!migration.toLowerCase().includes("service_role_key"), "no privileged client key"],
   [seed.includes("DEMO / SYNTHETIC"), "synthetic seed labeling"],
   [seed.includes("FAIL"), "FAIL counterexample preserved"],

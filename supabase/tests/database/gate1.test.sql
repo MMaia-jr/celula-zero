@@ -1,7 +1,7 @@
 begin;
 
 create extension if not exists pgtap with schema extensions;
-select plan(23);
+select plan(25);
 
 select has_table('public', 'projects', 'projects exists');
 select has_table('public', 'project_intents', 'project_intents exists');
@@ -86,6 +86,15 @@ select throws_ok(
 reset role;
 
 set local role anon;
+select lives_ok(
+  $$select count(*) from public.actors where id = '00000000-0000-4000-8000-000000000001'$$,
+  'anonymous actor lookup does not require direct actor_memberships access'
+);
+select is(
+  (select count(*)::integer from public.actors where id = '00000000-0000-4000-8000-000000000001'),
+  1,
+  'anonymous visitor reads the steward of a public project'
+);
 select ok((select count(*) from public.projects where slug = 'projeto-persistente') = 1, 'anonymous visitor reads published project');
 select ok((select count(*) from public.projects where slug = 'draft-do-piloto-b') = 0, 'anonymous visitor cannot read private draft');
 reset role;
