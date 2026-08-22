@@ -8,13 +8,14 @@ const files = {
   actorPolicyFix: resolve(root, "supabase/migrations/20260822002000_fix_actor_visibility_policy.sql"),
   seed: resolve(root, "supabase/seed.sql"),
   tests: resolve(root, "supabase/tests/database/gate1.test.sql"),
+  authCallback: resolve(root, "apps/web/app/auth/callback/route.ts"),
   authJourney: resolve(root, "apps/web/tests/e2e-auth/authenticated-project.spec.ts"),
   loginAction: resolve(root, "apps/web/app/login/actions.ts"),
   projectAction: resolve(root, "apps/web/app/projects/new/actions.ts"),
   workflow: resolve(root, ".github/workflows/gate-1-ci.yml"),
 };
 
-const [migration, actorPolicyFix, seed, tests, authJourney, loginAction, projectAction, workflow] = await Promise.all(
+const [migration, actorPolicyFix, seed, tests, authCallback, authJourney, loginAction, projectAction, workflow] = await Promise.all(
   Object.values(files).map((file) => readFile(file, "utf8")),
 );
 
@@ -45,6 +46,17 @@ const contracts = [
     "authenticated create-reload-anonymous journey",
   ],
   [workflow.includes("npm run test:e2e:auth"), "authenticated journey enforced by CI"],
+  [
+    authCallback.includes("redirectResponse.cookies.set") &&
+      authCallback.includes("exchangeCodeForSession") &&
+      authCallback.includes('!requestedNext.startsWith("//")'),
+    "auth callback persists session cookies on a safe redirect",
+  ],
+  [
+    workflow.includes("playwright-auth-report") &&
+      workflow.includes("apps/web/test-results-auth/"),
+    "authenticated failure evidence preserved by CI",
+  ],
   [
     !loginAction.includes("export const") && !projectAction.includes("export const"),
     "server action modules export async functions only",

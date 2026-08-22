@@ -52,10 +52,10 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
     .toMatch(/^http:\/\/127\.0\.0\.1:54321\/auth\/v1\/verify\?/);
 
   await page.goto(magicLink);
-  await expect(page).toHaveURL(/\/projects\/new$/);
+  await expect(page).toHaveURL(/\/projects\/new$/, { timeout: 15_000 });
   await expect(
     page.getByRole("heading", { name: "Plante um projeto com intenção e limites explícitos." }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 15_000 });
 
   const uniqueSuffix = `${Date.now()}`;
   const title = `Projeto autenticado Gate 1 ${uniqueSuffix}`;

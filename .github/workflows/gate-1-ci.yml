@@ -105,3 +105,12 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Login, create, persist, reload and read anonymously
         run: npm run test:e2e:auth
+      - name: Preserve authenticated Playwright evidence on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: playwright-auth-report
+          path: |
+            apps/web/playwright-report-auth/
+            apps/web/test-results-auth/
+          retention-days: 7

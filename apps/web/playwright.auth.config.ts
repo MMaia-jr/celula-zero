@@ -6,11 +6,15 @@ export default defineConfig({
   workers: 1,
   forbidOnly: Boolean(process.env.CI),
   retries: 0,
-  reporter: "html",
+  reporter: [
+    ["line"],
+    ["html", { outputFolder: "playwright-report-auth", open: "never" }],
+  ],
   outputDir: "test-results-auth",
   use: {
     baseURL: "http://127.0.0.1:3000",
-    trace: "off",
+    screenshot: "only-on-failure",
+    trace: "retain-on-failure",
   },
   projects: [{ name: "authenticated-chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
