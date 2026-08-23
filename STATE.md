@@ -4,9 +4,15 @@
 
 Repositório canônico: `MMaia-jr/celula-zero`
 
-Baseline canônico observado:
+Marco canônico usado como base desta atualização:
 
-`main = 7619e52841593b366a3fb166b3b417456b1f2f3e`
+- PR `#73` — merged;
+- merge commit de referência:
+  `d094a5fd1f5a597186422a3be4c452dc769d8542`.
+
+Esse SHA é a proveniência desta edição do `STATE.md`, não uma declaração de que
+ele permanecerá sendo o HEAD atual de `main`. Quando o HEAD atual for necessário,
+ele deve ser lido dinamicamente do Git/GitHub.
 
 Este arquivo é a Working Spec curta. História detalhada permanece em decisões,
 issues, commits, PRs, testes e artefatos vinculados.
@@ -113,26 +119,56 @@ Fluxo alvo:
 
 `human direction → work packet → executor intercambiável → result package → verification → GitHub/Linear/Célula Zero`
 
-Prioridade atual:
+### WP-001 — concluído
 
-1. reconstrução de estado a partir de fontes canônicas;
-2. Work Packet portátil e autocontido;
-3. Result Package estruturado;
-4. provar uma tarefa real com menos transferência manual de contexto.
+`WP-001-STATE-SYNC` foi executado, verificado e promovido ao GitHub canônico.
 
-Não construir CLI, protocolo, MCP, RAG ou nova infraestrutura antes de uma
-propriedade concreta demonstrar que Git + Markdown + processo são insuficientes.
+Resultado:
+
+- execução local via shell/git worktree: `PASS`;
+- `STATE.md` foi o único arquivo alterado pelo packet;
+- alterações locais não relacionadas foram preservadas;
+- commit e push foram rastreados separadamente;
+- PR `#73` foi merged;
+- classificação final: `PASS / CANONICAL`.
+
+Aprendizagem observada:
+
+> registrar um SHA de `main` como se fosse o HEAD permanentemente atual cria
+> autorreferência impossível, porque o merge da própria atualização avança
+> `main`.
+
+Correção adotada:
+
+> `STATE.md` pode registrar o baseline/proveniência de uma edição, mas o HEAD
+> atual deve ser consultado dinamicamente quando necessário.
+
+### WP-002 — ativo
+
+`WP-002-STATE-PORTABILITY` testa o mesmo contrato de Work Packet por um segundo
+caminho de execução:
+
+`ChatGPT → GitHub branch → GitHub contents API → commit`
+
+Objetivo restrito:
+
+- corrigir a autorreferência acima;
+- provar execução de uma tarefa real sem o fundador operar o Terminal;
+- não criar nova infraestrutura.
+
+Esse teste pode demonstrar portabilidade entre caminhos de execução. Não prova,
+sozinho, independência universal entre agentes.
 
 ## Classificação arquitetural atual para continuidade
 
-- `STATE.md`: `ADOPT` — mecanismo adequado; conteúdo anterior ficou obsoleto.
-- GitHub Issue/PR: `ADOPT` — vínculo técnico e histórico.
-- Linear: `ADOPT` — fila e coordenação.
-- padrão histórico `CONTEXT-PACKET-*`: `MAP` — precedente útil para um Work
-  Packet autocontido.
+- `STATE.md`: `ADOPT`.
+- GitHub Issue/PR/branch: `ADOPT`.
+- Linear: `ADOPT`.
+- padrão `CONTEXT-PACKET-*` / Work Packet Markdown: `MAP`.
+- GitHub contents API como segundo caminho: `ADOPT`.
 - JSON adicional para Work Packet: `NOT NEEDED YET`.
 - CLI local `cz ...`: `NOT NEEDED YET`.
-- novo protocolo/MCP: `NOT NEEDED`.
+- novo protocolo/MCP/RAG: `NOT NEEDED`.
 
 ## Direção de produto mais ampla
 
@@ -167,7 +203,7 @@ Nenhum direito econômico retroativo.
 
 ## Segurança e resiliência
 
-- escrita somente em workspace explicitamente autorizado;
+- escrita somente em workspace/branch explicitamente autorizados;
 - branch Git para mudanças;
 - secrets fora do repositório;
 - least privilege;
@@ -179,27 +215,34 @@ Nenhum direito econômico retroativo.
 
 ## Próximo gate
 
-Executar um primeiro Work Packet real cujo único objetivo seja sincronizar este
-`STATE.md`, e observar se um executor consegue realizar a tarefa usando apenas o
-packet + repositório canônico, sem depender da memória do chat.
+Concluir `WP-002-STATE-PORTABILITY` e comparar os dois caminhos observados:
 
-PASS somente se:
+1. `WP-001`: shell + git worktree;
+2. `WP-002`: ChatGPT + GitHub branch/contents API.
 
-1. o executor identifica o baseline canônico correto;
-2. altera somente `STATE.md`;
-3. preserva alterações locais não relacionadas;
-4. produz Result Package distinguindo estados de execução;
-5. a mudança é revisável por diff;
-6. nenhuma nova infraestrutura é criada;
-7. após decisão humana, commit/push/PR/merge podem ser rastreados separadamente.
+PASS do teste de portabilidade somente se:
+
+1. a mesma estrutura de contrato foi preservada;
+2. o segundo caminho respeita base, escopo, autoridade e STOP gates;
+3. somente `STATE.md` é alterado;
+4. o resultado volta como Result Package estruturado;
+5. o fundador não precisa executar comandos no Terminal para a fase autorizada;
+6. não é criada nova infraestrutura;
+7. qualquer PR/merge posterior permanece um estado separado e exige autoridade
+   própria.
+
+Depois disso, decidir se MAI-27 já possui evidência suficiente ou se ainda há
+uma propriedade concreta de continuidade não preservada.
 
 ## Estado resumido
 
 `OPERATING-LOOP-MVP / CANONICAL / PASS N=1 INTERNAL`
 
-`AGENT-EXECUTION-CONTINUITY / IN PROGRESS`
+`WP-001 / CANONICAL / PASS`
 
-`WORK-PACKET PORTABILITY / TESTING`
+`WP-002 / EXECUTION-PATH PORTABILITY / IN PROGRESS`
+
+`AGENT-EXECUTION-CONTINUITY / IN PROGRESS`
 
 `EXTERNAL UTILITY / NOT TESTED`
 
