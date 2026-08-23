@@ -417,6 +417,12 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                               >
                                 Exportar Task Capsule (JSON)
                               </a>
+                              <Link
+                                className="button button-primary"
+                                href={`/workbench/result-return?project=${encodeURIComponent(project.slug)}&commitment=${encodeURIComponent(commitment.id)}`}
+                              >
+                                Receber Result Package
+                              </Link>
                             </div>
 
                             {project.contributions
