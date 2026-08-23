@@ -19,6 +19,7 @@ import {
   type WorkbenchOpportunityState,
   type WorkbenchProject,
 } from "@/lib/data/workbench";
+import { deriveGuidedWorkbenchAction } from "@/lib/domain/guided-workbench";
 
 interface WorkbenchPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -128,6 +129,7 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
         const controlledAgents = project.actors.filter(
           (actor) => actor.kind === "AI_AGENT" && actor.controlled,
         );
+        const nextAction = deriveGuidedWorkbenchAction(project);
 
         return (
           <section className="content-block" key={project.id}>
@@ -139,6 +141,30 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
             <p>
               <Link href={`/projects/${project.slug}`}>Ver página do projeto</Link>
             </p>
+
+            <section className="side-block">
+              <p className="mini-label">PAVED ROAD · AGORA · {nextAction.step}</p>
+              <h3>{nextAction.title}</h3>
+              <p>{nextAction.description}</p>
+              <p>
+                <strong>Limite:</strong> {nextAction.boundary}
+              </p>
+              <div className="project-actions">
+                {nextAction.focusId ? (
+                  <a className="button button-primary" href={`#${nextAction.focusId}`}>
+                    Ir para a próxima ação
+                  </a>
+                ) : null}
+                {nextAction.commitmentId ? (
+                  <a
+                    className="button button-secondary"
+                    href={`/workbench/task-capsule?project=${encodeURIComponent(project.slug)}&commitment=${encodeURIComponent(nextAction.commitmentId)}&format=md`}
+                  >
+                    Abrir fronteira de execução
+                  </a>
+                ) : null}
+              </div>
+            </section>
 
             <div className="project-actions">
               <a
@@ -163,7 +189,10 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
               ))}
             </div>
 
-            <details className="side-block">
+            <details
+              className="side-block"
+              id={`register-agent-${project.slug}`}
+            >
               <summary><strong>Registrar agente contribuinte</strong></summary>
               <p>
                 Isto registra identidade e atribuição. Não conecta API, não executa IA
@@ -207,7 +236,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
               );
 
               return (
-                <article className="side-block" key={opportunity.id}>
+                <article
+                  className="side-block"
+                  key={opportunity.id}
+                  id={`opportunity-${opportunity.id}`}
+                >
                   <div className="project-label-row">
                     <strong>{stateLabel[opportunity.state]}</strong>
                     <span>{opportunity.visibility}</span>
@@ -302,7 +335,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                     );
 
                     return (
-                      <section className="content-block" key={proposal.id}>
+                      <section
+                        className="content-block"
+                        key={proposal.id}
+                        id={`proposal-${proposal.id}`}
+                      >
                         <div className="project-label-row">
                           <strong>Proposal · {proposal.state}</strong>
                           {proposer ? <ActorTag actor={proposer} /> : null}
@@ -356,7 +393,10 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                         ) : null}
 
                         {commitment ? (
-                          <section className="side-block">
+                          <section
+                            className="side-block"
+                            id={`commitment-${commitment.id}`}
+                          >
                             <p className="mini-label">Commitment</p>
                             <p>
                               <strong>{actorName(project, commitment.proposerActorId)}</strong>
@@ -387,7 +427,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                                 );
 
                                 return (
-                                  <section className="content-block" key={contribution.id}>
+                                  <section
+                                    className="content-block"
+                                    key={contribution.id}
+                                    id={`contribution-${contribution.id}`}
+                                  >
                                     <p className="mini-label">Contribution</p>
                                     <p>{contribution.description}</p>
                                     <p><strong>Limitações:</strong> {contribution.limitations}</p>
@@ -400,7 +444,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                                       );
 
                                       return (
-                                        <section className="side-block" key={artifact.id}>
+                                        <section
+                                          className="side-block"
+                                          key={artifact.id}
+                                          id={`artifact-${artifact.id}`}
+                                        >
                                           <p className="mini-label">Artifact · {artifact.kind}</p>
                                           <p><code>{artifact.uri}</code></p>
                                           <p><code>{artifact.digest}</code></p>
@@ -422,7 +470,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                                             );
 
                                             return (
-                                              <section className="content-block" key={claim.id}>
+                                              <section
+                                                className="content-block"
+                                                key={claim.id}
+                                                id={`claim-${claim.id}`}
+                                              >
                                                 <p className="mini-label">Claim · {claim.state}</p>
                                                 <p>{claim.statement}</p>
                                                 <p><strong>Escopo:</strong> {claim.scopeDescription}</p>
@@ -517,7 +569,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                                                     (item) => item.requestId === request.id,
                                                   );
                                                   return (
-                                                    <section className="side-block" key={request.id}>
+                                                    <section
+                                                      className="side-block"
+                                                      key={request.id}
+                                                      id={`verification-request-${request.id}`}
+                                                    >
                                                       <div className="project-label-row">
                                                         <strong>Verification Request · {request.state}</strong>
                                                         <span>{request.independence}</span>
@@ -782,7 +838,10 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
               <p>Nenhuma oportunidade registrada neste projeto.</p>
             )}
 
-            <details className="side-block">
+            <details
+              className="side-block"
+              id={`new-opportunity-${project.slug}`}
+            >
               <summary><strong>Nova Opportunity</strong></summary>
               <form className="project-form" action={createOpportunityAction}>
                 {projectFields(project)}
