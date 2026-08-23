@@ -43,6 +43,15 @@ const fullProject: WorkbenchProject = {
       statement: "Conduzir uma tarefa real no fluxo operacional.",
       conditions: "Autoridade explícita e sem direitos econômicos.",
       expectedResult: "Um ciclo atribuível e verificável.",
+      versions: [
+        {
+          version: 1,
+          title: "Executar o Operating Loop",
+          statement: "Conduzir uma tarefa real no fluxo operacional.",
+          conditions: "Autoridade explícita e sem direitos econômicos.",
+          expectedResult: "Um ciclo atribuível e verificável.",
+        },
+      ],
     },
     {
       id: "30000000-0000-4000-8000-000000000002",
@@ -71,6 +80,15 @@ const fullProject: WorkbenchProject = {
       expectedDelivery: "Entrega identificável.",
       rewardExpectation: "Sem direito econômico.",
       createdAt: "2026-08-22T23:00:00.000Z",
+      versions: [
+        {
+          version: 1,
+          statement: "Executar a oportunidade sob atribuição explícita.",
+          conditions: "Escopo limitado.",
+          expectedDelivery: "Entrega identificável.",
+          rewardExpectation: "Sem direito econômico.",
+        },
+      ],
     },
     {
       id: "40000000-0000-4000-8000-000000000002",
@@ -245,6 +263,8 @@ describe("operating loop portable export", () => {
     expect(exported.actors).toHaveLength(2);
     expect(exported.opportunities).toHaveLength(2);
     expect(exported.proposals).toHaveLength(2);
+    expect(exported.opportunities[0]).not.toHaveProperty("versions");
+    expect(exported.proposals[0]).not.toHaveProperty("versions");
     expect(exported.commitments).toHaveLength(1);
     expect(exported.contributions).toHaveLength(1);
     expect(exported.artifacts[0]?.digest).toMatch(/^a{64}$/);

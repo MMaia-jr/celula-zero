@@ -364,6 +364,21 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                               <strong>{actorName(project, commitment.acceptedByActorId)}</strong>
                             </p>
 
+                            <div className="project-actions">
+                              <a
+                                className="button button-secondary"
+                                href={`/workbench/task-capsule?project=${encodeURIComponent(project.slug)}&commitment=${encodeURIComponent(commitment.id)}&format=md`}
+                              >
+                                Exportar Task Capsule (Markdown)
+                              </a>
+                              <a
+                                className="button button-secondary"
+                                href={`/workbench/task-capsule?project=${encodeURIComponent(project.slug)}&commitment=${encodeURIComponent(commitment.id)}&format=json`}
+                              >
+                                Exportar Task Capsule (JSON)
+                              </a>
+                            </div>
+
                             {project.contributions
                               .filter((item) => item.commitmentId === commitment.id)
                               .map((contribution) => {

@@ -33,6 +33,13 @@ export interface WorkbenchOpportunity {
   statement: string;
   conditions: string;
   expectedResult: string;
+  versions?: Array<{
+    version: number;
+    title: string;
+    statement: string;
+    conditions: string;
+    expectedResult: string;
+  }>;
 }
 
 export interface WorkbenchProposal {
@@ -47,6 +54,13 @@ export interface WorkbenchProposal {
   expectedDelivery: string;
   rewardExpectation: string;
   createdAt: string;
+  versions?: Array<{
+    version: number;
+    statement: string;
+    conditions: string;
+    expectedDelivery: string;
+    rewardExpectation: string;
+  }>;
 }
 
 export interface WorkbenchCommitment {
@@ -377,6 +391,15 @@ function currentOpportunity(row: RawOpportunity): WorkbenchOpportunity {
     statement: current.statement,
     conditions: current.conditions,
     expectedResult: current.expected_result,
+    versions: row.opportunity_versions
+      .map((version) => ({
+        version: version.version,
+        title: version.title,
+        statement: version.statement,
+        conditions: version.conditions,
+        expectedResult: version.expected_result,
+      }))
+      .sort((a, b) => a.version - b.version),
   };
 }
 
@@ -400,6 +423,15 @@ function currentProposal(row: RawProposal): WorkbenchProposal {
     expectedDelivery: current.expected_delivery,
     rewardExpectation: current.reward_expectation,
     createdAt: row.created_at,
+    versions: row.proposal_versions
+      .map((version) => ({
+        version: version.version,
+        statement: version.statement,
+        conditions: version.conditions,
+        expectedDelivery: version.expected_delivery,
+        rewardExpectation: version.reward_expectation,
+      }))
+      .sort((a, b) => a.version - b.version),
   };
 }
 
