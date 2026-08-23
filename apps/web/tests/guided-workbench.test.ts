@@ -183,7 +183,7 @@ describe("guided workbench paved road", () => {
     expect(action.boundary).toMatch(/não apaga Commitments já aceitos/i);
   });
 
-  it("moves from executed Contribution toward observable Artifact", () => {
+  it("records a Claim directly after Contribution without requiring Artifact", () => {
     const project = projectFixture();
     addOpenOpportunity(project);
     addAcceptedCommitment(project);
@@ -195,8 +195,41 @@ describe("guided workbench paved road", () => {
       limitations: "Ainda não verificada.",
       submittedAt: "2026-08-23T00:02:00.000Z",
     });
+
     const action = deriveGuidedWorkbenchAction(project);
-    expect(action.step).toBe("ATTACH_ARTIFACT");
+
+    expect(action.step).toBe("RECORD_CLAIM");
+    expect(action.focusId).toBe("contribution-contribution-1");
+  });
+
+  it("leaves a Claim without Evidence at an explicit human decision", () => {
+    const project = projectFixture();
+    addOpenOpportunity(project);
+    addAcceptedCommitment(project);
+    project.contributions.push({
+      id: "contribution-1",
+      commitmentId: "commitment-1",
+      authorActorId: "agent-1",
+      description: "Mudança funcional executada.",
+      limitations: "Ainda não verificada.",
+      submittedAt: "2026-08-23T00:02:00.000Z",
+    });
+    project.claims.push({
+      id: "claim-contribution-1",
+      subjectType: "CONTRIBUTION",
+      subjectId: "contribution-1",
+      authorActorId: "agent-1",
+      statement: "O executor reporta que a rodada foi executada.",
+      scopeDescription: "Claim limitado ao relato atribuído.",
+      state: "RECORDED",
+      createdAt: "2026-08-23T00:03:00.000Z",
+    });
+
+    const action = deriveGuidedWorkbenchAction(project);
+
+    expect(action.step).toBe("HUMAN_DECISION");
+    expect(action.focusId).toBe("claim-claim-contribution-1");
+    expect(action.boundary).toMatch(/não implica verdade nem falsidade/i);
   });
 
   it("requires the registered Verification instead of inferring PASS from Evidence", () => {

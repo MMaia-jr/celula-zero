@@ -90,8 +90,8 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
           <h1>Operar a Célula Zero</h1>
           <p>
             Uma única superfície para atravessar Opportunity → Proposal → Commitment
-            → Contribution → Artifact → Claim/Evidence → Verification, preservando
-            autoridade e atribuição no backend já existente.
+            → Contribution → Claim e, quando o contexto exigir maior confiança,
+            Artifact/Evidence → Verification, preservando autoridade e atribuição.
           </p>
         </div>
       </header>
@@ -431,6 +431,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                                 const contributionArtifacts = project.artifacts.filter(
                                   (item) => item.contributionId === contribution.id,
                                 );
+                                const contributionClaims = project.claims.filter(
+                                  (claim) =>
+                                    claim.subjectType === "CONTRIBUTION" &&
+                                    claim.subjectId === contribution.id,
+                                );
 
                                 return (
                                   <section
@@ -441,6 +446,79 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                                     <p className="mini-label">Contribution</p>
                                     <p>{contribution.description}</p>
                                     <p><strong>Limitações:</strong> {contribution.limitations}</p>
+
+                                    {contributionClaims.map((claim) => (
+                                      <section
+                                        className="side-block"
+                                        key={claim.id}
+                                        id={`claim-${claim.id}`}
+                                      >
+                                        <p className="mini-label">
+                                          Claim sobre Contribution · {claim.state}
+                                        </p>
+                                        <p>{claim.statement}</p>
+                                        <p>
+                                          <strong>Escopo:</strong> {claim.scopeDescription}
+                                        </p>
+                                        <p>
+                                          Evidence e Verification não são inferidas deste Claim.
+                                          Ausência de Verification não implica verdade nem falsidade.
+                                        </p>
+                                      </section>
+                                    ))}
+
+                                    {contributionClaims.length === 0 ? (
+                                      <form
+                                        className="project-form"
+                                        action={recordClaimAction}
+                                      >
+                                        {projectFields(project)}
+                                        {commandFields("operating-contribution-claim")}
+                                        <input
+                                          type="hidden"
+                                          name="actorId"
+                                          value={contribution.authorActorId}
+                                        />
+                                        <input
+                                          type="hidden"
+                                          name="subjectType"
+                                          value="CONTRIBUTION"
+                                        />
+                                        <input
+                                          type="hidden"
+                                          name="subjectId"
+                                          value={contribution.id}
+                                        />
+                                        <label>
+                                          <span>Claim sobre a Contribution</span>
+                                          <textarea
+                                            name="statement"
+                                            rows={3}
+                                            minLength={10}
+                                            maxLength={4000}
+                                            required
+                                            defaultValue="Esta Contribution registra o trabalho reportado pelo autor dentro do escopo e das limitações declaradas."
+                                          />
+                                        </label>
+                                        <label>
+                                          <span>Escopo do Claim</span>
+                                          <textarea
+                                            name="scopeDescription"
+                                            rows={2}
+                                            minLength={3}
+                                            maxLength={2000}
+                                            required
+                                            defaultValue="Afirmação atribuída e contestável; sem Evidence ou Verification, não implica verdade, falsidade ou outcome."
+                                          />
+                                        </label>
+                                        <button
+                                          className="button button-primary"
+                                          type="submit"
+                                        >
+                                          Registrar Claim sobre Contribution
+                                        </button>
+                                      </form>
+                                    ) : null}
 
                                     {contributionArtifacts.map((artifact) => {
                                       const artifactClaims = project.claims.filter(
@@ -720,7 +798,11 @@ export default async function WorkbenchPage({ searchParams }: WorkbenchPageProps
                                     })}
 
                                     <details>
-                                      <summary><strong>Anexar Artifact</strong></summary>
+                                      <summary><strong>Anexar Artifact (opcional)</strong></summary>
+                                      <p>
+                                        Use Artifact quando um objeto observável for necessário para
+                                        Evidence ou preservação explícita; Contribution não o exige por padrão.
+                                      </p>
                                       <form className="project-form" action={attachArtifactAction}>
                                         {projectFields(project)}
                                         {commandFields("operating-artifact")}
