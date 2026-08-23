@@ -169,33 +169,26 @@ export function deriveGuidedWorkbenchAction(
     (item) => item.contributionId === contribution.id,
   );
   const artifact = latest(artifacts);
-
-  if (!artifact) {
-    return {
-      step: "ATTACH_ARTIFACT",
-      title: "Ligue a execução a um artefato observável",
-      description:
-        "Uma Contribution foi registrada, mas ainda não existe Artifact associado que permita inspecionar a entrega.",
-      boundary:
-        "Contribution descreve trabalho executado; sem Artifact, não há um objeto técnico registrado para sustentar claims sobre a entrega.",
-      focusId: `contribution-${contribution.id}`,
-    };
-  }
-
-  const claims = project.claims.filter(
-    (item) => item.subjectType === "ARTIFACT" && item.subjectId === artifact.id,
+  const contributionClaims = project.claims.filter(
+    (item) =>
+      item.subjectType === "CONTRIBUTION" && item.subjectId === contribution.id,
   );
-  const claim = latest(claims);
+  const artifactClaims = artifact
+    ? project.claims.filter(
+        (item) => item.subjectType === "ARTIFACT" && item.subjectId === artifact.id,
+      )
+    : [];
+  const claim = latest([...contributionClaims, ...artifactClaims]);
 
   if (!claim) {
     return {
       step: "RECORD_CLAIM",
-      title: "Diga exatamente o que o artefato demonstra",
+      title: "Registre exatamente o que está sendo afirmado",
       description:
-        "O Artifact existe. Agora registre um Claim limitado sobre o que está sendo afirmado a partir dele.",
+        "A Contribution existe. Registre um Claim atribuído e contestável sem exigir Artifact, Evidence ou Verification por padrão.",
       boundary:
-        "Artifact ≠ Evidence ≠ Verification. A existência do arquivo ou commit não prova utilidade, correção ou outcome.",
-      focusId: `artifact-${artifact.id}`,
+        "Claim ≠ Evidence ≠ Verification. Ausência de Verification não implica verdade, falsidade ou outcome.",
+      focusId: `contribution-${contribution.id}`,
     };
   }
 
@@ -205,12 +198,12 @@ export function deriveGuidedWorkbenchAction(
 
   if (!evidenceLinks.length) {
     return {
-      step: "REGISTER_EVIDENCE",
-      title: "Declare como o artefato entra como evidência",
+      step: "HUMAN_DECISION",
+      title: "Claim registrado: decida se precisa aumentar a confiança",
       description:
-        "O Claim está registrado, mas ainda não existe relação explícita entre uma Evidence e a afirmação.",
+        "O Claim pode permanecer registrado sem Evidence ou Verification. Evidence e Verification são adicionadas quando o contexto exigir maior confiança.",
       boundary:
-        "Registrar Evidence documenta uma relação de suporte, desafio ou contexto; não verifica o Claim.",
+        "Ausência de Verification não implica verdade nem falsidade. Nenhuma próxima etapa probatória é inferida automaticamente.",
       focusId: `claim-${claim.id}`,
     };
   }
