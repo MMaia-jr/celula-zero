@@ -159,6 +159,30 @@ describe("guided workbench paved road", () => {
     expect(action.boundary).toMatch(/não significa.*EXECUTED.*VERIFIED/i);
   });
 
+  it("keeps an accepted Commitment actionable after its Opportunity closes at capacity", () => {
+    const project = projectFixture();
+    addOpenOpportunity(project);
+    addAcceptedCommitment(project);
+    project.opportunities[0]!.state = "CLOSED";
+
+    const action = deriveGuidedWorkbenchAction(project);
+
+    expect(action.step).toBe("EXECUTE_COMMITMENT");
+    expect(action.commitmentId).toBe("commitment-1");
+  });
+
+  it("starts a new intention when a CLOSED Opportunity has no accepted Commitment trajectory", () => {
+    const project = projectFixture();
+    addOpenOpportunity(project);
+    project.opportunities[0]!.state = "CLOSED";
+
+    const action = deriveGuidedWorkbenchAction(project);
+
+    expect(action.step).toBe("START_INTENTION");
+    expect(action.focusId).toBe("new-opportunity-celula-zero");
+    expect(action.boundary).toMatch(/não apaga Commitments já aceitos/i);
+  });
+
   it("moves from executed Contribution toward observable Artifact", () => {
     const project = projectFixture();
     addOpenOpportunity(project);
