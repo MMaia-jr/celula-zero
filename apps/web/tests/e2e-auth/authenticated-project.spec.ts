@@ -110,7 +110,7 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   await expect(page.getByRole("heading", { level: 2, name: title })).toBeVisible();
 
   const opportunityTitle = `Oportunidade H1 ${uniqueSuffix}`;
-  await page.getByText("Nova oportunidade").click();
+  await page.getByText("Nova Opportunity").click();
   await page.getByLabel("Título da oportunidade").fill(opportunityTitle);
   await page
     .getByLabel("Problema ou necessidade")
@@ -123,9 +123,9 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
     .fill("Uma oportunidade real permanece visível no workbench após recarregar a página.");
   await page.getByLabel("Capacidade").fill("1");
   await expect(page.getByLabel("Publicar após criar")).toBeChecked();
-  await page.getByRole("button", { name: "Criar oportunidade" }).click();
+  await page.getByRole("button", { name: "Criar Opportunity" }).click();
 
-  await expect(page).toHaveURL(/\/workbench\?created=.*state=OPEN/, { timeout: 15_000 });
+  await expect(page).toHaveURL(/\/workbench\?ok=OPPORTUNITY_OPEN/, { timeout: 15_000 });
   await expect(page.getByRole("heading", { level: 3, name: opportunityTitle })).toBeVisible();
   await expect(page.getByText("Aberta", { exact: true })).toBeVisible();
 
