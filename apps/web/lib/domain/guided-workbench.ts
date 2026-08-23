@@ -34,7 +34,7 @@ export function deriveGuidedWorkbenchAction(
 ): GuidedWorkbenchAction {
   const opportunity = latest(project.opportunities);
 
-  if (!opportunity || opportunity.state === "CLOSED") {
+  if (!opportunity) {
     return {
       step: "START_INTENTION",
       title: "Comece pelo que precisa mudar",
@@ -61,7 +61,29 @@ export function deriveGuidedWorkbenchAction(
   const proposals = project.proposals.filter(
     (proposal) => proposal.opportunityId === opportunity.id,
   );
-  const proposal = latest(proposals);
+  const closedCommitment =
+    opportunity.state === "CLOSED"
+      ? latest(
+          project.commitments.filter(
+            (item) => item.opportunityId === opportunity.id,
+          ),
+        )
+      : undefined;
+  const proposal = closedCommitment
+    ? project.proposals.find((item) => item.id === closedCommitment.proposalId)
+    : latest(proposals);
+
+  if (opportunity.state === "CLOSED" && !closedCommitment) {
+    return {
+      step: "START_INTENTION",
+      title: "Comece pelo que precisa mudar",
+      description:
+        "A Opportunity mais recente está encerrada e não há Commitment aceito em trajetória. Registre a próxima intenção operacional da Célula Zero.",
+      boundary:
+        "CLOSED impede novo trabalho nessa Opportunity, mas não apaga Commitments já aceitos. Sem Commitment em trajetória, o próximo ciclo começa por uma nova intenção.",
+      focusId: `new-opportunity-${project.slug}`,
+    };
+  }
 
   if (!proposal || proposal.state === "REJECTED" || proposal.state === "REVISION_REQUESTED") {
     const hasControlledAgent = project.actors.some(
@@ -103,13 +125,15 @@ export function deriveGuidedWorkbenchAction(
     };
   }
 
-  const commitment = latest(
-    project.commitments.filter(
-      (item) =>
-        item.opportunityId === opportunity.id &&
-        item.proposalId === proposal.id,
-    ),
-  );
+  const commitment =
+    closedCommitment ??
+    latest(
+      project.commitments.filter(
+        (item) =>
+          item.opportunityId === opportunity.id &&
+          item.proposalId === proposal.id,
+      ),
+    );
 
   if (!commitment) {
     return {
