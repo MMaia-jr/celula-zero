@@ -43,7 +43,7 @@ const projectSelection = `
   economic_regime, intended_result, rules_and_limits, needs,
   created_at, published_at, version, source_label,
   steward:actors!projects_steward_actor_id_fkey(id, name, kind, operator_label),
-  project_intents(kind, content, version),
+  project_intents!project_intents_project_id_fkey(kind, content, version),
   events(id, event_type, title, description, occurred_at, material_version)
 `;
 
