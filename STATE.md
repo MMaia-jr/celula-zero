@@ -4,15 +4,15 @@
 
 Repositório canônico: `MMaia-jr/celula-zero`
 
-Marco canônico usado como base desta atualização:
+Marco canônico usado como fonte desta correção:
 
-- PR `#73` — merged;
+- PR `#74` — merged;
 - merge commit de referência:
-  `d094a5fd1f5a597186422a3be4c452dc769d8542`.
+  `56db4df925ca725414916afb6d8ff88783457480`.
 
-Esse SHA é a proveniência desta edição do `STATE.md`, não uma declaração de que
-ele permanecerá sendo o HEAD atual de `main`. Quando o HEAD atual for necessário,
-ele deve ser lido dinamicamente do Git/GitHub.
+Esse SHA registra a proveniência desta edição do `STATE.md`; não declara qual é
+o HEAD atual de `main`. Quando o HEAD atual for necessário, ele deve ser lido
+dinamicamente do Git/GitHub.
 
 Este arquivo é a Working Spec curta. História detalhada permanece em decisões,
 issues, commits, PRs, testes e artefatos vinculados.
@@ -143,21 +143,35 @@ Correção adotada:
 > `STATE.md` pode registrar o baseline/proveniência de uma edição, mas o HEAD
 > atual deve ser consultado dinamicamente quando necessário.
 
-### WP-002 — ativo
+### WP-002 — concluído
 
-`WP-002-STATE-PORTABILITY` testa o mesmo contrato de Work Packet por um segundo
-caminho de execução:
+`WP-002-STATE-PORTABILITY` foi executado, verificado e promovido ao GitHub
+canônico pelo PR `#74`.
 
-`ChatGPT → GitHub branch → GitHub contents API → commit`
+Caminho que realmente passou:
 
-Objetivo restrito:
+`Work Packet/target preparado → patch determinístico → git apply em worktree isolado → verificação determinística → promoção local autorizada`
 
-- corrigir a autorreferência acima;
-- provar execução de uma tarefa real sem o fundador operar o Terminal;
-- não criar nova infraestrutura.
+Resultado observado:
 
-Esse teste pode demonstrar portabilidade entre caminhos de execução. Não prova,
-sozinho, independência universal entre agentes.
+- segundo caminho determinístico de execução: `PASS`;
+- somente `STATE.md` foi alterado;
+- base, escopo, STOP gates e Result Package foram preservados;
+- nenhuma dependência de Codex, Ollama, Aider ou API de IA foi necessária;
+- classificação final do WP-002: `PASS / CANONICAL`.
+
+Tentativas que não devem ser tratadas como sucesso:
+
+- escrita direta `ChatGPT → GitHub`: `FAIL / 403` por permissão do conector;
+- Qwen local como executor: não produziu caminho útil e não alterou estado
+  canônico.
+
+Limite da evidência:
+
+- o fundador ainda executou um comando local para disparar o executor;
+- redução do fundador como middleware: `PARTIAL`;
+- eliminação completa do Terminal humano: `NOT PROVEN`;
+- intercambiabilidade universal entre agentes/executores: `NOT PROVEN`.
 
 ## Classificação arquitetural atual para continuidade
 
@@ -165,7 +179,9 @@ sozinho, independência universal entre agentes.
 - GitHub Issue/PR/branch: `ADOPT`.
 - Linear: `ADOPT`.
 - padrão `CONTEXT-PACKET-*` / Work Packet Markdown: `MAP`.
-- GitHub contents API como segundo caminho: `ADOPT`.
+- patch Git determinístico + worktree isolado: `ADOPT` para execução limitada.
+- escrita direta pelo conector ChatGPT→GitHub: `UNAVAILABLE` no teste atual
+  (`403`); não é requisito de continuidade.
 - JSON adicional para Work Packet: `NOT NEEDED YET`.
 - CLI local `cz ...`: `NOT NEEDED YET`.
 - novo protocolo/MCP/RAG: `NOT NEEDED`.
@@ -215,24 +231,23 @@ Nenhum direito econômico retroativo.
 
 ## Próximo gate
 
-Concluir `WP-002-STATE-PORTABILITY` e comparar os dois caminhos observados:
+Decisão humana para `MAI-27`:
 
-1. `WP-001`: shell + git worktree;
-2. `WP-002`: ChatGPT + GitHub branch/contents API.
+> um único comando humano para disparar um executor autocontido e verificável é
+> suficiente como MVP de continuidade, ou existe uma propriedade concreta que
+> ainda exige remover também esse comando?
 
-PASS do teste de portabilidade somente se:
+Evidência disponível para a decisão:
 
-1. a mesma estrutura de contrato foi preservada;
-2. o segundo caminho respeita base, escopo, autoridade e STOP gates;
-3. somente `STATE.md` é alterado;
-4. o resultado volta como Result Package estruturado;
-5. o fundador não precisa executar comandos no Terminal para a fase autorizada;
-6. não é criada nova infraestrutura;
-7. qualquer PR/merge posterior permanece um estado separado e exige autoridade
-   própria.
+1. `WP-001`: shell + substituição controlada em git worktree — `PASS / CANONICAL`;
+2. `WP-002`: patch determinístico + `git apply` em git worktree —
+   `PASS / CANONICAL`;
+3. nenhum dos dois exige Codex, Ollama, Aider ou API de IA para continuidade;
+4. o conector ChatGPT→GitHub não possui hoje autoridade de escrita suficiente;
+5. o fundador ainda funciona como disparador local de um comando.
 
-Depois disso, decidir se MAI-27 já possui evidência suficiente ou se ainda há
-uma propriedade concreta de continuidade não preservada.
+Não construir CLI, MCP, protocolo ou automação adicional sem identificar uma
+propriedade concreta perdida pelo modelo de um comando.
 
 ## Estado resumido
 
@@ -240,7 +255,11 @@ uma propriedade concreta de continuidade não preservada.
 
 `WP-001 / CANONICAL / PASS`
 
-`WP-002 / EXECUTION-PATH PORTABILITY / IN PROGRESS`
+`WP-002 / CANONICAL / PASS`
+
+`EXECUTION-PATH PORTABILITY / PASS FOR TWO DETERMINISTIC PATHS`
+
+`FOUNDER TERMINAL MIDDLEWARE / REDUCED / NOT ELIMINATED`
 
 `AGENT-EXECUTION-CONTINUITY / IN PROGRESS`
 
