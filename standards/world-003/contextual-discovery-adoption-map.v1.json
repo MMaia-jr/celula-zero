@@ -1,0 +1,278 @@
+{
+  "schema": "cz.world-003.contextual-discovery-adoption-map.v1",
+  "slice": "WORLD-003A-CONTEXTUAL-DISCOVERY-ADOPTION-MAP",
+  "research_date": "2026-08-23",
+  "status": "PRECEDENT_GATE_NO_RUNTIME_CHANGE",
+  "decision_enabled": "Choose the smallest contextual-discovery implementation for one real external-user journey without opaque ranking, inferred sensitive traits, universal reputation or a premature matching engine.",
+  "core_question": "How can a person discover relevant projects, opportunities, people or learning contexts from explicit metadata and user-controlled context, with understandable reasons for inclusion?",
+  "epistemic_boundaries": {
+    "search_result_is_recommendation": false,
+    "recommendation_is_endorsement": false,
+    "relevance_is_truth": false,
+    "shared_competency_term_is_verified_competence": false,
+    "participation_history_is_universal_reputation": false,
+    "visibility_is_permission_to_infer_sensitive_traits": false,
+    "lexical_rank_is_contextual_trust": false,
+    "explicit_filter_match_is_actor_profile_inference": false
+  },
+  "existing_cz_foundations": [
+    {
+      "id": "WORLD_001_COMPETENCY",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "CompetencyConcept stable identity",
+        "OpportunityVersionCompetency REQUIRED",
+        "OpportunityVersionCompetency PREFERRED",
+        "OpportunityVersionCompetency LEARNING_TARGET"
+      ],
+      "boundary": "Do not infer Actor competency, proficiency or verification from opportunity requirements."
+    },
+    {
+      "id": "WORLD_002_INTENTION",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "exact operative intent pointer",
+        "provenance/derivation",
+        "human accept/reject/withdraw"
+      ],
+      "boundary": "Do not convert intention text into inferred sensitive traits or an opaque user profile."
+    },
+    {
+      "id": "DATA_FOUNDATION",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "BLOCKED raw content dominates ordinary access",
+        "safe semantic shell",
+        "known-association export boundaries",
+        "processing-activity manifest"
+      ],
+      "boundary": "Discovery must obey existing visibility/content-lifecycle rules and data-minimisation decisions."
+    }
+  ],
+  "precedents": [
+    {
+      "id": "POSTGRESQL_FULL_TEXT_SEARCH",
+      "uri": "https://www.postgresql.org/docs/17/textsearch-controls.html",
+      "classification": "ADOPT",
+      "runtime": "EXISTING_POSTGRESQL",
+      "use": [
+        "to_tsvector",
+        "websearch_to_tsquery_or_plainto_tsquery",
+        "boolean lexical matching",
+        "GIN indexing when scale justifies it"
+      ],
+      "boundary": "PostgreSQL ranking is application-specific. If ts_rank/ts_rank_cd is later used, expose it as lexical search ordering only, never as recommendation, trust, competence or endorsement."
+    },
+    {
+      "id": "POSTGRESQL_PG_TRGM",
+      "uri": "https://www.postgresql.org/docs/17/pgtrgm.html",
+      "classification": "ADOPT_OPTIONAL",
+      "runtime": "EXISTING_POSTGRESQL_EXTENSION",
+      "use": [
+        "typo-tolerant lexical candidate retrieval",
+        "similarity for names/labels when exact/full-text search is insufficient"
+      ],
+      "boundary": "Similarity is lexical similarity, not semantic relevance, user affinity or trust."
+    },
+    {
+      "id": "POSTGREST_FILTERING",
+      "uri": "https://docs.postgrest.org/en/v14/references/api/tables_views.html",
+      "classification": "ADOPT",
+      "runtime": "EXISTING_SUPABASE_POSTGREST",
+      "use": [
+        "explicit column filters",
+        "logical operators",
+        "ordering",
+        "pagination",
+        "database views/functions for more complex queries"
+      ],
+      "boundary": "Authorization remains database/RLS-driven; filters do not create permission."
+    },
+    {
+      "id": "OPENREFERRAL_HSDS",
+      "uri": "https://docs.openreferral.org/en/latest/hsds/schema_reference.html",
+      "classification": "MAP",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "separate organization/service/location concepts",
+        "taxonomy/classification facets",
+        "eligibility/context descriptions",
+        "language",
+        "schedule/availability",
+        "service area",
+        "metadata/provenance"
+      ],
+      "boundary": "HSDS is a human-services exchange model, not Célula Zero's internal ontology. Adopt discovery dimensions/patterns only where a real use case requires them."
+    },
+    {
+      "id": "DECIDIM_SEARCH",
+      "uri": "https://docs.decidim.org/en/develop/admin/features/search.html",
+      "classification": "STUDY_MAP",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "global search across indexable content",
+        "scoped search within participatory spaces/components",
+        "resource-type filtering"
+      ],
+      "boundary": "Product interaction precedent only; do not adopt Decidim runtime solely for search."
+    },
+    {
+      "id": "SCHEMA_ORG_JOB_POSTING",
+      "uri": "https://schema.org/JobPosting",
+      "classification": "MAP_EXTERNAL_SERIALIZATION",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "opportunity/job location",
+        "applicant location requirements",
+        "employment type",
+        "qualifications",
+        "occupational category",
+        "skills/DefinedTerm"
+      ],
+      "boundary": "JobPosting is narrower than CZ Opportunity. Map only for external serialization/interchange when an opportunity genuinely resembles a job/opening."
+    }
+  ],
+  "architecture_decisions": [
+    {
+      "property": "lexical_search",
+      "classification": "ADOPT",
+      "mechanism": "PostgreSQL full-text search",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "explicit_faceted_filtering",
+      "classification": "ADOPT",
+      "mechanism": "SQL/PostgREST filters over explicit columns/relations",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "typo_tolerance",
+      "classification": "ADOPT_OPTIONAL",
+      "mechanism": "pg_trgm only if lived search shows lexical recall failure",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "competency_filter",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "WORLD-001 OpportunityVersionCompetency relations",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "explainable_inclusion_reasons",
+      "classification": "EXTEND_CANDIDATE",
+      "mechanism": "deterministic reason codes emitted by a narrow read-model/RPC",
+      "concrete_property_lost_without_custom_creation": "A user can receive results without knowing whether each item matched text, an explicitly selected competency relation, visibility/state constraints, or another declared filter."
+    },
+    {
+      "property": "cross_object_discovery_projection",
+      "classification": "EXTEND_CANDIDATE",
+      "mechanism": "small SQL view/RPC over existing Project + OpportunityVersion + competency relations",
+      "concrete_property_lost_without_custom_creation": "Existing objects remain queryable separately, but one external-user discovery journey cannot obtain a stable, privacy-aware projection with explicit result type and reason codes."
+    },
+    {
+      "property": "first_class_need_entity",
+      "classification": "DEFER",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "Not demonstrated. WORLD-003 must first test whether accepted intent + opportunity + explicit filters already preserve the required discovery property."
+    },
+    {
+      "property": "location_model",
+      "classification": "DEFER",
+      "mechanism": "map later from HSDS/Schema.org patterns only if real journey requires it",
+      "concrete_property_lost_without_custom_creation": "No current external-user discovery case has demonstrated location as a required constraint."
+    },
+    {
+      "property": "opaque_personalized_ranking",
+      "classification": "REJECT",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    },
+    {
+      "property": "embeddings_vector_database",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated; lexical and explicit metadata search have not yet failed."
+    },
+    {
+      "property": "actor_competency_profile_for_matching",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated and it would create person-level profiling."
+    }
+  ],
+  "minimal_discovery_request": {
+    "user_controlled_inputs": [
+      "text_query_optional",
+      "result_types_optional",
+      "project_stage_optional",
+      "opportunity_state_optional",
+      "competency_concept_ids_optional",
+      "competency_relation_types_optional"
+    ],
+    "not_allowed_by_default": [
+      "inferred_sensitive_traits",
+      "hidden_actor_profile",
+      "universal_reputation_score",
+      "automatic_location_tracking",
+      "economic_preference_inference"
+    ]
+  },
+  "minimal_result_contract_candidate": {
+    "fields": [
+      "result_type",
+      "object_id",
+      "project_id",
+      "title",
+      "summary_or_statement",
+      "visibility",
+      "state_or_stage",
+      "matched_reason_codes",
+      "matched_competency_concept_ids",
+      "source_version_id_if_versioned"
+    ],
+    "candidate_reason_codes": [
+      "TEXT_MATCH",
+      "EXPLICIT_COMPETENCY_REQUIRED_MATCH",
+      "EXPLICIT_COMPETENCY_PREFERRED_MATCH",
+      "EXPLICIT_COMPETENCY_LEARNING_TARGET_MATCH",
+      "EXPLICIT_TYPE_FILTER_MATCH",
+      "EXPLICIT_STATE_FILTER_MATCH"
+    ],
+    "boundary": "Reason codes explain inclusion. They do not prove relevance, endorsement, competence, trust or suitability."
+  },
+  "ordering_policy": {
+    "default": "DETERMINISTIC_NON_PERSONALIZED",
+    "candidate": [
+      "exact explicit filters first",
+      "then lexical match if text query supplied",
+      "then stable recency/id ordering"
+    ],
+    "forbidden_without_new_evidence": [
+      "hidden personalized score",
+      "reputation-weighted rank",
+      "inferred-affinity rank",
+      "AI-generated suitability score"
+    ],
+    "lexical_rank_boundary": "If PostgreSQL lexical rank is used later, label and expose it as lexical ordering only."
+  },
+  "privacy_security_constraints": [
+    "Apply object visibility/RLS before discovery output.",
+    "BLOCKED content must not be indexed or returned through a discovery projection.",
+    "Do not use raw intention text to infer protected/sensitive traits.",
+    "Do not persist search history by default.",
+    "Do not create Actor competency state merely to support discovery.",
+    "Public visibility does not authorize sensitive-trait inference."
+  ],
+  "rejections": [
+    "UNIVERSAL_REPUTATION_SCORE",
+    "OPAQUE_MATCH_SCORE",
+    "AI_RECOMMENDER_AS_CRITICAL_PATH",
+    "VECTOR_DB_BEFORE_LEXICAL_SEARCH_FAILURE",
+    "GRAPH_DB_FOR_DISCOVERY_WITHOUT_DEMONSTRATED_PROPERTY",
+    "LOCATION_TRACKING_BY_DEFAULT",
+    "FIRST_CLASS_NEED_FOR_COMPLETENESS_ONLY",
+    "SEARCH_RESULT_AS_ENDORSEMENT"
+  ],
+  "missing": [],
+  "next_gate": "WORLD-003B-MINIMAL-DISCOVERY-PROJECTION-FOR-ONE-EXTERNAL-USER-JOURNEY"
+}

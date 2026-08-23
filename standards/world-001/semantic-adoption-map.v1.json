@@ -1,0 +1,374 @@
+{
+  "schema": "cz.world-001.semantic-adoption-map.v1",
+  "world": "WORLD-001",
+  "slice": "WORLD-001A-SEMANTIC-ADOPTION-MAP",
+  "status": "SEMANTIC_DECISIONS_ONLY",
+  "purpose": "Materialize researched ADOPT/MAP/NOT_NEEDED/DEFER decisions before any competency persistence migration.",
+  "epistemic_boundary": {
+    "research_result_is_not_runtime_truth": true,
+    "provenance_is_not_truth": true,
+    "source_is_not_truth": true,
+    "activity_is_not_competency": true,
+    "requirement_is_not_actor_attainment": true,
+    "evidence_is_not_universal_proof": true,
+    "verification_is_not_permanent_reputation": true
+  },
+  "cz_boundaries": {
+    "competency_concept_is_not_operational_capability_definition": true,
+    "project_need_is_not_competency": true,
+    "opportunity_condition_is_not_competency_requirement": true,
+    "competency_requirement_is_not_learning_target": true,
+    "actor_declaration_is_not_verification": true
+  },
+  "sources": [
+    {
+      "id": "CASE_1_1",
+      "name": "1EdTech CASE 1.1",
+      "role": [
+        "competency_identity",
+        "frameworks",
+        "associations",
+        "portability"
+      ],
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "CTDL_ASN_20260626",
+      "name": "CTDL-ASN release 20260626",
+      "role": [
+        "competency_semantics",
+        "hierarchy",
+        "alignment",
+        "versioning"
+      ],
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "CTDL",
+      "name": "Credential Transparency Description Language",
+      "role": [
+        "requires",
+        "recommends",
+        "teaches",
+        "assesses"
+      ],
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "SKOS",
+      "name": "W3C SKOS",
+      "role": [
+        "external_alignment"
+      ],
+      "semantic_use": "ADOPT",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "ESCO_1_2_1",
+      "name": "ESCO v1.2.1",
+      "role": [
+        "external_vocabulary",
+        "multilingual_labels",
+        "essential_optional_precedent"
+      ],
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "TABIYA_OPEN_TAXONOMY",
+      "name": "Tabiya Open Taxonomy",
+      "role": [
+        "localization",
+        "origin_uri",
+        "uuid_lineage",
+        "taxonomy_evolution"
+      ],
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "CASS",
+      "name": "CaSS",
+      "role": [
+        "competency_assertion_separation",
+        "framework_relation_precedent"
+      ],
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "CASE_BOOTCAMP",
+      "name": "1EdTech CASE Bootcamp",
+      "role": [
+        "relational_postgresql_implementation_precedent"
+      ],
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "OPENCASE",
+      "name": "1EdTech OpenCASE",
+      "role": [
+        "version_history",
+        "publishing_precedent"
+      ],
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "OPENSALT",
+      "name": "OpenSALT",
+      "role": [
+        "case_crosswalk_engineering_precedent"
+      ],
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED"
+    },
+    {
+      "id": "MOODLE_COMPETENCIES",
+      "name": "Moodle Competencies",
+      "role": [
+        "evidence_review_workflow_precedent"
+      ],
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED"
+    }
+  ],
+  "property_decisions": [
+    {
+      "property": "competency_concept_identity",
+      "classification": "MAP",
+      "sources": [
+        "CASE_1_1",
+        "CTDL_ASN_20260626"
+      ],
+      "cz_semantics": "Stable CZ identity for a competency concept, portable to external identifiers without making an external vocabulary internal truth."
+    },
+    {
+      "property": "competency_framework",
+      "classification": "DEFER",
+      "sources": [
+        "CASE_1_1",
+        "CTDL_ASN_20260626"
+      ],
+      "cz_semantics": "Do not create framework management until multiple local competency sets demonstrate the need."
+    },
+    {
+      "property": "opportunity_required",
+      "classification": "MAP",
+      "sources": [
+        "CTDL",
+        "ESCO_1_2_1"
+      ],
+      "external_terms": [
+        "ceterms:requires",
+        "ESCO:essential"
+      ],
+      "cz_semantics": "REQUIRED is an OpportunityVersion declaration and never proof that an Actor possesses the competency."
+    },
+    {
+      "property": "opportunity_preferred",
+      "classification": "MAP",
+      "sources": [
+        "CTDL",
+        "ESCO_1_2_1"
+      ],
+      "external_terms": [
+        "ceterms:recommends",
+        "ESCO:optional"
+      ],
+      "cz_semantics": "PREFERRED is contextual desirability, not a hard eligibility gate and not verified Actor state."
+    },
+    {
+      "property": "opportunity_learning_target",
+      "classification": "MAP",
+      "sources": [
+        "CTDL"
+      ],
+      "external_terms": [
+        "ceterms:teaches"
+      ],
+      "cz_semantics": "LEARNING_TARGET explicitly permits participation for learning and must not be interpreted as prerequisite attainment."
+    },
+    {
+      "property": "assessment_target",
+      "classification": "DEFER",
+      "sources": [
+        "CTDL"
+      ],
+      "external_terms": [
+        "ceterms:assesses"
+      ],
+      "cz_semantics": "Assessment semantics are deferred until a real evaluation workflow requires them."
+    },
+    {
+      "property": "external_alignment_exact",
+      "classification": "ADOPT",
+      "sources": [
+        "SKOS"
+      ],
+      "external_terms": [
+        "skos:exactMatch"
+      ]
+    },
+    {
+      "property": "external_alignment_close",
+      "classification": "ADOPT",
+      "sources": [
+        "SKOS"
+      ],
+      "external_terms": [
+        "skos:closeMatch"
+      ]
+    },
+    {
+      "property": "external_alignment_broad",
+      "classification": "ADOPT",
+      "sources": [
+        "SKOS"
+      ],
+      "external_terms": [
+        "skos:broadMatch"
+      ]
+    },
+    {
+      "property": "external_alignment_narrow",
+      "classification": "ADOPT",
+      "sources": [
+        "SKOS"
+      ],
+      "external_terms": [
+        "skos:narrowMatch"
+      ]
+    },
+    {
+      "property": "external_alignment_related",
+      "classification": "ADOPT",
+      "sources": [
+        "SKOS"
+      ],
+      "external_terms": [
+        "skos:relatedMatch"
+      ]
+    },
+    {
+      "property": "multilingual_external_vocabulary",
+      "classification": "MAP",
+      "sources": [
+        "ESCO_1_2_1"
+      ],
+      "cz_semantics": "External multilingual labels may be reused with provenance; they do not become canonical truth merely by source authority."
+    },
+    {
+      "property": "taxonomy_localization_and_lineage",
+      "classification": "MAP",
+      "sources": [
+        "TABIYA_OPEN_TAXONOMY"
+      ],
+      "cz_semantics": "Preserve source/origin and identity lineage when localizing or evolving external concepts."
+    },
+    {
+      "property": "competency_definition_vs_person_assertion",
+      "classification": "MAP",
+      "sources": [
+        "CASS"
+      ],
+      "cz_semantics": "A competency definition is distinct from any attributed statement about a person's attainment."
+    },
+    {
+      "property": "relational_persistence_for_case_like_graph",
+      "classification": "MAP",
+      "sources": [
+        "CASE_BOOTCAMP"
+      ],
+      "cz_semantics": "PostgreSQL is adequate for the relevant identity and association properties; a graph database is not required."
+    }
+  ],
+  "extension_candidates": [
+    {
+      "property": "opportunity_version_competency_relation",
+      "classification": "EXTEND_CANDIDATE",
+      "implementation_stage": "WORLD-001B",
+      "roles": [
+        "REQUIRED",
+        "PREFERRED",
+        "LEARNING_TARGET"
+      ],
+      "concrete_property_lost_without_extension": "A Commitment accepted against Opportunity version N could be silently reinterpreted if competency requirements are attached only to the mutable Opportunity rather than the frozen OpportunityVersion.",
+      "must_be_version_scoped": true
+    }
+  ],
+  "rejections": [
+    {
+      "item": "custom_competency_platform",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "graph_database",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "rdf_store",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "elasticsearch_for_competency_semantics",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "cass_runtime",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "opencase_runtime",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "opensalt_runtime",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "moodle_runtime",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "universal_reputation_score",
+      "classification": "NOT_NEEDED"
+    },
+    {
+      "item": "matching_ranking_engine",
+      "classification": "DEFER"
+    },
+    {
+      "item": "vector_database_for_competency_matching",
+      "classification": "NOT_NEEDED"
+    }
+  ],
+  "deferred": [
+    {
+      "item": "actor_competency_state",
+      "reason": "Would create person-related competency profiling before provenance, lifecycle, privacy and LGPD treatment are sufficiently defined."
+    },
+    {
+      "item": "actor_proficiency",
+      "reason": "No demonstrated need and would imply a persistent person-level assessment model."
+    },
+    {
+      "item": "claim_to_competency_subject",
+      "reason": "Would widen Claim subject semantics and potentially create person-related profiling; not justified in WORLD-001A."
+    },
+    {
+      "item": "project_to_competency_relation",
+      "reason": "Project.needs already preserves general needs; Project Need must not be collapsed into Competency."
+    },
+    {
+      "item": "external_alignment_persistence",
+      "reason": "Semantics are adopted now; storage waits until a real external mapping is used."
+    }
+  ],
+  "missing": [],
+  "next_gate": "WORLD-001B-COMPETENCY-COORDINATION-MINIMAL"
+}

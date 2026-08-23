@@ -1,0 +1,259 @@
+{
+  "schema": "cz.world-002.intention-needs-adoption-map.v1",
+  "world": "WORLD-002",
+  "slice": "WORLD-002A-INTENTION-NEEDS-PRECEDENT-GATE",
+  "research_date": "2026-08-23",
+  "status": "SEMANTIC_DECISIONS_ONLY",
+  "purpose": "Map existing standards and project mechanisms before changing intention, interpretation or need persistence.",
+  "current_cz_state": {
+    "project_intents": {
+      "kinds": ["ORIGINAL", "INTERPRETATION"],
+      "append_only": true,
+      "one_original_per_project": true,
+      "acceptance_embedded_in_record": true,
+      "explicit_producer_actor": false,
+      "explicit_derivation_link": false,
+      "withdrawal_or_invalidation_lifecycle": false
+    },
+    "projects": {
+      "current_intent_is_separate_text_projection": true,
+      "needs_is_text_array": true,
+      "need_provenance": false,
+      "need_versioning": false,
+      "need_acceptance_boundary": false
+    }
+  },
+  "epistemic_boundaries": {
+    "original_record_is_not_interpretation": true,
+    "interpretation_is_not_claim": true,
+    "interpretation_is_not_truth": true,
+    "acceptance_is_human_direction_not_truth": true,
+    "source_is_not_truth": true,
+    "provenance_is_not_truth": true,
+    "need_is_not_opportunity": true,
+    "need_is_not_competency": true,
+    "need_is_not_opportunity_requirement": true,
+    "current_projection_is_not_primary_source": true
+  },
+  "sources": [
+    {
+      "id": "W3C_PROV_O",
+      "name": "W3C PROV-O",
+      "source_uri": "https://www.w3.org/TR/prov-o/",
+      "status": "W3C_RECOMMENDATION",
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED",
+      "useful_terms": ["prov:wasAttributedTo", "prov:wasDerivedFrom", "prov:wasRevisionOf", "prov:hadPrimarySource", "prov:invalidatedAtTime", "prov:wasInvalidatedBy", "prov:Plan"]
+    },
+    {
+      "id": "W3C_ACTIVITYSTREAMS_2",
+      "name": "W3C ActivityStreams 2.0 / Activity Vocabulary",
+      "source_uri": "https://www.w3.org/TR/activitystreams-vocabulary/",
+      "status": "W3C_RECOMMENDATION",
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED",
+      "useful_terms": ["Create", "Update", "Accept", "Reject", "Undo", "Delete", "attributedTo"],
+      "warning": "ActivityStreams audience/addressing semantics are not an authorization model and MUST NOT replace CZ access control."
+    },
+    {
+      "id": "SCHEMA_WANT_ACTION",
+      "name": "Schema.org WantAction",
+      "source_uri": "https://schema.org/WantAction",
+      "status": "WEB_VOCABULARY",
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED",
+      "finding": "Useful precedent for expressing desire by an agent, but insufficient for provenance, interpretation, acceptance, revision and privacy."
+    },
+    {
+      "id": "SCHEMA_DEMAND",
+      "name": "Schema.org Demand",
+      "source_uri": "https://schema.org/Demand",
+      "status": "WEB_VOCABULARY",
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED",
+      "finding": "Useful for public seeking of goods/services; too commercial and narrow to define CZ Need generally."
+    },
+    {
+      "id": "OPEN311",
+      "name": "Open311 GeoReport",
+      "source_uri": "https://wiki.open311.org/GeoReport/",
+      "status": "OPEN_SPECIFICATION",
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED",
+      "finding": "Useful precedent for source/status lifecycle of requests, but domain-specific to civic service requests."
+    },
+    {
+      "id": "ATPROTO_REPOSITORY",
+      "name": "AT Protocol Repository",
+      "source_uri": "https://atproto.com/specs/repository",
+      "status": "OPEN_PROTOCOL",
+      "semantic_use": "STUDY",
+      "runtime": "NOT_NEEDED",
+      "finding": "Useful precedent for portable user repositories, record revisions and exports.",
+      "incompatibilities": [
+        "Repository content is public by design.",
+        "Record deletion can leave no tombstone.",
+        "Current CZ semantic history requires explicit preservation of prior decisions while personal-data lifecycle may require selective redaction/deletion."
+      ]
+    },
+    {
+      "id": "SOLID_WAC",
+      "name": "Solid Web Access Control",
+      "source_uri": "https://solidproject.org/TR/wac",
+      "status": "COMMUNITY_SPECIFICATION",
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED",
+      "finding": "Useful separation of read/write/append/control privileges and privacy considerations; CZ can preserve this property with PostgreSQL RLS and bounded capabilities."
+    },
+    {
+      "id": "DPV_2_3",
+      "name": "Data Privacy Vocabulary 2.3",
+      "source_uri": "https://w3id.org/dpv/",
+      "status": "W3C_COMMUNITY_GROUP_FINAL_REPORT_NOT_W3C_STANDARD",
+      "semantic_use": "MAP",
+      "runtime": "NOT_NEEDED",
+      "useful_concepts": ["Purpose", "Processing", "PersonalData", "DataSubject", "DataController", "DataProcessor", "Recipient", "LegalBasis", "Right", "Context", "DataSource", "StorageCondition"],
+      "warning": "DPV is vocabulary support for compliance metadata, not legal authority and not proof of compliance."
+    }
+  ],
+  "legal_constraints": [
+    {
+      "id": "LGPD",
+      "name": "Lei 13.709/2018 — LGPD",
+      "source_uri": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm",
+      "role": "LEGAL_CONSTRAINT",
+      "requirements_relevant_here": ["purpose limitation", "adequacy", "necessity/data minimisation", "free access", "data quality", "transparency", "security", "prevention", "non-discrimination", "accountability"]
+    },
+    {
+      "id": "ANPD_GUIDANCE",
+      "name": "ANPD guidance and small-controller records",
+      "source_uri": "https://www.gov.br/anpd/",
+      "role": "REGULATORY_GUIDANCE",
+      "requirements_relevant_here": ["record processing operations", "least necessary processing", "security measures", "clear treatment roles"]
+    }
+  ],
+  "property_decisions": [
+    {
+      "property": "original_intention_immutable_record",
+      "classification": "ADOPT",
+      "sources": ["CZ_CURRENT_MODEL", "W3C_PROV_O"],
+      "cz_semantics": "Preserve the original human record as historical source material. Later interpretation, correction or withdrawal must not rewrite what was originally recorded."
+    },
+    {
+      "property": "record_producer_attribution",
+      "classification": "MAP",
+      "sources": ["W3C_PROV_O", "W3C_ACTIVITYSTREAMS_2"],
+      "external_terms": ["prov:wasAttributedTo", "as:attributedTo"],
+      "cz_semantics": "Every intention or interpretation must identify the responsible Actor or producing mechanism."
+    },
+    {
+      "property": "interpretation_derivation",
+      "classification": "MAP",
+      "sources": ["W3C_PROV_O"],
+      "external_terms": ["prov:wasDerivedFrom", "prov:hadPrimarySource"],
+      "cz_semantics": "An interpretation must point to the exact source record(s) it interpreted; derivation does not imply correctness."
+    },
+    {
+      "property": "intent_revision",
+      "classification": "MAP",
+      "sources": ["W3C_PROV_O"],
+      "external_terms": ["prov:wasRevisionOf"],
+      "cz_semantics": "A revised intention is a new record linked to the prior record, not an overwrite."
+    },
+    {
+      "property": "intent_withdrawal_or_invalidation",
+      "classification": "MAP",
+      "sources": ["W3C_PROV_O", "W3C_ACTIVITYSTREAMS_2"],
+      "external_terms": ["prov:invalidatedAtTime", "prov:wasInvalidatedBy", "as:Undo"],
+      "cz_semantics": "Withdrawal ends operational use without pretending the historical record never existed."
+    },
+    {
+      "property": "interpretation_accept_reject",
+      "classification": "MAP",
+      "sources": ["W3C_ACTIVITYSTREAMS_2"],
+      "external_terms": ["as:Accept", "as:Reject"],
+      "cz_semantics": "Acceptance or rejection is a separately attributable human direction about whether an interpretation may become operative; it is not truth verification."
+    },
+    {
+      "property": "access_control",
+      "classification": "ADOPT",
+      "sources": ["CZ_POSTGRESQL_RLS", "SOLID_WAC"],
+      "cz_semantics": "Keep PostgreSQL RLS and bounded capabilities. Study WAC's separation of read/write/append/control; do not install a Solid runtime."
+    },
+    {
+      "property": "privacy_processing_metadata",
+      "classification": "MAP",
+      "sources": ["DPV_2_3", "LGPD", "ANPD_GUIDANCE"],
+      "cz_semantics": "Represent purpose, processing, personal-data category/source, legal basis, recipients, storage/retention and rights where relevant. Vocabulary metadata does not itself establish legal compliance."
+    },
+    {
+      "property": "public_goods_or_services_demand_serialization",
+      "classification": "DEFER",
+      "sources": ["SCHEMA_DEMAND"],
+      "cz_semantics": "Schema.org Demand may be useful for a subset of public external serialization, but it must not define the general CZ Need model."
+    }
+  ],
+  "extension_candidates": [
+    {
+      "property": "intent_record_provenance",
+      "classification": "EXTEND_CANDIDATE",
+      "implementation_stage": "WORLD-002B",
+      "concrete_property_lost_without_extension": "The current project_intents record cannot reliably distinguish who or what produced an interpretation or reconstruct the exact source record used."
+    },
+    {
+      "property": "separate_intent_decision",
+      "classification": "EXTEND_CANDIDATE",
+      "implementation_stage": "WORLD-002B",
+      "concrete_property_lost_without_extension": "accepted_at and accepted_by are embedded in an append-only content record, so later human acceptance, rejection or withdrawal cannot be represented without conflating content creation with human direction."
+    },
+    {
+      "property": "operative_current_intent_projection",
+      "classification": "EXTEND_CANDIDATE",
+      "implementation_stage": "WORLD-002B",
+      "concrete_property_lost_without_extension": "projects.current_intent can drift from the accepted intention history and become an independent second source of truth."
+    },
+    {
+      "property": "need_statement",
+      "classification": "EXTEND_CANDIDATE",
+      "implementation_stage": "WORLD-002C_OR_LATER",
+      "negative_evidence_examined": ["SCHEMA_DEMAND", "OPEN311", "SCHEMA_WANT_ACTION"],
+      "concrete_property_lost_without_extension": "projects.needs text[] cannot preserve attribution, source, acceptance, version, withdrawal or the distinction between a declared need and an inferred interpretation."
+    },
+    {
+      "property": "free_text_data_handling_boundary",
+      "classification": "CROSS_CUTTING_EXTEND_CANDIDATE",
+      "implementation_stage": "DATA_FOUNDATION",
+      "concrete_property_lost_without_extension": "Free-text intentions and needs can contain personal or sensitive data; append-only semantic history alone cannot satisfy minimisation, correction, retention and applicable deletion/anonymisation duties."
+    }
+  ],
+  "rejections": [
+    {"item": "ai_interpretation_becomes_operative_without_human_acceptance", "classification": "REJECT"},
+    {"item": "source_or_provenance_implies_truth", "classification": "REJECT"},
+    {"item": "projects_current_intent_as_independent_canonical_source", "classification": "REJECT"},
+    {"item": "projects_needs_text_array_as_sufficient_long_term_semantic_model", "classification": "REJECT"},
+    {"item": "activitystreams_audience_as_authorization", "classification": "REJECT"},
+    {"item": "consent_as_universal_lgpd_legal_basis", "classification": "REJECT"},
+    {"item": "atproto_repository_runtime", "classification": "NOT_NEEDED"},
+    {"item": "solid_pod_or_wac_runtime", "classification": "NOT_NEEDED"},
+    {"item": "rdf_store", "classification": "NOT_NEEDED"},
+    {"item": "graph_database", "classification": "NOT_NEEDED"},
+    {"item": "universal_intent_ontology", "classification": "NOT_NEEDED"},
+    {"item": "universal_intent_or_need_score", "classification": "NOT_NEEDED"},
+    {"item": "automatic_sensitive_trait_inference", "classification": "REJECT"},
+    {"item": "permanent_immutable_retention_of_all_free_text_personal_data", "classification": "REJECT"}
+  ],
+  "deferred": [
+    {"item": "automatic_need_extraction", "reason": "AI-derived needs remain Interpretation until explicit human acceptance; no current need for automatic extraction."},
+    {"item": "embeddings_or_vector_matching", "reason": "Discovery semantics are not yet mature enough to justify inference/ranking infrastructure."},
+    {"item": "federated_activitypub_or_atproto_serialization", "reason": "Study semantics now; only build federation if a real interoperability requirement appears."},
+    {"item": "cross_cell_intent_discovery", "reason": "Must be revisited with WORLD-003 after publication, privacy and withdrawal semantics are implemented."}
+  ],
+  "missing": [],
+  "falsifiers": [
+    "If existing append-only events can represent acceptance/rejection/withdrawal without a new decision table while preserving exact authority and reconciliation, prefer that smaller mechanism.",
+    "If needs prove to be only a projection of accepted intent for real workflows, do not create an independent Need entity.",
+    "If a more general interoperable Need standard is found that preserves attribution, lifecycle and non-commercial semantics, MAP it instead of defining CZ-specific semantics.",
+    "If public discovery works with explicit accepted records alone, do not introduce embeddings, inferred needs or ranking."
+  ],
+  "next_gate": "WORLD-002B-INTENT-PROVENANCE-DECISION-MINIMAL"
+}

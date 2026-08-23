@@ -1,0 +1,282 @@
+{
+  "schema": "cz.world-004.participation-relations-adoption-map.v1",
+  "slice": "WORLD-004A-PARTICIPATION-RELATIONS-ADOPTION-MAP",
+  "research_date": "2026-08-23",
+  "status": "PRECEDENT_GATE_NO_RUNTIME_CHANGE",
+  "decision_enabled": "Determine whether Célula Zero already preserves the minimum participation/relation properties through existing contextual roles, Opportunity/Proposal/Commitment and bounded delegations, and isolate only the relation lifecycle properties that are genuinely missing.",
+  "core_question": "How does an Actor move from discovery to an explicit, bounded participation relation while preserving consent, authority, provenance and exit/revocation boundaries?",
+  "epistemic_boundaries": {
+    "discovery_is_participation": false,
+    "request_is_acceptance": false,
+    "invitation_is_membership": false,
+    "membership_is_contribution": false,
+    "membership_is_authority": false,
+    "role_is_capability": false,
+    "delegation_is_relationship": false,
+    "commitment_is_membership": false,
+    "sponsorship_is_endorsement": false,
+    "sponsorship_is_contribution": false,
+    "sponsorship_is_economic_right": false,
+    "participation_history_is_universal_reputation": false,
+    "leave_or_revocation_is_history_deletion": false
+  },
+  "existing_cz_foundations": [
+    {
+      "id": "B1_ROLE_ASSIGNMENTS",
+      "classification": "ADOPT_INTERNAL",
+      "canonical_path": "supabase/migrations/20260822120000_gate_b1_authority_coordination.sql",
+      "properties": [
+        "Actor + role + CELL/PROJECT/OPPORTUNITY scope",
+        "policy-version provenance",
+        "granted_by Actor",
+        "valid_from",
+        "valid_until",
+        "revoked_at"
+      ],
+      "boundary": "A role assignment is contextual operational authority. It is not proof of social membership, contribution, trust, endorsement or economic right."
+    },
+    {
+      "id": "B1_OPPORTUNITY_PROPOSAL_COMMITMENT",
+      "classification": "ADOPT_INTERNAL",
+      "canonical_path": "supabase/migrations/20260822120000_gate_b1_authority_coordination.sql",
+      "properties": [
+        "Opportunity",
+        "Proposal",
+        "exact-version acceptance",
+        "Commitment",
+        "distinct proposer and accepter",
+        "append-only decision record"
+      ],
+      "boundary": "Commitment represents an accepted opportunity-specific coordination relation. It does not automatically create Project/Cell membership or authority beyond declared policy."
+    },
+    {
+      "id": "B1_DELEGATIONS",
+      "classification": "ADOPT_INTERNAL",
+      "canonical_path": "supabase/migrations/20260822120000_gate_b1_authority_coordination.sql",
+      "properties": [
+        "delegator Actor",
+        "delegate Actor",
+        "capability",
+        "scope",
+        "validity window",
+        "revocation"
+      ],
+      "boundary": "Delegation transfers bounded authority; it is not a social or participation relationship."
+    },
+    {
+      "id": "GATE1_PROJECT_MEMBERS",
+      "classification": "MAP_LEGACY_SURFACE",
+      "canonical_path": "supabase/migrations/20260821190000_gate_1_foundation.sql",
+      "properties": [
+        "Project + Actor + role",
+        "granting profile",
+        "created_at"
+      ],
+      "boundary": "This early surface lacks request/invite/accept/leave lifecycle and temporal validity. Do not treat it as universal membership truth or as the canonical authority model."
+    },
+    {
+      "id": "H1_STEWARD_AUTHORITY_BRIDGE",
+      "classification": "ADOPT_INTERNAL_BRIDGE",
+      "canonical_path": "supabase/migrations/20260822214000_h1_project_steward_authority_bridge.sql",
+      "properties": [
+        "PROJECT_STEWARD Gate-1 membership synchronizes to B1 role assignment",
+        "no second authority model"
+      ],
+      "boundary": "The bridge explicitly covers PROJECT_STEWARD. It does not establish that every legacy project_members role is a complete lifecycle-managed participation relation."
+    },
+    {
+      "id": "PILOT_INVITE_ACCESS",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "canonical_path": "supabase/migrations/20260821190000_gate_1_foundation.sql",
+      "properties": [
+        "pilot invite ACTIVE/REVOKED/USED",
+        "pilot membership ACTIVE/SUSPENDED"
+      ],
+      "boundary": "Pilot access is an onboarding/access mechanism for the current lab. It is not a general-purpose Cell/Project participation model."
+    }
+  ],
+  "precedents": [
+    {
+      "id": "W3C_ACTIVITYSTREAMS_2",
+      "uri": "https://www.w3.org/TR/activitystreams-vocabulary/",
+      "classification": "MAP_EXTERNAL_EVENT_VOCABULARY",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Invite",
+        "Accept",
+        "Reject",
+        "Join",
+        "Leave",
+        "Offer",
+        "Relationship"
+      ],
+      "boundary": "Useful for lifecycle/event vocabulary and future interchange; do not adopt ActivityPub/social federation runtime merely to represent Célula Zero participation."
+    },
+    {
+      "id": "SCHEMA_ORG_ROLE",
+      "uri": "https://schema.org/Role",
+      "classification": "MAP_EXTERNAL_RELATION_SERIALIZATION",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "roleName",
+        "startDate",
+        "endDate",
+        "member/memberOf composition patterns"
+      ],
+      "boundary": "External descriptive role semantics do not grant Célula Zero capabilities."
+    },
+    {
+      "id": "W3C_PROV_O_ASSOCIATION_ROLE",
+      "uri": "https://www.w3.org/TR/prov-o/",
+      "classification": "MAP_PROVENANCE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "qualifiedAssociation",
+        "agent",
+        "hadRole",
+        "delegation/provenance patterns"
+      ],
+      "boundary": "PROV Association relates Agents to Activities with roles; it is not a generic organization membership lifecycle and must not be stretched into one."
+    },
+    {
+      "id": "MATRIX_MEMBERSHIP_LIFECYCLE",
+      "uri": "https://spec.matrix.org/latest/client-server-api/",
+      "classification": "STUDY_MAP_STATE_MACHINE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "invite distinct from join",
+        "knock/request distinct from participation",
+        "leave distinct from ban/kick",
+        "authorization rules on transitions"
+      ],
+      "boundary": "Matrix is a communications protocol. Borrow lifecycle distinctions only if Célula Zero demonstrates a generic membership state machine is needed."
+    },
+    {
+      "id": "DECIDIM_ASSEMBLY_MEMBERS",
+      "uri": "https://docs.decidim.org/en/v0.32/admin/spaces/assemblies/members",
+      "classification": "STUDY_MAP_ORGANIZATIONAL_MEMBERSHIP",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "member position",
+        "designation date",
+        "ceased date",
+        "individual/group membership",
+        "membership display separated from admin permissions"
+      ],
+      "boundary": "Decidim is a participatory platform precedent, not a dependency. Do not import its governance/runtime or demographic fields by default."
+    }
+  ],
+  "architecture_decisions": [
+    {
+      "property": "contextual_role_with_validity",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B1 role_assignments",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "opportunity_specific_participation_agreement",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B1 Opportunity -> Proposal -> explicit acceptance -> Commitment",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "bounded_authority_delegation",
+      "classification": "ADOPT_INTERNAL_SEPARATE_FROM_RELATION",
+      "mechanism": "B1 delegations",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "pilot_access_onboarding",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "mechanism": "pilot_invites + pilot_memberships",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "legacy_project_member_role",
+      "classification": "MAP_LEGACY_DO_NOT_EXPAND",
+      "mechanism": "project_members; PROJECT_STEWARD bridged into B1 role_assignments",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "generic_project_or_cell_participation_lifecycle",
+      "classification": "EXTEND_CANDIDATE_DEFER",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "Outside an Opportunity-specific Commitment, the current model cannot distinguish a person's participation request, an invitation, explicit acceptance, voluntary leave and steward-initiated revocation as separate attributable states without overloading authority roles or legacy membership.",
+      "falsifier": "If the first real external participation journey can be completed using pilot onboarding plus an Opportunity/Proposal/Commitment and no independent Project/Cell membership state is needed, do not build it."
+    },
+    {
+      "property": "sponsorship_apadrinhamento_relation",
+      "classification": "MAP_PROCESS_FIRST",
+      "mechanism": "Record contextual sponsor/onboarding responsibility in the real onboarding Working Spec/Result Package before adding runtime persistence.",
+      "concrete_property_lost_without_custom_creation": "None demonstrated yet. A first external onboarding can test whether sponsor identity/responsibility must be queryable by the product rather than documented operationally.",
+      "falsifier": "If onboarding remains safe and auditable with explicit process records, no dedicated sponsorship table is needed."
+    },
+    {
+      "property": "actor_to_actor_social_graph",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    },
+    {
+      "property": "universal_membership_score_or_reputation",
+      "classification": "REJECT",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None; conflicts with contextual trust boundary."
+    },
+    {
+      "property": "token_or_dao_membership",
+      "classification": "REJECT_FOR_MVP",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    }
+  ],
+  "minimal_real_journey_candidate": {
+    "journey": [
+      "external person discovers PUBLIC Opportunity",
+      "person chooses to participate",
+      "pilot/onboarding access established where required",
+      "person submits Proposal",
+      "human authority accepts exact Proposal/Opportunity versions",
+      "Commitment records opportunity-specific participation",
+      "role/capability granted only if concrete work requires it",
+      "Contribution/Artifact records actual work separately"
+    ],
+    "property_under_test": "Can real participation happen without inventing generic membership, social graph or sponsorship persistence?",
+    "success": "One real external person reaches an attributable Commitment and can contribute without hidden authority expansion.",
+    "failure_signal_for_extension": "The journey requires a participation state that is neither pilot access, Opportunity Commitment nor contextual role."
+  },
+  "sponsorship_boundary": {
+    "meaning": "Initial contextual trust plus limited onboarding/teaching responsibility.",
+    "does_not_imply": [
+      "permanent authority",
+      "ownership",
+      "universal trust",
+      "endorsement of all claims/actions",
+      "contribution credit",
+      "future income right",
+      "retroactive economic right"
+    ]
+  },
+  "privacy_security_constraints": [
+    "Participation state must not silently create authorization.",
+    "Authorization must remain policy/capability based.",
+    "Invite/request records, if later persisted, may contain personal data and inherit DATA-FOUNDATION constraints.",
+    "Leaving/revoking participation must not delete legitimate historical Contribution/Evidence records.",
+    "Do not infer sensitive traits from participation or relation history.",
+    "Do not publish relationship history by default."
+  ],
+  "rejections": [
+    "SOCIAL_GRAPH_AS_DEFAULT_ARCHITECTURE",
+    "FOLLOWER_MODEL_FOR_PARTICIPATION",
+    "MEMBERSHIP_IMPLIES_AUTHORITY",
+    "ROLE_IMPLIES_CONTRIBUTION",
+    "SPONSORSHIP_IMPLIES_ENDORSEMENT",
+    "SPONSORSHIP_IMPLIES_ECONOMIC_RIGHT",
+    "TOKEN_GATED_MEMBERSHIP",
+    "DAO_MEMBERSHIP_FOR_MVP",
+    "GRAPH_DATABASE_FOR_RELATIONS_WITHOUT_DEMONSTRATED_PROPERTY",
+    "UNIVERSAL_REPUTATION_FROM_PARTICIPATION_HISTORY"
+  ],
+  "missing": [],
+  "next_gate": "WORLD-004B-REVALIDATE-EXISTING-PARTICIPATION-PATH-THEN-DECIDE-DEFERRED-GENERIC-LIFECYCLE"
+}

@@ -1,0 +1,294 @@
+{
+  "schema": "cz.world-007.cells-interoperability-adoption-map.v1",
+  "slice": "WORLD-007A-CELLS-INTEROPERABILITY-ADOPTION-MAP",
+  "research_date": "2026-08-23",
+  "status": "PRECEDENT_GATE_NO_RUNTIME_CHANGE",
+  "decision_enabled": "Determine whether current stable IDs, portable exports, provenance and digests are sufficient until a real second Cell exists, and isolate the smallest cross-Cell envelope that would be required before any federation/runtime/protocol work.",
+  "core_property": "LOCAL_CELL_AUTONOMY_PLUS_EXPLICIT_REFERENCE_OR_IMPORT_PLUS_PROVENANCE_PLUS_CONFLICT_VISIBILITY",
+  "anti_target": "GLOBAL_TRUTH_GOVERNANCE_REPUTATION_OR_MANDATORY_FEDERATION",
+  "epistemic_boundaries": {
+    "interoperability_is_shared_governance": false,
+    "reference_is_import": false,
+    "import_is_trust": false,
+    "provenance_is_truth": false,
+    "same_identifier_is_same_local_interpretation": false,
+    "verification_in_cell_a_is_mandatory_acceptance_in_cell_b": false,
+    "portable_credential_is_universal_authority": false,
+    "federation_is_decentralization_proof": false,
+    "replication_is_adoption": false,
+    "digest_is_authentication": false,
+    "digest_is_authorization": false,
+    "origin_identity_is_trust": false
+  },
+  "existing_cz_foundations": [
+    {
+      "id": "B1_CELLS_AND_LOCAL_POLICY",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "Cell object",
+        "Cell-scoped current policy version",
+        "Project.cell_id",
+        "policy_version references on authority/decision records"
+      ],
+      "boundary": "A Cell is a local governance/coordination boundary. No current record grants authority over another Cell."
+    },
+    {
+      "id": "STABLE_UUID_OBJECT_IDENTIFIERS",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "properties": [
+        "stable UUIDs across Projects, Actors, Opportunities, Proposals, Commitments, Contributions, Artifacts, Claims, Evidence and Verifications"
+      ],
+      "boundary": "UUID identity supports stable references but does not identify the authoritative origin Cell, remote namespace, local interpretation or trust status."
+    },
+    {
+      "id": "OPERATING_LOOP_PORTABLE_EXPORT",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "schema": "cz.operating-loop.v1",
+      "properties": [
+        "JSON portable snapshot",
+        "Markdown portable rendering",
+        "exportedAt",
+        "stable object IDs",
+        "exact Opportunity/Proposal/Commitment versions",
+        "Artifact/Evidence SHA256 digests",
+        "trajectory/event canonical digests",
+        "explicit semantic notices"
+      ],
+      "structural_limit": "The export does not currently include an origin Cell identity/IRI or a formal remote-reference/import envelope.",
+      "boundary": "Export is a snapshot; it does not grant authority, rights, truth, trust or adoption."
+    },
+    {
+      "id": "WORLD_002_PROVENANCE_DERIVATION",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "Original vs Interpretation",
+        "source intent",
+        "derivation type",
+        "recorder/origin Actor",
+        "human decision boundary"
+      ],
+      "boundary": "Provenance/derivation is preserved without converting source into truth."
+    },
+    {
+      "id": "B1_DOMAIN_EVENT_DIGESTS",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "canonical_digest",
+        "aggregate sequence",
+        "actor and authorized-by attribution",
+        "causation/correlation references",
+        "database-origin time"
+      ],
+      "boundary": "Digest/integrity metadata does not authenticate another Cell or authorize imports."
+    },
+    {
+      "id": "WORLD_001_EXTERNAL_COMPETENCY_MAPPING",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "properties": [
+        "declared external source/system identifiers",
+        "provenance status",
+        "local CompetencyConcept remains local object"
+      ],
+      "boundary": "External mapping does not make external or local competency assertions universally equivalent."
+    }
+  ],
+  "precedents": [
+    {
+      "id": "ACTIVITYSTREAMS_2",
+      "uri": "https://www.w3.org/TR/activitystreams-core/",
+      "classification": "MAP_PORTABLE_OBJECT_ACTIVITY_ENVELOPE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Object and Activity distinction",
+        "absolute IRI id",
+        "type",
+        "attributedTo",
+        "context",
+        "published/updated",
+        "Link/reference"
+      ],
+      "boundary": "Useful external vocabulary/envelope only. Do not recast all CZ domain objects as ActivityStreams internally."
+    },
+    {
+      "id": "ACTIVITYPUB",
+      "uri": "https://www.w3.org/TR/activitypub/",
+      "classification": "STUDY_MAP_FEDERATION_ORIGIN_PATTERN",
+      "runtime": "DEFER_UNTIL_SECOND_CELL",
+      "use": [
+        "globally unique object URI",
+        "object identifier under originating server authority",
+        "dereferenceable remote objects",
+        "inbox/outbox federation pattern"
+      ],
+      "boundary": "ActivityPub is a social federation protocol. CZ does not need inbox/outbox/federated-server runtime before a real second Cell requires exchange."
+    },
+    {
+      "id": "JSON_LD_1_1",
+      "uri": "https://www.w3.org/TR/json-ld11/",
+      "classification": "MAP_OPTIONAL_EXTERNAL_SERIALIZATION",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "JSON-compatible linked-data serialization",
+        "@id IRI identity",
+        "@context term mapping",
+        "cross-site references",
+        "UUID URN compatibility"
+      ],
+      "boundary": "Use only if external interoperability benefits from semantic IRIs/contexts. No RDF store, SPARQL or graph database is required."
+    },
+    {
+      "id": "W3C_PROV_O",
+      "uri": "https://www.w3.org/TR/prov-o/",
+      "classification": "MAP_CROSS_SYSTEM_PROVENANCE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Entity/Activity/Agent",
+        "wasDerivedFrom",
+        "wasAttributedTo",
+        "wasAssociatedWith"
+      ],
+      "boundary": "Cross-system provenance remains provenance, not truth, verification or trust."
+    },
+    {
+      "id": "RFC_8493_BAGIT",
+      "uri": "https://www.rfc-editor.org/rfc/rfc8493.html",
+      "classification": "MAP_EXPORT_PACKAGE_INTEGRITY",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "payload directory",
+        "manifest-algorithm.txt",
+        "per-file checksums",
+        "bag metadata",
+        "validation before accepting package integrity"
+      ],
+      "boundary": "BagIt can package exported files if needed. A checksum-valid bag is not an authorized or trusted import."
+    },
+    {
+      "id": "RFC_9530_DIGEST_FIELDS",
+      "uri": "https://www.rfc-editor.org/rfc/rfc9530.html",
+      "classification": "MAP_HTTP_REPRESENTATION_INTEGRITY",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Content-Digest",
+        "Repr-Digest",
+        "sha-256 and algorithm agility",
+        "integrity across HTTP system boundaries"
+      ],
+      "boundary": "Digest fields detect content/representation corruption; the RFC explicitly does not define authentication, authorization or privacy."
+    }
+  ],
+  "architecture_decisions": [
+    {
+      "property": "local_cell_authority_boundary",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B1 Cell + local policy/role/capability/decision records",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "portable_snapshot_export",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "mechanism": "cz.operating-loop.v1 JSON/Markdown + stable UUIDs + SHA256/canonical digests",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "external_semantic_identifier_or_iri",
+      "classification": "MAP_DEFER",
+      "mechanism": "When cross-Cell exchange exists, map local UUIDs to an origin-controlled absolute IRI or another explicit globally scoped identifier; JSON-LD/ActivityStreams patterns are sufficient.",
+      "concrete_property_lost_without_custom_creation": "No loss exists while one Cell is authoritative. With a second Cell, a naked UUID lacks an explicit origin namespace/authority and dereferenceable external identity."
+    },
+    {
+      "property": "minimal_cross_cell_reference_import_envelope",
+      "classification": "EXTEND_CANDIDATE_DEFER_UNTIL_SECOND_CELL",
+      "mechanism": "A minimal envelope only when needed: schema version, origin Cell identifier/URI, object type, origin object identifier, object/material version where applicable, exportedAt, digest, provenance/derivation relation, and local disposition REFERENCE|IMPORTED_COPY|DERIVED.",
+      "concrete_property_lost_without_custom_creation": "Once two independent Cells exchange records, CZ must distinguish a remote reference from a local imported copy or a locally derived object, while preserving which Cell was authoritative for the source and which exact version/digest was observed. The current portable export does not encode that cross-Cell disposition/origin.",
+      "falsifier": "If no second independently governed Cell exists, or if the first exchange can be handled safely by a documented manual export plus explicit source URL/digest without persisting cross-Cell references, do not build this envelope."
+    },
+    {
+      "property": "portable_export_bundle_manifest",
+      "classification": "MAP_OPTIONAL_DEFER",
+      "mechanism": "BagIt-style manifest/checksums only if multi-file export/import becomes operationally useful",
+      "concrete_property_lost_without_custom_creation": "None for current single JSON/Markdown exports. A bundle manifest becomes useful only when multiple files must be transferred and completeness/integrity validated as one package."
+    },
+    {
+      "property": "http_digest_exchange",
+      "classification": "MAP_OPTIONAL_DEFER",
+      "mechanism": "RFC 9530 Content-Digest/Repr-Digest if CZ later exposes HTTP interchange endpoints",
+      "concrete_property_lost_without_custom_creation": "None without an HTTP cross-Cell interchange endpoint."
+    },
+    {
+      "property": "activitypub_federation_runtime",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated before a real second Cell and real federation use case."
+    },
+    {
+      "property": "at_protocol_runtime",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    },
+    {
+      "property": "blockchain_did_vc_ipfs_runtime",
+      "classification": "REJECT_FOR_MVP",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated for current portability/provenance properties."
+    },
+    {
+      "property": "global_graph_database",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    },
+    {
+      "property": "cross_cell_universal_reputation",
+      "classification": "REJECT",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None; verification/trust remains contextual to each Cell and decision."
+    },
+    {
+      "property": "global_membership_or_governance",
+      "classification": "REJECT",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None; interoperability must not silently merge authority domains."
+    }
+  ],
+  "minimal_second_cell_experiment": {
+    "precondition": "A second independently governed Cell actually exists.",
+    "journey": [
+      "Cell A exports one selected object/history slice",
+      "Cell B receives bytes plus source/origin reference",
+      "Cell B verifies digest/integrity",
+      "Cell B records whether it is only referencing, importing a copy, or deriving a local object",
+      "Cell B preserves source provenance and local decision authority",
+      "Cell B may disagree with Cell A verification/interpretation without rewriting Cell A history"
+    ],
+    "property_under_test": "Can two Cells exchange one record without sharing governance, reputation, membership or truth authority?",
+    "success": "Origin, exact source version/digest, local disposition and provenance remain inspectable while each Cell retains independent policy and verification decisions.",
+    "failure_signal_for_extension": "Manual export/source/digest cannot distinguish remote reference vs local copy/derivation or loses authoritative origin."
+  },
+  "privacy_security_constraints": [
+    "Do not export private/personal/sensitive content merely because an object has a stable ID.",
+    "Cross-Cell export/import inherits DATA-FOUNDATION visibility, blocking, minimisation and lawful-processing constraints.",
+    "Imported personal data does not become anonymous because its source used UUIDs or hashes.",
+    "Do not auto-accept remote authority, roles, memberships, trust or verification decisions.",
+    "Remote digest integrity is not authentication or authorization.",
+    "Do not publish a cross-Cell directory of people/relations by default.",
+    "External URLs/IRIs are references and may become unavailable; essential imported records need local survivable copies only when justified."
+  ],
+  "rejections": [
+    "CUSTOM_FEDERATION_PROTOCOL_BEFORE_SECOND_CELL",
+    "ACTIVITYPUB_RUNTIME_BEFORE_REAL_FEDERATION_USE",
+    "AT_PROTOCOL_RUNTIME_BEFORE_REAL_FEDERATION_USE",
+    "BLOCKCHAIN_DID_VC_IPFS_AS_CRITICAL_PATH",
+    "GLOBAL_GRAPH_DATABASE_FOR_INTEROPERABILITY",
+    "GLOBAL_REPUTATION_ACROSS_CELLS",
+    "GLOBAL_MEMBERSHIP_ACROSS_CELLS",
+    "GLOBAL_GOVERNANCE_ACROSS_CELLS",
+    "DIGEST_AS_TRUST",
+    "IMPORT_AS_ENDORSEMENT",
+    "REMOTE_VERIFICATION_AS_MANDATORY_LOCAL_TRUTH"
+  ],
+  "missing": [],
+  "closure_rule": "If no real second independently governed Cell exists, current portable exports + stable IDs + provenance/digests are sufficient to continue. Defer cross-Cell envelope/federation implementation.",
+  "next_gate": "CLOSE_WORLD_007_IF_NO_SECOND_CELL_THEN_INTEGRATION_REVIEW_AND_HABITABLE_ALPHA"
+}

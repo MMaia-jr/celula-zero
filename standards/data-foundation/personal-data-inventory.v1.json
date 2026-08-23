@@ -1,0 +1,493 @@
+{
+  "schema": "cz.data-foundation.personal-data-inventory.v1",
+  "slice": "DATA-FOUNDATION-001A-PERSISTED-PERSONAL-DATA-INVENTORY",
+  "research_date": "2026-08-23",
+  "status": "INVENTORY_AND_LIFECYCLE_DECISIONS_ONLY",
+  "legal_note": "This contract supports engineering/governance decisions. It does not itself determine legal compliance or choose a lawful basis for any concrete processing activity.",
+  "decision_enabled": "Choose the smallest backend change that can enforce content blocking/redaction and later lawful deletion without erasing justified semantic history.",
+  "legal_sources": [
+    {
+      "id": "LGPD",
+      "uri": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm",
+      "authority": "BRAZILIAN_FEDERAL_LAW",
+      "relevant_articles": [
+        "5",
+        "6",
+        "7",
+        "9",
+        "11",
+        "15",
+        "16",
+        "18",
+        "19",
+        "37",
+        "38",
+        "40",
+        "46",
+        "49",
+        "50"
+      ],
+      "engineering_implications": [
+        "purpose and necessity must be explicit",
+        "public availability does not remove LGPD duties",
+        "treatment can end when purpose is fulfilled or data is no longer necessary",
+        "retention after termination requires a lawful exception",
+        "rights can include access, correction, anonymisation, blocking and elimination in applicable cases",
+        "processing operations should be recordable",
+        "security and governance must be designed into systems"
+      ]
+    },
+    {
+      "id": "ANPD_DATA_SUBJECT_RIGHTS",
+      "uri": "https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares",
+      "authority": "REGULATORY_GUIDANCE",
+      "engineering_implications": [
+        "support confirmation and access",
+        "support correction",
+        "support blocking/anonymisation/elimination where applicable",
+        "support information about data origin and purpose"
+      ]
+    },
+    {
+      "id": "ANPD_SMALL_PROCESSOR_RULES",
+      "uri": "https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/resolucao-cd-anpd-no-2-de-27-de-janeiro-de-2022",
+      "authority": "ANPD_REGULATION",
+      "engineering_implications": [
+        "small processors are not exempt from LGPD principles, lawful bases or data-subject rights",
+        "processing-operation records may be simplified",
+        "security measures remain required"
+      ]
+    }
+  ],
+  "semantic_sources": [
+    {
+      "id": "DPV_V2",
+      "uri": "https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-20240801/",
+      "classification": "MAP",
+      "runtime": "NOT_NEEDED",
+      "useful_concepts": [
+        "PersonalData",
+        "Purpose",
+        "Processing",
+        "DataController",
+        "DataProcessor",
+        "DataSubject",
+        "Recipient",
+        "LegalBasis",
+        "Right",
+        "DataSource",
+        "StorageCondition",
+        "StorageDuration",
+        "StorageDeletion",
+        "StorageLocation"
+      ],
+      "boundary": "DPV is machine-readable vocabulary support, not Brazilian legal authority and not proof of compliance."
+    }
+  ],
+  "epistemic_boundaries": {
+    "personal_data_classification_is_not_truth_about_person": true,
+    "pseudonymous_actor_id_is_not_anonymisation": true,
+    "hash_is_not_anonymisation": true,
+    "public_data_is_not_unregulated_data": true,
+    "visibility_is_not_lawful_basis": true,
+    "sensitivity_flag_is_not_legal_basis": true,
+    "provenance_is_not_lawful_basis": true,
+    "append_only_semantic_history_is_not_permission_for_permanent_personal_data_retention": true,
+    "withdrawal_is_not_automatic_legal_deletion": true,
+    "correction_by_supersession_is_not_sufficient_for_every_data_subject_right": true
+  },
+  "risk_classes": {
+    "DIRECT_IDENTIFIER": "Field is structurally intended to identify or contact a natural person.",
+    "PSEUDONYMOUS_RELATION": "Stable identifier or relationship can still relate records to an identifiable natural person.",
+    "POTENTIAL_PERSONAL_FREE_TEXT": "Field is general free text and may contain personal or sensitive personal data depending on user input.",
+    "POTENTIAL_PERSONAL_ARRAY": "Array of user-entered strings may contain personal or sensitive personal data.",
+    "POTENTIAL_PERSONAL_JSON": "JSON payload/result can receive or replicate personal data unless structurally constrained.",
+    "EXTERNAL_POINTER_POTENTIAL": "URI/path/reference can reveal identity, location, provider or personal content.",
+    "LIKELY_NON_PERSONAL_SEMANTIC_TEXT": "Semantically intended as a concept/label, but user-controlled text is not technically guaranteed non-personal."
+  },
+  "inventory": [
+    {
+      "surface": "profiles.display_name",
+      "risk": "DIRECT_IDENTIFIER",
+      "current_control": "mutable row; RLS context",
+      "gap": "no explicit processing-purpose/retention registry"
+    },
+    {
+      "surface": "actors.name",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "Actor abstraction",
+      "gap": "Actor ID pseudonymisation does not make name anonymous"
+    },
+    {
+      "surface": "actors.operator_profile_id",
+      "risk": "PSEUDONYMOUS_RELATION",
+      "current_control": "explicit operator relation",
+      "gap": "retention/right handling not expressed"
+    },
+    {
+      "surface": "actors.operator_label",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "operator provenance",
+      "gap": "free text may contain identity details"
+    },
+    {
+      "surface": "pilot_invites.email",
+      "risk": "DIRECT_IDENTIFIER",
+      "current_control": "invite state",
+      "gap": "retention after use/revocation not expressed"
+    },
+    {
+      "surface": "pilot_invites.label",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "none beyond table access",
+      "gap": "may contain identity/context"
+    },
+    {
+      "surface": "projects.title",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "project visibility/RLS",
+      "gap": "no content lifecycle"
+    },
+    {
+      "surface": "projects.summary",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "project visibility/RLS",
+      "gap": "no content lifecycle"
+    },
+    {
+      "surface": "projects.current_intent",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "WORLD-002B marks cache noncanonical and neutralises on WITHDRAW",
+      "gap": "legacy cache remains a data-bearing field"
+    },
+    {
+      "surface": "projects.intended_result",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "project visibility/RLS",
+      "gap": "no content lifecycle"
+    },
+    {
+      "surface": "projects.rules_and_limits",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "project visibility/RLS",
+      "gap": "no content lifecycle"
+    },
+    {
+      "surface": "projects.needs",
+      "risk": "POTENTIAL_PERSONAL_ARRAY",
+      "current_control": "project visibility/RLS",
+      "gap": "unversioned, unprovenanced and no content lifecycle"
+    },
+    {
+      "surface": "project_intents.content",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + WORLD-002B provenance/RLS/withdrawal projection",
+      "gap": "append-only raw content cannot by itself satisfy every blocking/elimination case"
+    },
+    {
+      "surface": "events.title",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only",
+      "gap": "duplicated human-readable text can retain personal data"
+    },
+    {
+      "surface": "events.description",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only",
+      "gap": "duplicated human-readable text can retain personal data"
+    },
+    {
+      "surface": "events.payload",
+      "risk": "POTENTIAL_PERSONAL_JSON",
+      "current_control": "event-specific minimisation conventions",
+      "gap": "JSONB can become an uncontrolled personal-data sink"
+    },
+    {
+      "surface": "opportunity_versions.title",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "no personal-data lifecycle"
+    },
+    {
+      "surface": "opportunity_versions.statement",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "no personal-data lifecycle"
+    },
+    {
+      "surface": "opportunity_versions.conditions",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "may encode personal conditions"
+    },
+    {
+      "surface": "opportunity_versions.expected_result",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "no personal-data lifecycle"
+    },
+    {
+      "surface": "proposal_versions.statement",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "no personal-data lifecycle"
+    },
+    {
+      "surface": "proposal_versions.conditions",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "may encode personal conditions"
+    },
+    {
+      "surface": "proposal_versions.expected_delivery",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "no personal-data lifecycle"
+    },
+    {
+      "surface": "proposal_versions.reward_expectation",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "immutable version",
+      "gap": "may contain financial/personal details"
+    },
+    {
+      "surface": "decision_records.reason",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only decision trail",
+      "gap": "reason must remain minimised; no payload lifecycle"
+    },
+    {
+      "surface": "decision_records.payload",
+      "risk": "POTENTIAL_PERSONAL_JSON",
+      "current_control": "structured conventions only",
+      "gap": "JSONB can duplicate personal content"
+    },
+    {
+      "surface": "command_receipts.result",
+      "risk": "POTENTIAL_PERSONAL_JSON",
+      "current_control": "idempotency receipt",
+      "gap": "result contracts must avoid copying free text"
+    },
+    {
+      "surface": "domain_events.payload",
+      "risk": "POTENTIAL_PERSONAL_JSON",
+      "current_control": "tests already prohibit some URI/statement duplication",
+      "gap": "coverage is object-specific, not global"
+    },
+    {
+      "surface": "contributions.description",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + supersession + sensitivity field",
+      "gap": "RPC currently defaults sensitivity NORMAL and cannot detect personal data"
+    },
+    {
+      "surface": "contributions.limitations",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + supersession + sensitivity field",
+      "gap": "same"
+    },
+    {
+      "surface": "artifacts.uri",
+      "risk": "EXTERNAL_POINTER_POTENTIAL",
+      "current_control": "RLS + sensitivity + retention_class",
+      "gap": "URI can itself disclose personal/provider information"
+    },
+    {
+      "surface": "claims.statement",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + supersession + inherited visibility/sensitivity",
+      "gap": "raw text lifecycle missing"
+    },
+    {
+      "surface": "claims.scope_description",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + supersession",
+      "gap": "raw text lifecycle missing"
+    },
+    {
+      "surface": "evidence_items.description",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + supersession + retention_class",
+      "gap": "raw text lifecycle missing"
+    },
+    {
+      "surface": "evidence_items.limitations",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + supersession + retention_class",
+      "gap": "raw text lifecycle missing"
+    },
+    {
+      "surface": "verification_requests.criteria",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "RLS + inherited sensitivity",
+      "gap": "criteria can contain personal context"
+    },
+    {
+      "surface": "verification_requests.expected_method",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "RLS + inherited sensitivity",
+      "gap": "free text not guaranteed non-personal"
+    },
+    {
+      "surface": "verifications.method",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + inherited sensitivity",
+      "gap": "raw text lifecycle missing"
+    },
+    {
+      "surface": "verifications.findings",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + inherited sensitivity",
+      "gap": "findings may contain sensitive personal information"
+    },
+    {
+      "surface": "verifications.limitations",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "append-only + inherited sensitivity",
+      "gap": "raw text lifecycle missing"
+    },
+    {
+      "surface": "competency_concepts.preferred_label",
+      "risk": "LIKELY_NON_PERSONAL_SEMANTIC_TEXT",
+      "current_control": "WORLD-001B origin-project visibility",
+      "gap": "technically user-controlled"
+    },
+    {
+      "surface": "competency_concepts.statement",
+      "risk": "LIKELY_NON_PERSONAL_SEMANTIC_TEXT",
+      "current_control": "WORLD-001B origin-project visibility",
+      "gap": "technically user-controlled"
+    },
+    {
+      "surface": "opportunity_version_competencies.rationale",
+      "risk": "POTENTIAL_PERSONAL_FREE_TEXT",
+      "current_control": "version-scoped relation",
+      "gap": "rationale may contain personal context"
+    }
+  ],
+  "current_controls_worth_preserving": [
+    "stable Actor identifiers reduce direct-identifier duplication but remain pseudonymous relations",
+    "RLS/least privilege",
+    "append-only semantic history where justified",
+    "supersession/revision instead of destructive semantic overwrite",
+    "visibility and sensitivity metadata",
+    "retention_class on Artifacts/Evidence",
+    "WORLD-002B operative pointer and withdrawal cache neutralisation",
+    "domain-event tests that avoid copying selected free-text/URI fields"
+  ],
+  "property_decisions": [
+    {
+      "property": "processing_activity_registry",
+      "classification": "EXTEND_CANDIDATE",
+      "concrete_property_lost_without_extension": "CZ cannot reliably answer what personal data category is processed, for which purpose, under which legal basis/jurisdiction, by which controller/operator, from which source, with which recipients, storage location and retention rule."
+    },
+    {
+      "property": "data_subject_access_export",
+      "classification": "EXTEND_CANDIDATE",
+      "concrete_property_lost_without_extension": "A person cannot obtain a complete structured view of personal data associated with them across semantic objects and processing records."
+    },
+    {
+      "property": "content_blocking_control",
+      "classification": "EXTEND_CANDIDATE",
+      "concrete_property_lost_without_extension": "Current append-only free-text records can remain readable to otherwise-authorized actors even when a concrete processing operation should be suspended."
+    },
+    {
+      "property": "content_correction",
+      "classification": "MAP_EXISTING_PLUS_EXTEND",
+      "existing_mechanism": "supersession/revision preserves history",
+      "concrete_property_lost_without_extension": "Supersession can express semantic correction but does not by itself prevent access to personal content that must be blocked, redacted or eliminated."
+    },
+    {
+      "property": "lawful_payload_elimination_or_anonymisation",
+      "classification": "EXTEND_CANDIDATE",
+      "concrete_property_lost_without_extension": "Personal data stored inline in append-only semantic rows cannot be physically eliminated or irreversibly anonymised while preserving a non-personal semantic shell where lawful history should remain."
+    },
+    {
+      "property": "event_and_receipt_data_minimisation",
+      "classification": "EXTEND_CANDIDATE",
+      "concrete_property_lost_without_extension": "JSON event/receipt payloads can silently duplicate personal content into additional retention surfaces."
+    }
+  ],
+  "rejections": [
+    {
+      "item": "consent_as_default_or_universal_legal_basis",
+      "classification": "REJECT"
+    },
+    {
+      "item": "sensitivity_NORMAL_means_non_personal",
+      "classification": "REJECT"
+    },
+    {
+      "item": "actor_uuid_means_anonymous",
+      "classification": "REJECT"
+    },
+    {
+      "item": "sha256_digest_means_anonymised",
+      "classification": "REJECT"
+    },
+    {
+      "item": "public_project_means_personal_data_can_be_retained_forever",
+      "classification": "REJECT"
+    },
+    {
+      "item": "append_only_database_means_append_only_personal_data",
+      "classification": "REJECT"
+    },
+    {
+      "item": "soft_hide_only_as_deletion",
+      "classification": "REJECT"
+    },
+    {
+      "item": "duplicate_free_text_in_domain_events",
+      "classification": "REJECT"
+    },
+    {
+      "item": "automatic_sensitive_personal_data_inference_for_profile_or_matching",
+      "classification": "REJECT"
+    }
+  ],
+  "minimum_lifecycle_states_to_support_later": [
+    "ACTIVE",
+    "BLOCKED",
+    "SUPERSEDED",
+    "REDACTED_OR_ANONYMISED_WHERE_LAWFUL",
+    "ELIMINATED_WHERE_REQUIRED_AND_LAWFUL"
+  ],
+  "implementation_order": [
+    "machine-readable processing/personal-data inventory",
+    "enforceable content lifecycle control on one real high-risk free-text object",
+    "data-subject access/export path",
+    "lawful elimination/anonymisation mechanism",
+    "expand coverage object-by-object only after deterministic tests"
+  ],
+  "deferred": [
+    {
+      "item": "Need persistence",
+      "reason": "Do not create another free-text semantic object before content lifecycle rules exist."
+    },
+    {
+      "item": "Actor competency profile",
+      "reason": "Would create person-level profiling before lifecycle and purpose controls are mature."
+    },
+    {
+      "item": "matching_ranking_reputation",
+      "reason": "Would amplify personal-data processing/profiling without demonstrated external need."
+    },
+    {
+      "item": "automatic_sensitive_data_classification",
+      "reason": "May itself become profiling/inference; require explicit later risk analysis."
+    },
+    {
+      "item": "RDF_or_DPV_runtime",
+      "reason": "Vocabulary mapping is sufficient; no runtime property is currently lost."
+    }
+  ],
+  "falsifiers": [
+    "If existing RLS plus object-level status can enforce blocking without a generic content-control table, prefer the smaller per-object mechanism.",
+    "If a personal-data field can be removed entirely from the model without losing a demonstrated property, remove it rather than adding lifecycle infrastructure.",
+    "If no external user workflow requires a stored free-text field, do not migrate it into a new payload subsystem merely for architectural symmetry.",
+    "If physical elimination would destroy data whose retention is legally required, retain only under the documented legal exception and minimum necessary scope."
+  ],
+  "missing": [],
+  "next_gate": "DATA-FOUNDATION-001B-CONTENT-LIFECYCLE-CONTROL-MINIMAL"
+}

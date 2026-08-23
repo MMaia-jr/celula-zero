@@ -1,0 +1,269 @@
+{
+  "schema": "cz.world-005.trust-demonstrated-capacity-adoption-map.v1",
+  "slice": "WORLD-005A-TRUST-DEMONSTRATED-CAPACITY-ADOPTION-MAP",
+  "research_date": "2026-08-23",
+  "status": "PRECEDENT_GATE_NO_RUNTIME_CHANGE",
+  "decision_enabled": "Determine whether contextual demonstrated capacity can be represented from existing Contribution/Artifact/Claim/Evidence/Verification plus competency identity, and isolate the smallest structural relation that is actually missing without creating universal reputation.",
+  "target_expression": "TRUST_ACTOR_X_FOR_CONTEXT_OR_CAPABILITY_Y_BASED_ON_EVIDENCE_Z",
+  "anti_target_expression": "ACTOR_X_HAS_UNIVERSAL_REPUTATION_SCORE",
+  "epistemic_boundaries": {
+    "activity_is_contribution": false,
+    "contribution_is_result": false,
+    "result_is_evidence": false,
+    "evidence_is_verification": false,
+    "verification_is_competence": false,
+    "competence_is_universal_reputation": false,
+    "claim_is_truth": false,
+    "verification_pass_is_universal_endorsement": false,
+    "participation_history_is_reputation_score": false,
+    "provenance_is_trust": false,
+    "credential_is_current_capability_in_every_context": false,
+    "contribution_role_is_competency": false,
+    "cryptographic_verification_is_semantic_truth": false
+  },
+  "existing_cz_foundations": [
+    {
+      "id": "WORLD_001_COMPETENCY_CONCEPT",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "stable competency concept identity",
+        "provenance status",
+        "external source mapping where declared",
+        "opportunity-version REQUIRED/PREFERRED/LEARNING_TARGET relations"
+      ],
+      "boundary": "No Actor competency, proficiency or reputation state is inferred."
+    },
+    {
+      "id": "B2A_CONTRIBUTION_ARTIFACT",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "attributed Contribution",
+        "Artifact metadata/digest",
+        "limitations",
+        "visibility/sensitivity/retention metadata"
+      ],
+      "boundary": "Contribution and Artifact are observable records, not competence or trust conclusions."
+    },
+    {
+      "id": "B2B1_CLAIM_EVIDENCE",
+      "classification": "ADOPT_INTERNAL_WITH_STRUCTURAL_LIMIT",
+      "properties": [
+        "attributed contestable Claim",
+        "Claim subject restricted to CONTRIBUTION or ARTIFACT",
+        "Evidence sourced from Artifact digest",
+        "SUPPORTS/CHALLENGES/CONTEXTUALIZES/REPLICATES relations"
+      ],
+      "structural_limit": "Claim.subject_type currently accepts only CONTRIBUTION or ARTIFACT. There is no typed Actor + CompetencyConcept + Context subject relation.",
+      "boundary": "Claim remains RECORDED; Evidence remains DOCUMENTED; neither is truth or verification."
+    },
+    {
+      "id": "B2B2_VERIFICATION",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "explicit verification request criteria/method",
+        "assigned reviewer",
+        "independence/conflict snapshot",
+        "examined evidence links",
+        "PASS/FAIL/PARTIAL/INCONCLUSIVE terminal classifications"
+      ],
+      "boundary": "Verification classification does not promote Claim, Evidence, Commitment or Actor reputation."
+    },
+    {
+      "id": "TASK_CAPSULE_RESULT_PACKAGE",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "frozen work context",
+        "executor identity",
+        "actual checks and limitations",
+        "notDone and next human decision"
+      ],
+      "boundary": "Executor report is not independently established Evidence or Verification by itself."
+    }
+  ],
+  "precedents": [
+    {
+      "id": "NISO_CREDIT",
+      "uri": "https://credit.niso.org/",
+      "classification": "MAP_CONTRIBUTION_ROLE_VOCABULARY",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "structured contribution-role labels",
+        "separate contribution function from authorship/prestige",
+        "interoperable external role vocabulary where useful"
+      ],
+      "boundary": "CRediT describes how a person contributed to research outputs. A contribution role is not evidence that the person possesses a competency in every context."
+    },
+    {
+      "id": "W3C_PROV_O",
+      "uri": "https://www.w3.org/TR/prov-o/",
+      "classification": "MAP_PROVENANCE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Agent/Activity/Entity distinctions",
+        "attribution",
+        "qualified association",
+        "hadRole",
+        "derivation and revision"
+      ],
+      "boundary": "Provenance describes responsibility/history; it does not create trust or verify semantic claims."
+    },
+    {
+      "id": "IMS_CASE_1_1",
+      "uri": "https://standards.1edtech.org/case/",
+      "classification": "MAP_COMPETENCY_INTERCHANGE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "stable competency identifiers",
+        "framework/item associations",
+        "rubric criteria/levels",
+        "external alignment"
+      ],
+      "boundary": "CASE identifies and exchanges competency definitions/frameworks. It does not by itself prove an Actor attained a competency."
+    },
+    {
+      "id": "OPEN_BADGES_3",
+      "uri": "https://standards.1edtech.org/open-badges/guides/standards/v3p0/impl",
+      "classification": "MAP_EXTERNAL_ACHIEVEMENT_CREDENTIAL",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Achievement criteria",
+        "evidence associated with attainment",
+        "skill/competency alignment",
+        "issuer and recipient",
+        "optional third-party endorsement",
+        "portable credential representation"
+      ],
+      "boundary": "Open Badge issuance is an issuer claim that criteria were met. Do not adopt VC/DID/cryptographic credential runtime as a prerequisite for internal contextual trust."
+    },
+    {
+      "id": "W3C_VC_DATA_MODEL_2",
+      "uri": "https://www.w3.org/TR/vc-data-model-2.0/",
+      "classification": "STUDY_EXTERNAL_CREDENTIAL_ENVELOPE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "issuer/credentialSubject separation",
+        "credential status/revocation patterns",
+        "evidence extension point",
+        "portable tamper-evident envelope"
+      ],
+      "boundary": "Cryptographic verification can establish authorship/integrity/status of a credential; it does not make the credential's semantic claim universally true."
+    }
+  ],
+  "architecture_decisions": [
+    {
+      "property": "competency_identity",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "WORLD-001 CompetencyConcept; MAP to CASE only when external interchange is needed",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "observable_work_history",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "Contribution + Artifact + attribution/provenance",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "contestable_claim_and_evidence_chain",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B2-B1 Claim + Evidence + explicit evidence relations",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "independent_or_conflicted_verification",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B2-B2 Verification with reviewer/conflict/evidence snapshot and PASS/FAIL/PARTIAL/INCONCLUSIVE",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "contribution_role_taxonomy",
+      "classification": "MAP_OPTIONAL",
+      "mechanism": "CRediT where a real contribution domain benefits from interoperable role labels",
+      "concrete_property_lost_without_custom_creation": "No property is currently lost; CZ already attributes contributors. Use only if a real case needs finer, interoperable contribution-role descriptions."
+    },
+    {
+      "property": "typed_contextual_demonstrated_capacity_assertion",
+      "classification": "EXTEND_CANDIDATE_DEFER",
+      "mechanism": "Small typed relation/assertion connecting subject Actor, CompetencyConcept, bounded context, supporting Contribution/Artifact/Claim/Evidence/Verification references, and assertion author.",
+      "concrete_property_lost_without_custom_creation": "The current schema cannot machine-query `Actor X demonstrated Competency Y in Context Z based on Evidence/Verification W` without parsing free-text Claim statement/scope or incorrectly treating a Contribution/Artifact subject as an Actor competency state.",
+      "falsifier": "If the first real external opportunity can evaluate a candidate by navigating Contribution/Artifact/Verification history plus declared opportunity competencies without needing a stored Actor↔Competency assertion, do not build it."
+    },
+    {
+      "property": "contextual_trust_projection",
+      "classification": "MAP_DERIVE_DO_NOT_PERSIST_SCORE",
+      "mechanism": "Human-readable/query projection over explicit evidence/verification/context references; no scalar score and no automatic endorsement.",
+      "concrete_property_lost_without_custom_creation": "A scalar reputation object is not required. If a future UI needs a concise trust statement, derive it from explicit references and expose why, scope and verifier rather than storing a universal score."
+    },
+    {
+      "property": "portable_badge_or_credential",
+      "classification": "MAP_EXTERNAL_ONLY",
+      "mechanism": "Open Badges 3 / VC-compatible serialization only after a real portability requirement",
+      "concrete_property_lost_without_custom_creation": "No current internal coordination property requires credential issuance."
+    },
+    {
+      "property": "actor_proficiency_state",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated; risks collapsing contextual evidence into a person-level profile."
+    },
+    {
+      "property": "universal_reputation_score",
+      "classification": "REJECT",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None; directly conflicts with contextual trust semantics."
+    },
+    {
+      "property": "leaderboard_or_global_rank",
+      "classification": "REJECT",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    },
+    {
+      "property": "blockchain_did_vc_as_critical_runtime",
+      "classification": "REJECT_FOR_MVP",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated; external portability can be mapped later."
+    },
+    {
+      "property": "token_or_nft_badge",
+      "classification": "REJECT_FOR_MVP",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    }
+  ],
+  "minimal_real_journey_candidate": {
+    "journey": [
+      "Opportunity declares explicit competency requirement",
+      "candidate participates through existing WORLD-004 path",
+      "candidate produces attributable Contribution and Artifact",
+      "a contestable Claim describes what the work demonstrates",
+      "Artifact is registered as Evidence with limitations and relation",
+      "reviewer verifies exact Claim/Evidence with PASS/FAIL/PARTIAL/INCONCLUSIVE",
+      "another human inspects context and evidence before deciding whether to trust the Actor for a new opportunity"
+    ],
+    "property_under_test": "Can a second human make a useful contextual trust decision from explicit history without an Actor competency profile or reputation score?",
+    "success": "The human can answer `trust X for Y based on Z` from explicit records and verification context.",
+    "failure_signal_for_extension": "The human cannot reliably discover/query which competency a verified Contribution demonstrates without reading/parsing free-text claims."
+  },
+  "privacy_security_constraints": [
+    "Do not publish person-level inferred skills by default.",
+    "Do not infer sensitive traits from contribution, participation or verification history.",
+    "A public Artifact or Contribution does not make all derived person-level assertions public.",
+    "Any future Actor↔Competency assertion is personal-data-adjacent and must inherit DATA-FOUNDATION lifecycle/access constraints.",
+    "Negative or failed verification must preserve context and must not become a permanent universal stigma score.",
+    "Do not collapse reviewer independence/conflict metadata into a single opaque trust number."
+  ],
+  "rejections": [
+    "UNIVERSAL_REPUTATION_SCORE",
+    "GLOBAL_LEADERBOARD",
+    "AUTOMATED_ACTOR_PROFICIENCY_PROFILE",
+    "AI_INFERRED_SKILL_AS_FACT",
+    "PASS_AS_UNIVERSAL_ENDORSEMENT",
+    "PROVENANCE_AS_TRUST",
+    "CRYPTOGRAPHIC_VERIFICATION_AS_SEMANTIC_TRUTH",
+    "TOKEN_OR_NFT_BADGE_FOR_MVP",
+    "BLOCKCHAIN_DID_VC_AS_CRITICAL_PATH",
+    "GRAPH_DATABASE_FOR_REPUTATION_WITHOUT_DEMONSTRATED_PROPERTY"
+  ],
+  "missing": [],
+  "next_gate": "WORLD-005B-REVALIDATE-EVIDENCE-VERIFICATION-TRUST-JOURNEY-THEN-DECIDE-TYPED-CAPACITY-ASSERTION"
+}

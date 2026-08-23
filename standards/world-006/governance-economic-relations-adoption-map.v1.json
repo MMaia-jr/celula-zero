@@ -1,0 +1,287 @@
+{
+  "schema": "cz.world-006.governance-economic-relations-adoption-map.v1",
+  "slice": "WORLD-006A-GOVERNANCE-ECONOMIC-RELATIONS-ADOPTION-MAP",
+  "research_date": "2026-08-23",
+  "status": "PRECEDENT_GATE_NO_RUNTIME_CHANGE",
+  "decision_enabled": "Determine whether existing human authority, versioned policy, explicit opportunity/proposal conditions and exact-version commitments already preserve the minimum governance/economic properties before introducing structured economic agreements, payments, treasury, DAO, token or smart-contract infrastructure.",
+  "core_flow": "OPPORTUNITY_TO_CONDITIONS_TO_AGREEMENT_TO_CONTRIBUTION",
+  "epistemic_boundaries": {
+    "human_direction_is_ai_consensus": false,
+    "policy_is_law": false,
+    "decision_record_is_legitimacy_by_itself": false,
+    "role_is_ownership": false,
+    "membership_is_authority": false,
+    "participation_is_contribution": false,
+    "contribution_is_economic_right": false,
+    "sponsorship_is_endorsement": false,
+    "sponsorship_is_contribution": false,
+    "sponsorship_is_economic_right": false,
+    "opportunity_is_agreement": false,
+    "agreement_is_payment": false,
+    "economic_regime_is_transaction": false,
+    "ledger_or_provenance_is_legal_compliance": false,
+    "payment_proof_is_contract_validity": false,
+    "vote_is_legitimacy_in_every_context": false
+  },
+  "existing_cz_foundations": [
+    {
+      "id": "B1_POLICY_VERSIONS",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "Cell-scoped versioned policy",
+        "ACTIVE/SUPERSEDED state",
+        "human/Actor creator attribution",
+        "current policy pointer",
+        "policy-version reference on authority/decision records"
+      ],
+      "boundary": "Versioned policy records internal operating rules; it does not assert legal validity or external law."
+    },
+    {
+      "id": "B1_CONTEXTUAL_AUTHORITY",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "role definitions",
+        "capabilities",
+        "role-capability mapping",
+        "scope CELL/PROJECT/OPPORTUNITY",
+        "valid_from/valid_until",
+        "revocation",
+        "bounded delegations"
+      ],
+      "boundary": "Operational authority is explicit and contextual; role/membership does not imply ownership."
+    },
+    {
+      "id": "B1_DECISION_RECORDS",
+      "classification": "ADOPT_INTERNAL",
+      "properties": [
+        "ALLOW/DENY outcome",
+        "target object",
+        "decision Actor",
+        "policy version",
+        "delegation reference where applicable",
+        "reason",
+        "command/provenance"
+      ],
+      "boundary": "A recorded decision is auditable history; the record alone does not manufacture legitimacy."
+    },
+    {
+      "id": "PROJECT_ECONOMIC_REGIME",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "properties": [
+        "VOLUNTARY",
+        "EXCHANGE",
+        "BOUNTY_EXTERNAL",
+        "SPONSORSHIP",
+        "INVESTMENT_INTEREST"
+      ],
+      "boundary": "The regime labels project context only. They do not create a debt, payment, securities status, ownership, revenue share or retroactive economic entitlement."
+    },
+    {
+      "id": "B1_OPPORTUNITY_PROPOSAL_COMMITMENT_TERMS",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "properties": [
+        "Opportunity conditions",
+        "Opportunity expected result",
+        "Proposal conditions",
+        "Proposal expected delivery",
+        "Proposal reward_expectation",
+        "exact Opportunity version in Commitment",
+        "exact Proposal version in Commitment",
+        "explicit distinct accepter"
+      ],
+      "boundary": "Commitment freezes agreed coordination text/versions. It is not a payment ledger, invoice, legal contract determination or proof that any economic obligation was performed."
+    }
+  ],
+  "precedents": [
+    {
+      "id": "W3C_ODRL_2_2",
+      "uri": "https://www.w3.org/TR/odrl-model/",
+      "classification": "MAP_POLICY_AGREEMENT_VOCABULARY",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Policy",
+        "Offer",
+        "Agreement",
+        "Permission",
+        "Prohibition",
+        "Duty",
+        "Constraint",
+        "assigner/assignee",
+        "compensate/payment duty patterns"
+      ],
+      "boundary": "ODRL is useful to distinguish offers from agreements and express permissions/duties/constraints. CZ must not equate an ODRL-shaped record with enforceable law, completed payment or legal compliance."
+    },
+    {
+      "id": "OPEN_CONTRACTING_DATA_STANDARD_1_1_5",
+      "uri": "https://standard.open-contracting.org/latest/en/",
+      "classification": "STUDY_MAP_CONTRACT_PROCESS_PROVENANCE",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "tender/opportunity stage",
+        "award/selection stage",
+        "contract/agreement stage",
+        "implementation stage",
+        "documents",
+        "amendment/history patterns"
+      ],
+      "boundary": "OCDS is designed for public contracting disclosure. Map stage/history ideas only; do not import its full procurement schema into a general community/project system."
+    },
+    {
+      "id": "SCHEMA_ORG_OFFER",
+      "uri": "https://schema.org/Offer",
+      "classification": "MAP_EXTERNAL_OFFER_SERIALIZATION",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "offer",
+        "seller/offeror",
+        "price/priceSpecification where genuinely applicable",
+        "availability/validity",
+        "eligible conditions"
+      ],
+      "boundary": "External discovery/serialization only. An Offer representation is not an accepted agreement and price metadata is not proof of payment."
+    },
+    {
+      "id": "ACTIVITYSTREAMS_OFFER_ACCEPT",
+      "uri": "https://www.w3.org/TR/activitystreams-vocabulary/",
+      "classification": "MAP_EVENT_VOCABULARY",
+      "runtime": "NOT_NEEDED",
+      "use": [
+        "Offer",
+        "Accept",
+        "Reject",
+        "TentativeAccept"
+      ],
+      "boundary": "Useful event vocabulary only; do not adopt social federation runtime as governance infrastructure."
+    }
+  ],
+  "architecture_decisions": [
+    {
+      "property": "versioned_internal_policy",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B1 policy_versions + current policy pointer",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "contextual_operational_authority",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B1 role/capability assignments and delegations",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "auditable_human_or_authorized_decision",
+      "classification": "ADOPT_INTERNAL",
+      "mechanism": "B1 decision_records + command/event provenance",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "economic_context_regime",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "mechanism": "Project economic_regime enum",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "opportunity_specific_economic_expectation",
+      "classification": "ADOPT_INTERNAL_LIMITED",
+      "mechanism": "Opportunity/Proposal conditions + proposal reward_expectation + exact-version Commitment",
+      "concrete_property_lost_without_custom_creation": null
+    },
+    {
+      "property": "structured_economic_agreement_terms",
+      "classification": "EXTEND_CANDIDATE_DEFER",
+      "mechanism": "Only if real use requires machine-queryable obligations: a bounded agreement-terms object referencing exact Commitment parties/context, term type, amount/value only when applicable, currency/unit where applicable, conditions, effective time and explicit human acceptance.",
+      "concrete_property_lost_without_custom_creation": "Today agreed economic expectations are preserved as exact versioned text but are not safely machine-queryable as distinct duties/obligations. This becomes a real loss only when a live agreement needs deterministic queries such as `what exactly was promised, by whom, under which condition, in which unit/currency?`.",
+      "falsifier": "If the first external economic interaction is fully understandable and auditable from Project regime + Opportunity/Proposal terms + exact Commitment without automated fulfillment/payment logic, do not build it."
+    },
+    {
+      "property": "payment_or_fulfillment_record",
+      "classification": "DEFER_UNTIL_REAL_TRANSACTION",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "No current transaction exists. Create only when an actual payment/non-monetary fulfillment event must be recorded distinctly from the agreement that preceded it.",
+      "falsifier": "No actual transaction or fulfillment event means no payment ledger property is currently lost."
+    },
+    {
+      "property": "voting_mechanism",
+      "classification": "MAP_OPTIONAL_PROCEDURE_NOT_DEFAULT",
+      "mechanism": "Use only where human governance explicitly chooses voting for a bounded decision class.",
+      "concrete_property_lost_without_custom_creation": "None for current founder-directed governance."
+    },
+    {
+      "property": "treasury",
+      "classification": "REJECT_FOR_NOW",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated."
+    },
+    {
+      "property": "dao_or_token_gated_governance",
+      "classification": "REJECT_FOR_MVP",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated and it would broaden authority semantics."
+    },
+    {
+      "property": "smart_contract_for_agreement_or_payment",
+      "classification": "REJECT_FOR_MVP",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None demonstrated; exact-version human agreement already preserves current coordination property."
+    },
+    {
+      "property": "retroactive_economic_right_from_contribution",
+      "classification": "REJECT",
+      "mechanism": null,
+      "concrete_property_lost_without_custom_creation": "None; economic rights require explicit prior or contemporaneous agreement."
+    }
+  ],
+  "economic_relation_rule": {
+    "sequence": [
+      "Opportunity",
+      "Conditions",
+      "Agreement",
+      "Contribution"
+    ],
+    "rules": [
+      "No economic right is inferred from participation.",
+      "No economic right is inferred from Contribution alone.",
+      "Economic conditions must be explicit before claiming an entitlement.",
+      "Projects may declare their own economic regime by explicit agreement.",
+      "No retroactive economic right.",
+      "Sponsorship is separate from endorsement, contribution and economic right.",
+      "Agreement performance/payment is a distinct future event, not implied by Commitment."
+    ]
+  },
+  "minimal_real_journey_candidate": {
+    "journey": [
+      "Project declares economic regime",
+      "Opportunity states explicit conditions",
+      "participant submits Proposal with explicit conditions/reward expectation",
+      "human authority accepts exact versions and creates Commitment",
+      "participant contributes",
+      "parties inspect the frozen terms before any payment or exchange event"
+    ],
+    "property_under_test": "Can parties understand what was agreed and what was not, without structured economic-term persistence or payment infrastructure?",
+    "success": "The parties can distinguish opportunity, agreement, contribution and any future fulfillment/payment event from exact records.",
+    "failure_signal_for_extension": "A real agreement cannot be reliably queried or enforced operationally because an obligation/value/unit/condition is trapped in free text."
+  },
+  "privacy_security_legal_constraints": [
+    "Do not store payment credentials/secrets in project or event payloads.",
+    "Do not infer financial status, wealth or investment suitability from participation.",
+    "Economic-regime labels are not legal classifications.",
+    "Investment-interest language must not be treated as authorization to solicit, offer securities or move funds.",
+    "Any real payment/financial service introduces a separate legal/security gate.",
+    "Do not publish personal financial data by default.",
+    "A ledger or cryptographic proof does not establish legal compliance."
+  ],
+  "rejections": [
+    "DAO_AS_DEFAULT_GOVERNANCE",
+    "VOTING_AS_UNIVERSAL_LEGITIMACY",
+    "TOKEN_GATED_AUTHORITY",
+    "TOKEN_OR_NFT_ECONOMIC_RIGHT",
+    "RETROACTIVE_REVENUE_SHARE",
+    "CONTRIBUTION_IMPLIES_PAYMENT",
+    "SPONSORSHIP_IMPLIES_ECONOMIC_RIGHT",
+    "SMART_CONTRACT_BEFORE_REAL_PROPERTY",
+    "TREASURY_BEFORE_REAL_FUNDS",
+    "PAYMENT_RAIL_BEFORE_REAL_TRANSACTION",
+    "BLOCKCHAIN_LEDGER_AS_LEGAL_COMPLIANCE"
+  ],
+  "missing": [],
+  "next_gate": "WORLD-006B-REVALIDATE-EXISTING-AGREEMENT-PATH-THEN-DECIDE-STRUCTURED-ECONOMIC-TERMS"
+}

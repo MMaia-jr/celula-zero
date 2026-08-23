@@ -1,0 +1,320 @@
+{
+  "schema": "cz.data-foundation.processing-activity-manifest.v1",
+  "slice": "DATA-FOUNDATION-001D-PROCESSING-ACTIVITY-MANIFEST",
+  "research_date": "2026-08-23",
+  "status": "STATIC_VERSION_CONTROLLED_MANIFEST_NOT_RUNTIME_REGISTRY",
+  "decision_enabled": "Determine whether current processing purposes/criteria can be preserved as a versioned Git manifest before building a runtime registry, and expose which legal/governance decisions still require human direction.",
+  "legal_sources": [
+    {
+      "id": "LGPD_ART_6_9_18_19_37",
+      "uri": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm",
+      "authority": "BRAZILIAN_FEDERAL_LAW",
+      "engineering_implications": [
+        "purpose and necessity must be explicit",
+        "facilitated access should describe purpose, duration, controller, sharing and responsibilities",
+        "a complete access declaration includes origin, criteria and purpose",
+        "processing operations must be recorded"
+      ]
+    },
+    {
+      "id": "ANPD_DATA_SUBJECT_RIGHTS",
+      "uri": "https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares",
+      "authority": "REGULATORY_GUIDANCE",
+      "engineering_implications": [
+        "confirmation and access are distinct rights",
+        "origin, criteria and purpose are relevant to fuller access responses",
+        "blocking, anonymisation, deletion and portability are distinct operations"
+      ]
+    }
+  ],
+  "architecture_decision": {
+    "classification": "ADOPT_PROCESS_PLUS_VERSIONED_MANIFEST",
+    "runtime_registry": "NOT_NEEDED_YET",
+    "concrete_property_preserved": "A canonical Git manifest can record current processing purpose, necessity criterion, sources, recipient classes and unresolved governance/legal fields without introducing mutable runtime infrastructure.",
+    "falsifier": "If live operations become user-configurable, multi-controller, multi-processor, dynamically shared, or cannot be reconciled from version-controlled declarations, promote to a runtime processing registry."
+  },
+  "global_boundaries": {
+    "manifest_is_legal_compliance": false,
+    "technical_purpose_is_lawful_basis": false,
+    "lawful_basis_is_automatically_consent": false,
+    "structural_association_is_personal_data_classification": false,
+    "recipient_class_is_proof_of_actual_sharing": false,
+    "retention_status_is_retention_permission": false,
+    "actor_uuid_is_anonymisation": false,
+    "known_export_is_complete_article_19_ii_response": false
+  },
+  "human_direction_required": [
+    "LEGAL_CONTROLLER_IDENTITY_AND_CONTACT",
+    "LAWFUL_BASIS_PER_PROCESSING_ACTIVITY",
+    "RETENTION_OR_DELETION_CRITERIA_PER_ACTIVITY",
+    "ACTUAL_EXTERNAL_PROCESSORS_AND_SUBPROCESSORS",
+    "ACTUAL_RECIPIENT_AND_SHARING_RELATIONSHIPS",
+    "INTERNATIONAL_TRANSFER_STATUS",
+    "SENSITIVE_PERSONAL_DATA_HANDLING_RULES",
+    "FORMAL_DATA_SUBJECT_REQUEST_CHANNEL_AND_AUTHENTICATION"
+  ],
+  "activities": [
+    {
+      "activity_id": "ACCOUNT_AND_PILOT_ONBOARDING",
+      "purpose": "Create and maintain the minimum authenticated profile and pilot participation state needed to access Célula Zero.",
+      "necessity_criterion": "Persist only account/pilot fields required for identity continuity, invitation handling and access control.",
+      "data_surfaces": [
+        "profiles.display_name",
+        "pilot_invites.email",
+        "pilot_invites.label"
+      ],
+      "sources": [
+        "DATA_SUBJECT_OR_INVITATION_PROCESS",
+        "AUTH_PROVIDER"
+      ],
+      "operations": [
+        "COLLECT",
+        "STORE",
+        "READ",
+        "UPDATE_WHERE_MUTABLE"
+      ],
+      "current_recipient_classes": [
+        "AUTHENTICATED_SELF",
+        "AUTHORIZED_SYSTEM_FUNCTIONS"
+      ],
+      "lawful_basis_status": "UNDETERMINED_HUMAN_LEGAL_DIRECTION_REQUIRED",
+      "retention_status": "UNDETERMINED_REQUIRES_POLICY",
+      "controller_status": "UNDETERMINED_HUMAN_DIRECTION_REQUIRED",
+      "external_processor_status": "UNMAPPED",
+      "automated_decision_status": "NO_AUTOMATED_EFFECT_DECISION_DEMONSTRATED"
+    },
+    {
+      "activity_id": "ACTOR_IDENTITY_AND_ATTRIBUTION",
+      "purpose": "Represent attributable human, AI-agent, organisation and system actors while preserving who operates or represents them.",
+      "necessity_criterion": "Keep only identity/attribution fields required to distinguish actors and preserve operator/representation provenance.",
+      "data_surfaces": [
+        "actors.name",
+        "actors.operator_profile_id",
+        "actors.operator_label"
+      ],
+      "sources": [
+        "DATA_SUBJECT_OR_AUTHORIZED_STEWARD",
+        "SYSTEM_DERIVATION_FROM_AUTHORIZED_ACTION"
+      ],
+      "operations": [
+        "CREATE",
+        "STORE",
+        "READ",
+        "RELATE"
+      ],
+      "current_recipient_classes": [
+        "AUTHORIZED_PROJECT_OR_CELL_ACTORS",
+        "PUBLIC_WHEN_EXPLICITLY_PROJECTED"
+      ],
+      "lawful_basis_status": "UNDETERMINED_HUMAN_LEGAL_DIRECTION_REQUIRED",
+      "retention_status": "UNDETERMINED_REQUIRES_POLICY",
+      "controller_status": "UNDETERMINED_HUMAN_DIRECTION_REQUIRED",
+      "external_processor_status": "UNMAPPED",
+      "automated_decision_status": "NO_AUTOMATED_EFFECT_DECISION_DEMONSTRATED"
+    },
+    {
+      "activity_id": "PROJECT_AND_INTENTION_SEMANTIC_HISTORY",
+      "purpose": "Preserve project context, human intention, interpretations, revisions, provenance and the exact operative-intent decision.",
+      "necessity_criterion": "Persist project/intention text only to support the project's semantic history and current operational projection.",
+      "data_surfaces": [
+        "projects.title",
+        "projects.summary",
+        "projects.current_intent",
+        "projects.intended_result",
+        "projects.rules_and_limits",
+        "projects.needs",
+        "project_intents.content"
+      ],
+      "sources": [
+        "HUMAN_INPUT",
+        "AI_INTERPRETATION_WITH_ATTRIBUTION",
+        "SYSTEM_COMPATIBILITY_PROJECTION"
+      ],
+      "operations": [
+        "COLLECT",
+        "STORE",
+        "VERSION",
+        "PROJECT",
+        "BLOCK_WHEN_AUTHORIZED"
+      ],
+      "current_recipient_classes": [
+        "PROJECT_AUTHORIZED_ACTORS",
+        "PUBLIC_ONLY_WHEN_PROJECT_AND_INTENT_RULES_ALLOW"
+      ],
+      "lawful_basis_status": "UNDETERMINED_HUMAN_LEGAL_DIRECTION_REQUIRED",
+      "retention_status": "UNDETERMINED_REQUIRES_POLICY",
+      "controller_status": "UNDETERMINED_HUMAN_DIRECTION_REQUIRED",
+      "external_processor_status": "UNMAPPED",
+      "automated_decision_status": "HUMAN_DIRECTION_REQUIRED_FOR_OPERATIVE_INTENT"
+    },
+    {
+      "activity_id": "COORDINATION_OPPORTUNITY_PROPOSAL_DECISION",
+      "purpose": "Coordinate opportunities, proposals, commitments and attributed human/authorized decisions without treating workflow activity as competence or reputation.",
+      "necessity_criterion": "Persist only versioned coordination text and decision metadata required to reproduce the accepted/rejected workflow state.",
+      "data_surfaces": [
+        "opportunity_versions.title",
+        "opportunity_versions.statement",
+        "opportunity_versions.conditions",
+        "opportunity_versions.expected_result",
+        "proposal_versions.statement",
+        "proposal_versions.conditions",
+        "proposal_versions.expected_delivery",
+        "proposal_versions.reward_expectation",
+        "decision_records.reason",
+        "decision_records.payload",
+        "command_receipts.result"
+      ],
+      "sources": [
+        "AUTHORIZED_ACTOR_INPUT",
+        "AUTHORIZED_HUMAN_DECISION",
+        "SYSTEM_IDEMPOTENCY_RESULT"
+      ],
+      "operations": [
+        "CREATE",
+        "STORE",
+        "VERSION",
+        "DECIDE",
+        "RECONCILE"
+      ],
+      "current_recipient_classes": [
+        "AUTHORIZED_SCOPE_ACTORS",
+        "PUBLIC_ONLY_WHEN_OBJECT_VISIBILITY_ALLOWS"
+      ],
+      "lawful_basis_status": "UNDETERMINED_HUMAN_LEGAL_DIRECTION_REQUIRED",
+      "retention_status": "UNDETERMINED_REQUIRES_POLICY",
+      "controller_status": "UNDETERMINED_HUMAN_DIRECTION_REQUIRED",
+      "external_processor_status": "UNMAPPED",
+      "automated_decision_status": "HUMAN_ACCEPTANCE_REQUIRED_FOR_COMMITMENT"
+    },
+    {
+      "activity_id": "CONTRIBUTION_CLAIM_EVIDENCE_VERIFICATION",
+      "purpose": "Record attributable contributions, claims, evidence and verification activity while preserving their epistemic distinctions.",
+      "necessity_criterion": "Persist only content and references required to document the contribution/evidence/verification chain and its limitations.",
+      "data_surfaces": [
+        "contributions.description",
+        "contributions.limitations",
+        "artifacts.uri",
+        "claims.statement",
+        "claims.scope_description",
+        "evidence_items.description",
+        "evidence_items.limitations",
+        "verification_requests.criteria",
+        "verification_requests.expected_method",
+        "verifications.method",
+        "verifications.findings",
+        "verifications.limitations"
+      ],
+      "sources": [
+        "CONTRIBUTOR_OR_AGENT_INPUT",
+        "ARTIFACT_REFERENCE",
+        "REVIEWER_INPUT"
+      ],
+      "operations": [
+        "CREATE",
+        "STORE",
+        "LINK",
+        "REVIEW",
+        "VERIFY",
+        "RECONCILE"
+      ],
+      "current_recipient_classes": [
+        "AUTHORIZED_PROJECT_ACTORS",
+        "ASSIGNED_REVIEWERS",
+        "SUBJECT_AUTHORS_WHEN_POLICY_ALLOWS"
+      ],
+      "lawful_basis_status": "UNDETERMINED_HUMAN_LEGAL_DIRECTION_REQUIRED",
+      "retention_status": "UNDETERMINED_REQUIRES_POLICY",
+      "controller_status": "UNDETERMINED_HUMAN_DIRECTION_REQUIRED",
+      "external_processor_status": "UNMAPPED",
+      "automated_decision_status": "NO_AUTOMATED_EFFECT_DECISION_DEMONSTRATED"
+    },
+    {
+      "activity_id": "COMPETENCY_COORDINATION",
+      "purpose": "Coordinate competency concepts and opportunity-version requirements without creating an Actor competency profile or universal reputation.",
+      "necessity_criterion": "Persist only concept labels/statements and version-scoped relation rationale required for opportunity coordination.",
+      "data_surfaces": [
+        "competency_concepts.preferred_label",
+        "competency_concepts.statement",
+        "opportunity_version_competencies.rationale"
+      ],
+      "sources": [
+        "AUTHORIZED_STEWARD_INPUT",
+        "EXTERNAL_REFERENCE_PROVENANCE_WHEN_DECLARED"
+      ],
+      "operations": [
+        "DEFINE",
+        "STORE",
+        "RELATE",
+        "VERSION_INHERIT"
+      ],
+      "current_recipient_classes": [
+        "AUTHORIZED_PROJECT_ACTORS",
+        "PUBLIC_WHEN_REFERENCED_BY_PUBLIC_OPPORTUNITY_VERSION"
+      ],
+      "lawful_basis_status": "UNDETERMINED_HUMAN_LEGAL_DIRECTION_REQUIRED",
+      "retention_status": "UNDETERMINED_REQUIRES_POLICY",
+      "controller_status": "UNDETERMINED_HUMAN_DIRECTION_REQUIRED",
+      "external_processor_status": "UNMAPPED",
+      "automated_decision_status": "NO_MATCHING_RANKING_OR_REPUTATION_IMPLEMENTED"
+    },
+    {
+      "activity_id": "AUDIT_EVENT_AND_RECEIPT_TRAIL",
+      "purpose": "Preserve minimum attributable operational and idempotency traces needed to reconcile material state and detect divergence.",
+      "necessity_criterion": "Do not duplicate raw domain content in events/receipts when identifiers, bounded codes and digests are sufficient.",
+      "data_surfaces": [
+        "events.title",
+        "events.description",
+        "events.payload",
+        "domain_events.payload"
+      ],
+      "sources": [
+        "SYSTEM_DERIVED_FROM_AUTHORIZED_OPERATION"
+      ],
+      "operations": [
+        "RECORD",
+        "STORE",
+        "RECONCILE"
+      ],
+      "current_recipient_classes": [
+        "AUTHORIZED_SCOPE_ACTORS",
+        "PUBLIC_ONLY_WHEN_EVENT_POLICY_ALLOWS"
+      ],
+      "lawful_basis_status": "UNDETERMINED_HUMAN_LEGAL_DIRECTION_REQUIRED",
+      "retention_status": "UNDETERMINED_REQUIRES_POLICY",
+      "controller_status": "UNDETERMINED_HUMAN_DIRECTION_REQUIRED",
+      "external_processor_status": "UNMAPPED",
+      "automated_decision_status": "NOT_A_DECISION_ENGINE"
+    }
+  ],
+  "inventory_coverage": {
+    "source_schema": "cz.data-foundation.personal-data-inventory.v1",
+    "inventory_surface_count": 43,
+    "mapped_surface_count": 43,
+    "unmapped_surfaces": [],
+    "coverage_claim": "ALL_001A_INVENTORY_SURFACES_ASSIGNED_TO_AT_LEAST_ONE_DECLARED_ACTIVITY",
+    "boundary": "Coverage means every inventoried persistence surface has an operational processing context; it does not classify each value as personal data or establish compliance."
+  },
+  "art19_ii_readiness": {
+    "origin": "PARTIAL_STRUCTURED",
+    "criteria": "PARTIAL_TECHNICAL_CRITERIA_DECLARED",
+    "purpose": "TECHNICAL_PURPOSE_DECLARED",
+    "controller_identity": "MISSING_HUMAN_DIRECTION",
+    "sharing_entities": "MISSING_ACTUAL_REGISTRY",
+    "retention_duration_or_criterion": "MISSING_HUMAN_POLICY",
+    "complete_declaration_ready": false
+  },
+  "art37_record_readiness": {
+    "operation_manifest": "STATIC_VERSION_CONTROLLED_PARTIAL",
+    "runtime_event_log": "EXISTS_FOR_DOMAIN_OPERATIONS_NOT_PRIVACY_REGISTRY",
+    "complete_processing_record_ready": false
+  },
+  "rejections": [
+    "CONSENT_AS_DEFAULT_OR_UNIVERSAL_BASIS",
+    "BUILD_RUNTIME_PROCESSING_REGISTRY_BEFORE_STATIC_MANIFEST_FAILS",
+    "CALL_KNOWN_SELF_EXPORT_COMPLETE_DSAR",
+    "INFER_CONTROLLER_IDENTITY_FROM_GITHUB_OWNER_OR_FOUNDER",
+    "ASSUME_ALL_AUTHORED_TEXT_IS_PERSONAL_DATA_OF_AUTHOR",
+    "ASSUME_ALL_PUBLIC_DATA_IS_FREE_OF_LGPD_DUTIES"
+  ],
+  "next_gate": "DATA-FOUNDATION-001E-HUMAN-CONTROLLER-LAWFUL-BASIS-RETENTION-DIRECTION"
+}
