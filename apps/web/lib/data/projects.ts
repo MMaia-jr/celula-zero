@@ -49,8 +49,8 @@ const projectSelection = `
 
 function mapProject(row: RawProjectRow): ProjectRecord {
   const originalIntent = row.project_intents.find((intent) => intent.kind === "ORIGINAL");
-  if (!originalIntent || !row.steward) {
-    throw new Error(`Projeto ${row.id} não possui Registro Original ou responsável público.`);
+  if (!row.steward) {
+    throw new Error(`Projeto ${row.id} não possui responsável público.`);
   }
 
   return {
@@ -58,7 +58,7 @@ function mapProject(row: RawProjectRow): ProjectRecord {
     slug: row.slug,
     title: row.title,
     summary: row.summary,
-    originalIntent: originalIntent.content,
+    originalIntent: originalIntent?.content ?? null,
     currentIntent: row.current_intent,
     steward: {
       id: row.steward.id,

@@ -74,15 +74,15 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   const uniqueSuffix = `${Date.now()}`;
   const title = `Projeto autenticado Gate 1 ${uniqueSuffix}`;
   const originalIntent = "Preservar uma intenção original verificável pela jornada autenticada do Gate 1.";
+  const currentIntent =
+    "Demonstrar autenticação, autorização, persistência e leitura pública sem serviço externo.";
 
   await page.getByLabel("Título").fill(title);
   await page
     .getByLabel("Resumo público")
     .fill("Projeto criado pelo navegador contra uma stack Supabase local e isolada.");
   await page.getByLabel("Registro Original").fill(originalIntent);
-  await page
-    .getByLabel("Interpretação atual")
-    .fill("Demonstrar autenticação, autorização, persistência e leitura pública sem serviço externo.");
+  await page.getByLabel("Interpretação atual").fill(currentIntent);
   await page
     .getByLabel("Resultado pretendido")
     .fill("O projeto continua legível depois de recarregar a página.");
@@ -136,7 +136,11 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   const anonymousPage = await anonymousContext.newPage();
   await anonymousPage.goto(persistedUrl);
   await expect(anonymousPage.getByRole("heading", { level: 1, name: title })).toBeVisible();
-  await expect(anonymousPage.getByText(originalIntent, { exact: true })).toBeVisible();
+  await expect(
+    anonymousPage.getByText("Registro Original · não exposto publicamente", { exact: true }),
+  ).toBeVisible();
+  await expect(anonymousPage.getByText(originalIntent, { exact: true })).toHaveCount(0);
+  await expect(anonymousPage.getByText(currentIntent, { exact: true })).toBeVisible();
 
   await anonymousPage.goto("/workbench");
   await expect(anonymousPage).toHaveURL(/\/login$/, { timeout: 15_000 });

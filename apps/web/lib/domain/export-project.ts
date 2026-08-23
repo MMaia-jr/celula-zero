@@ -16,6 +16,10 @@ export function toPortableProject(project: ProjectRecord, exportedAt = new Date(
 }
 
 export function projectToMarkdown(project: ProjectRecord, exportedAt = new Date().toISOString()) {
+  const originalIntent = project.originalIntent
+    ? `> ${project.originalIntent.replace(/\n/g, "\n> ")}`
+    : "> [não exposto nesta projeção pública]";
+
   const timeline = project.events
     .map(
       (event) =>
@@ -35,7 +39,7 @@ ${project.summary}
 
 ## Registro Original
 
-> ${project.originalIntent.replace(/\n/g, "\n> ")}
+${originalIntent}
 
 ## Interpretação atual
 

@@ -43,7 +43,7 @@ export interface ProjectRecord {
   slug: string;
   title: string;
   summary: string;
-  originalIntent: string;
+  originalIntent: string | null;
   currentIntent: string;
   steward: ActorSummary;
   stage: ProjectStage;

@@ -17,6 +17,17 @@ describe("project portability", () => {
     );
   });
 
+  it("represents a non-exposed original without substituting the operative intent", () => {
+    const publicProjection = { ...project, originalIntent: null };
+    const exported = toPortableProject(publicProjection, timestamp);
+    const markdown = projectToMarkdown(publicProjection, timestamp);
+
+    expect(exported.project.originalIntent).toBeNull();
+    expect(exported.project.currentIntent).toBe(project.currentIntent);
+    expect(markdown).toContain("> [não exposto nesta projeção pública]");
+    expect(markdown).toContain(project.currentIntent);
+  });
+
   it("exports a human-readable trajectory with material versions", () => {
     const markdown = projectToMarkdown(project, timestamp);
     expect(markdown).toContain("## Registro Original");

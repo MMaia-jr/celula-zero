@@ -62,9 +62,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <div className="project-content-grid">
         <div className="project-main-column">
           <section className="content-block original-record">
-            <p className="mini-label">Registro Original · imutável</p>
-            <blockquote>{project.originalIntent}</blockquote>
-            <p className="block-note">Preservado literalmente. Correções entram como novas interpretações.</p>
+            {project.originalIntent ? (
+              <>
+                <p className="mini-label">Registro Original · imutável</p>
+                <blockquote>{project.originalIntent}</blockquote>
+                <p className="block-note">Preservado literalmente. Correções entram como novas interpretações.</p>
+              </>
+            ) : (
+              <>
+                <p className="mini-label">Registro Original · não exposto publicamente</p>
+                <p className="block-note">
+                  Esta projeção pública não substitui o Registro Original pela intenção operativa.
+                </p>
+              </>
+            )}
           </section>
 
           <section className="content-block">
