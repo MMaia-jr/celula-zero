@@ -117,7 +117,8 @@ Estado:
 `PREPARED / OUTREACH INITIATED / ENTRY NOT YET OBSERVED`
 
 O contato externo foi iniciado, mas o run ainda não foi executado: não há ação
-do participante externo observada. Utilidade externa ainda não foi demonstrada.
+do participante externo observada. Utilidade externa do `HABITABLE-ALPHA-001`
+ainda não foi demonstrada.
 
 Pergunta central:
 
@@ -161,8 +162,33 @@ private vulnerability reporting e crédito público em `0.1.1`.
 
 `EXTERNAL UTILITY: OBSERVED N=1 IN BOUNDED EDGELOOM REVIEW TRACK`
 
-Limite: isso não demonstra `HABITABLE-ALPHA-001`, replicação, recorrência,
-comunidade, adoção, PMF ou escala.
+Em 2026-08-24, a Question 2 de `edgeloom-oss/edgeloom#31` recebeu um teste
+empírico com uma conta SmartThings independente. Um driver EdgeLoom patchado
+contendo referências ao namespace `adminmusic34435.*` foi aceito por
+`smartthings edge:drivers:package` e permaneceu legível como driver pertencente
+à conta independente.
+
+`EDGELOOM Q2 / PACKAGE-LEVEL FOREIGN NAMESPACE: VERIFIED N=1`
+
+`EDGELOOM Q2 / PUBLIC REPORT: POSTED / COMMENT #5400160128`
+
+`EDGELOOM Q2 / MAINTAINER EVALUATION: PENDING`
+
+`EDGELOOM Q2 / HUB INSTALL: NOT TESTED`
+
+`EDGELOOM Q2 / RUNTIME: NOT TESTED`
+
+Limite: o teste demonstra somente que ownership do namespace ou criação prévia
+de capabilities substitutas não foi necessária no estágio de package/upload
+neste N=1. O conteúdo dos Device Integration Profiles não foi relido pela API
+genérica (`HTTP 403`).
+
+A conta de teste não possui SmartThings Hub. Não criar Hub, channel ou
+enrollment apenas para completar o teste; instalação só volta ao gate se surgir
+um contexto real e a propriedade restante for material para uma decisão externa.
+
+Isso não demonstra segunda utilidade externa confirmada, `HABITABLE-ALPHA-001`,
+replicação, recorrência, comunidade, adoção, PMF ou escala.
 
 ### Candidato HA-001 — ResoVerse Commons
 
@@ -261,6 +287,12 @@ A cadeia completa permanece:
 EdgeLoom já fornece `EXTERNAL UTILITY N=1` em trilha delimitada separada; isso
 não avança automaticamente o HA-001.
 
+No EdgeLoom Q2, o package-level foreign namespace está `VERIFIED N=1` e o
+resultado público aguarda avaliação do maintainer. Não fabricar Hub,
+channel/enrollment ou runtime apenas para avançar atividade; testar instalação
+somente se um contexto real existir e a propriedade restante for material para
+a decisão externa.
+
 Trabalho paralelo continua permitido sob a direção humana atual, sem fabricar
 participante/utilidade, antecipar implementação ResoVerse ou criar tecnologia
 sem propriedade concreta demonstrada.
@@ -287,6 +319,12 @@ divulgação externa.
 `REPO-HABITABILITY / NOT YET TESTED WITH EXTERNAL CONTRIBUTOR`
 
 `EDGELOOM EXTERNAL UTILITY / OBSERVED N=1 / BOUNDED REVIEW TRACK`
+
+`EDGELOOM Q2 PACKAGE-LEVEL FOREIGN NAMESPACE / VERIFIED N=1`
+
+`EDGELOOM Q2 PUBLIC REPORT / POSTED / MAINTAINER EVALUATION PENDING`
+
+`EDGELOOM Q2 HUB INSTALL + RUNTIME / NOT TESTED`
 
 `HABITABLE-ALPHA-001 / PREPARED / OUTREACH INITIATED / ENTRY NOT YET OBSERVED`
 
