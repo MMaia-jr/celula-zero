@@ -26,7 +26,7 @@ Esta especificação foi derivada de:
 
 - `PRODUCT-MVP-001.md`;
 - `ROADMAP-30D.md`;
-- `TECHNICAL-ARCHITECTURE-001.md`;
+- `docs/architecture/TECHNICAL-ARCHITECTURE-001.md`;
 - `GATE-1-RESULT.md`;
 - `PROTOCOL.md`;
 - `HUMAN-DIRECTION-001-CONTEXTUAL-TRUTH.md`;

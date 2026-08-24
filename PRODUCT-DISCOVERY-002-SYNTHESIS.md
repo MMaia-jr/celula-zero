@@ -31,7 +31,7 @@ conversation and explicitly re-evaluated.
 
 The canonical repository already contains earlier product direction, including:
 
-- `DECISION-PRODUCT-001.md`;
+- `decisions/DECISION-PRODUCT-001.md`;
 - `decisions/D006-mvp-habitavel-30-dias.md`;
 - `PRODUCT-MVP-001.md`.
 
