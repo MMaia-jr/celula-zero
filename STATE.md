@@ -163,30 +163,14 @@ private vulnerability reporting e crédito público em `0.1.1`.
 `EXTERNAL UTILITY: OBSERVED N=1 IN BOUNDED EDGELOOM REVIEW TRACK`
 
 Em 2026-08-24, a Question 2 de `edgeloom-oss/edgeloom#31` recebeu um teste
-empírico adicional sobre o namespace de capabilities. Em uma conta SmartThings
-independente, o sample `auto_patch/zigbee-lock` do EdgeLoom no commit
-`50c2498f540375758c52877090ee714a261f13fa` foi patchado para
-`Language:AutoRelockTime`; o profile local resultante continha
-`adminmusic34435.language` e `adminmusic34435.autoRelockTime`.
-
-Com SmartThings CLI `2.1.2`, uma única execução de
-`smartthings edge:drivers:package` foi aceita (`exit 0`). A plataforma retornou
-um novo driver e um readback posterior via `smartthings edge:drivers <id>`
-confirmou o driver persistido sob a conta independente.
-
-Isso demonstra somente que possuir o namespace `adminmusic34435` ou criar
-capabilities substitutas próprias não foi necessário no estágio de
-package/upload neste teste N=1. Leituras posteriores dos quatro Device
-Integration Profile IDs pela API genérica `deviceprofiles <id>` retornaram
-`HTTP 403`; portanto, o conteúdo das capabilities não foi relido
-independentemente por esse endpoint.
-
-O resultado foi publicado no Issue `#31`, comentário
-`#5400160128`.
+empírico com uma conta SmartThings independente. Um driver EdgeLoom patchado
+contendo referências ao namespace `adminmusic34435.*` foi aceito por
+`smartthings edge:drivers:package` e permaneceu legível como driver pertencente
+à conta independente.
 
 `EDGELOOM Q2 / PACKAGE-LEVEL FOREIGN NAMESPACE: VERIFIED N=1`
 
-`EDGELOOM Q2 / PUBLIC REPORT: POSTED`
+`EDGELOOM Q2 / PUBLIC REPORT: POSTED / COMMENT #5400160128`
 
 `EDGELOOM Q2 / MAINTAINER EVALUATION: PENDING`
 
@@ -194,14 +178,17 @@ O resultado foi publicado no Issue `#31`, comentário
 
 `EDGELOOM Q2 / RUNTIME: NOT TESTED`
 
-A conta de teste não possui SmartThings Hub. Não criar Hub, channel ou
-enrollment apenas para completar artificialmente o teste literal de instalação.
-Esse passo só deve ser considerado se surgir um contexto real e a avaliação
-externa demonstrar que a propriedade restante altera uma decisão relevante.
+Limite: o teste demonstra somente que ownership do namespace ou criação prévia
+de capabilities substitutas não foi necessária no estágio de package/upload
+neste N=1. O conteúdo dos Device Integration Profiles não foi relido pela API
+genérica (`HTTP 403`).
 
-Limite: o teste Q2 não demonstra instalação em Hub, runtime, segunda utilidade
-externa confirmada, `HABITABLE-ALPHA-001`, replicação, recorrência, comunidade,
-adoção, PMF ou escala.
+A conta de teste não possui SmartThings Hub. Não criar Hub, channel ou
+enrollment apenas para completar o teste; instalação só volta ao gate se surgir
+um contexto real e a propriedade restante for material para uma decisão externa.
+
+Isso não demonstra segunda utilidade externa confirmada, `HABITABLE-ALPHA-001`,
+replicação, recorrência, comunidade, adoção, PMF ou escala.
 
 ### Candidato HA-001 — ResoVerse Commons
 
