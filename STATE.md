@@ -20,6 +20,19 @@ Limite: demonstra reconstrução substancial por agentes que acessaram o repo;
 não demonstra compreensão humana, utilidade externa, serviço público, adoção,
 PMF ou escala.
 
+## Superfície de contribuição e organização do repositório
+
+`CONTRIBUTOR-FRONT-DOOR-001 / MERGED / CANONICAL` via PR `#100`, merge
+`bca807398d45f166516de54b444d05e76d8849d4`.
+
+`ROOT-NORMALIZATION / PR-B1 / MERGED / CANONICAL` via PR `#101`, merge
+`ade2d3dccf05837d1d0284c050643f288d8af65a`.
+
+Essas mudanças melhoram entrada e organização do repositório; não demonstram
+ainda uso bem-sucedido por contribuidor externo independente.
+
+`REPO-HABITABILITY / NOT YET TESTED WITH EXTERNAL CONTRIBUTOR`.
+
 ## Identidade e missão
 
 Célula Zero é atualmente a primeira comunidade-laboratório humano–IA na qual o
@@ -82,6 +95,21 @@ contract/testnet, marketplace, native messaging e outras capacidades amplas
 estão `DEFERRED / NOT ACTIVE ON CURRENT CRITICAL PATH` até reautorização explícita
 ou demonstração de propriedade concreta pelo Habitable Alpha.
 
+## Roadmap operacional — ROADMAP-002
+
+`docs/ROADMAP-002-HABITABLE-ALPHA-TO-ADOPTION.md` organiza a progressão por
+gates de evidência, não por calendário de features.
+
+Gate atual:
+
+`G1 — EXTERNAL ENTRY + VOLUNTARY ACTION / CURRENT`.
+
+Regra de seleção:
+
+> Qual gate este trabalho desbloqueia?
+
+O roadmap não substitui D007 nem autoriza gates futuros.
+
 ## Marco ativo — HABITABLE-ALPHA-001
 
 Estado:
@@ -122,11 +150,19 @@ consequência real.
 
 `edgeloom-oss/edgeloom#31`
 
-Finding delimitado reproduzido localmente; private disclosure enviado.
+Finding reproduzido, disclosure privado enviado e resposta do maintainer
+recebida. Um Original Record privado da resposta permanece fora do repositório.
 
-`DISCLOSURE: SENT / RESPONSE: NOT YET / PUBLIC DISCLOSURE: NO`
+Verificação pública em `edgeloom-oss/edgeloom#31` e no `CHANGELOG.md` do
+EdgeLoom confirma reprodução, correção, impacto em `0.1.0`, correção do canal de
+private vulnerability reporting e crédito público em `0.1.1`.
 
-Não reinterpretar retroativamente a reprodução anterior como etapa do HA-001.
+`DISCLOSURE: RESPONDED / FINDING VALIDATED BY MAINTAINER / REMEDIATION OBSERVED`
+
+`EXTERNAL UTILITY: OBSERVED N=1 IN BOUNDED EDGELOOM REVIEW TRACK`
+
+Limite: isso não demonstra `HABITABLE-ALPHA-001`, replicação, recorrência,
+comunidade, adoção, PMF ou escala.
 
 ### Candidato HA-001 — ResoVerse Commons
 
@@ -213,15 +249,21 @@ protocolo, MCP, RAG, CLI ou plataforma própria.
 
 ## Próximo gate
 
-No ResoVerse, observar sem inferência:
+`G1 — EXTERNAL ENTRY + VOLUNTARY ACTION`.
 
-`ENTRY → ACTION → RELATION → REAL-WORLD CONSEQUENCE → RETURN`.
+No ResoVerse, observar `ENTRY` e `ACTION` sem inferência. Outreach publicado não
+conta como `ENTRY`; mensagem enviada não conta como ação do participante.
 
-EdgeLoom permanece aguardando resposta ao private disclosure.
+A cadeia completa permanece:
 
-`DECISION / HUMAN DIRECTION`: a espera externa não bloqueia trabalho paralelo,
-desde que não fabrique participante/utilidade, não antecipe implementação
-ResoVerse e não crie tecnologia sem propriedade concreta demonstrada.
+`ENTRY → ACTION → RELATION → SECOND PERSON → REAL-WORLD CONSEQUENCE → RETURN`.
+
+EdgeLoom já fornece `EXTERNAL UTILITY N=1` em trilha delimitada separada; isso
+não avança automaticamente o HA-001.
+
+Trabalho paralelo continua permitido sob a direção humana atual, sem fabricar
+participante/utilidade, antecipar implementação ResoVerse ou criar tecnologia
+sem propriedade concreta demonstrada.
 
 Nenhum Work Packet existente autoriza por si só código, schema, deploy ou nova
 divulgação externa.
@@ -232,22 +274,27 @@ divulgação externa.
 
 `AGENT-EXECUTION-CONTINUITY / MVP ACCEPTED`
 
-`PRODUCT-DISCOVERY-002 / CANONICAL`
-
 `D007 / CANONICAL`
 
 `ENTRY-POINT-ALPHA-001 / MERGED / CANONICAL`
 
+`CONTRIBUTOR-FRONT-DOOR-001 / MERGED / CANONICAL`
+
+`ROOT-NORMALIZATION / PR-B1 / MERGED / CANONICAL`
+
+`ROADMAP-002 / G1 EXTERNAL ENTRY + VOLUNTARY ACTION / CURRENT`
+
+`REPO-HABITABILITY / NOT YET TESTED WITH EXTERNAL CONTRIBUTOR`
+
+`EDGELOOM EXTERNAL UTILITY / OBSERVED N=1 / BOUNDED REVIEW TRACK`
+
 `HABITABLE-ALPHA-001 / PREPARED / OUTREACH INITIATED / ENTRY NOT YET OBSERVED`
 
-`EDGELOOM PRIVATE DISCLOSURE / SENT / RESPONSE NOT YET`
+`HABITABLE-ALPHA EXTERNAL UTILITY / NOT YET DEMONSTRATED`
 
 `RESOVERSE #4 / CONTACT PUBLISHED / IMPLEMENTATION NOT STARTED`
 
 `PR #95 / PARKED / NOT REQUIRED FOR HA-001 YET`
-
-
-`EXTERNAL UTILITY / NOT YET DEMONSTRATED`
 
 `ADOPTION / NOT TESTED`
 
