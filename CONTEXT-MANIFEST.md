@@ -1,89 +1,140 @@
 # Context Manifest
 
-Context version: CZ-CONTEXT-001
+Context version: `CZ-CONTEXT-002`
 
 Canonical repository:
-https://github.com/MMaia-jr/celula-zero
 
-Context source commit:
-88773b8e899ac70b241044b8c33df6d45d349315
-
-This commit is the immutable source baseline for the required reading set.
-The manifest itself may exist in a later commit and therefore does not attempt to reference its own Git commit hash.
+`https://github.com/MMaia-jr/celula-zero`
 
 ## Purpose
 
-This manifest defines the minimum shared reading set for agents participating in the current state of Célula Zero.
+This manifest defines the minimum method for reconstructing the **current** Célula Zero without requiring private chat history.
 
-Access to the repository does not by itself prove successful reconstruction of context.
+The repository contains both operational present and preserved history. Reading many files does not by itself prove correct context reconstruction.
 
-Agents must report:
+## Dynamic source rule
 
-- which files were actually accessed;
-- which files could not be accessed;
-- which commit/version they used;
-- any uncertainty caused by partial access.
+Do not freeze a `main` SHA as the permanent current state.
 
-## Required reading
+When reconstructing current context:
 
-1. README.md
-2. STATE.md
-3. PROTOCOL.md
-4. rounds/R06/README.md
-5. rounds/R06/DeepSeek.md
-6. rounds/R06/Claude.md
-7. rounds/R06/Kimi.md
-8. rounds/R06/Grok.md
-9. rounds/R06/Gemini.md
-10. questions/backlog.jsonl
-11. incidents/CZ-001.md
-12. rounds/R07-prompt.md
+1. resolve the current `main` HEAD dynamically;
+2. record the commit SHA actually read;
+3. read the minimum current-context files from that ref;
+4. follow the active references in `STATE.md` only as needed;
+5. report access failures and uncertainty explicitly.
 
-## Raw URLs
+A historical SHA may be cited as provenance for a past transition, but it is not the permanent current HEAD.
 
-Base:
+## Minimum current-context reading set
 
-https://raw.githubusercontent.com/MMaia-jr/celula-zero/88773b8e899ac70b241044b8c33df6d45d349315/
+Read in this order:
 
-Required files:
+1. `README.md`
+2. `STATE.md`
+3. `PROTOCOL.md`
+4. `CONTRIBUTING.md`
 
-- README.md
-- STATE.md
-- PROTOCOL.md
-- rounds/R06/README.md
-- rounds/R06/DeepSeek.md
-- rounds/R06/Claude.md
-- rounds/R06/Kimi.md
-- rounds/R06/Grok.md
-- rounds/R06/Gemini.md
-- questions/backlog.jsonl
-- incidents/CZ-001.md
-- rounds/R07-prompt.md
+Then, only when required by the task:
 
-## Verification questions
+5. active human decision(s) referenced by `STATE.md`;
+6. active Work Packet / test referenced by `STATE.md`;
+7. implementation, Result Package, Claim, Evidence or Verification required for the specific question.
 
-These questions are not part of the research content. They are context-integrity checks.
+For the longer-term interoperability direction, use `genesis/INTENT-000.md`.
 
-1. What is the context source commit defined by this manifest?
-2. What is the next step recorded in STATE.md?
-3. What is Grok's revalidation status in STATE.md?
-4. How many questions are present in questions/backlog.jsonl?
-5. Which participant is assigned to examine Gemini in rounds/R07-prompt.md?
-6. Does rounds/R07-prompt.md assign any explicit action to Marcos?
-7. Which required files could you not access?
+Do not hard-code an old experiment list as the permanent required reading set.
 
-## Success criterion
+## Authority rule
 
-Context reconstruction is considered successful only if the agent:
+Use:
 
-- identifies the correct context source commit;
-- accurately answers the verification questions;
-- distinguishes files actually read from files inferred through summaries;
-- does not invent missing content;
-- reports access failures explicitly.
+`STATE.md` → current operational state and next gate.
+
+Explicit human decision files → authority/provenance for the decisions they record.
+
+`PROTOCOL.md` → durable operating and epistemic rules.
+
+Active Work Packets/tests → bounded scope and criteria for an experiment.
+
+Result Packages and material records → what actually happened.
+
+Claims/Evidence/Verification → attributed assertions, supporting/challenging relationships and bounded evaluation.
+
+Do **not** infer current direction directly from:
+
+- old rounds;
+- old issues;
+- closed or superseded PRs;
+- historical branches;
+- old context manifests;
+- superseded decisions;
+- exploratory research.
+
+Those materials may remain valid history without being current direction.
+
+## Reconstruction boundaries
+
+Preserve:
+
+`Original Record ≠ Interpretation ≠ Claim ≠ Evidence ≠ Verification ≠ Decision ≠ Reputation`
+
+Also preserve:
+
+`PREPARED ≠ EXECUTED ≠ VERIFIED ≠ COMMITTED ≠ PUSHED ≠ MERGED ≠ CANONICAL`
+
+If a source documents intention, do not report execution.
+If a result is local, do not report external availability.
+If a PASS is internal N=1, do not report external utility, adoption or scale.
+If an issue proposes work, do not report it as the current roadmap against `STATE.md`.
+
+## Stranger-comprehension check
+
+A reconstruction is useful only if the reader can answer, without private explanation:
+
+1. What is Célula Zero now?
+2. What real problem is it trying to solve?
+3. What stage is it in?
+4. What has actually been demonstrated?
+5. What has not been demonstrated?
+6. What can an outsider do now?
+7. How can an outsider contribute?
+8. What environment is publicly available versus local-only?
+9. What continues to work if the founder is offline, and what human authority gates remain?
+10. What is the current next gate?
+
+## Failure conditions
+
+Treat reconstruction as `PARTIAL` or `FAIL` if the reader:
+
+- describes a historical Célula Zero as the current one;
+- treats an old issue as current direction against `STATE.md`;
+- reports local infrastructure as a public hosted service;
+- turns a hypothesis into an implementation claim;
+- confuses Artifact, Evidence and Verification;
+- assumes AI consensus replaces human authority;
+- invents access to files that were not actually read.
+
+## Required reconstruction report for agents
+
+An external agent should state:
+
+- current `main` commit SHA read;
+- files actually accessed;
+- files it could not access;
+- which statements are source-derived versus interpretation;
+- material uncertainty caused by incomplete access.
+
+A human newcomer is not required to produce this report merely to read or participate.
 
 ## Current limitation
 
-This manifest does not make the infrastructure fully decentralized.
+This manifest improves context portability; it does not make Célula Zero fully decentralized or always-on.
 
-It is an attempt to reduce context asymmetry by giving all participants the same versioned reading set and an explicit verification mechanism.
+The public GitHub repository remains available independently of the founder's laptop.
+
+The currently demonstrated application/backend environment is local-development infrastructure unless a later canonical `STATE.md` documents public deployment.
+
+A readable repository is not the same as an externally operable service.
+
+Human authority gates remain intentional where vision, consent, sensitive disclosure or promotion require explicit authorization.
