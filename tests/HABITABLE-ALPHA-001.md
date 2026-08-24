@@ -7,8 +7,12 @@ Date: 2026-08-23
 ## Purpose
 
 Move the Célula Zero product inquiry from broad research to observed external
-utility using the smallest real-world vertical slice that can distinguish
-between promising entry mechanisms.
+utility using the smallest real-world vertical slice that can test the
+integrated action/history cycle with one external participant.
+
+HABITABLE-ALPHA-001 is not designed to select the universally "best" entry
+mechanism. It records which legitimate entry the participant naturally uses
+first and whether the integrated cycle produces utility.
 
 This is not a launch, PMF test, scale test or complete social-network MVP.
 
@@ -36,7 +40,10 @@ Use:
 
 No synthetic participant or fake opportunity may be presented as real.
 
-## Three entry mechanisms to expose without creating three products
+## Entry mechanisms available when legitimate
+
+The three mechanisms are candidate entry surfaces into one integrated cycle, not
+three products and not a causal A/B/C comparison in `N=1`.
 
 ### A — Discover / Act
 
@@ -51,12 +58,17 @@ person.
 
 User can record or respond to a real past occurrence involving another person.
 
-The interface labels may differ. The experiment tests behavior, not wording
-preference.
+If no legitimate shared past occurrence exists in the selected context,
+mechanism C is `NOT TESTED`. Do not manufacture one merely to complete the
+experiment.
+
+The interface labels may differ. The experiment observes behavior and natural
+entry, not wording preference or a causal comparison among the three mechanisms.
 
 ## Controlled variables
 
-To compare mechanisms honestly, preserve where applicable:
+To keep observations comparable and avoid giving one entry mechanism an
+artificial advantage, preserve where applicable:
 
 - same people;
 - same real context;
@@ -90,6 +102,25 @@ Examples:
 - executing != producing the intended result;
 - artifact exists != claimed role verified;
 - returning after a reminder != spontaneous recurring utility.
+
+### Operational meaning of real-world consequence
+
+At least one materially external consequence must occur. Candidate examples:
+
+- real participation actually occurs;
+- a real introduction is accepted and changes who can act with whom;
+- a real commitment is established;
+- a contribution or artifact is actually produced;
+- a real decision changes because of the interaction/context.
+
+The following do not count by themselves:
+
+- view;
+- click;
+- signup;
+- like;
+- declaration of interest;
+- message sent.
 
 ## Minimum result package
 
@@ -141,7 +172,7 @@ claim even if a useful one-shot action occurred.
 
 ## Important secondary questions
 
-- Which entry mechanism was naturally chosen first?
+- Which legitimate entry mechanism was naturally chosen first? (This observation does not establish a universal winner.)
 - Did Shared History provide value to the invited person or only to the inviter?
 - Did Projects/Needs/Opportunities add anything beyond existing referral +
   WhatsApp?

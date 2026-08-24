@@ -2,7 +2,8 @@
 
 Class: `DECISION / HUMAN PRODUCT DIRECTION`
 Date: 2026-08-23
-State: `PREPARED / NOT CANONICAL`
+Document state at creation: `PREPARED`
+Canonicality: determined by the GitHub merge state; this file does not self-declare a permanent repository state.
 
 ## Original Record
 
@@ -44,18 +45,21 @@ PRESERVE recoverable discovery
 
 ## Relationship to D006
 
-`decisions/D006-mvp-habitavel-30-dias.md` is not silently revoked.
+`decisions/D006-mvp-habitavel-30-dias.md` is preserved as prior human direction
+and broader product ambition. D007 supersedes D006 only with respect to the
+**immediate critical path and sequencing**.
 
-D007 narrows the immediate evidence-producing priority: before expanding the
-full D006 product scope, the project should test whether a real external person
-can obtain utility from a small habitable slice.
+Before expanding the broad D006 scope, the project should test whether a real
+external person can obtain utility from a small habitable slice.
 
-Therefore items such as financing rooms, smart-contract demonstrations,
-marketplace expansion, native messaging or other broad product capabilities do
-not enter the immediate critical path unless HABITABLE-ALPHA-001 demonstrates a
-concrete property requiring them.
+Accordingly, D006 items such as financing rooms, smart-contract demonstrations,
+marketplace expansion, native messaging or other broad capabilities are
+`DEFERRED / NOT ACTIVE ON THE CURRENT CRITICAL PATH` unless explicitly
+re-authorized or HABITABLE-ALPHA-001 demonstrates a concrete property requiring
+them.
 
-This is a prioritization/narrowing decision, not retroactive deletion of D006.
+This is an explicit amendment of current priority, not retroactive deletion of
+D006 or denial that D006 was a legitimate human decision.
 
 ## Source-preservation boundary
 

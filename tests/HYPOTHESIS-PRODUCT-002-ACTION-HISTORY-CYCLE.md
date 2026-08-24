@@ -46,7 +46,7 @@ person or no return behavior.
 Invite a real co-participant to inspect/respond to one real past occurrence
 without requiring account creation first.
 
-### Falsifier
+### Local failure criterion / negative evidence
 
 The invited person provides a low-information courtesy response and gains no
 reason to use the resulting context for themselves or any later action.
@@ -79,7 +79,7 @@ conversation, creating a project/opportunity graveyard.
 Use one real need with one real potential participant and observe whether the CZ
 representation changes discovery, agreement, execution or later history.
 
-### Falsifier
+### Local failure criterion / negative evidence
 
 The relationship proceeds exactly as it would have without CZ and no preserved
 context is later useful to either participant.
@@ -101,7 +101,7 @@ becomes noisy.
 Expose one external participant to a curated but entirely real set of available
 actions in a specific context.
 
-### Falsifier
+### Local failure criterion / negative evidence
 
 The participant cannot find anything they want to inspect/act on without human
 explanation or artificial content.
@@ -123,7 +123,7 @@ needs others to know.
 After a real action, show the resulting projected profile/context to the person
 and to a relevant third-party decision maker.
 
-### Falsifier
+### Local failure criterion / negative evidence
 
 Both still need a manually curated CV/portfolio/profile to understand the
 relevant capability/context, and the CZ projection adds no decision value.
@@ -139,7 +139,7 @@ provenance than retrospective profile editing.
 
 `PREPARED != COMMITTED != EXECUTED != VERIFIED != OUTCOME`.
 
-### Falsifier
+### Local failure criterion / negative evidence
 
 The extra native context never changes a later decision, explanation or ability
 to reconstruct what happened.
@@ -159,7 +159,7 @@ Potential examples:
 - experienced participant: `something I did before matters`;
 - offline worker: `someone I worked with contextualized me`.
 
-### Falsifier
+### Local failure criterion / negative evidence
 
 The different entry points create incompatible journeys that do not converge on
 shared objects/relations or require separate products.
@@ -170,6 +170,10 @@ No numerical threshold in this document is a market benchmark unless externally
 sourced and explicitly cited. Experimental thresholds, if introduced, are
 pre-registered decision aids only.
 
+A local failure in one participant/context is negative evidence for that run. It
+does not, by itself, falsify a general human-behavior or market hypothesis.
+`FAIL N=1 != UNIVERSAL HYPOTHESIS FALSIFIED`.
+
 ## Promotion ladder
 
 Current state:
@@ -178,7 +182,7 @@ Current state:
 
 Possible later promotion only through evidence:
 
-`EXECUTED -> VERIFIED -> REPLICATED -> USEFUL TO EXTERNAL USER -> ADOPTED -> SCALABLE`
+`DOCUMENTED -> REPRESENTED -> EXECUTED -> VERIFIED -> REPLICATED -> USEFUL TO EXTERNAL USER -> ADOPTED -> SCALABLE`
 
 PASS N=1, if achieved, does not establish PMF, adoption or scale.
 
