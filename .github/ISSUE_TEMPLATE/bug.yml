@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a reproducible problem in the current repository/software.
+title: "[BUG] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a concrete problem. Do not include secrets, private data or exploit details that should be disclosed privately; see SECURITY.md.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What happened?
+      placeholder: Describe the observed behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Give the smallest safe reproduction you have.
+      placeholder: Revision, steps, input and observed output.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What boundary or behavior did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / logs
+      description: Add bounded logs, screenshots or other evidence with secrets and unnecessary personal data removed.
+
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Safety check
+      options:
+        - label: I have not included passwords, tokens, private keys or unnecessary personal data.
+          required: true
+        - label: This is not a public disclosure of exploit details that should use a private security channel.
+          required: true
