@@ -142,7 +142,7 @@ recompensa automática no MVP.
 ## Relação com decisões anteriores
 
 Esta decisão amplia a direção de produto aceita em
-`DECISION-PRODUCT-001.md`. Permanecem válidas as invariantes úteis da definição
+`decisions/DECISION-PRODUCT-001.md`. Permanecem válidas as invariantes úteis da definição
 anterior:
 
 - Registro Original separado de interpretação;
