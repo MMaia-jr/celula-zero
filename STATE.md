@@ -1,205 +1,127 @@
 # Estado operacional atual
 
-Última atualização: 2026-08-22
+Última atualização: 2026-08-23
 
 Repositório canônico: `MMaia-jr/celula-zero`
 
-Marco canônico usado como fonte desta correção:
+Esta é a Working Spec curta. História detalhada permanece em decisões, issues,
+commits, PRs, testes e artefatos vinculados. O HEAD atual de `main` deve ser
+consultado dinamicamente quando necessário.
 
-- PR `#74` — merged;
-- merge commit de referência:
-  `56db4df925ca725414916afb6d8ff88783457480`.
-
-Esse SHA registra a proveniência desta edição do `STATE.md`; não declara qual é
-o HEAD atual de `main`. Quando o HEAD atual for necessário, ele deve ser lido
-dinamicamente do Git/GitHub.
-
-Este arquivo é a Working Spec curta. História detalhada permanece em decisões,
-issues, commits, PRs, testes e artefatos vinculados.
-
-## Identidade atual
+## Identidade e missão
 
 Célula Zero é atualmente a primeira comunidade-laboratório humano–IA na qual o
-método é aprendido construindo a própria comunidade, o próprio ambiente e
+método é aprendido construindo a própria comunidade, infraestrutura mínima e
 projetos reais.
 
-Não presumir que já seja:
-
-- produto validado;
-- plataforma universal;
-- DAO operacional;
-- protocolo universal;
-- intermediária financeira;
-- sistema de reputação universal;
-- produto com PMF, adoção ou escala demonstrados.
-
-## Missão
-
-Transformar:
+Missão:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-Princípio operacional:
+Princípio:
 
 `aprender construindo`
 
-## Fonte de verdade e coordenação
+Não presumir produto validado, plataforma universal, DAO, protocolo universal,
+reputação universal, PMF, adoção ou escala.
 
-- GitHub é o registro canônico de código e estado técnico versionado.
-- `STATE.md` preserva o estado operacional curto; Git preserva a história.
-- Linear coordena NOW/NEXT, progresso e bloqueios; não substitui GitHub.
-- A aplicação Célula Zero registra o ciclo operacional e seus objetos; não
-  substitui o GitHub como registro canônico do código.
-- ChatGPT pode coordenar, pesquisar, criticar e especificar.
-- Codex ou qualquer outro executor é opcional; continuidade não pode depender
-  de um executor específico.
-- Decisões centrais permanecem humanas.
+## Estado demonstrado
 
-## Núcleo canônico implementado
+### OPERATING-LOOP-MVP
 
-O backend e a aplicação preservam atualmente:
+`CANONICAL / PASS N=1 INTERNAL`
 
-- Gate 1 foundation;
-- B1 — authority, Opportunity, Proposal e Commitment;
-- B2-A — Contribution e Artifact;
-- B2-B1 — Claim e Evidence;
-- B2-B2 — Verification;
-- workbench autenticado;
-- exportação operacional Markdown/JSON;
-- AI_AGENT atribuível a operador humano sem remover limites de autoridade.
-
-Ciclo operacional canônico:
+O ciclo operacional interno foi demonstrado ponta a ponta:
 
 `Opportunity → Proposal → Commitment → Contribution → Artifact → Claim/Evidence → Verification`
 
-A aceitação de Proposal permanece decisão explícita. Proposal não cria
-Commitment sozinha. Self-acceptance permanece proibida.
+Limite: `PASS N=1 INTERNAL` não demonstra utilidade externa, adoção, PMF ou
+escala.
 
-## Marco concluído — OPERATING-LOOP-MVP
+### AGENT-EXECUTION-CONTINUITY
 
-GitHub:
+MVP aceito na fronteira:
 
-- Issue `#70` — concluído;
-- PR `#71` — merged;
-- merge commit:
-  `7619e52841593b366a3fb166b3b417456b1f2f3e`.
+`um comando humano → executor autocontido e verificável`
 
-Foi realizado dogfood interno ponta a ponta usando a própria Célula Zero para
-registrar trabalho real da construção do projeto.
+Não existe propriedade concreta demonstrada que exija remover também esse
+comando do caminho crítico. Codex, Ollama, Aider ou qualquer executor específico
+não são dependências obrigatórias.
 
-Resultado observado:
+## Direção de produto atual
 
-- ciclo ponta a ponta interno: `PASS N=1`;
-- CI do PR #71: `PASS`;
-- regressão de autorização/pgTAP: `PASS`;
-- web/unit/coverage/typecheck/lint/build: `PASS`;
-- jornada autenticada em CI: `PASS`.
+PR `#96` foi merged e tornou canônicos:
 
-Limites:
+- `PRODUCT-DISCOVERY-002-SYNTHESIS.md`;
+- `tests/HYPOTHESIS-PRODUCT-002-ACTION-HISTORY-CYCLE.md`;
+- `decisions/D007-product-discovery-to-habitable-alpha.md`;
+- `tests/HABITABLE-ALPHA-001.md`.
 
-- `PASS N=1` não demonstra utilidade externa, adoção, PMF ou escala;
-- a primeira Verification interna não deve ser interpretada como revisão
-  independente quando houver operador comum;
-- execução técnica, evidência, verificação e outcome permanecem distintos.
+Merge commit de proveniência desta transição:
 
-## Marco ativo — AGENT-EXECUTION-CONTINUITY
+`7e07f70de7cb92744b56026d33550ac92b296b86`
 
-Vínculos:
+Esse SHA registra a proveniência da transição; não declara o HEAD permanente de
+`main`.
 
-- GitHub Issue `#72`;
-- Linear `MAI-27`.
+D007 supersede D006 apenas quanto ao caminho crítico e sequenciamento imediatos.
+A direção ampla de D006 permanece preservada, porém financiamento, smart
+contract/testnet, marketplace, native messaging e outras capacidades amplas
+estão `DEFERRED / NOT ACTIVE ON CURRENT CRITICAL PATH` até reautorização explícita
+ou demonstração de propriedade concreta pelo Habitable Alpha.
 
-Objetivo:
+## Marco ativo — HABITABLE-ALPHA-001
 
-> reduzir progressivamente o fundador como ponte manual entre ChatGPT,
-> Terminal, GitHub, Linear e Célula Zero, sem depender de Codex, Ollama ou API
-> de IA para continuidade.
+Estado:
 
-Fluxo alvo:
+`PREPARED / NOT EXECUTED`
 
-`human direction → work packet → executor intercambiável → result package → verification → GitHub/Linear/Célula Zero`
+Pergunta central:
 
-### WP-001 — concluído
+> Uma pessoa real que não participou da construção consegue entrar em um
+> contexto pequeno e real, encontrar ou expressar uma razão própria para agir,
+> envolver outra pessoa, produzir uma consequência no mundo e depois ter uma
+> razão concreta para retornar?
 
-`WP-001-STATE-SYNC` foi executado, verificado e promovido ao GitHub canônico.
+Cadeia observável:
 
-Resultado:
+`ENTRY → ACTION → RELATION → SECOND PERSON → REAL-WORLD CONSEQUENCE → RETURN`
 
-- execução local via shell/git worktree: `PASS`;
-- `STATE.md` foi o único arquivo alterado pelo packet;
-- alterações locais não relacionadas foram preservadas;
-- commit e push foram rastreados separadamente;
-- PR `#73` foi merged;
-- classificação final: `PASS / CANONICAL`.
+O primeiro run deve ser `concierge-first`:
 
-Aprendizagem observada:
+- 1 participante externo real;
+- 1 contexto real;
+- 1 necessidade/projeto/atividade real;
+- 1 segunda pessoa real;
+- canais existentes quando suficientes, inclusive WhatsApp;
+- sem oportunidade fictícia;
+- sem incentivo financeiro artificial;
+- sem construir tecnologia antes de identificar uma propriedade perdida.
 
-> registrar um SHA de `main` como se fosse o HEAD permanentemente atual cria
-> autorreferência impossível, porque o merge da própria atualização avança
-> `main`.
+`view / click / signup / like / interest / message sent` não contam sozinhos como
+consequência real.
 
-Correção adotada:
+## PR #95 — WORLD-001→007 / DATA-FOUNDATION
 
-> `STATE.md` pode registrar o baseline/proveniência de uma edição, mas o HEAD
-> atual deve ser consultado dinamicamente quando necessário.
+Estado operacional:
 
-### WP-002 — concluído
+`VERIFIED LOCAL / NOT CANONICAL / PARKED FOR HA-001`
 
-`WP-002-STATE-PORTABILITY` foi executado, verificado e promovido ao GitHub
-canônico pelo PR `#74`.
+O PR #95 contém uma fundação candidata relevante, incluindo mapas semânticos,
+migrations, testes e uma correção coerente de privacidade para não expor
+automaticamente o Registro Original na projeção pública.
 
-Caminho que realmente passou:
+Ele não está rejeitado.
 
-`Work Packet/target preparado → patch determinístico → git apply em worktree isolado → verificação determinística → promoção local autorizada`
+Ele também não é requisito do caminho crítico de `HABITABLE-ALPHA-001` enquanto
+não houver resposta concreta para:
 
-Resultado observado:
+> Qual propriedade do primeiro run seria perdida se essa fundação não fosse
+> promovida agora?
 
-- segundo caminho determinístico de execução: `PASS`;
-- somente `STATE.md` foi alterado;
-- base, escopo, STOP gates e Result Package foram preservados;
-- nenhuma dependência de Codex, Ollama, Aider ou API de IA foi necessária;
-- classificação final do WP-002: `PASS / CANONICAL`.
+Não promover por antecipação apenas porque o trabalho já existe.
 
-Tentativas que não devem ser tratadas como sucesso:
-
-- escrita direta `ChatGPT → GitHub`: `FAIL / 403` por permissão do conector;
-- Qwen local como executor: não produziu caminho útil e não alterou estado
-  canônico.
-
-Limite da evidência:
-
-- o fundador ainda executou um comando local para disparar o executor;
-- redução do fundador como middleware: `PARTIAL`;
-- eliminação completa do Terminal humano: `NOT PROVEN`;
-- intercambiabilidade universal entre agentes/executores: `NOT PROVEN`.
-
-## Classificação arquitetural atual para continuidade
-
-- `STATE.md`: `ADOPT`.
-- GitHub Issue/PR/branch: `ADOPT`.
-- Linear: `ADOPT`.
-- padrão `CONTEXT-PACKET-*` / Work Packet Markdown: `MAP`.
-- patch Git determinístico + worktree isolado: `ADOPT` para execução limitada.
-- escrita direta pelo conector ChatGPT→GitHub: `UNAVAILABLE` no teste atual
-  (`403`); não é requisito de continuidade.
-- JSON adicional para Work Packet: `NOT NEEDED YET`.
-- CLI local `cz ...`: `NOT NEEDED YET`.
-- novo protocolo/MCP/RAG: `NOT NEEDED`.
-
-## Direção de produto mais ampla
-
-`decisions/D006-mvp-habitavel-30-dias.md` permanece um registro canônico de
-direção humana de 2026-08-21.
-
-Entretanto, financiamento não custodial, smart contract/testnet e demais itens
-de D006 não pertencem ao marco ativo `AGENT-EXECUTION-CONTINUITY` e não recebem
-autorização de execução por este estado. Qualquer retomada exige escopo,
-propriedade concreta e autorização explícitos.
-
-Blockchain, token, NFT, DAO ou chain própria não entram no caminho crítico por
-padrão.
-
-## Invariantes em vigor
+## Invariantes
 
 Preservar:
 
@@ -207,61 +129,73 @@ Preservar:
 - atividade ≠ contribuição ≠ resultado ≠ evidência ≠ avaliação ≠ reputação;
 - sponsorship ≠ endorsement ≠ contribution ≠ economic right;
 - PREPARED ≠ EXECUTED ≠ VERIFIED ≠ COMMITTED ≠ PUSHED ≠ MERGED ≠ CANONICAL;
-- Verification ≠ Outcome.
+- Verification ≠ Outcome;
+- COMMITTED ≠ EXECUTED ≠ VERIFIED.
 
-Confiança deve ser contextual:
+Confiança permanece contextual:
 
 `confio em X para Y com base em Z`
 
 e não um score universal.
 
-Nenhum direito econômico retroativo.
+## Arquitetura e construção
 
-## Segurança e resiliência
+Antes de criar tecnologia própria:
 
-- escrita somente em workspace/branch explicitamente autorizados;
+> Esta propriedade já pode ser preservada com padrão, processo ou infraestrutura existente?
+
+Classificar:
+
+`ADOPT / MAP / EXTEND / MISSING`
+
+Para `EXTEND` ou `MISSING`, responder:
+
+> Qual propriedade concreta será perdida se não criarmos isso?
+
+Sem resposta clara, não construir.
+
+Não presumir blockchain, DID, VC, IPFS, DAO, token, graph database, novo
+protocolo, MCP, RAG, CLI ou plataforma própria.
+
+## Segurança, privacidade e resiliência
+
+- workspace explícito;
+- escrita somente no escopo autorizado;
 - branch Git para mudanças;
 - secrets fora do repositório;
 - least privilege;
-- push/PR/merge somente com autorização;
+- promoção somente com autoridade humana;
+- LGPD e legislação brasileira aplicável;
 - dados essenciais exportáveis;
-- nenhum SaaS deve conter a única cópia de dados essenciais;
-- segurança, LGPD e legislação brasileira aplicável permanecem requisitos;
-- Discord não é opção arquitetural atual.
+- nenhum SaaS como única cópia de dados essenciais;
+- nenhuma informação pessoal real de participante deve ser adicionada ao
+  repositório como fixture ou documentação pública.
 
 ## Próximo gate
 
-Decisão humana para `MAI-27`:
+Executar `WP-HA-001-FIRST-EXTERNAL-RUN.md` somente após decisão humana sobre:
 
-> um único comando humano para disparar um executor autocontido e verificável é
-> suficiente como MVP de continuidade, ou existe uma propriedade concreta que
-> ainda exige remover também esse comando?
+1. qual contexto real será usado;
+2. qual pessoa externa será convidada;
+3. qual segunda pessoa/necessidade real torna a ação possível;
+4. quais dados pessoais mínimos são realmente necessários.
 
-Evidência disponível para a decisão:
-
-1. `WP-001`: shell + substituição controlada em git worktree — `PASS / CANONICAL`;
-2. `WP-002`: patch determinístico + `git apply` em git worktree —
-   `PASS / CANONICAL`;
-3. nenhum dos dois exige Codex, Ollama, Aider ou API de IA para continuidade;
-4. o conector ChatGPT→GitHub não possui hoje autoridade de escrita suficiente;
-5. o fundador ainda funciona como disparador local de um comando.
-
-Não construir CLI, MCP, protocolo ou automação adicional sem identificar uma
-propriedade concreta perdida pelo modelo de um comando.
+O Work Packet não autoriza implementação de código, schema, deploy ou contato
+com participante por si só.
 
 ## Estado resumido
 
 `OPERATING-LOOP-MVP / CANONICAL / PASS N=1 INTERNAL`
 
-`WP-001 / CANONICAL / PASS`
+`AGENT-EXECUTION-CONTINUITY / MVP ACCEPTED`
 
-`WP-002 / CANONICAL / PASS`
+`PRODUCT-DISCOVERY-002 / CANONICAL`
 
-`EXECUTION-PATH PORTABILITY / PASS FOR TWO DETERMINISTIC PATHS`
+`D007 / CANONICAL`
 
-`FOUNDER TERMINAL MIDDLEWARE / REDUCED / NOT ELIMINATED`
+`HABITABLE-ALPHA-001 / PREPARED / NOT EXECUTED`
 
-`AGENT-EXECUTION-CONTINUITY / IN PROGRESS`
+`PR #95 / PARKED / NOT REQUIRED FOR HA-001 YET`
 
 `EXTERNAL UTILITY / NOT TESTED`
 
