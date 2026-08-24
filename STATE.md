@@ -1,12 +1,24 @@
 # Estado operacional atual
 
-Última atualização: 2026-08-23
+Última atualização: 2026-08-24
 
 Repositório canônico: `MMaia-jr/celula-zero`
 
 Esta é a Working Spec curta. História detalhada permanece em decisões, issues,
 commits, PRs, testes e artefatos vinculados. O HEAD atual de `main` deve ser
 consultado dinamicamente quando necessário.
+
+## Porta de entrada pública — ENTRY-POINT-ALPHA-001
+
+`MERGED / CANONICAL` via PR `#98`, merge
+`141e76dd88ff984e5299a9323c5263f57443c0dc`.
+
+Teste cego: `STRANGER-COMPREHENSION-001 / PASS N=3 ACCESSIBLE AGENTS`;
+`AGENT-REPOSITORY-ACCESS-001 / PARTIAL N=4`.
+
+Limite: demonstra reconstrução substancial por agentes que acessaram o repo;
+não demonstra compreensão humana, utilidade externa, serviço público, adoção,
+PMF ou escala.
 
 ## Identidade e missão
 
@@ -74,7 +86,10 @@ ou demonstração de propriedade concreta pelo Habitable Alpha.
 
 Estado:
 
-`PREPARED / NOT EXECUTED`
+`PREPARED / OUTREACH INITIATED / ENTRY NOT YET OBSERVED`
+
+O contato externo foi iniciado, mas o run ainda não foi executado: não há ação
+do participante externo observada. Utilidade externa ainda não foi demonstrada.
 
 Pergunta central:
 
@@ -100,6 +115,31 @@ O primeiro run deve ser `concierge-first`:
 
 `view / click / signup / like / interest / message sent` não contam sozinhos como
 consequência real.
+
+## Contextos externos ativos
+
+### REAL-DEMAND-001 — EdgeLoom
+
+`edgeloom-oss/edgeloom#31`
+
+Finding delimitado reproduzido localmente; private disclosure enviado.
+
+`DISCLOSURE: SENT / RESPONSE: NOT YET / PUBLIC DISCLOSURE: NO`
+
+Não reinterpretar retroativamente a reprodução anterior como etapa do HA-001.
+
+### Candidato HA-001 — ResoVerse Commons
+
+`tombudd/ResoVerse-Commons#4`
+
+Necessidade real e participante candidato identificados; outreach design-first
+publicado com proveniência da Célula Zero.
+
+`OUTREACH: PUBLISHED / ENTRY: NOT YET OBSERVED / PARTICIPANT ACTION: NOT YET OBSERVED`
+
+`IMPLEMENTATION: NOT STARTED`
+
+Não implementar antes de resposta/narrowing do maintainer.
 
 ## PR #95 — WORLD-001→007 / DATA-FOUNDATION
 
@@ -173,15 +213,18 @@ protocolo, MCP, RAG, CLI ou plataforma própria.
 
 ## Próximo gate
 
-Executar `WP-HA-001-FIRST-EXTERNAL-RUN.md` somente após decisão humana sobre:
+No ResoVerse, observar sem inferência:
 
-1. qual contexto real será usado;
-2. qual pessoa externa será convidada;
-3. qual segunda pessoa/necessidade real torna a ação possível;
-4. quais dados pessoais mínimos são realmente necessários.
+`ENTRY → ACTION → RELATION → REAL-WORLD CONSEQUENCE → RETURN`.
 
-O Work Packet não autoriza implementação de código, schema, deploy ou contato
-com participante por si só.
+EdgeLoom permanece aguardando resposta ao private disclosure.
+
+`DECISION / HUMAN DIRECTION`: a espera externa não bloqueia trabalho paralelo,
+desde que não fabrique participante/utilidade, não antecipe implementação
+ResoVerse e não crie tecnologia sem propriedade concreta demonstrada.
+
+Nenhum Work Packet existente autoriza por si só código, schema, deploy ou nova
+divulgação externa.
 
 ## Estado resumido
 
@@ -193,11 +236,18 @@ com participante por si só.
 
 `D007 / CANONICAL`
 
-`HABITABLE-ALPHA-001 / PREPARED / NOT EXECUTED`
+`ENTRY-POINT-ALPHA-001 / MERGED / CANONICAL`
+
+`HABITABLE-ALPHA-001 / PREPARED / OUTREACH INITIATED / ENTRY NOT YET OBSERVED`
+
+`EDGELOOM PRIVATE DISCLOSURE / SENT / RESPONSE NOT YET`
+
+`RESOVERSE #4 / CONTACT PUBLISHED / IMPLEMENTATION NOT STARTED`
 
 `PR #95 / PARKED / NOT REQUIRED FOR HA-001 YET`
 
-`EXTERNAL UTILITY / NOT TESTED`
+
+`EXTERNAL UTILITY / NOT YET DEMONSTRATED`
 
 `ADOPTION / NOT TESTED`
 
