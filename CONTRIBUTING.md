@@ -1,92 +1,171 @@
 # Contributing
 
-Status: provisional contribution policy v0.1.
+Status: provisional contribution policy for the current external-alpha stage.
 
-Célula Zero is currently building its provenance, authorship and governance framework.
+Célula Zero can receive bounded external proposals and contributions, but submission does **not** automatically create authority, endorsement, ownership, economic rights, a Commitment or a merge obligation.
 
-For this reason, substantive external contributions should not yet be merged automatically.
+The repository currently has **no repository-wide open license**. Public readability does not by itself grant a general right to reuse or redistribute repository content. See `RIGHTS.md`.
 
-## Current rule
+## Start here
 
-Before accepting a substantive contribution from a new human contributor, the project must establish:
+Before proposing substantive work:
+
+1. Read `README.md`.
+2. Read `STATE.md` for the current operational state and next gate.
+3. Read `PROTOCOL.md` for the distinctions and authority rules that must be preserved.
+4. Follow the active issue, Work Packet, decision or experiment only when it is consistent with `STATE.md`.
+
+Do not infer the current roadmap from an old issue, round, branch or historical experiment.
+
+## Before a substantive contribution can be incorporated
+
+The project must establish, when applicable:
 
 1. who produced the contribution;
 2. whether the contributor has the right to provide it;
 3. its provenance;
 4. its content class;
 5. whether publication is authorized;
-6. whether any personal, confidential, Indigenous, traditional or restricted knowledge is involved;
+6. whether personal, confidential, Indigenous, traditional, security-sensitive or restricted knowledge is involved;
 7. what rights, if any, the contributor grants for storage, publication, modification or reuse.
 
-Until a more complete contributor agreement is adopted, no transfer of intellectual-property ownership should be inferred from submission alone.
+No transfer of intellectual-property ownership is inferred from submission alone.
 
-## Content classes
+For software or documentation intended for incorporation, rights must be explicit enough for the intended use; the absence of a repository-wide license must not be silently papered over.
 
-Contributions should, where applicable, be identified as one of the project's content classes:
+## What can I contribute now?
 
-- Registro Original
-- Interpretação
-- Síntese
-- Decisão
-- Convenção Operacional
+Useful external contributions may include:
 
-Additional classes may be introduced through an explicit protocol change.
+- a bounded review of an existing project or artifact;
+- research answering a real open question;
+- a concrete bug or security finding through the appropriate disclosure channel;
+- documentation that removes a demonstrated comprehension barrier;
+- code addressing a clearly scoped property loss;
+- a proposal to help with a real opportunity;
+- verification or critique under explicit criteria;
+- a real connection, resource or capability relevant to an active context.
 
-A contribution must not be silently moved from one class to another.
+Prefer small real contributions over broad speculative architecture.
 
-## Provenance
+## A minimal proposal
 
-Whenever possible, a contribution should record:
+When proposing substantive work, state:
 
-- contributor or source;
+- **Context / need** — the real problem or opportunity.
+- **Capability** — what you can actually do.
+- **Expected delivery** — the smallest observable result you expect to produce.
+- **Conditions** — constraints, dependencies, availability or access requirements.
+- **Reward expectation** — voluntary, reciprocal, paid, bounty, none, or another explicit arrangement.
+- **Evidence of capability** — when relevant, prior work or another bounded signal.
+- **Provenance** — who is proposing and whether AI materially assisted.
+
+A GitHub issue, comment or pull request may preserve a proposal or contribution record, but **it does not by itself mean that the Operating Loop has created a formal Proposal or Commitment**.
+
+## Where to submit
+
+Use the smallest existing channel that fits the work:
+
+- an existing GitHub issue when it already contains the relevant context;
+- a narrowly scoped new issue when no suitable public context exists;
+- a pull request only for a reviewable repository change whose incorporation terms and scope are clear;
+- a private security/contact channel when publication would create unnecessary risk.
+
+For sensitive material, do not publish first and negotiate privacy later.
+
+## Human and AI contributors
+
+A human contributor should be identifiable enough to preserve authorship, relevant rights and consent for the specific contribution.
+
+If an AI system materially contributes, record when relevant:
+
+- the AI/model or system;
+- the responsible human operator;
+- authorized scope;
+- important tools/sources;
+- material limitations.
+
+AI-generated content must not be presented as a verbatim human statement unless the human actually made that statement.
+
+## Provenance and content classes
+
+Preserve, where applicable:
+
+- contributor/source;
 - date;
 - context;
-- original location or conversation;
+- original location;
 - whether the material is original or derived;
 - transformations performed;
-- relevant consent or disclosure restrictions.
+- publication/consent restrictions.
 
-## AI-assisted contributions
+Do not silently collapse:
 
-If an AI system materially participates in producing content, its participation should be disclosed when relevant to provenance.
+`Original Record ≠ Interpretation ≠ Claim ≠ Evidence ≠ Verification ≠ Decision`
 
-AI-assisted material must not be presented as a verbatim human statement unless the human actually made that statement.
+If a contribution contains several classes, keep the boundaries explicit.
+
+## Rights and economics
+
+Submission alone does not imply:
+
+- intellectual-property transfer;
+- salary;
+- equity;
+- token allocation;
+- future revenue;
+- governance rights;
+- endorsement;
+- retroactive compensation.
+
+Any economic right must arise from explicit prospective conditions or agreement, not from contribution after the fact.
+
+Preserve:
+
+`Opportunity → Conditions → Agreement → Contribution`
+
+See `RIGHTS.md`.
 
 ## Sensitive material
 
-Do not submit to the public repository:
+Do not submit publicly:
 
-- passwords or authentication credentials;
-- private keys or seed phrases;
-- unnecessary identification numbers;
-- private addresses or contact information;
+- passwords, credentials, private keys or seed phrases;
 - confidential documents;
-- sensitive personal information;
-- Indigenous or traditional knowledge whose disclosure has not been appropriately authorized;
-- information whose publication could create material risk for a person or community.
+- unnecessary personal identifiers or private contact details;
+- sensitive personal data;
+- exploit details when responsible disclosure requires privacy;
+- Indigenous or traditional knowledge without appropriate disclosure authority;
+- information whose publication could create material risk for a person, community or project.
 
-When uncertain, do not publish first and resolve later. Keep the material outside the public repository until its disclosure status is determined.
+When uncertain, keep the material private until disclosure authority is clear.
 
-## Original statements
+## Pull requests and promotion
 
-Original participant records must not be silently rewritten to improve clarity, grammar or consistency.
-
-Corrections, interpretations and summaries should be stored separately or explicitly identified.
-
-## Pull requests
-
-A pull request does not automatically establish that its contents are accepted as:
+A pull request does not automatically establish that its contents are:
 
 - fact;
 - consensus;
 - project policy;
-- intellectual-property transfer;
-- endorsement by other participants.
+- a human decision;
+- a verified result;
+- accepted rights terms.
 
-Acceptance into the repository records incorporation into the shared record according to the classification and provenance stated for that contribution.
+Preserve:
 
-## Future contributor agreement
+`PREPARED ≠ EXECUTED ≠ VERIFIED ≠ COMMITTED ≠ PUSHED ≠ MERGED ≠ CANONICAL`
 
-A more specific contribution agreement may later define rights required for collaborative editing, redistribution, software development or publication.
+Substantive promotion remains subject to explicit human authority, review and applicable rights.
 
-Any such agreement should be adopted explicitly and prospectively.
+## What makes a contribution useful here?
+
+Prefer work that helps answer at least one of these:
+
+- Did a real external need become a clear opportunity?
+- Did someone produce an observable contribution?
+- Is there a non-circular source that supports or challenges a Claim?
+- Did a real-world consequence occur?
+- Did an external person find the result useful?
+- What concrete property is still missing?
+
+The goal is not repository activity for its own sake. It is increased real capability, evidence and contextual trust while preserving uncertainty.
