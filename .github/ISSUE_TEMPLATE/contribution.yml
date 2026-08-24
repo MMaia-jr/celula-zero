@@ -1,0 +1,67 @@
+name: Contribution proposal
+description: Propose a small, bounded contribution to a real current need.
+title: "[CONTRIBUTION] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Prefer a small observable contribution over speculative architecture. An issue records communication; it does not automatically create a formal Proposal, Commitment, authority, economic right or acceptance.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context / need
+      description: What real problem, opportunity or current issue would this help?
+    validations:
+      required: true
+
+  - type: textarea
+    id: capability
+    attributes:
+      label: Capability
+      description: What can you actually contribute?
+    validations:
+      required: true
+
+  - type: textarea
+    id: delivery
+    attributes:
+      label: Expected delivery
+      description: What is the smallest observable result you expect to produce?
+    validations:
+      required: true
+
+  - type: textarea
+    id: conditions
+    attributes:
+      label: Conditions / constraints
+      description: Dependencies, access requirements, availability or other constraints.
+
+  - type: dropdown
+    id: reward
+    attributes:
+      label: Reward expectation
+      options:
+        - None / voluntary
+        - Reciprocal contribution
+        - Paid work
+        - Bounty
+        - Other / needs explicit agreement
+    validations:
+      required: true
+
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenance / capability evidence
+      description: Relevant prior work, sources, and whether AI materially assisted this proposal.
+
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Rights and safety
+      options:
+        - label: I will not submit secrets, unnecessary personal data, confidential material or restricted knowledge publicly.
+          required: true
+        - label: I understand that contribution, endorsement, authority and economic rights are separate and require explicit conditions where applicable.
+          required: true

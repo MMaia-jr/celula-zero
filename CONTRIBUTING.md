@@ -6,6 +6,20 @@ Célula Zero can receive bounded external proposals and contributions, but submi
 
 The repository currently has **no repository-wide open license**. Public readability does not by itself grant a general right to reuse or redistribute repository content. See `RIGHTS.md`.
 
+## Fast path
+
+For a small software or documentation contribution:
+
+1. Read `README.md` and the current `STATE.md`.
+2. Use `docs/DEVELOPMENT.md` to clone, run and test the software locally.
+3. Prefer an existing issue whose scope is already clear; otherwise use the bounded contribution template.
+4. Keep the change focused and run the relevant deterministic checks.
+5. Open a pull request using the repository template and state what was actually executed versus only proposed.
+6. For security-sensitive findings, follow `SECURITY.md` instead of publishing exploit details.
+7. Follow `CODE_OF_CONDUCT.md` in project-controlled participation spaces.
+
+The deeper provenance, rights, authority and sensitive-material rules below still apply. The fast path does not waive them.
+
 ## Start here
 
 Before proposing substantive work:

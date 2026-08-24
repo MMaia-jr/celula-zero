@@ -24,6 +24,8 @@ If you are new, use this order:
 4. **[CONTRIBUTING.md](CONTRIBUTING.md)** — how to propose or contribute safely.
 5. Follow only the active decisions, Work Packets, tests and results referenced by `STATE.md` for the task you are trying to understand.
 
+If you want to run or test the current software locally, use **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)**. For security-sensitive findings, read **[SECURITY.md](SECURITY.md)** before publishing details. Participation expectations are in **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)**.
+
 Do **not** infer current priority from an old issue, round, branch, pull request, historical experiment or superseded decision without checking `STATE.md`.
 
 Some canonical operational material is written in Portuguese. This README provides an English front door for external readers; translations are aids and do not silently replace the canonical source text.
