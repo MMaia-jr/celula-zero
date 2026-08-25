@@ -329,6 +329,64 @@ O comentário da própria Célula Zero não conta como `ENTRY` nem `ACTION`.
 Não iniciar preregistration, dataset, baseline ou comparação com LLM antes de
 comportamento externo substantivo que aceite, rejeite ou ajuste o boundary.
 
+## Public App Alpha Deployment
+
+`PUBLIC-APP-ALPHA-DEPLOY-001 / EXECUTED + HTTP VERIFIED / CANONICAL WHEN THIS CHANGE LANDS`
+
+A aplicação Next.js deixou de existir apenas como runtime local e possui uma
+superfície pública always-on verificada por HTTP:
+
+`https://celula-zero-marcosmaiajr-8127.vercel.app`
+
+Deployment de produção verificado durante a promoção:
+
+`https://celula-zero.vercel.app`
+
+Backend hospedado:
+
+`Supabase project ref = pvhbrpnclxjqnkdijkfi`
+
+O deploy foi realizado somente depois de:
+
+- `PUBLIC-OPPORTUNITY-TO-PROPOSAL-001` canônico;
+- `IDENTITY-PROFILE-ALPHA-001` canônico;
+- 11 migrations canônicas promovidas ao Supabase hospedado;
+- `db push --dry-run`;
+- `db push` sem seed de desenvolvimento;
+- configuração de Auth com Site URL e callback públicos;
+- variáveis públicas do Supabase configuradas no runtime Vercel;
+- Vercel configurada explicitamente como Next.js com output do framework.
+
+Verificação operacional do primeiro public alpha:
+
+- `/` responde por HTTP;
+- `/api/health` responde por HTTP;
+- `/login` responde por HTTP;
+- `/projects` responde por HTTP;
+- endpoint público de settings do Supabase Auth responde.
+
+Isto estabelece **deploy público**, não estabelece por si só:
+
+- G1 PASS;
+- Proposal externa real;
+- Profile externo real;
+- utilidade externa;
+- recorrência;
+- segurança auditada de produção;
+- reputação;
+- wallet/Web3;
+- adoção.
+
+A aplicação continua sem custody, pagamentos, smart contracts, universal
+reputation score ou autoridade implícita.
+
+Próxima fronteira:
+
+`PUBLIC-APP-ALPHA → REAL EXTERNAL ACCOUNT/PROFILE/PROPOSAL → EXTERNAL CREDENTIAL LINKING`
+
+`GitHub / Google / wallet` continuam credenciais adicionais futuras, e não
+substitutos de `Profile` ou `Actor`.
+
 ## Identity + Profile Alpha
 
 `IDENTITY-PROFILE-ALPHA-001 / MERGED + CANONICAL WHEN THIS CHANGE LANDS`
