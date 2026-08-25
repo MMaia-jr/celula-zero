@@ -5,6 +5,7 @@ import { z } from "zod";
 import { submitPublicProposalAction } from "@/app/projects/[slug]/opportunities/[opportunityId]/propose/actions";
 import { getPublicOpenOpportunity } from "@/lib/data/public-opportunities";
 import { getPublicProjectBySlug } from "@/lib/data/projects";
+import { getLocale } from "@/lib/i18n/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 interface PublicProposalPageProps {
@@ -12,6 +13,8 @@ interface PublicProposalPageProps {
 }
 
 export default async function PublicProposalPage({ params }: PublicProposalPageProps) {
+  const locale = await getLocale();
+  const en = locale === "en";
   const { slug, opportunityId } = await params;
   if (!z.string().uuid().safeParse(opportunityId).success) notFound();
 
@@ -28,11 +31,15 @@ export default async function PublicProposalPage({ params }: PublicProposalPageP
         <div className="breadcrumb">
           <Link href={`/projects/${project.slug}`}>{project.title}</Link>
           <span aria-hidden="true">/</span>
-          <span>Fazer proposta</span>
+          <span>{en ? "Make proposal" : "Fazer proposta"}</span>
         </div>
         <section className="content-block">
-          <h1>Backend não configurado</h1>
-          <p>Esta ação exige o ambiente Supabase da aplicação.</p>
+          <h1>{en ? "Backend not configured" : "Backend não configurado"}</h1>
+          <p>
+            {en
+              ? "This action requires the application's Supabase environment."
+              : "Esta ação exige o ambiente Supabase da aplicação."}
+          </p>
         </section>
       </main>
     );
@@ -55,8 +62,14 @@ export default async function PublicProposalPage({ params }: PublicProposalPageP
     return (
       <main className="section-shell">
         <section className="content-block">
-          <h1>Identidade atribuível não encontrada</h1>
-          <p>A sessão existe, mas nenhum Actor PERSON controlado por este Profile foi encontrado.</p>
+          <h1>
+            {en ? "Attributable identity not found" : "Identidade atribuível não encontrada"}
+          </h1>
+          <p>
+            {en
+              ? "The session exists, but no PERSON Actor controlled by this Profile was found."
+              : "A sessão existe, mas nenhum Actor PERSON controlado por este Profile foi encontrado."}
+          </p>
         </section>
       </main>
     );
@@ -75,21 +88,27 @@ export default async function PublicProposalPage({ params }: PublicProposalPageP
           <p className="mini-label">PUBLIC OPPORTUNITY → PROPOSAL</p>
           <h1>{opportunity.title}</h1>
           <p>{opportunity.statement}</p>
+          {en ? (
+            <p className="block-note">
+              Opportunity content is shown as authored. Interface labels are translated separately.
+            </p>
+          ) : null}
         </div>
       </header>
 
       <section className="content-block">
-        <p className="mini-label">Antes de enviar</p>
-        <h2>Proposal não é Commitment.</h2>
+        <p className="mini-label">{en ? "Before sending" : "Antes de enviar"}</p>
+        <h2>{en ? "Proposal is not Commitment." : "Proposal não é Commitment."}</h2>
         <p>
-          Você está declarando o que pode entregar e sob quais condições.
-          Só existe compromisso depois de aceite explícito do responsável pelo projeto.
+          {en
+            ? "You are declaring what you can deliver and under which conditions. A commitment exists only after explicit acceptance by the project steward."
+            : "Você está declarando o que pode entregar e sob quais condições. Só existe compromisso depois de aceite explícito do responsável pelo projeto."}
         </p>
         <dl>
-          <div><dt>Condições publicadas</dt><dd>{opportunity.conditions}</dd></div>
-          <div><dt>Resultado esperado</dt><dd>{opportunity.expectedResult}</dd></div>
-          <div><dt>Capacidade</dt><dd>{opportunity.capacity}</dd></div>
-          <div><dt>Proponente</dt><dd>{actor.name}</dd></div>
+          <div><dt>{en ? "Published conditions" : "Condições publicadas"}</dt><dd>{opportunity.conditions}</dd></div>
+          <div><dt>{en ? "Expected result" : "Resultado esperado"}</dt><dd>{opportunity.expectedResult}</dd></div>
+          <div><dt>{en ? "Capacity" : "Capacidade"}</dt><dd>{opportunity.capacity}</dd></div>
+          <div><dt>{en ? "Proposer" : "Proponente"}</dt><dd>{actor.name}</dd></div>
         </dl>
       </section>
 
@@ -106,19 +125,23 @@ export default async function PublicProposalPage({ params }: PublicProposalPageP
           />
 
           <label>
-            <span>O que você propõe fazer?</span>
+            <span>{en ? "What do you propose to do?" : "O que você propõe fazer?"}</span>
             <textarea
               name="statement"
               rows={5}
               minLength={10}
               maxLength={4000}
               required
-              placeholder="Descreva a entrega que você está oferecendo."
+              placeholder={
+                en
+                  ? "Describe the delivery you are offering."
+                  : "Descreva a entrega que você está oferecendo."
+              }
             />
           </label>
 
           <label>
-            <span>Suas condições</span>
+            <span>{en ? "Your conditions" : "Suas condições"}</span>
             <textarea
               name="conditions"
               rows={4}
@@ -130,7 +153,7 @@ export default async function PublicProposalPage({ params }: PublicProposalPageP
           </label>
 
           <label>
-            <span>Entrega esperada</span>
+            <span>{en ? "Expected delivery" : "Entrega esperada"}</span>
             <textarea
               name="expectedDelivery"
               rows={4}
@@ -142,18 +165,22 @@ export default async function PublicProposalPage({ params }: PublicProposalPageP
           </label>
 
           <label>
-            <span>Expectativa econômica</span>
+            <span>{en ? "Economic expectation" : "Expectativa econômica"}</span>
             <input
               name="rewardExpectation"
               minLength={2}
               maxLength={1000}
               required
-              defaultValue="A combinar / voluntário se aplicável."
+              defaultValue={
+                en
+                  ? "To be agreed / voluntary if applicable."
+                  : "A combinar / voluntário se aplicável."
+              }
             />
           </label>
 
           <button className="button button-primary" type="submit">
-            Enviar Proposal
+            {en ? "Send Proposal" : "Enviar Proposal"}
           </button>
         </form>
       </section>

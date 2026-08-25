@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { resolveSafeNext } from "@/lib/auth/redirect";
+import { coerceLocale } from "@/lib/i18n/core";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { LoginActionState } from "@/app/login/state";
 
@@ -9,15 +10,28 @@ export async function requestAccessLink(
   _previousState: LoginActionState,
   formData: FormData,
 ): Promise<LoginActionState> {
+  const locale = coerceLocale(formData.get("locale"));
+  const en = locale === "en";
   const email = z.string().trim().email().safeParse(formData.get("email"));
-  if (!email.success) return { status: "ERROR", message: "Informe um e-mail válido." };
+
+  if (!email.success) {
+    return {
+      status: "ERROR",
+      message: en ? "Enter a valid email address." : "Informe um e-mail válido.",
+    };
+  }
 
   const requestedNext =
     typeof formData.get("next") === "string" ? String(formData.get("next")) : null;
   const next = resolveSafeNext(requestedNext, "/projects");
 
   const client = await createSupabaseServerClient();
-  if (!client) return { status: "ERROR", message: "Supabase local não configurado." };
+  if (!client) {
+    return {
+      status: "ERROR",
+      message: en ? "Supabase is not configured." : "Supabase local não configurado.",
+    };
+  }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const { error } = await client.auth.signInWithOtp({
@@ -28,9 +42,19 @@ export async function requestAccessLink(
     },
   });
 
-  if (error) return { status: "ERROR", message: "Não foi possível emitir o link de acesso." };
+  if (error) {
+    return {
+      status: "ERROR",
+      message: en
+        ? "The access link could not be issued."
+        : "Não foi possível emitir o link de acesso.",
+    };
+  }
+
   return {
     status: "SENT",
-    message: "Link emitido. Abra o e-mail para continuar exatamente de onde você parou.",
+    message: en
+      ? "Access link issued. Open the email to continue exactly where you left off."
+      : "Link emitido. Abra o e-mail para continuar exatamente de onde você parou.",
   };
 }
