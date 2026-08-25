@@ -118,19 +118,30 @@ O roadmap não substitui D007/D008 nem autoriza gates futuros.
 
 ## Track B — COORDINATION ARCHITECTURE
 
-Gate atual:
+`G-C1 — COORDINATION REFERENCE MODEL / COMPLETE / EXTENSION JUSTIFIED`.
 
-`G-C1 — COORDINATION REFERENCE MODEL / CURRENT TRACK B`.
+O resultado canônico está em `GATE-C1-RESULT.md`.
 
-Objetivo:
+A minimização preservou os dois casos de referência e reduziu a extensão
+CZ-specific candidata a quatro classes semânticas:
 
-- representar end-to-end um caso econômico e um caso não econômico;
-- mapear cada propriedade contra standards/processos existentes;
-- classificar `ADOPT / MAP / EXTEND / MISSING`;
-- explicitar qualquer propriedade perdida que justificaria extensão própria;
-- produzir uma `Social Projection` delimitada dos mesmos eventos sem colapsar registro privado, evidência, decisão ou reputação.
+`Need / Claim / Verification / Decision`.
 
-G-C1 é investigação arquitetural/produto. Não demonstra utilidade externa, adoção, PMF ou escala e não autoriza implementação.
+O restante do modelo deve ser primeiro composto como standards/profile patterns,
+incluindo PROV para proveniência, ActivityStreams para eventos sociais/offer-
+accept, ODRL para terms/agreement quando aplicável e A2A quando execução por
+software agents realmente exigir task/artifact interoperability.
+
+`CZ SEMANTIC MINIMUM CANDIDATE / 4 CLASSES / NOT IMPLEMENTED`.
+
+Gate atual do Track B:
+
+`G-C2 — DUAL-CASE PROFILE REPRESENTATION / CURRENT TRACK B`.
+
+G-C2 deve representar mecanicamente os dois casos usando os standards mapeados
+e no máximo as quatro classes CZ candidatas. Ele é teste de representação, não
+produção, e não autoriza código de aplicação, schema de banco, deploy, smart
+contract, wallet, fundos ou nova divulgação externa.
 
 ## Marco ativo — HABITABLE-ALPHA-001
 
@@ -323,11 +334,17 @@ sem propriedade concreta demonstrada.
 
 ### Track B
 
-`G-C1 — COORDINATION REFERENCE MODEL`.
+`G-C1 — COORDINATION REFERENCE MODEL / COMPLETE / EXTENSION JUSTIFIED`.
 
-Próximo trabalho válido: reduzir os `TBD` do Reference Model por mapeamento direcionado de standards existentes e concluir `COMPOSITION SUFFICIENT`, `EXTENSION JUSTIFIED`, `MISSING PROPERTY IDENTIFIED` ou `INCONCLUSIVE`.
+`G-C2 — DUAL-CASE PROFILE REPRESENTATION / CURRENT`.
 
-Nenhum Work Packet existente autoriza por si só código, schema, deploy, smart contract, movimentação de fundos ou nova divulgação externa.
+Próximo trabalho válido: representar os casos econômico e não econômico de
+`GATE-C1-RESULT.md` com PROV + ActivityStreams + ODRL/A2A somente quando
+aplicáveis, sem introduzir uma quinta classe CZ sem uma propriedade concreta
+perdida.
+
+Nenhum Work Packet existente autoriza por si só código de aplicação, schema de
+banco, deploy, smart contract, movimentação de fundos ou nova divulgação externa.
 
 ## Estado resumido
 
@@ -339,7 +356,11 @@ Nenhum Work Packet existente autoriza por si só código, schema, deploy, smart 
 
 `D008 / CANONICAL / TRACK A + TRACK B`
 
-`G-C1 COORDINATION REFERENCE MODEL / CURRENT TRACK B`
+`G-C1 COORDINATION REFERENCE MODEL / COMPLETE / EXTENSION JUSTIFIED`
+
+`CZ SEMANTIC MINIMUM CANDIDATE / 4 CLASSES / NOT IMPLEMENTED`
+
+`G-C2 DUAL-CASE PROFILE REPRESENTATION / CURRENT TRACK B`
 
 `ENTRY-POINT-ALPHA-001 / MERGED / CANONICAL`
 
