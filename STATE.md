@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última atualização: 2026-08-24
+Última atualização: 2026-08-25
 
 Repositório canônico: `MMaia-jr/celula-zero`
 
