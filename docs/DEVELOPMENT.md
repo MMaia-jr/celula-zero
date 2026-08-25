@@ -2,7 +2,7 @@
 
 This guide is the shortest supported path for running the current Célula Zero software locally.
 
-Célula Zero does **not** currently claim an always-on public application. `STATE.md` is authoritative for the current operational state. This document only describes the local development environment represented in this repository.
+Célula Zero has a bounded public alpha deployment; `STATE.md` is authoritative for its exact operational status and evidence limits. This document describes the local development environment represented in this repository.
 
 ## Prerequisites
 
