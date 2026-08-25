@@ -1,12 +1,37 @@
 # Estado operacional atual
 
-Última atualização: 2026-08-24
+Última atualização: 2026-08-25
 
 Repositório canônico: `MMaia-jr/celula-zero`
 
 Esta é a Working Spec curta. História detalhada permanece em decisões, issues,
 commits, PRs, testes e artefatos vinculados. O HEAD atual de `main` deve ser
 consultado dinamicamente quando necessário.
+
+## Programa ativo de produto — INTEGRATED-ALPHA-001
+
+Direção humana atual: avançar por um programa integrado e cumulativo até uma
+experiência habitável completa, evitando tanto micro-patches sem horizonte
+quanto expansão arquitetural sem propriedade concreta demonstrada.
+
+Roadmap ativo:
+
+`INTEGRATED-ALPHA-ROADMAP.md`
+
+Trajetória cumulativa:
+
+`T1 SOCIAL COORDINATION WORLD`
+→ `T2 WORK → EVIDENCE → DECISION`
+→ `T3 HUMAN ↔ AI COORDINATION`
+→ `T4 ECONOMY / EXTERNAL INTEROPERABILITY — CONDITIONAL`
+
+Tranche atual:
+
+`T1 — SOCIAL COORDINATION WORLD`
+
+O roadmap orienta a trajetória deliberada; este `STATE.md` continua sendo o
+estado operacional curto. O roadmap não autoriza automaticamente implementação,
+deploy, integração econômica, contato externo, commit, push, PR ou merge.
 
 ## Porta de entrada pública — ENTRY-POINT-ALPHA-001
 
