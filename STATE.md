@@ -295,6 +295,40 @@ O comentário da própria Célula Zero não conta como `ENTRY` nem `ACTION`.
 Aguardar comportamento externo substantivo antes de produzir SPEC-403 ou
 qualquer infraestrutura.
 
+### Candidato G1 — ControlZ auto-classification research
+
+`yahiakortam/controlZ#3`
+
+Need externo explícito: o projeto investiga se documentação de APIs, OpenAPI,
+assinaturas de métodos ou docstrings permitem propor classificações de
+reversibilidade com precisão suficiente para revisão humana, sem converter a
+proposta em classificação confiada automaticamente.
+
+O próprio issue exige ground truth, baseline barato, comparação posterior e
+tratamento explícito da assimetria de erro: um falso `REVERSIBLE` é mais
+perigoso que uma classificação excessivamente conservadora.
+
+Em 2026-08-24 foi publicado outreach research-first com proveniência da Célula
+Zero, propondo congelar primeiro sampling, registro de ground truth, tratamento
+de ambiguidade, baseline heurístico, métricas assimétricas de erro e separação
+de comparação antes de produzir dataset completo ou avaliação com LLM.
+
+`OUTREACH: PUBLISHED / COMMENT #5403777505`
+
+`ENTRY: NOT YET OBSERVED`
+
+`PARTICIPANT ACTION: NOT YET OBSERVED`
+
+`RESEARCH: NOT STARTED`
+
+`DATASET: NOT STARTED`
+
+`LLM COMPARISON: NOT STARTED`
+
+O comentário da própria Célula Zero não conta como `ENTRY` nem `ACTION`.
+Não iniciar preregistration, dataset, baseline ou comparação com LLM antes de
+comportamento externo substantivo que aceite, rejeite ou ajuste o boundary.
+
 ## PR #95 — WORLD-001→007 / DATA-FOUNDATION
 
 Estado operacional:
@@ -371,9 +405,10 @@ protocolo, MCP, RAG, CLI ou plataforma própria.
 
 `G1 — EXTERNAL ENTRY + VOLUNTARY ACTION`.
 
-No ResoVerse e no GittieLabs #245, observar `ENTRY` e `ACTION` sem inferência.
-Outreach publicado não conta como `ENTRY`; mensagem/comentário enviado pela
-Célula Zero não conta como ação do participante.
+No ResoVerse, no GittieLabs #245 e no ControlZ #3, observar `ENTRY` e
+`ACTION` sem inferência. Outreach publicado não conta como `ENTRY`;
+mensagem/comentário enviado pela Célula Zero não conta como ação do
+participante.
 
 A cadeia completa permanece:
 
