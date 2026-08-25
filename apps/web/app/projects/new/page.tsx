@@ -2,12 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ProjectForm } from "@/components/project-form";
+import { getLocale } from "@/lib/i18n/server";
 import { getSupabasePublicEnvironment } from "@/lib/supabase/config";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export const metadata: Metadata = { title: "Plantar projeto" };
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  return { title: locale === "en" ? "Create project" : "Criar projeto" };
+}
 
 export default async function NewProjectPage() {
+  const locale = await getLocale();
+  const en = locale === "en";
   const environment = getSupabasePublicEnvironment();
 
   if (!environment) {
@@ -15,20 +21,24 @@ export default async function NewProjectPage() {
       <div className="narrow-page section-shell">
         <div className="setup-panel">
           <span className="setup-icon" aria-hidden="true">⌁</span>
-          <p className="kicker">Modo leitura local</p>
-          <h1>Conecte o Supabase local para plantar um projeto.</h1>
+          <p className="kicker">{en ? "Backend unavailable" : "Backend indisponível"}</p>
+          <h1>
+            {en
+              ? "Project creation requires the configured Supabase environment."
+              : "A criação de projeto exige o ambiente Supabase configurado."}
+          </h1>
           <p>
-            O catálogo público usa seeds portáveis sem banco. A escrita só é habilitada quando
-            autenticação, convite e RLS estão ativos — nunca por um atalho no navegador.
+            {en
+              ? "Public reading can remain available, but attributable writes are never enabled by a browser-only shortcut."
+              : "A leitura pública pode continuar disponível, mas escrita atribuível nunca é habilitada por um atalho apenas no navegador."}
           </p>
-          <ol>
-            <li>Inicie o Supabase local conforme o runbook.</li>
-            <li>Copie as chaves públicas para <code>.env.local</code>.</li>
-            <li>Entre com o e-mail de piloto permitido.</li>
-          </ol>
           <div className="hero-actions">
-            <Link className="button button-primary" href="/about/gate-1">Abrir runbook</Link>
-            <Link className="button button-secondary" href="/projects">Voltar aos projetos</Link>
+            <Link className="button button-primary" href="/about/gate-1">
+              {en ? "How it works" : "Como funciona"}
+            </Link>
+            <Link className="button button-secondary" href="/projects">
+              {en ? "Back to projects" : "Voltar aos projetos"}
+            </Link>
           </div>
         </div>
       </div>
@@ -42,11 +52,19 @@ export default async function NewProjectPage() {
   return (
     <div className="form-page section-shell">
       <header className="form-header">
-        <p className="kicker">Registro controlado</p>
-        <h1>Plante um projeto com intenção e limites explícitos.</h1>
-        <p>O Registro Original será imutável. A publicação cria estado material e eventos na mesma transação.</p>
+        <p className="kicker">{en ? "Controlled record" : "Registro controlado"}</p>
+        <h1>
+          {en
+            ? "Create a project with explicit intent and limits."
+            : "Crie um projeto com intenção e limites explícitos."}
+        </h1>
+        <p>
+          {en
+            ? "The Original Record is preserved. Publication creates material state and events in the same transaction."
+            : "O Registro Original é preservado. A publicação cria estado material e eventos na mesma transação."}
+        </p>
       </header>
-      <ProjectForm />
+      <ProjectForm locale={locale} />
     </div>
   );
 }

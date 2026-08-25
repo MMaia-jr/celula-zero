@@ -3,29 +3,41 @@
 import { redirect } from "next/navigation";
 import type { ProjectActionState } from "@/app/projects/new/state";
 import { projectInputFromFormData, slugifyProjectTitle } from "@/lib/domain/project-schema";
+import { coerceLocale } from "@/lib/i18n/core";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function createProjectAction(
   _previousState: ProjectActionState,
   formData: FormData,
 ): Promise<ProjectActionState> {
+  const locale = coerceLocale(formData.get("locale"));
+  const en = locale === "en";
   const parsed = projectInputFromFormData(formData);
+
   if (!parsed.success) {
     return {
       status: "ERROR",
-      message: "Revise os campos indicados.",
+      message: en ? "Review the highlighted fields." : "Revise os campos indicados.",
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }
 
   const client = await createSupabaseServerClient();
   if (!client) {
-    return { status: "ERROR", message: "Supabase local não configurado.", fieldErrors: {} };
+    return {
+      status: "ERROR",
+      message: en ? "Supabase is not configured." : "Supabase não configurado.",
+      fieldErrors: {},
+    };
   }
 
   const { data: authData } = await client.auth.getUser();
   if (!authData.user) {
-    return { status: "ERROR", message: "Sua sessão expirou. Entre novamente.", fieldErrors: {} };
+    return {
+      status: "ERROR",
+      message: en ? "Your session expired. Sign in again." : "Sua sessão expirou. Entre novamente.",
+      fieldErrors: {},
+    };
   }
 
   const input = parsed.data;
@@ -46,14 +58,22 @@ export async function createProjectAction(
   if (error) {
     return {
       status: "ERROR",
-      message: "O projeto não foi criado. A transação foi revertida por segurança.",
+      message: en
+        ? "The project was not created. The transaction was rolled back safely."
+        : "O projeto não foi criado. A transação foi revertida por segurança.",
       fieldErrors: {},
     };
   }
 
   const created = (Array.isArray(data) ? data[0] : data) as { slug?: string } | null;
   if (!created?.slug) {
-    return { status: "ERROR", message: "O banco não retornou o projeto criado.", fieldErrors: {} };
+    return {
+      status: "ERROR",
+      message: en
+        ? "The database did not return the created project."
+        : "O banco não retornou o projeto criado.",
+      fieldErrors: {},
+    };
   }
 
   redirect(input.publishNow ? `/projects/${created.slug}` : "/projects");

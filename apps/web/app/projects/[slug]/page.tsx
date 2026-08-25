@@ -9,9 +9,12 @@ import {
   actorKindLabel,
   economicRegimeLabel,
   formatLocalizedDate,
+  projectPresentationNeeds,
   projectPresentationTranslation,
+  stageLabel,
 } from "@/lib/i18n/core";
 import { getLocale } from "@/lib/i18n/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -47,10 +50,28 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
     intendedResult: translation?.intendedResult ?? project.intendedResult,
     rulesAndLimits: translation?.rulesAndLimits ?? project.rulesAndLimits,
   };
+  const displayNeeds = projectPresentationNeeds(project.slug, locale, project.needs);
 
   const opportunities = await listPublicOpenOpportunities(project.id);
   const query = searchParams ? await searchParams : {};
   const proposalStatus = first(query.proposal);
+  const opportunityStatus = first(query.opportunity);
+
+  let canOpenOpportunity = false;
+  const client = await createSupabaseServerClient();
+  if (client) {
+    const { data: authData } = await client.auth.getUser();
+    if (authData.user) {
+      const { data: controlledSteward } = await client
+        .from("actors")
+        .select("id")
+        .eq("id", project.steward.id)
+        .eq("kind", "PERSON")
+        .eq("operator_profile_id", authData.user.id)
+        .maybeSingle();
+      canOpenOpportunity = Boolean(controlledSteward);
+    }
+  }
 
   return (
     <div className="project-page section-shell">
@@ -76,6 +97,39 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
         </p>
       ) : null}
 
+      {opportunityStatus === "published" ? (
+        <p className="form-message" role="status">
+          {en
+            ? "Opportunity created as a draft and published separately as OPEN / PUBLIC."
+            : "Oportunidade criada como draft e publicada separadamente como OPEN / PUBLIC."}
+        </p>
+      ) : null}
+
+      {opportunityStatus === "draft-created" ? (
+        <p className="form-message form-neutral" role="status">
+          {en
+            ? "Opportunity draft created. It remains PROJECT-visible until a separate publication command."
+            : "Draft da oportunidade criado. Ele permanece visível no PROJECT até um comando separado de publicação."}
+        </p>
+      ) : null}
+
+      {opportunityStatus === "draft-created-publish-failed" ? (
+        <p className="form-message form-error" role="alert">
+          {en
+            ? "The draft was created, but publication failed. No public state was assumed."
+            : "O draft foi criado, mas a publicação falhou. Nenhum estado público foi presumido."}
+        </p>
+      ) : null}
+
+      {opportunityStatus &&
+      !["published", "draft-created", "draft-created-publish-failed"].includes(opportunityStatus) ? (
+        <p className="form-message form-error" role="alert">
+          {en
+            ? `The opportunity action was not completed (${opportunityStatus}).`
+            : `A ação da oportunidade não foi concluída (${opportunityStatus}).`}
+        </p>
+      ) : null}
+
       {en && translation ? (
         <p className="form-message form-neutral" role="note">
           English text on this page is a derived presentation. The canonical project record remains
@@ -92,7 +146,15 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
           <h1>{project.title}</h1>
           <p>{display.summary}</p>
           <div className="project-actions">
-            <a className="button button-primary" href={`/projects/${project.slug}/export?format=md`}>
+            {canOpenOpportunity ? (
+              <Link className="button button-primary" href={`/projects/${project.slug}/opportunities/new`}>
+                {en ? "Open opportunity" : "Abrir oportunidade"}
+              </Link>
+            ) : null}
+            <a
+              className={canOpenOpportunity ? "button button-secondary" : "button button-primary"}
+              href={`/projects/${project.slug}/export?format=md`}
+            >
               {en ? "Export Markdown" : "Exportar Markdown"}
             </a>
             <a className="button button-secondary" href={`/projects/${project.slug}/export?format=json`}>
@@ -107,7 +169,7 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
           {project.steward.operatorLabel ? <small>{project.steward.operatorLabel}</small> : null}
           <div className="divider" />
           <dl>
-            <div><dt>{en ? "Stage" : "Estágio"}</dt><dd>{project.stage}</dd></div>
+            <div><dt>{en ? "Stage" : "Estágio"}</dt><dd>{stageLabel(project.stage, locale)}</dd></div>
             <div><dt>{en ? "Regime" : "Regime"}</dt><dd>{economicRegimeLabel(project.economicRegime, locale)}</dd></div>
             <div><dt>{en ? "Version" : "Versão"}</dt><dd>{project.version}</dd></div>
             <div>
@@ -213,7 +275,7 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
           <section className="side-block">
             <p className="mini-label">{en ? "Needs now" : "Precisa agora"}</p>
             <div className="need-list">
-              {project.needs.map((need) => <span key={need}>{need}</span>)}
+              {displayNeeds.map((need) => <span key={need}>{need}</span>)}
             </div>
           </section>
           <section className="side-block">

@@ -109,6 +109,39 @@ const englishProjectPresentations: Record<string, ProjectPresentationTranslation
   },
 };
 
+const projectNeedsPresentations: Record<string, Record<Locale, string[]>> = {
+  "celula-zero": {
+    pt: [
+      "onboarding",
+      "usabilidade",
+      "engenharia",
+      "pesquisa",
+      "auditoria",
+      "documentação",
+      "design",
+      "coordenação",
+    ],
+    en: [
+      "onboarding",
+      "usability",
+      "engineering",
+      "research",
+      "audit",
+      "documentation",
+      "design",
+      "coordination",
+    ],
+  },
+};
+
 export function projectPresentationTranslation(slug: string, locale: Locale) {
   return locale === "en" ? englishProjectPresentations[slug] ?? null : null;
+}
+
+export function projectPresentationNeeds(
+  slug: string,
+  locale: Locale,
+  sourceNeeds: string[],
+) {
+  return projectNeedsPresentations[slug]?.[locale] ?? sourceNeeds;
 }
