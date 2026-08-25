@@ -1,9 +1,10 @@
 # COORDINATION-REFERENCE-MODEL-001
 
-Status: `PREPARED / REFERENCE MODEL / NOT EXECUTED`
+Status: `EXECUTED / G-C1 RESULT: EXTENSION JUSTIFIED`
 Date: 2026-08-24
 Related decision: `decisions/D008-coordination-graph-social-projection.md`
 Gate: `G-C1 — COORDINATION REFERENCE MODEL`
+Result package: `GATE-C1-RESULT.md`
 
 ## 1. Purpose
 
