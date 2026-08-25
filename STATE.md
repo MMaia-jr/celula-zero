@@ -329,6 +329,41 @@ O comentário da própria Célula Zero não conta como `ENTRY` nem `ACTION`.
 Não iniciar preregistration, dataset, baseline ou comparação com LLM antes de
 comportamento externo substantivo que aceite, rejeite ou ajuste o boundary.
 
+## Public Opportunity → External Proposal
+
+`PUBLIC-OPPORTUNITY-TO-PROPOSAL-001 / VERIFIED LOCAL / PENDING CANONICAL PROMOTION`
+
+A aplicação agora possui um caminho mínimo em que uma `OPEN/PUBLIC Opportunity`
+pode ser lida na página pública de um projeto e uma pessoa autenticada pode
+submeter uma `Proposal` atribuível sem receber papel global, delegation ou
+membership de piloto.
+
+A autorização da nova entrada pública é limitada por propriedades já materiais:
+
+- sessão autenticada;
+- `Actor PERSON` controlado pelo próprio Profile;
+- projeto público;
+- opportunity `OPEN + PUBLIC`;
+- o mesmo profile que controla o owner da opportunity não pode usar essa porta;
+- a Proposal nasce com visibilidade `PROJECT`;
+- nenhum `Commitment` é criado no submit;
+- nenhum `role_assignment` ou `delegation` é criado implicitamente.
+
+O magic-link por e-mail preserva um `next` interno seguro, permitindo:
+
+`public opportunity → fazer proposta → login/register por e-mail → retornar à proposta`
+
+Isso é implementação local verificada. Não demonstra ainda uso por pessoa
+externa, deploy da aplicação Next.js, G1 PASS, utilidade, recorrência ou adoção.
+
+Próxima frente estrutural após esta capacidade:
+
+`IDENTITY-PROFILE-ALPHA / EMAIL FIRST / MULTI-CREDENTIAL LATER`
+
+Preservar:
+
+`Profile ≠ Login ≠ Identity ≠ Actor ≠ Wallet ≠ Reputation`.
+
 ## PR #95 — WORLD-001→007 / DATA-FOUNDATION
 
 Estado operacional:

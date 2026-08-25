@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { resolveSafeNext } from "@/lib/auth/redirect";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { LoginActionState } from "@/app/login/state";
 
@@ -11,6 +12,10 @@ export async function requestAccessLink(
   const email = z.string().trim().email().safeParse(formData.get("email"));
   if (!email.success) return { status: "ERROR", message: "Informe um e-mail válido." };
 
+  const requestedNext =
+    typeof formData.get("next") === "string" ? String(formData.get("next")) : null;
+  const next = resolveSafeNext(requestedNext, "/projects");
+
   const client = await createSupabaseServerClient();
   if (!client) return { status: "ERROR", message: "Supabase local não configurado." };
 
@@ -18,7 +23,7 @@ export async function requestAccessLink(
   const { error } = await client.auth.signInWithOtp({
     email: email.data,
     options: {
-      emailRedirectTo: `${siteUrl}/auth/callback?next=/projects/new`,
+      emailRedirectTo: `${siteUrl}/auth/callback?next=${encodeURIComponent(next)}`,
       shouldCreateUser: true,
     },
   });
@@ -26,6 +31,6 @@ export async function requestAccessLink(
   if (error) return { status: "ERROR", message: "Não foi possível emitir o link de acesso." };
   return {
     status: "SENT",
-    message: "Link emitido. No ambiente local, abra a caixa de e-mail do Supabase em http://127.0.0.1:54324.",
+    message: "Link emitido. Abra o e-mail para continuar exatamente de onde você parou.",
   };
 }
