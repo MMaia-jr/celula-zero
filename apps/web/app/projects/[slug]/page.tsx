@@ -3,29 +3,53 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectTimeline } from "@/components/project-timeline";
 import { StageBadge } from "@/components/stage-badge";
+import { listPublicOpenOpportunities } from "@/lib/data/public-opportunities";
 import { getPublicProjectBySlug } from "@/lib/data/projects";
 import { economicRegimeLabel, formatDate, actorKindLabel } from "@/lib/presentation/labels";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}
+
+function first(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await getPublicProjectBySlug(slug);
-  return project ? { title: project.title, description: project.summary } : { title: "Projeto não encontrado" };
+  return project
+    ? { title: project.title, description: project.summary }
+    : { title: "Projeto não encontrado" };
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+export default async function ProjectPage({ params, searchParams }: ProjectPageProps) {
   const { slug } = await params;
   const project = await getPublicProjectBySlug(slug);
   if (!project) notFound();
+
+  const opportunities = await listPublicOpenOpportunities(project.id);
+  const query = searchParams ? await searchParams : {};
+  const proposalStatus = first(query.proposal);
 
   return (
     <div className="project-page section-shell">
       <div className="breadcrumb">
         <Link href="/projects">Projetos</Link><span aria-hidden="true">/</span><span>{project.title}</span>
       </div>
+
+      {proposalStatus === "submitted" ? (
+        <p className="form-message" role="status">
+          Proposal registrada. Nenhum Commitment foi criado; o responsável ainda precisa decidir.
+        </p>
+      ) : null}
+
+      {proposalStatus && proposalStatus !== "submitted" ? (
+        <p className="form-message form-error" role="alert">
+          A Proposal não foi registrada ({proposalStatus}). Nenhum sucesso foi presumido.
+        </p>
+      ) : null}
 
       <header className="project-hero">
         <div className="project-hero-main">
@@ -77,6 +101,36 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <p className="mini-label">Resultado pretendido</p>
             <h2>O que seria observável</h2>
             <p>{project.intendedResult}</p>
+          </section>
+
+          <section className="content-block">
+            <p className="mini-label">Oportunidades públicas</p>
+            <h2>Onde alguém pode agir agora</h2>
+            {opportunities.length ? (
+              opportunities.map((opportunity) => (
+                <article className="side-block" key={opportunity.id}>
+                  <div className="project-label-row">
+                    <strong>OPEN</strong>
+                    <span>PUBLIC</span>
+                    <span>capacidade {opportunity.capacity}</span>
+                  </div>
+                  <h3>{opportunity.title}</h3>
+                  <p>{opportunity.statement}</p>
+                  <dl>
+                    <div><dt>Condições</dt><dd>{opportunity.conditions}</dd></div>
+                    <div><dt>Resultado esperado</dt><dd>{opportunity.expectedResult}</dd></div>
+                  </dl>
+                  <Link
+                    className="button button-primary"
+                    href={`/projects/${project.slug}/opportunities/${opportunity.id}/propose`}
+                  >
+                    Fazer uma proposta
+                  </Link>
+                </article>
+              ))
+            ) : (
+              <p>Nenhuma oportunidade pública está aberta neste momento.</p>
+            )}
           </section>
 
           <section className="content-block">
