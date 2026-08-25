@@ -25,6 +25,10 @@ insert into auth.users(id, aud, role, email, raw_app_meta_data, raw_user_meta_da
   (
     '10000000-0000-4000-8000-000000000002', 'authenticated', 'authenticated', 'pilot-b@example.test',
     '{"provider":"email","providers":["email"]}', '{"name":"Piloto B"}', now(), now()
+  ),
+  (
+    '10000000-0000-4000-8000-000000000003', 'authenticated', 'authenticated', 'public-a@example.test',
+    '{"provider":"email","providers":["email"]}', '{"name":"Public A"}', now(), now()
   );
 
 set local role authenticated;
@@ -100,20 +104,33 @@ select ok((select count(*) from public.projects where slug = 'draft-do-piloto-b'
 reset role;
 
 set local role authenticated;
-set local request.jwt.claim.sub = '10000000-0000-4000-8000-000000000099';
-select throws_ok(
+set local request.jwt.claim.sub = '10000000-0000-4000-8000-000000000003';
+select lives_ok(
   $$select * from public.create_project_atomic(
-    'Sem convite ativo', 'sem-convite-ativo', 'Este projeto não deve ser criado por usuário sem convite.',
-    'Uma intenção original que deve ser revertida integralmente.',
-    'Uma interpretação que não deve alcançar estado material.', 'Nada deve persistir.',
-    'O acesso depende de convite ativo.', array['teste'], 'VOLUNTARY', 'OPEN', true
+    'Projeto público sem convite', 'projeto-publico-sem-convite',
+    'Este projeto prova que uma conta pública autenticada pode criar seu próprio projeto.',
+    'Preservar a intenção original de um criador público sem criar autoridade global.',
+    'Criar material, intents, stewardship e eventos por uma única transação atômica.',
+    'Um projeto controlado somente pelo seu próprio steward.',
+    'Sem convite de piloto, sem papel global e sem escrita direta em tabelas.',
+    array['teste'], 'VOLUNTARY', 'OPEN', false
   )$$,
-  '42501', 'active pilot invite required', 'uninvited user cannot create project'
+  'authenticated non-pilot with PERSON actor creates own project atomically'
 );
 reset role;
 
-select is((select count(*)::integer from public.projects where slug = 'sem-convite-ativo'), 0, 'failed authorization leaves no material project');
-select is((select count(*)::integer from public.events e join public.projects p on p.id = e.project_id where p.slug = 'sem-convite-ativo'), 0, 'failed authorization leaves no orphan event');
+select is(
+  (select count(*)::integer from public.projects where slug = 'projeto-publico-sem-convite'),
+  1,
+  'non-pilot project material is created once'
+);
+select ok(
+  private.can_manage_project(
+    (select id from public.projects where slug = 'projeto-publico-sem-convite'),
+    '10000000-0000-4000-8000-000000000003'
+  ),
+  'creator manages own project through PROJECT_STEWARD relationship'
+);
 
 select * from finish();
 rollback;
