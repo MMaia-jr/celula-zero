@@ -4,6 +4,7 @@ import type { ProjectRecord } from "@/lib/domain/types";
 import {
   actorKindLabel,
   economicRegimeLabel,
+  projectPresentationNeeds,
   projectPresentationTranslation,
   type Locale,
 } from "@/lib/i18n/core";
@@ -18,6 +19,7 @@ export function ProjectCard({
   const en = locale === "en";
   const translation = projectPresentationTranslation(project.slug, locale);
   const summary = translation?.summary ?? project.summary;
+  const needs = projectPresentationNeeds(project.slug, locale, project.needs);
 
   return (
     <article className="project-card">
@@ -30,7 +32,7 @@ export function ProjectCard({
         <p>{summary}</p>
       </div>
       <div className="need-list need-list-card">
-        {project.needs.slice(0, 3).map((need) => <span key={need}>{need}</span>)}
+        {needs.slice(0, 3).map((need) => <span key={need}>{need}</span>)}
       </div>
       <div className="project-card-meta">
         <div>
@@ -39,7 +41,7 @@ export function ProjectCard({
           <small>{actorKindLabel(project.steward.kind, locale)}</small>
         </div>
         <div className="meta-right">
-          <span className="mini-label">{en ? "Regime" : "Regime"}</span>
+          <span className="mini-label">Regime</span>
           <strong>{economicRegimeLabel(project.economicRegime, locale)}</strong>
           <small>{en ? "outside the platform" : "fora da plataforma"}</small>
         </div>
