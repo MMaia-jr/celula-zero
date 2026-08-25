@@ -27,7 +27,9 @@ Preserve throughout:
 
 `Proposal ≠ Commitment`
 
-`Verification ≠ Outcome`
+`Commitment ≠ Agreement`
+
+`Verification ≠ Decision ≠ Outcome`
 
 `identity ≠ authentication ≠ authorization ≠ capability ≠ trust`
 
@@ -81,15 +83,20 @@ PROV does **not** by itself define the domain semantics of `Need`, `Opportunity`
 
 The inventory below is intentionally broader than the expected final core. Items may collapse into mappings or derived views after analysis.
 
-### Actors/context
+### Responsible actors / authority
 
 - Person
 - SoftwareAgent
 - Organization
-- Community
-- Project
 - Role
 - Authority/Delegation
+
+### Coordination contexts / collective objects
+
+- Community
+- Project
+
+A Community or Project is not assumed to possess authority merely because it is represented. Actions and decisions attributed to a collective/context require an identifiable governance rule, authorized representative or responsible agent when applicable.
 
 ### Motivation/coordination
 
@@ -99,7 +106,9 @@ The inventory below is intentionally broader than the expected final core. Items
 - Opportunity
 - Conditions
 - Proposal
-- Commitment/Agreement
+- Commitment
+- Agreement
+- Decision
 
 ### Execution/provenance
 
@@ -151,8 +160,9 @@ Need
 → Opportunity
 → 4 Proposals
 → Comparison
-→ Selection
+→ Selection Decision
 → Agreement
+→ Commitment(s)
 → Funding
 → Delegation/Authorization
 → Execution
@@ -160,7 +170,7 @@ Need
 → Artifact
 → Claim/Evidence
 → Verification
-→ Acceptance or Dispute
+→ Acceptance Decision or Dispute
 → Payment/Refund
 → Outcome
 → Contextual History
@@ -175,8 +185,9 @@ Need
 | Opportunity | bounded reason for another actor to act | CZ current Operating Loop; marketplace/job systems | `EXTEND/MAP` | opportunity must not be collapsed into a post/job listing |
 | Proposal | attributed offer + delivery + conditions | CZ current semantics; job/bidding systems | `EXTEND/MAP` | proposal must remain distinct from commitment |
 | Comparison | criteria and attributable analysis | ordinary application logic / decision-support | `ADOPT/MAP` | AI ranking must not become legitimate selection automatically |
-| Selection | authorized decision choosing a proposal | Decision record + provenance | `EXTEND/MAP` | authority for the decision must be explicit |
-| Agreement/Commitment | explicit acceptance of terms by authorized counterparties | CZ current semantics; legal/e-sign/job-contract systems | `EXTEND/MAP` | conditions, versioning and consent need explicit semantics |
+| Selection Decision | authorized decision choosing a proposal | Decision record + provenance | `EXTEND/MAP` | authority for the decision must be explicit |
+| Agreement | prospective terms governing the relation and one or more commitments | legal/e-sign/job-contract systems + provenance | `EXTEND/MAP` | conditions, versioning, consent and governing terms need explicit semantics |
+| Commitment | explicit undertaking by an authorized actor under stated conditions | CZ current semantics; workflow/job systems | `EXTEND/MAP` | must remain distinct from proposal and need not be identical to the broader Agreement |
 | Funding | capital/resource actually committed | conventional escrow, PIX/payment provider, smart-contract escrow candidates | `MAP` | choose only from jurisdiction, risk and required property |
 | Delegation | who may act for whom, for what activity/scope | PROV `actedOnBehalfOf`; role/permission systems | `ADOPT/MAP` | PROV records delegation provenance; enforceable permission may require separate infrastructure |
 | Execution | activity performed by identified actors/agents | PROV `Activity` + `wasAssociatedWith` + `Plan` | `ADOPT` | execution semantics may remain in native system |
@@ -185,7 +196,8 @@ Need
 | Claim | attributed contestable statement | CZ domain entity + provenance | `EXTEND` | PROV can preserve provenance, not CZ claim semantics by itself |
 | Evidence | contextual use of a source in relation to a Claim | CZ extension over PROV entities/usage/derivation | `EXTEND` | must not convert source/provenance into truth |
 | Verification | attributed evaluation under criteria/method | PROV Activity producing Verification Record; attestation/validation systems as candidates | `EXTEND/MAP` | verification semantics, criteria and contestability remain domain-specific |
-| Acceptance | authorized decision on contractual/operational outcome | Decision/agreement system | `EXTEND/MAP` | Verification ≠ Acceptance/Decision |
+| Decision | authorized choice based on available records, criteria and authority | decision record + provenance + local governance | `EXTEND/MAP` | verification may inform a decision but cannot silently become the decision |
+| Acceptance Decision | authorized contractual/operational decision to accept, reject or continue | Decision/agreement system | `EXTEND/MAP` | Verification ≠ Decision; Decision ≠ Outcome |
 | Dispute | disagreement over facts/criteria/acceptance | contractual/legal/arbitration mechanisms; technical candidates | `MAP` | subjective quality and appeal rules are unresolved |
 | Payment/refund | settlement according to agreement/outcome | fiat/PIX/payment provider/stablecoin/job escrow candidates | `ADOPT/MAP` | blockchain not required by default |
 | Outcome | real consequence of the cooperation | contextual record + evidence/measurement | `EXTEND` | verification of deliverable does not prove external outcome |
@@ -219,12 +231,14 @@ This case is reference-only unless linked to a separately authorized real contex
 ```text
 Need
 → Conditions
-→ Proposal/Acceptance
+→ Proposal
+→ Commitment/Acceptance
 → Delegation where needed
 → Contribution
 → Artifact/Result
 → Claim/Evidence
 → Verification/Evaluation
+→ Decision where required
 → Outcome
 → Contextual History
 → New Relation or Opportunity
@@ -236,13 +250,15 @@ Need
 |---|---|---|---|---|
 | Need | real problem/context | native channel + CZ interpretation/confirmation | `MAP/EXTEND` | natural-language source must remain separate from interpretation |
 | Conditions | scope, consent, rights, constraints | agreement/policy records | `EXTEND/MAP` | conditions may be social/legal, not technical |
-| Proposal/Acceptance | offer and explicit acceptance | CZ current Operating Loop | `EXTEND` | preserve Proposal ≠ Commitment |
+| Proposal | attributed offer under stated conditions | CZ current Operating Loop | `EXTEND/MAP` | preserve Proposal ≠ Commitment |
+| Commitment/Acceptance | explicit undertaking or acceptance by an authorized actor | CZ current semantics + agreement/policy records | `EXTEND/MAP` | commitment is not assumed to be identical to a broader Agreement |
 | Delegation | AI/human authority for bounded work | PROV delegation/association | `ADOPT/MAP` | enforcement separate from provenance |
 | Contribution | actual work/resource provided | activity + attributed domain classification | `EXTEND/MAP` | Activity ≠ Contribution; contribution is a contextual classification |
 | Artifact/Result | produced output and observed result | PROV Entity/Activity + native artifact system | `ADOPT/MAP` | Artifact ≠ Result |
 | Claim/Evidence | contestable statement + supporting source relationship | CZ semantics over provenance | `EXTEND` | core candidate for domain layer |
 | Verification/Evaluation | review under explicit criteria | verification activity + record | `EXTEND/MAP` | reviewer authority/competence is contextual |
-| Outcome | consequence in real context | contextual record | `EXTEND` | do not infer from verification alone |
+| Decision | authorized choice when the context requires one | decision record + provenance + local governance | `EXTEND/MAP` | verification may inform but does not replace legitimate decision authority |
+| Outcome | consequence in real context | contextual record | `EXTEND` | do not infer from verification or decision alone |
 | Contextual History | reconstructible episode | PROV Bundle + CZ links/view | `EXTEND/MAP` | privacy/selective disclosure required |
 | New Relation/Opportunity | later cooperation enabled | CZ domain semantics | `EXTEND` | should be observed, not manufactured |
 
@@ -285,7 +301,9 @@ Do not invent a missing layer to preserve the project thesis.
 | Opportunity | not a generic provenance relation |
 | Conditions | may be represented as entities/plan/policy, but agreement meaning is domain-specific |
 | Proposal | can be an entity with provenance; proposal status/semantics are domain-specific |
-| Commitment/Agreement | requires legitimate acceptance/authority semantics beyond provenance |
+| Commitment | requires legitimate undertaking/acceptance and authority semantics beyond provenance |
+| Agreement | requires governing terms, consent/versioning and relation semantics beyond provenance |
+| Decision | can be preserved as a record with provenance, but legitimacy/authority and decision semantics are domain/governance concerns |
 | Contribution | classification of activity/resource as contribution is contextual |
 | Claim | can be an entity/statement but contestability and claim-evidence relation are domain semantics |
 | Evidence | provenance supports traceability, not the epistemic relation `source used as evidence for claim` by itself |
@@ -445,8 +463,10 @@ At the end of the targeted mapping work, produce a table like:
 | bounded delegation provenance | PROV `actedOnBehalfOf` | high | domain scope reference if needed | TBD | `ADOPT/MAP` |
 | Need semantics | TBD | TBD | TBD | TBD | unresolved |
 | Proposal→Commitment | TBD | TBD | TBD | TBD | unresolved |
+| Commitment↔Agreement | TBD | TBD | TBD | TBD | unresolved |
 | Claim→Evidence | TBD | TBD | TBD | TBD | unresolved |
 | Verification semantics | TBD | TBD | TBD | TBD | unresolved |
+| Decision semantics/authority | TBD | TBD | TBD | TBD | unresolved |
 | Contextual History | TBD | TBD | TBD | TBD | unresolved |
 | Social Projection | TBD | TBD | TBD | TBD | unresolved |
 

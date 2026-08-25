@@ -84,17 +84,29 @@ Neither track proves the other.
 
 Use `Coordination Graph` as a working name for a reconstructible set of relations involving concepts such as:
 
-`Actor → Intent → Need → Opportunity → Proposal → Commitment → Delegation → Contribution → Artifact → Claim → Evidence → Verification → Outcome`
+`Actor → Intent → Need → Opportunity → Proposal → Commitment → Delegation → Contribution → Artifact → Claim → Evidence → Verification → Decision → Outcome`
 
-Actors may include, at minimum when context permits:
+Responsible actors/agents may include, at minimum when context permits:
 
 - `Person`;
 - `SoftwareAgent`;
-- `Organization`;
+- `Organization`.
+
+Coordination contexts or collective objects may include:
+
 - `Community`;
 - `Project`.
 
+A `Community` or `Project` does not acquire authority merely by being represented. When an action or decision is attributed to a collective/context, the relevant governance rule, authorized representative or responsible agent must be identifiable when applicable.
+
 This list does not assert that every item is a new primitive. Existing standards must be mapped first.
+
+`Commitment` and `Agreement` are not assumed to be synonyms. The working distinction for `G-C1` is:
+
+- `Commitment` — an explicit undertaking by an actor to perform, provide or refrain from something under stated conditions;
+- `Agreement` — prospective terms governing one or more commitments or a broader relation among parties.
+
+`G-C1` may later collapse, refine or reject this distinction if existing standards or real cases preserve the required property more cleanly.
 
 Preserve:
 
@@ -191,13 +203,13 @@ DeFi is considered only when a concrete financial property requires liquidity, c
 
 A Célula Zero frontend need with multiple candidate providers and a bounded budget, modeled through:
 
-`Need → Opportunity → Proposals → Selection → Agreement → Funding → Delegation → Execution → Milestones → Artifact → Verification → Acceptance/Dispute → Payment → Contextual History → Future Opportunity`
+`Need → Opportunity → Proposals → Selection Decision → Agreement → Commitment(s) → Funding → Delegation → Execution → Milestones → Artifact → Verification → Acceptance Decision/Dispute → Payment → Contextual History → Future Opportunity`
 
 ### Case B — non-economic coordination
 
 A real or explicitly reference-only context in which people and agents cooperate without payment:
 
-`Need → Conditions → Proposal/Acceptance → Contribution → Artifact/Result → Claim/Evidence → Verification/Evaluation → Outcome → Contextual History → New Relation/Opportunity`
+`Need → Conditions → Proposal → Commitment/Acceptance → Contribution → Artifact/Result → Claim/Evidence → Verification/Evaluation → Decision where required → Outcome → Contextual History → New Relation/Opportunity`
 
 If the model only makes sense when money is present, the project has found a marketplace model rather than the broader coordination model being investigated.
 

@@ -133,10 +133,18 @@ Célula Zero is not currently claiming:
 - guaranteed income or retroactive economic rights;
 - that internal `PASS N=1` proves external usefulness.
 
-## Current product question
+## Current product questions
 
-The current product inquiry can be stated as:
+The current direction has two distinct but interacting tracks.
+
+**Track A — real-world habitability**
 
 > Can a real person who was not involved in building Célula Zero enter a small real context without needing the philosophy first, find or express a reason to act, involve another person, produce a real-world consequence, leave an honest contextual history, and later have a concrete reason to return?
 
-The exact active gate and its status are defined in **[STATE.md](STATE.md)**.
+**Track B — coordination architecture**
+
+> What is the smallest interoperable model that can represent cooperation among people, software agents and organizations by adopting or mapping existing standards wherever possible, and how could the same underlying cooperation be projected as a useful social experience for someone who is only observing?
+
+Track B does not prove Track A, and Track A does not automatically define the future architecture.
+
+The exact active gates and their status are defined in **[STATE.md](STATE.md)**.
