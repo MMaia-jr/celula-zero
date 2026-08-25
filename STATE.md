@@ -270,6 +270,31 @@ publicado com proveniência da Célula Zero.
 
 Não implementar antes de resposta/narrowing do maintainer.
 
+### Candidato G1 — GittieLabs SPEC-403
+
+`GittieLabs/hardware-agent-studio#245`
+
+Need externo explícito: o projeto registra que os testes CAD reais foram
+executados em um único ambiente macOS/KiCad/FreeCAD e que alegações
+cross-platform permanecem não verificadas. O issue pede uma specification para
+definir a matriz de verificação.
+
+Em 2026-08-24 foi publicado outreach spec-first com proveniência da Célula Zero,
+propondo separar build/package, native launch, integração KiCad/FreeCAD e
+workflow CAD end-to-end antes de qualquer runner/CI ou implementação.
+
+`OUTREACH: PUBLISHED / COMMENT #5403593646`
+
+`ENTRY: NOT YET OBSERVED`
+
+`PARTICIPANT ACTION: NOT YET OBSERVED`
+
+`IMPLEMENTATION: NOT STARTED`
+
+O comentário da própria Célula Zero não conta como `ENTRY` nem `ACTION`.
+Aguardar comportamento externo substantivo antes de produzir SPEC-403 ou
+qualquer infraestrutura.
+
 ## PR #95 — WORLD-001→007 / DATA-FOUNDATION
 
 Estado operacional:
@@ -346,8 +371,9 @@ protocolo, MCP, RAG, CLI ou plataforma própria.
 
 `G1 — EXTERNAL ENTRY + VOLUNTARY ACTION`.
 
-No ResoVerse, observar `ENTRY` e `ACTION` sem inferência. Outreach publicado não
-conta como `ENTRY`; mensagem enviada não conta como ação do participante.
+No ResoVerse e no GittieLabs #245, observar `ENTRY` e `ACTION` sem inferência.
+Outreach publicado não conta como `ENTRY`; mensagem/comentário enviado pela
+Célula Zero não conta como ação do participante.
 
 A cadeia completa permanece:
 
@@ -363,8 +389,8 @@ somente se um contexto real existir e a propriedade restante for material para
 a decisão externa.
 
 Trabalho paralelo continua permitido sob a direção humana atual, sem fabricar
-participante/utilidade, antecipar implementação ResoVerse ou criar tecnologia
-sem propriedade concreta demonstrada.
+participante/utilidade, antecipar implementação ResoVerse ou GittieLabs, ou
+criar tecnologia sem propriedade concreta demonstrada.
 
 ### Track B
 
