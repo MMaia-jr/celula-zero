@@ -90,25 +90,47 @@ Esse SHA registra a proveniência da transição; não declara o HEAD permanente
 `main`.
 
 D007 supersede D006 apenas quanto ao caminho crítico e sequenciamento imediatos.
-A direção ampla de D006 permanece preservada, porém financiamento, smart
-contract/testnet, marketplace, native messaging e outras capacidades amplas
-estão `DEFERRED / NOT ACTIVE ON CURRENT CRITICAL PATH` até reautorização explícita
-ou demonstração de propriedade concreta pelo Habitable Alpha.
+A direção ampla de D006 permanece preservada.
+
+D008 estabelece dois caminhos estratégicos distintos e complementares:
+
+- `TRACK A — REAL-WORLD HABITABILITY`: mantém G1/HABITABLE-ALPHA e outros contextos reais como trilha de entrada, utilidade e consequência observada;
+- `TRACK B — COORDINATION ARCHITECTURE`: ativa `G-C1 — COORDINATION REFERENCE MODEL` para investigar deliberadamente o menor modelo interoperável de coordenação e sua possível projeção social.
+
+D008 não torna financiamento, smart contracts, marketplace, native messaging ou qualquer stack específica requisitos do produto. Essas capacidades continuam dependentes de `ADOPT / MAP / EXTEND / MISSING` e de uma propriedade concreta que justifique sua adoção ou construção.
 
 ## Roadmap operacional — ROADMAP-002
 
 `docs/ROADMAP-002-HABITABLE-ALPHA-TO-ADOPTION.md` organiza a progressão por
 gates de evidência, não por calendário de features.
 
-Gate atual:
+Gate atual do Track A:
 
-`G1 — EXTERNAL ENTRY + VOLUNTARY ACTION / CURRENT`.
+`G1 — EXTERNAL ENTRY + VOLUNTARY ACTION / CURRENT TRACK A`.
+
+`ROADMAP-002` continua organizando a progressão de evidência do Track A. Ele não esgota o caminho estratégico inteiro após D008.
 
 Regra de seleção:
 
-> Qual gate este trabalho desbloqueia?
+> Qual gate deste track este trabalho desbloqueia?
 
-O roadmap não substitui D007 nem autoriza gates futuros.
+O roadmap não substitui D007/D008 nem autoriza gates futuros.
+
+## Track B — COORDINATION ARCHITECTURE
+
+Gate atual:
+
+`G-C1 — COORDINATION REFERENCE MODEL / CURRENT TRACK B`.
+
+Objetivo:
+
+- representar end-to-end um caso econômico e um caso não econômico;
+- mapear cada propriedade contra standards/processos existentes;
+- classificar `ADOPT / MAP / EXTEND / MISSING`;
+- explicitar qualquer propriedade perdida que justificaria extensão própria;
+- produzir uma `Social Projection` delimitada dos mesmos eventos sem colapsar registro privado, evidência, decisão ou reputação.
+
+G-C1 é investigação arquitetural/produto. Não demonstra utilidade externa, adoção, PMF ou escala e não autoriza implementação.
 
 ## Marco ativo — HABITABLE-ALPHA-001
 
@@ -273,7 +295,9 @@ protocolo, MCP, RAG, CLI ou plataforma própria.
 - nenhuma informação pessoal real de participante deve ser adicionada ao
   repositório como fixture ou documentação pública.
 
-## Próximo gate
+## Próximos gates paralelos
+
+### Track A
 
 `G1 — EXTERNAL ENTRY + VOLUNTARY ACTION`.
 
@@ -297,8 +321,13 @@ Trabalho paralelo continua permitido sob a direção humana atual, sem fabricar
 participante/utilidade, antecipar implementação ResoVerse ou criar tecnologia
 sem propriedade concreta demonstrada.
 
-Nenhum Work Packet existente autoriza por si só código, schema, deploy ou nova
-divulgação externa.
+### Track B
+
+`G-C1 — COORDINATION REFERENCE MODEL`.
+
+Próximo trabalho válido: reduzir os `TBD` do Reference Model por mapeamento direcionado de standards existentes e concluir `COMPOSITION SUFFICIENT`, `EXTENSION JUSTIFIED`, `MISSING PROPERTY IDENTIFIED` ou `INCONCLUSIVE`.
+
+Nenhum Work Packet existente autoriza por si só código, schema, deploy, smart contract, movimentação de fundos ou nova divulgação externa.
 
 ## Estado resumido
 
@@ -308,13 +337,17 @@ divulgação externa.
 
 `D007 / CANONICAL`
 
+`D008 / CANONICAL / TRACK A + TRACK B`
+
+`G-C1 COORDINATION REFERENCE MODEL / CURRENT TRACK B`
+
 `ENTRY-POINT-ALPHA-001 / MERGED / CANONICAL`
 
 `CONTRIBUTOR-FRONT-DOOR-001 / MERGED / CANONICAL`
 
 `ROOT-NORMALIZATION / PR-B1 / MERGED / CANONICAL`
 
-`ROADMAP-002 / G1 EXTERNAL ENTRY + VOLUNTARY ACTION / CURRENT`
+`ROADMAP-002 / G1 EXTERNAL ENTRY + VOLUNTARY ACTION / CURRENT TRACK A`
 
 `REPO-HABITABILITY / NOT YET TESTED WITH EXTERNAL CONTRIBUTOR`
 
