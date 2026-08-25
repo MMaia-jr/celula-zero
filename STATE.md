@@ -134,14 +134,32 @@ software agents realmente exigir task/artifact interoperability.
 
 `CZ SEMANTIC MINIMUM CANDIDATE / 4 CLASSES / NOT IMPLEMENTED`.
 
+`G-C2 — DUAL-CASE PROFILE REPRESENTATION / COMPLETE / PASS`.
+
+Resultado canônico do gate:
+
+`BOTH CASES REPRESENTABLE WITHOUT SEMANTIC COLLAPSE`.
+
+Os dois casos de referência foram representados mecanicamente com as quatro
+classes CZ candidatas mais PROV/ActivityStreams e ODRL/A2A somente quando
+aplicáveis.
+
+`FIFTH CLASS JUSTIFIED: NO`.
+
+`CZ SEMANTIC MINIMUM CANDIDATE / 4 CLASSES / RETAINED / NOT IMPLEMENTED`.
+
 Gate atual do Track B:
 
-`G-C2 — DUAL-CASE PROFILE REPRESENTATION / CURRENT TRACK B`.
+`G-C3 — REAL-EPISODE BACKMAPPING / CURRENT TRACK B`.
 
-G-C2 deve representar mecanicamente os dois casos usando os standards mapeados
-e no máximo as quatro classes CZ candidatas. Ele é teste de representação, não
-produção, e não autoriza código de aplicação, schema de banco, deploy, smart
-contract, wallet, fundos ou nova divulgação externa.
+G-C3 deve testar o perfil contra episódios reais já observados, começando por
+`OPERATING-LOOP-MVP / PASS N=1 INTERNAL` e `EDGELOOM EXTERNAL UTILITY /
+OBSERVED N=1`, sem inventar passos faltantes e sem alterar os estados de
+evidência do Track A.
+
+G-C3 continua sendo teste semântico/produto e não autoriza código de aplicação,
+schema de banco, deploy, smart contract, wallet, fundos ou nova divulgação
+externa.
 
 ## Marco ativo — HABITABLE-ALPHA-001
 
@@ -336,12 +354,15 @@ sem propriedade concreta demonstrada.
 
 `G-C1 — COORDINATION REFERENCE MODEL / COMPLETE / EXTENSION JUSTIFIED`.
 
-`G-C2 — DUAL-CASE PROFILE REPRESENTATION / CURRENT`.
+`G-C2 — DUAL-CASE PROFILE REPRESENTATION / COMPLETE / PASS`.
 
-Próximo trabalho válido: representar os casos econômico e não econômico de
-`GATE-C1-RESULT.md` com PROV + ActivityStreams + ODRL/A2A somente quando
-aplicáveis, sem introduzir uma quinta classe CZ sem uma propriedade concreta
-perdida.
+`FIFTH CLASS JUSTIFIED: NO`.
+
+`G-C3 — REAL-EPISODE BACKMAPPING / CURRENT`.
+
+Próximo trabalho válido: mapear episódios canônicos reais para o perfil mínimo,
+sem inventar eventos ausentes, e classificar cada episódio como `FIT / FIT WITH
+LOSS / FAIL`.
 
 Nenhum Work Packet existente autoriza por si só código de aplicação, schema de
 banco, deploy, smart contract, movimentação de fundos ou nova divulgação externa.
@@ -360,7 +381,11 @@ banco, deploy, smart contract, movimentação de fundos ou nova divulgação ext
 
 `CZ SEMANTIC MINIMUM CANDIDATE / 4 CLASSES / NOT IMPLEMENTED`
 
-`G-C2 DUAL-CASE PROFILE REPRESENTATION / CURRENT TRACK B`
+`G-C2 DUAL-CASE PROFILE REPRESENTATION / COMPLETE / PASS`
+
+`FIFTH CLASS JUSTIFIED / NO`
+
+`G-C3 REAL-EPISODE BACKMAPPING / CURRENT TRACK B`
 
 `ENTRY-POINT-ALPHA-001 / MERGED / CANONICAL`
 
