@@ -1,7 +1,7 @@
 # INTEGRATED-ALPHA-ROADMAP
 
 Class: `WORKING ROADMAP / PRODUCT + ARCHITECTURE`
-Status: `PREPARED / NOT CANONICAL`
+Status: `ACTIVE ROADMAP`
 Canonical repository: `MMaia-jr/celula-zero`
 Canonical base reviewed: `14ea3b6bb6797102248f09029fd9dd44b466de37`
 Program: `INTEGRATED-ALPHA-001`
