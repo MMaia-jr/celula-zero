@@ -148,16 +148,32 @@ aplicáveis.
 
 `CZ SEMANTIC MINIMUM CANDIDATE / 4 CLASSES / RETAINED / NOT IMPLEMENTED`.
 
-Gate atual do Track B:
+`G-C3 — REAL-EPISODE BACKMAPPING / COMPLETE / PASS WITH HISTORICAL LOSS`.
 
-`G-C3 — REAL-EPISODE BACKMAPPING / CURRENT TRACK B`.
+Resultado canônico do gate:
 
-G-C3 deve testar o perfil contra episódios reais já observados, começando por
-`OPERATING-LOOP-MVP / PASS N=1 INTERNAL` e `EDGELOOM EXTERNAL UTILITY /
-OBSERVED N=1`, sem inventar passos faltantes e sem alterar os estados de
-evidência do Track A.
+- `OPERATING-LOOP-MVP: FIT WITH LOSS`;
+- `EDGELOOM EXTERNAL UTILITY N=1: FIT WITH LOSS`;
+- `FIFTH CLASS JUSTIFIED: NO`;
+- `CZ SEMANTIC MINIMUM CANDIDATE / 4 CLASSES / RETAINED / NOT IMPLEMENTED`.
 
-G-C3 continua sendo teste semântico/produto e não autoriza código de aplicação,
+As perdas históricas foram preservadas em vez de corrigidas retrospectivamente:
+
+- o Operating Loop não demonstra um Need independentemente identificável antes
+  da Opportunity;
+- o caso EdgeLoom possui um Original Record de disclosure privado que não deve
+  ser reconstruído a partir da projeção pública.
+
+Track B alcançou a fronteira atual de evidência:
+
+`PROFILE CANDIDATE BOUNDED / HOLD FOR FIELD PRESSURE`.
+
+Não há G-C4 automático. Track B só deve reabrir quando um episódio real perder
+uma propriedade, Track A criar uma necessidade material de captura, uma troca
+entre implementações revelar perda concreta de interoperabilidade, ou
+implementação for separadamente autorizada por requisito real.
+
+Isso não altera o caminho crítico do Track A e não autoriza código de aplicação,
 schema de banco, deploy, smart contract, wallet, fundos ou nova divulgação
 externa.
 
@@ -356,13 +372,16 @@ sem propriedade concreta demonstrada.
 
 `G-C2 — DUAL-CASE PROFILE REPRESENTATION / COMPLETE / PASS`.
 
+`G-C3 — REAL-EPISODE BACKMAPPING / COMPLETE / PASS WITH HISTORICAL LOSS`.
+
+`REAL EPISODES N=2 / FIT WITH LOSS N=2 / FAIL N=0`.
+
 `FIFTH CLASS JUSTIFIED: NO`.
 
-`G-C3 — REAL-EPISODE BACKMAPPING / CURRENT`.
+`TRACK B / PROFILE CANDIDATE BOUNDED / HOLD FOR FIELD PRESSURE`.
 
-Próximo trabalho válido: mapear episódios canônicos reais para o perfil mínimo,
-sem inventar eventos ausentes, e classificar cada episódio como `FIT / FIT WITH
-LOSS / FAIL`.
+Não criar um próximo gate arquitetural apenas para manter atividade. Reabrir
+Track B somente sob propriedade perdida ou necessidade real observada.
 
 Nenhum Work Packet existente autoriza por si só código de aplicação, schema de
 banco, deploy, smart contract, movimentação de fundos ou nova divulgação externa.
@@ -385,7 +404,13 @@ banco, deploy, smart contract, movimentação de fundos ou nova divulgação ext
 
 `FIFTH CLASS JUSTIFIED / NO`
 
-`G-C3 REAL-EPISODE BACKMAPPING / CURRENT TRACK B`
+`G-C3 REAL-EPISODE BACKMAPPING / COMPLETE / PASS WITH HISTORICAL LOSS`
+
+`REAL EPISODES / N=2 / FIT WITH LOSS N=2`
+
+`FIFTH CLASS JUSTIFIED / NO`
+
+`TRACK B / PROFILE CANDIDATE BOUNDED / HOLD FOR FIELD PRESSURE`
 
 `ENTRY-POINT-ALPHA-001 / MERGED / CANONICAL`
 
