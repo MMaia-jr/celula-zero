@@ -329,6 +329,56 @@ O comentário da própria Célula Zero não conta como `ENTRY` nem `ACTION`.
 Não iniciar preregistration, dataset, baseline ou comparação com LLM antes de
 comportamento externo substantivo que aceite, rejeite ou ajuste o boundary.
 
+## Identity + Profile Alpha
+
+`IDENTITY-PROFILE-ALPHA-001 / MERGED + CANONICAL WHEN THIS CHANGE LANDS`
+
+A identidade interna criada no primeiro login agora possui uma superfície mínima
+de presença controlada sem colapsar autenticação, ator, credencial ou reputação.
+
+Modelo preservado:
+
+`Auth User → controls Profile → controls Actor PERSON`
+
+O `Profile` ganha apenas:
+
+- `handle` único e opcional;
+- `display_name`;
+- `bio`;
+- `visibility = PRIVATE | PUBLIC`.
+
+Novos Profiles continuam `PRIVATE` e sem handle por padrão. Publicação é escolha
+explícita do próprio usuário e exige handle. A projeção pública em
+`/people/[handle]` não expõe e-mail, metadata de autenticação, pilot membership,
+wallet ou score de reputação.
+
+A superfície autenticada `/me` permite editar apenas o próprio Profile. Atualizar
+ou publicar Profile não concede `role_assignment`, `delegation`, pilot membership,
+autoridade sobre projeto ou qualquer outra capability.
+
+O nome legível do `Actor PERSON` primário é sincronizado com `display_name` apenas
+como rótulo de atribuição; os objetos permanecem distintos:
+
+`Profile ≠ Login ≠ Identity ≠ Actor ≠ Wallet ≠ Reputation`.
+
+Verificação local exigida neste change:
+
+- app check completo;
+- build de produção;
+- reset local Supabase;
+- suíte pgTAP completa;
+- privacidade por default;
+- handle único;
+- reversão `PUBLIC → PRIVATE`;
+- nenhuma concessão implícita de autoridade.
+
+Isto não implementa ainda OAuth social, wallet/Web3, DID/VC, reputação,
+capability claims públicas, deploy da aplicação Next.js ou descoberta de pessoas.
+
+Próxima fronteira proposta:
+
+`PUBLIC-APP-ALPHA-DEPLOY → EXTERNAL-CREDENTIAL-LINKING`.
+
 ## Public Opportunity → External Proposal
 
 `PUBLIC-OPPORTUNITY-TO-PROPOSAL-001 / VERIFIED LOCAL / PENDING CANONICAL PROMOTION`

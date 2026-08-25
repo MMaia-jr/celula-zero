@@ -13,8 +13,11 @@ export function SiteHeader() {
         <nav aria-label="Navegação principal">
           <Link href="/projects">Projetos</Link>
           <Link href="/workbench">Operar</Link>
+          <Link href="/me">Perfil</Link>
           <Link href="/about/gate-1">Como funciona</Link>
-          <Link className="nav-access" href="/login">Acesso piloto <span aria-hidden="true">↗</span></Link>
+          <Link className="nav-access" href="/login">
+            Entrar <span aria-hidden="true">↗</span>
+          </Link>
         </nav>
       </div>
     </header>
