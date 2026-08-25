@@ -6,6 +6,10 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const files = {
   migration: resolve(root, "supabase/migrations/20260821190000_gate_1_foundation.sql"),
   actorPolicyFix: resolve(root, "supabase/migrations/20260822002000_fix_actor_visibility_policy.sql"),
+  publicProjectCreatorAccess: resolve(
+    root,
+    "supabase/migrations/20260825031203_public_project_creator_access.sql",
+  ),
   seed: resolve(root, "supabase/seed.sql"),
   tests: resolve(root, "supabase/tests/database/gate1.test.sql"),
   authCallback: resolve(root, "apps/web/app/auth/callback/route.ts"),
@@ -16,7 +20,19 @@ const files = {
   workflow: resolve(root, ".github/workflows/gate-1-ci.yml"),
 };
 
-const [migration, actorPolicyFix, seed, tests, authCallback, authRedirect, authJourney, loginAction, projectAction, workflow] = await Promise.all(
+const [
+  migration,
+  actorPolicyFix,
+  publicProjectCreatorAccess,
+  seed,
+  tests,
+  authCallback,
+  authRedirect,
+  authJourney,
+  loginAction,
+  projectAction,
+  workflow,
+] = await Promise.all(
   Object.values(files).map((file) => readFile(file, "utf8")),
 );
 
@@ -27,7 +43,12 @@ const contracts = [
   [migration.includes("enable row level security"), "RLS enabled"],
   [migration.includes("reconcile_project"), "independent material reconciler"],
   [migration.includes("revoke all on all tables"), "minimum table grants"],
-  [migration.includes("active pilot invite required"), "invite-controlled write"],
+  [
+    publicProjectCreatorAccess.includes("create_project_atomic") &&
+      !publicProjectCreatorAccess.includes("active pilot invite required") &&
+      publicProjectCreatorAccess.includes("PROJECT_STEWARD"),
+    "authenticated project creation bound to project stewardship",
+  ],
   [
     actorPolicyFix.includes("security definer") &&
       actorPolicyFix.includes("private.actor_is_visible(id, auth.uid())") &&
@@ -38,7 +59,12 @@ const contracts = [
   [seed.includes("DEMO / SYNTHETIC"), "synthetic seed labeling"],
   [seed.includes("FAIL"), "FAIL counterexample preserved"],
   [tests.includes("pilot A cannot read pilot B draft"), "cross-tenant adversarial test"],
-  [tests.includes("failed authorization leaves no orphan event"), "atomic rollback assertion"],
+  [
+    tests.includes("authenticated non-pilot with PERSON actor creates own project atomically") &&
+      tests.includes("non-pilot project material is created once") &&
+      tests.includes("creator manages own project through PROJECT_STEWARD relationship"),
+    "authenticated non-pilot atomic project creation assertion",
+  ],
   [
     authJourney.includes("Receber link local") &&
       authJourney.includes("Criar projeto") &&

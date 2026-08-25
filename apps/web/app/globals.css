@@ -326,3 +326,36 @@ input:focus, textarea:focus, select:focus { border-color: var(--moss); box-shado
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* I18N-ALPHA-001 */
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin-inline: 0.1rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+}
+
+.language-switcher button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  opacity: 0.55;
+  padding: 0.15rem 0.2rem;
+}
+
+.language-switcher button:hover,
+.language-switcher button:focus-visible,
+.language-switcher button.language-active {
+  opacity: 1;
+}
+
+.language-switcher button.language-active {
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.22rem;
+}
