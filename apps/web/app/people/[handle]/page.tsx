@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FollowControl } from "@/components/follow-control";
+import { listPublicNeeds } from "@/lib/data/needs";
 import { getPublicProfile } from "@/lib/data/profiles";
+import { listPublicProjects } from "@/lib/data/projects";
 import { getLocale } from "@/lib/i18n/server";
 
 interface PublicProfilePageProps {
@@ -38,6 +41,10 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
   const profile = await getPublicProfile(handle);
   if (!profile) notFound();
 
+  const [projects, needs] = await Promise.all([listPublicProjects(), listPublicNeeds()]);
+  const attributableProjects = projects.filter((project) => project.steward.id === profile.actorId);
+  const attributableNeeds = needs.filter((need) => need.ownerActorId === profile.actorId);
+
   return (
     <div className="section-shell">
       <div className="breadcrumb">
@@ -61,6 +68,39 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         <h2>Actor PERSON</h2>
         <p>{profile.actorName}</p>
         <p>{en ? "This Actor is the attributable subject used in Célula Zero actions. The Profile is only the public projection chosen by the person who controls it." : "Este Actor é o sujeito atribuível usado em ações da Célula Zero. O Profile é apenas a projeção pública escolhida pela pessoa que o controla."}</p>
+      </section>
+
+      <section className="content-block">
+        <p className="mini-label">{en ? "Public coordination context" : "Contexto público de coordenação"}</p>
+        <h2>{en ? "Projects and first-class Needs" : "Projetos e Needs de primeira classe"}</h2>
+        {attributableProjects.length ? (
+          <ul>
+            {attributableProjects.map((project) => (
+              <li key={project.id}><Link href={`/projects/${project.slug}`}>{project.title}</Link></li>
+            ))}
+          </ul>
+        ) : <p>{en ? "No public project stewarded by this Actor." : "Nenhum projeto público conduzido por este Actor."}</p>}
+        {attributableNeeds.length ? (
+          <ul>
+            {attributableNeeds.map((need) => (
+              <li key={need.id}><Link href={`/needs/${need.id}`}>{need.title}</Link></li>
+            ))}
+          </ul>
+        ) : null}
+      </section>
+
+      <section className="content-block">
+        <p className="mini-label">{en ? "Relationship" : "Relação"}</p>
+        <FollowControl
+          targetType="ACTOR"
+          targetId={profile.actorId}
+          returnTo={`/people/${profile.handle}`}
+        />
+        <p className="block-note">
+          {en
+            ? "Follow is private by default and does not imply endorsement, contribution or reputation."
+            : "Follow é privado por padrão e não implica endosso, contribuição ou reputação."}
+        </p>
       </section>
 
       <section className="funding-warning">

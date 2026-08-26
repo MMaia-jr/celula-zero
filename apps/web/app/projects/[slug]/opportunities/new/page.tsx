@@ -3,12 +3,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createPublicOpportunityAction } from "@/app/projects/[slug]/opportunities/new/actions";
+import { getPublicNeed } from "@/lib/data/needs";
 import { getPublicProjectBySlug } from "@/lib/data/projects";
 import { getLocale } from "@/lib/i18n/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 interface NewOpportunityPageProps {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}
+
+function first(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
 }
 
 export async function generateMetadata({ params }: NewOpportunityPageProps): Promise<Metadata> {
@@ -27,20 +33,33 @@ export async function generateMetadata({ params }: NewOpportunityPageProps): Pro
   };
 }
 
-export default async function NewOpportunityPage({ params }: NewOpportunityPageProps) {
+export default async function NewOpportunityPage({
+  params,
+  searchParams,
+}: NewOpportunityPageProps) {
   const locale = await getLocale();
   const en = locale === "en";
   const { slug } = await params;
+  const query = searchParams ? await searchParams : {};
+  const needId = first(query.need) ?? null;
   const project = await getPublicProjectBySlug(slug);
 
   if (!project) notFound();
+
+  const linkedNeed = needId ? await getPublicNeed(needId) : null;
+  if (needId && (!linkedNeed || linkedNeed.projectId !== project.id)) {
+    redirect(`/projects/${project.slug}?opportunity=need-link-invalid`);
+  }
 
   const client = await createSupabaseServerClient();
   if (!client) redirect(`/projects/${project.slug}?opportunity=backend-unavailable`);
 
   const { data: authData } = await client.auth.getUser();
   if (!authData.user) {
-    redirect(`/login?next=${encodeURIComponent(`/projects/${project.slug}/opportunities/new`)}`);
+    const suffix = linkedNeed ? `?need=${linkedNeed.id}` : "";
+    redirect(
+      `/login?next=${encodeURIComponent(`/projects/${project.slug}/opportunities/new${suffix}`)}`,
+    );
   }
 
   const { data: controlledSteward } = await client
@@ -51,7 +70,9 @@ export default async function NewOpportunityPage({ params }: NewOpportunityPageP
     .eq("operator_profile_id", authData.user.id)
     .maybeSingle();
 
-  if (!controlledSteward) redirect(`/projects/${project.slug}?opportunity=steward-control-denied`);
+  if (!controlledSteward) {
+    redirect(`/projects/${project.slug}?opportunity=steward-control-denied`);
+  }
 
   return (
     <main className="form-page section-shell">
@@ -62,31 +83,74 @@ export default async function NewOpportunityPage({ params }: NewOpportunityPageP
       </div>
 
       <header className="form-header">
-        <p className="kicker">PROJECT_STEWARD → OPPORTUNITY</p>
-        <h1>{en ? "Turn a real project need into an explicit opportunity." : "Transforme uma necessidade real do projeto em uma oportunidade explícita."}</h1>
-        <p>{en ? "Creation first records a DRAFT / PROJECT opportunity. Publication is a separate authorized command that changes it to OPEN / PUBLIC." : "A criação registra primeiro uma oportunidade DRAFT / PROJECT. A publicação é um comando autorizado separado que a transforma em OPEN / PUBLIC."}</p>
+        <p className="kicker">NEED → OPPORTUNITY</p>
+        <h1>
+          {en
+            ? "Define actionable conditions without collapsing the Need into the Opportunity."
+            : "Defina condições de ação sem colapsar a Need na Opportunity."}
+        </h1>
+        <p>
+          {en
+            ? "Creation records a DRAFT first. Publication remains a separate authorized command."
+            : "A criação registra primeiro um DRAFT. A publicação continua sendo um comando autorizado separado."}
+        </p>
       </header>
 
-      <section className="content-block">
-        <p className="mini-label">{en ? "Language of authored content" : "Idioma do conteúdo autorado"}</p>
-        <p>{en ? "The interface is bilingual, but the content you write below is preserved as authored. If this opportunity should be immediately understandable in both languages, write a concise PT + EN source text." : "A interface é bilíngue, mas o conteúdo escrito abaixo é preservado como autorado. Se esta oportunidade precisar ser compreendida imediatamente nos dois idiomas, escreva um texto-fonte conciso em PT + EN."}</p>
-      </section>
+      {linkedNeed ? (
+        <section className="content-block">
+          <p className="mini-label">{en ? "Linked first-class Need" : "Need de primeira classe vinculada"}</p>
+          <h2><Link href={`/needs/${linkedNeed.id}`}>{linkedNeed.title}</Link></h2>
+          <p>{linkedNeed.statement}</p>
+          <p className="block-note">Need ≠ Opportunity</p>
+        </section>
+      ) : (
+        <section className="content-block">
+          <p className="mini-label">{en ? "No first-class Need selected" : "Nenhuma Need de primeira classe selecionada"}</p>
+          <p>
+            {en
+              ? "This Opportunity may still be created for backward compatibility. A first-class Need link is preferred when one exists."
+              : "Esta Opportunity ainda pode ser criada por compatibilidade. Quando existir uma Need de primeira classe, o vínculo é preferível."}
+          </p>
+        </section>
+      )}
 
       <form className="project-form" action={createPublicOpportunityAction}>
         <input type="hidden" name="projectSlug" value={project.slug} />
+        <input type="hidden" name="needId" value={linkedNeed?.id ?? ""} />
         <input type="hidden" name="createCommandId" value={randomUUID()} />
-        <input type="hidden" name="createIdempotencyKey" value={`public-opportunity-create-${randomUUID()}`} />
+        <input
+          type="hidden"
+          name="createIdempotencyKey"
+          value={`public-opportunity-create-${randomUUID()}`}
+        />
         <input type="hidden" name="publishCommandId" value={randomUUID()} />
-        <input type="hidden" name="publishIdempotencyKey" value={`public-opportunity-publish-${randomUUID()}`} />
+        <input
+          type="hidden"
+          name="publishIdempotencyKey"
+          value={`public-opportunity-publish-${randomUUID()}`}
+        />
 
         <label>
           <span>{en ? "Title" : "Título"}</span>
-          <input name="title" minLength={4} maxLength={160} required placeholder={en ? "Help make Célula Zero understandable to a newcomer" : "Ajude a tornar a Célula Zero compreensível para alguém novo"} />
+          <input
+            name="title"
+            minLength={4}
+            maxLength={160}
+            required
+            defaultValue={linkedNeed ? linkedNeed.title : undefined}
+          />
         </label>
 
         <label>
-          <span>{en ? "What needs to happen?" : "O que precisa acontecer?"}</span>
-          <textarea name="statement" rows={6} minLength={10} maxLength={4000} required />
+          <span>{en ? "What can someone act on?" : "Sobre o que alguém pode agir?"}</span>
+          <textarea
+            name="statement"
+            rows={6}
+            minLength={10}
+            maxLength={4000}
+            required
+            defaultValue={linkedNeed ? linkedNeed.statement : undefined}
+          />
         </label>
 
         <label>
@@ -102,7 +166,11 @@ export default async function NewOpportunityPage({ params }: NewOpportunityPageP
         <label>
           <span>{en ? "Capacity" : "Capacidade"}</span>
           <input name="capacity" type="number" min={1} max={1000} defaultValue={1} required />
-          <small>{en ? "Maximum number of accepted Commitments before capacity is filled." : "Número máximo de Commitments aceitos antes de a capacidade ser preenchida."}</small>
+          <small>
+            {en
+              ? "Maximum accepted Commitments before capacity is filled."
+              : "Número máximo de Commitments aceitos antes de a capacidade ser preenchida."}
+          </small>
         </label>
 
         <div className="publish-row">
@@ -110,13 +178,23 @@ export default async function NewOpportunityPage({ params }: NewOpportunityPageP
             <input name="publishNow" type="checkbox" defaultChecked />
             <span>
               <strong>{en ? "Publish now" : "Publicar agora"}</strong>
-              <small>{en ? "After the draft is created, run the separate publication command." : "Depois de criar o draft, execute o comando separado de publicação."}</small>
+              <small>
+                {en
+                  ? "The separate publish command runs only after draft creation succeeds."
+                  : "O comando separado de publicação roda somente após a criação do draft."}
+              </small>
             </span>
           </label>
-          <p>{en ? "Opening an opportunity does not create a Commitment, contributor role, reputation or payment." : "Abrir uma oportunidade não cria Commitment, papel de contributor, reputação ou pagamento."}</p>
+          <p>
+            {en
+              ? "Opportunity publication creates no Proposal, Commitment, contributor role, reputation or payment."
+              : "Publicar uma Opportunity não cria Proposal, Commitment, papel de contributor, reputação ou pagamento."}
+          </p>
         </div>
 
-        <button className="button button-primary button-large" type="submit">{en ? "Create opportunity" : "Criar oportunidade"}</button>
+        <button className="button button-primary button-large" type="submit">
+          {en ? "Create opportunity" : "Criar opportunity"}
+        </button>
       </form>
     </main>
   );

@@ -5,8 +5,14 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+const optionalUuid = z.preprocess(
+  (value) => (value === null || value === "" ? undefined : value),
+  z.string().uuid().optional(),
+);
+
 const schema = z.object({
   projectSlug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).max(80),
+  needId: optionalUuid,
   title: z.string().trim().min(4).max(160),
   statement: z.string().trim().min(10).max(4000),
   conditions: z.string().trim().min(3).max(4000),
@@ -22,6 +28,7 @@ const schema = z.object({
 export async function createPublicOpportunityAction(formData: FormData): Promise<void> {
   const parsed = schema.safeParse({
     projectSlug: formData.get("projectSlug"),
+    needId: formData.get("needId"),
     title: formData.get("title"),
     statement: formData.get("statement"),
     conditions: formData.get("conditions"),
@@ -42,7 +49,8 @@ export async function createPublicOpportunityAction(formData: FormData): Promise
 
   const { data: authData } = await client.auth.getUser();
   if (!authData.user) {
-    const next = `/projects/${input.projectSlug}/opportunities/new`;
+    const suffix = input.needId ? `?need=${input.needId}` : "";
+    const next = `/projects/${input.projectSlug}/opportunities/new${suffix}`;
     redirect(`/login?next=${encodeURIComponent(next)}`);
   }
 
@@ -52,7 +60,9 @@ export async function createPublicOpportunityAction(formData: FormData): Promise
     .eq("slug", input.projectSlug)
     .maybeSingle();
 
-  if (projectError || !project) redirect(`/projects/${input.projectSlug}?opportunity=project-not-found`);
+  if (projectError || !project) {
+    redirect(`/projects/${input.projectSlug}?opportunity=project-not-found`);
+  }
 
   const { data: steward, error: stewardError } = await client
     .from("actors")
@@ -62,40 +72,76 @@ export async function createPublicOpportunityAction(formData: FormData): Promise
     .eq("operator_profile_id", authData.user.id)
     .maybeSingle();
 
-  if (stewardError || !steward) redirect(`/projects/${input.projectSlug}?opportunity=steward-control-denied`);
+  if (stewardError || !steward) {
+    redirect(`/projects/${input.projectSlug}?opportunity=steward-control-denied`);
+  }
 
-  const { data: createData, error: createError } = await client.rpc("b1_create_opportunity", {
-    p_actor_id: steward.id,
-    p_project_id: project.id,
-    p_title: input.title,
-    p_statement: input.statement,
-    p_conditions: input.conditions,
-    p_expected_result: input.expectedResult,
-    p_capacity: input.capacity,
-    p_command_id: input.createCommandId,
-    p_idempotency_key: input.createIdempotencyKey,
-  });
+  const createRpc = input.needId
+    ? client.rpc("t1_create_opportunity_for_need", {
+        p_actor_id: steward.id,
+        p_project_id: project.id,
+        p_need_id: input.needId,
+        p_title: input.title,
+        p_statement: input.statement,
+        p_conditions: input.conditions,
+        p_expected_result: input.expectedResult,
+        p_capacity: input.capacity,
+        p_command_id: input.createCommandId,
+        p_idempotency_key: input.createIdempotencyKey,
+      })
+    : client.rpc("b1_create_opportunity", {
+        p_actor_id: steward.id,
+        p_project_id: project.id,
+        p_title: input.title,
+        p_statement: input.statement,
+        p_conditions: input.conditions,
+        p_expected_result: input.expectedResult,
+        p_capacity: input.capacity,
+        p_command_id: input.createCommandId,
+        p_idempotency_key: input.createIdempotencyKey,
+      });
 
-  const created = createData as { ok?: boolean; opportunity_id?: string; material_version?: number } | null;
+  const { data: createData, error: createError } = await createRpc;
+  const created = createData as {
+    ok?: boolean;
+    opportunity_id?: string;
+    material_version?: number;
+    need_id?: string;
+  } | null;
 
   if (createError || !created?.ok || !created.opportunity_id || !created.material_version) {
     redirect(`/projects/${input.projectSlug}?opportunity=create-denied`);
   }
 
-  if (!input.publishNow) {
-    revalidatePath(`/projects/${input.projectSlug}`);
-    redirect(`/projects/${input.projectSlug}?opportunity=draft-created`);
+  if (input.needId && created.need_id !== input.needId) {
+    redirect(`/projects/${input.projectSlug}?opportunity=need-link-invalid`);
   }
 
-  const { data: publishData, error: publishError } = await client.rpc("b1_publish_opportunity", {
-    p_actor_id: steward.id,
-    p_opportunity_id: created.opportunity_id,
-    p_expected_material_version: created.material_version,
-    p_command_id: input.publishCommandId,
-    p_idempotency_key: input.publishIdempotencyKey,
-  });
+  if (!input.publishNow) {
+    revalidatePath(`/projects/${input.projectSlug}`);
+    revalidatePath(`/projects/${input.projectSlug}/opportunities/${created.opportunity_id}`);
+    redirect(
+      `/projects/${input.projectSlug}/opportunities/${created.opportunity_id}?coordination=draft-created`,
+    );
+  }
 
-  const published = publishData as { ok?: boolean; opportunity_id?: string; state?: string; visibility?: string } | null;
+  const { data: publishData, error: publishError } = await client.rpc(
+    "b1_publish_opportunity",
+    {
+      p_actor_id: steward.id,
+      p_opportunity_id: created.opportunity_id,
+      p_expected_material_version: created.material_version,
+      p_command_id: input.publishCommandId,
+      p_idempotency_key: input.publishIdempotencyKey,
+    },
+  );
+
+  const published = publishData as {
+    ok?: boolean;
+    opportunity_id?: string;
+    state?: string;
+    visibility?: string;
+  } | null;
 
   if (
     publishError ||
@@ -109,5 +155,8 @@ export async function createPublicOpportunityAction(formData: FormData): Promise
   }
 
   revalidatePath(`/projects/${input.projectSlug}`);
-  redirect(`/projects/${input.projectSlug}?opportunity=published`);
+  revalidatePath(`/projects/${input.projectSlug}/opportunities/${created.opportunity_id}`);
+  redirect(
+    `/projects/${input.projectSlug}/opportunities/${created.opportunity_id}?coordination=published`,
+  );
 }

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FollowControl } from "@/components/follow-control";
 import { ProjectTimeline } from "@/components/project-timeline";
 import { StageBadge } from "@/components/stage-badge";
+import { listPublicNeedsByProject } from "@/lib/data/needs";
+import { getPublicProfileByActor } from "@/lib/data/profiles";
 import { listPublicOpenOpportunities } from "@/lib/data/public-opportunities";
 import { getPublicProjectBySlug } from "@/lib/data/projects";
 import {
@@ -52,10 +55,15 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
   };
   const displayNeeds = projectPresentationNeeds(project.slug, locale, project.needs);
 
-  const opportunities = await listPublicOpenOpportunities(project.id);
+  const [opportunities, publicNeeds, stewardProfile] = await Promise.all([
+    listPublicOpenOpportunities(project.id),
+    listPublicNeedsByProject(project.id),
+    getPublicProfileByActor(project.steward.id),
+  ]);
   const query = searchParams ? await searchParams : {};
   const proposalStatus = first(query.proposal);
   const opportunityStatus = first(query.opportunity);
+  const needStatus = first(query.need);
 
   let canOpenOpportunity = false;
   const client = await createSupabaseServerClient();
@@ -80,6 +88,30 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
         <span aria-hidden="true">/</span>
         <span>{project.title}</span>
       </div>
+
+      {needStatus === "published" ? (
+        <p className="form-message" role="status">
+          {en ? "Need created as DRAFT / PROJECT and published separately as OPEN / PUBLIC." : "Need criada como DRAFT / PROJECT e publicada separadamente como OPEN / PUBLIC."}
+        </p>
+      ) : null}
+
+      {needStatus === "draft-created" ? (
+        <p className="form-message form-neutral" role="status">
+          {en ? "Need draft created. It remains PROJECT-visible until separately published." : "Draft da Need criado. Ele permanece visível no PROJECT até publicação separada."}
+        </p>
+      ) : null}
+
+      {needStatus === "draft-created-publish-failed" ? (
+        <p className="form-message form-error" role="alert">
+          {en ? "The Need draft exists, but publication failed. No public state was assumed." : "O draft da Need existe, mas a publicação falhou. Nenhum estado público foi presumido."}
+        </p>
+      ) : null}
+
+      {needStatus && !["published", "draft-created", "draft-created-publish-failed"].includes(needStatus) ? (
+        <p className="form-message form-error" role="alert">
+          {en ? `The Need action was not completed (${needStatus}).` : `A ação de Need não foi concluída (${needStatus}).`}
+        </p>
+      ) : null}
 
       {proposalStatus === "submitted" ? (
         <p className="form-message" role="status">
@@ -147,9 +179,14 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
           <p>{display.summary}</p>
           <div className="project-actions">
             {canOpenOpportunity ? (
-              <Link className="button button-primary" href={`/projects/${project.slug}/opportunities/new`}>
-                {en ? "Open opportunity" : "Abrir oportunidade"}
-              </Link>
+              <>
+                <Link className="button button-primary" href={`/projects/${project.slug}/needs/new`}>
+                  {en ? "Express Need" : "Expressar Need"}
+                </Link>
+                <Link className="button button-secondary" href={`/projects/${project.slug}/opportunities/new`}>
+                  {en ? "Open opportunity" : "Abrir oportunidade"}
+                </Link>
+              </>
             ) : null}
             <a
               className={canOpenOpportunity ? "button button-secondary" : "button button-primary"}
@@ -164,7 +201,11 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
         </div>
         <aside className="project-steward-card">
           <span className="mini-label">{en ? "Contextual steward" : "Responsável contextual"}</span>
-          <strong>{project.steward.name}</strong>
+          <strong>
+            {stewardProfile ? (
+              <Link href={`/people/${stewardProfile.handle}`}>{project.steward.name}</Link>
+            ) : project.steward.name}
+          </strong>
           <span>{actorKindLabel(project.steward.kind, locale)}</span>
           {project.steward.operatorLabel ? <small>{project.steward.operatorLabel}</small> : null}
           <div className="divider" />
@@ -183,6 +224,20 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
           </dl>
         </aside>
       </header>
+
+      <section className="content-block">
+        <p className="mini-label">{en ? "Watch this project" : "Acompanhar este projeto"}</p>
+        <FollowControl
+          targetType="PROJECT"
+          targetId={project.id}
+          returnTo={`/projects/${project.slug}`}
+        />
+        <p className="block-note">
+          {en
+            ? "Following changes your own activity view. It publishes no follower count."
+            : "Seguir altera sua própria visão de atividade. Nenhuma contagem de seguidores é publicada."}
+        </p>
+      </section>
 
       <div className="project-content-grid">
         <div className="project-main-column">
@@ -217,6 +272,23 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
           </section>
 
           <section className="content-block">
+            <p className="mini-label">{en ? "First-class Needs" : "Needs de primeira classe"}</p>
+            <h2>{en ? "What is explicitly missing now" : "O que está explicitamente faltando agora"}</h2>
+            <p className="block-note">Need ≠ Opportunity</p>
+            {publicNeeds.length ? (
+              <ul>
+                {publicNeeds.map((need) => (
+                  <li key={need.id}>
+                    <Link href={`/needs/${need.id}`}>{need.title}</Link> — {need.statement}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>{en ? "No public first-class Need is open for this project." : "Nenhuma Need pública de primeira classe está aberta para este projeto."}</p>
+            )}
+          </section>
+
+          <section className="content-block">
             <p className="mini-label">{en ? "Public opportunities" : "Oportunidades públicas"}</p>
             <h2>{en ? "Where someone can act now" : "Onde alguém pode agir agora"}</h2>
             {en ? (
@@ -240,9 +312,9 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
                   </dl>
                   <Link
                     className="button button-primary"
-                    href={`/projects/${project.slug}/opportunities/${opportunity.id}/propose`}
+                    href={`/projects/${project.slug}/opportunities/${opportunity.id}`}
                   >
-                    {en ? "Make a proposal" : "Fazer uma proposta"}
+                    {en ? "Open opportunity" : "Abrir opportunity"}
                   </Link>
                 </article>
               ))
@@ -273,7 +345,8 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
 
         <aside className="project-side-column">
           <section className="side-block">
-            <p className="mini-label">{en ? "Needs now" : "Precisa agora"}</p>
+            <p className="mini-label">{en ? "Legacy project need labels" : "Rótulos legados de necessidade do projeto"}</p>
+            <p className="block-note">{en ? "These labels are project summary fields, not first-class Need Original Records." : "Estes rótulos são campos-resumo do projeto, não Registros Originais de Need de primeira classe."}</p>
             <div className="need-list">
               {displayNeeds.map((need) => <span key={need}>{need}</span>)}
             </div>

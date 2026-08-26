@@ -19,6 +19,10 @@ export interface PublicProfile {
   actorName: string;
 }
 
+export interface PublicProfileSummary extends PublicProfile {
+  publicProjectCount: number;
+}
+
 export type MyProfileResult =
   | { status: "ANONYMOUS" }
   | { status: "UNAVAILABLE" }
@@ -67,6 +71,22 @@ export async function getMyProfile(): Promise<MyProfileResult> {
   };
 }
 
+function mapPublicProfileRow(row: {
+  handle: string;
+  display_name: string;
+  bio: string;
+  actor_id: string;
+  actor_name: string;
+}): PublicProfile {
+  return {
+    handle: row.handle,
+    displayName: row.display_name,
+    bio: row.bio,
+    actorId: row.actor_id,
+    actorName: row.actor_name,
+  };
+}
+
 export async function getPublicProfile(handle: string): Promise<PublicProfile | null> {
   const client = await createSupabaseServerClient();
   if (!client) return null;
@@ -90,13 +110,54 @@ export async function getPublicProfile(handle: string): Promise<PublicProfile | 
       }
     | undefined;
 
-  if (!row) return null;
+  return row ? mapPublicProfileRow(row) : null;
+}
 
-  return {
-    handle: row.handle,
-    displayName: row.display_name,
-    bio: row.bio,
-    actorId: row.actor_id,
-    actorName: row.actor_name,
-  };
+export async function getPublicProfileByActor(actorId: string): Promise<PublicProfile | null> {
+  const client = await createSupabaseServerClient();
+  if (!client) return null;
+
+  const { data, error } = await client.rpc("get_public_profile_by_actor", {
+    p_actor_id: actorId,
+  });
+
+  if (error) {
+    throw new Error(`Não foi possível resolver o Profile público do Actor: ${error.message}`);
+  }
+
+  const rows = Array.isArray(data) ? data : data ? [data] : [];
+  const row = rows[0] as
+    | {
+        handle: string;
+        display_name: string;
+        bio: string;
+        actor_id: string;
+        actor_name: string;
+      }
+    | undefined;
+
+  return row ? mapPublicProfileRow(row) : null;
+}
+
+export async function listPublicProfiles(): Promise<PublicProfileSummary[]> {
+  const client = await createSupabaseServerClient();
+  if (!client) return [];
+
+  const { data, error } = await client.rpc("list_public_profiles");
+
+  if (error) {
+    throw new Error(`Não foi possível listar Profiles públicos: ${error.message}`);
+  }
+
+  return ((data ?? []) as Array<{
+    handle: string;
+    display_name: string;
+    bio: string;
+    actor_id: string;
+    actor_name: string;
+    public_project_count: number | string;
+  }>).map((row) => ({
+    ...mapPublicProfileRow(row),
+    publicProjectCount: Number(row.public_project_count),
+  }));
 }

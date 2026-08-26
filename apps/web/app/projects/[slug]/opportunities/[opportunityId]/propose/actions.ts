@@ -33,12 +33,15 @@ export async function submitPublicProposalAction(formData: FormData): Promise<vo
   if (!parsed.success) redirect("/projects?proposal=invalid");
 
   const input = parsed.data;
+  const opportunityPath =
+    `/projects/${input.projectSlug}/opportunities/${input.opportunityId}`;
+
   const client = await createSupabaseServerClient();
-  if (!client) redirect(`/projects/${input.projectSlug}?proposal=backend-unavailable`);
+  if (!client) redirect(`${opportunityPath}?coordination=backend-unavailable`);
 
   const { data: authData } = await client.auth.getUser();
   if (!authData.user) {
-    const next = `/projects/${input.projectSlug}/opportunities/${input.opportunityId}/propose`;
+    const next = `${opportunityPath}/propose`;
     redirect(`/login?next=${encodeURIComponent(next)}`);
   }
 
@@ -51,7 +54,7 @@ export async function submitPublicProposalAction(formData: FormData): Promise<vo
     .maybeSingle();
 
   if (actorError || !actor) {
-    redirect(`/projects/${input.projectSlug}?proposal=actor-control-denied`);
+    redirect(`${opportunityPath}?coordination=actor-control-denied`);
   }
 
   const { data, error } = await client.rpc("b1_submit_public_proposal", {
@@ -67,9 +70,10 @@ export async function submitPublicProposalAction(formData: FormData): Promise<vo
 
   const result = data as { ok?: boolean; proposal_id?: string } | null;
   if (error || !result?.ok || !result.proposal_id) {
-    redirect(`/projects/${input.projectSlug}?proposal=denied`);
+    redirect(`${opportunityPath}?coordination=proposal-denied`);
   }
 
   revalidatePath(`/projects/${input.projectSlug}`);
-  redirect(`/projects/${input.projectSlug}?proposal=submitted`);
+  revalidatePath(opportunityPath);
+  redirect(`${opportunityPath}?coordination=proposal-submitted`);
 }
