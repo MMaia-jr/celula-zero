@@ -34,11 +34,11 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   page,
   request,
 }) => {
-  await page.goto("/login");
-  await expect(page.getByRole("heading", { name: "Escrita controlada. Leitura pública." })).toBeVisible();
+  await page.goto("/login?next=/projects/new");
+  await expect(page.getByRole("heading", { name: "Entre quando houver uma razão para agir." })).toBeVisible();
 
   await page.getByLabel("E-mail").fill(pilotEmail);
-  await page.getByRole("button", { name: "Receber link local" }).click();
+  await page.getByRole("button", { name: "Continuar por e-mail" }).click();
   await expect(page.getByRole("status")).toContainText("Link emitido");
 
   let magicLink = "";
@@ -68,7 +68,7 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
     )
     .toBe(true);
   await expect(
-    page.getByRole("heading", { name: "Plante um projeto com intenção e limites explícitos." }),
+    page.getByRole("heading", { name: "Crie um projeto com intenção e limites explícitos." }),
   ).toBeVisible({ timeout: 15_000 });
 
   const uniqueSuffix = `${Date.now()}`;
