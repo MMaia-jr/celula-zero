@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { updateMyProfileAction } from "@/app/me/actions";
+import { listPublicNeeds } from "@/lib/data/needs";
+import { listMyFollows } from "@/lib/data/social";
 import { getMyProfile } from "@/lib/data/profiles";
+import { listPublicProjects } from "@/lib/data/projects";
 import { getLocale } from "@/lib/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -41,6 +44,13 @@ export default async function MePage({ searchParams }: MePageProps) {
   }
 
   const { profile } = result;
+  const [publicProjects, publicNeeds, myFollows] = await Promise.all([
+    listPublicProjects(),
+    listPublicNeeds(),
+    listMyFollows(),
+  ]);
+  const myPublicProjects = publicProjects.filter((project) => project.steward.id === profile.actorId);
+  const myPublicNeeds = publicNeeds.filter((need) => need.ownerActorId === profile.actorId);
   const profileStatusLabel =
     profile.visibility === "PUBLIC"
       ? en ? "Public" : "Público"
@@ -123,6 +133,42 @@ export default async function MePage({ searchParams }: MePageProps) {
           <Link className="button button-secondary" href={`/people/${profile.handle}`}>{en ? "View public Profile" : "Ver Profile público"}</Link>
         </section>
       ) : null}
+
+      <section className="content-block">
+        <p className="mini-label">{en ? "Your public coordination context" : "Seu contexto público de coordenação"}</p>
+        <h2>{en ? "Projects and Needs attributable to your Actor" : "Projetos e Needs atribuíveis ao seu Actor"}</h2>
+        {myPublicProjects.length ? (
+          <ul>
+            {myPublicProjects.map((project) => (
+              <li key={project.id}><Link href={`/projects/${project.slug}`}>{project.title}</Link></li>
+            ))}
+          </ul>
+        ) : <p>{en ? "No public project yet." : "Nenhum projeto público ainda."}</p>}
+        {myPublicNeeds.length ? (
+          <ul>
+            {myPublicNeeds.map((need) => (
+              <li key={need.id}><Link href={`/needs/${need.id}`}>{need.title}</Link></li>
+            ))}
+          </ul>
+        ) : null}
+      </section>
+
+      <section className="content-block">
+        <p className="mini-label">{en ? "Your Follows" : "Seus Follows"}</p>
+        <h2>{en ? "Contexts you chose to watch" : "Contextos que você escolheu acompanhar"}</h2>
+        {myFollows.length ? (
+          <ul>
+            {myFollows.map((follow) => (
+              <li key={follow.followId}>
+                <Link href={follow.targetPath}>{follow.targetLabel}</Link> · {follow.targetType}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>{en ? "You are not following a public context yet." : "Você ainda não segue um contexto público."}</p>
+        )}
+        <p><Link href="/activity">{en ? "Open Activity" : "Abrir Atividade"}</Link></p>
+      </section>
 
       <section className="funding-warning">
         <strong>Profile ≠ {en ? "reputation" : "reputação"}</strong>

@@ -66,7 +66,7 @@ const contracts = [
     "authenticated non-pilot atomic project creation assertion",
   ],
   [
-    authJourney.includes("Receber link local") &&
+    authJourney.includes("Continuar por e-mail") &&
       authJourney.includes("Criar projeto") &&
       authJourney.includes("page.reload()") &&
       authJourney.includes("browser.newContext()"),

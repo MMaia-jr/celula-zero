@@ -19,8 +19,8 @@ test("visitor understands the product and opens a public project", async ({ page
 
 test("write route stays closed when local auth is not configured", async ({ page }) => {
   await page.goto("/projects/new");
-  await expect(page.getByRole("heading", { name: /Conecte o Supabase local/ })).toBeVisible();
-  await expect(page.getByText(/A escrita só é habilitada/)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A criação de projeto exige o ambiente Supabase configurado." })).toBeVisible();
+  await expect(page.getByText(/escrita atribuível nunca é habilitada/)).toBeVisible();
 });
 
 test("health endpoint states the economic and publication boundaries", async ({ request }) => {

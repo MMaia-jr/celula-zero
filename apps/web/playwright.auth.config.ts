@@ -13,6 +13,7 @@ export default defineConfig({
   outputDir: "test-results-auth",
   use: {
     baseURL: "http://127.0.0.1:3000",
+    locale: "pt-BR",
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },
