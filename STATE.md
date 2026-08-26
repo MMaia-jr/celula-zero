@@ -29,25 +29,25 @@ Tranches canônicas atuais:
 
 `T1 — SOCIAL COORDINATION WORLD / MERGED / CANONICAL`
 → `T2 — WORK → EVIDENCE → DECISION / MERGED / CANONICAL`
+→ `T3 — HUMAN ↔ AI COORDINATION / MERGED / CANONICAL`
 
-Promoção canônica: PR `#120`, merge
-`d80c400a5ad115b153f01c06f5a7d64d52dfa652`.
+Promoções canônicas:
 
-Próxima tranche:
+- T1+T2: PR `#120`, merge
+  `d80c400a5ad115b153f01c06f5a7d64d52dfa652`.
+- T3: PR `#121`, merge
+  `215a06575ab85cb180c40ff3d3894cfedc578a17`.
 
-`T3 — HUMAN ↔ AI COORDINATION / LOCALLY SATISFIED / NOT YET CANONICAL`
+O trabalho T3 satisfez o gate candidato com um SoftwareAgent real operando sob
+autoridade humana limitada e reconstruível, seguido por avaliação, Verification
+humana e Human Decision separadas da execução. A reconciliação sobre a base
+canônica T1+T2 preservou os sete arquivos T3 existentes e passou novamente pela
+validação cumulativa do banco, sem nova execução de agente e sem novo experimento
+T3. A promoção canônica foi concluída via PR `#121`.
 
-O trabalho T3 existente satisfez localmente o gate candidato com um
-SoftwareAgent real operando sob autoridade humana limitada e reconstruível,
-seguido por avaliação, Verification humana e Human Decision separadas da
-execução. A reconciliação sobre a base canônica T1+T2 preservou os sete arquivos
-T3 existentes e passou novamente pela validação cumulativa do banco, sem nova
-execução de agente e sem novo experimento T3.
-
-Limite: T1+T2 canônicos significam implementação e validação técnica promovidas
-ao `main`; isso não demonstra por si só habitabilidade humana, utilidade externa
-desta implementação, recorrência, adoção, PMF ou escala. T3 permanece local até
-promoção humana separadamente autorizada.
+Limite: T1+T2+T3 canônicos significam implementação e validação técnica
+promovidas ao `main`; isso não demonstra por si só habitabilidade humana,
+utilidade externa desta implementação, recorrência, adoção, PMF ou escala.
 
 O roadmap orienta a trajetória deliberada; este `STATE.md` continua sendo o
 estado operacional curto. O roadmap não autoriza automaticamente implementação,
