@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última atualização: 2026-08-25
+Última atualização: 2026-08-26
 
 Repositório canônico: `MMaia-jr/celula-zero`
 
@@ -25,9 +25,29 @@ Trajetória cumulativa:
 → `T3 HUMAN ↔ AI COORDINATION`
 → `T4 ECONOMY / EXTERNAL INTEROPERABILITY — CONDITIONAL`
 
-Tranche atual:
+Tranches canônicas atuais:
 
-`T1 — SOCIAL COORDINATION WORLD`
+`T1 — SOCIAL COORDINATION WORLD / MERGED / CANONICAL`
+→ `T2 — WORK → EVIDENCE → DECISION / MERGED / CANONICAL`
+
+Promoção canônica: PR `#120`, merge
+`d80c400a5ad115b153f01c06f5a7d64d52dfa652`.
+
+Próxima tranche:
+
+`T3 — HUMAN ↔ AI COORDINATION / LOCALLY SATISFIED / NOT YET CANONICAL`
+
+O trabalho T3 existente satisfez localmente o gate candidato com um
+SoftwareAgent real operando sob autoridade humana limitada e reconstruível,
+seguido por avaliação, Verification humana e Human Decision separadas da
+execução. A reconciliação sobre a base canônica T1+T2 preservou os sete arquivos
+T3 existentes e passou novamente pela validação cumulativa do banco, sem nova
+execução de agente e sem novo experimento T3.
+
+Limite: T1+T2 canônicos significam implementação e validação técnica promovidas
+ao `main`; isso não demonstra por si só habitabilidade humana, utilidade externa
+desta implementação, recorrência, adoção, PMF ou escala. T3 permanece local até
+promoção humana separadamente autorizada.
 
 O roadmap orienta a trajetória deliberada; este `STATE.md` continua sendo o
 estado operacional curto. O roadmap não autoriza automaticamente implementação,
