@@ -6,37 +6,42 @@ Repositório canônico:
 
 `MMaia-jr/celula-zero`
 
-Cycle 010 canonical merge:
-
-`PR #123 / 7109e3cde7a7e9e2feb5b903e26efd62baf26f98`
-
 Este arquivo deve permanecer curto.
 
-História detalhada pertence a decisões, Result Packages, testes, Git history e
-outros registros de proveniência. História preservada não governa
-automaticamente o presente.
+História detalhada pertence a Decisions, Work Packets, Result Packages,
+testes, Git history e outros registros de proveniência.
+
+Preserve:
+
+`PRESERVED ≠ CURRENT`
+
+`SUPERSEDED ≠ ERASED`
 
 ## Current Dream
 
-Célula Zero busca transformar inteligência, conhecimento, ferramentas,
-relações e recursos em aumentos cumulativos de capacidade dos agentes que
-participam dela.
+`CYCLE 011 — ECONOMIA DE CAPACIDADES`
 
-Missão:
+Direção humana atual:
+
+> Transformar necessidade + capacidade em consequência confiável —
+> e consequência em nova capacidade.
+
+Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-Direção:
+Loop econômico explorado:
 
-- transformar intenção em consequência observável;
-- produzir valor visível em vez de loops internos;
-- crescer sem tornar participantes menores;
-- tratar economia como parte estrutural;
-- aumentar soberania e reduzir dependências quando experiência real justificar;
-- investigar descentralização e Web3 sem arquitetura pré-selecionada.
+`NEED → CAPABILITY → AGREEMENT → CONTRIBUTION → RESULT → EVIDENCE → ECONOMIC CONSEQUENCE → LEARNING + TRUST + CAPABILITY → NEW OPPORTUNITY/NEED`
 
-Não presumir produto validado, adoção, PMF, escala, DAO, token, blockchain,
-reputação universal ou protocolo universal.
+A economia ainda não é demonstrada externamente.
+
+Não presumir produto validado, demanda, receita, sustentabilidade, PMF,
+adoção, escala, DAO, token, blockchain, reputação universal ou protocolo
+universal.
+
+Web3, smart contracts, tokens e outras arquiteturas permanecem não
+selecionadas.
 
 ## One Process
 
@@ -44,39 +49,96 @@ Toda a Célula Zero evolui através de:
 
 `DREAM → PLAN → DO → CELEBRATE`
 
-T1/T2/T3/T4, experimentos, projetos, oportunidades externas, tecnologias e
-pequenos ciclos de aprendizagem acontecem dentro deste processo.
+T1/T2/T3/T4, experimentos, projetos, oportunidades externas e tecnologias
+acontecem dentro desse processo.
 
-Eles não são sistemas de progresso concorrentes.
+## Current Plan
 
-## Current Do
+`AI-NATIVE COMPANY CORE`
 
-`CYCLE 010 — RECONCILIATION`
+Pergunta operacional:
 
-Objetivo:
+> Can one human + interchangeable AIs operate a coherent, multi-project,
+> economically legible company?
 
-> reconciliar Dream, Plan, trabalho canônico, capacidades locais, histórico e
-> prioridades para que exista uma única Célula Zero operacional.
+Direção:
 
-Estado:
+um humano legítimo deve conseguir criar, governar e desenvolver projetos com
+IAs atribuíveis sem precisar montar equipe humana proporcional à complexidade.
 
-`MERGED / CANONICAL / CELEBRATE`
+Isso não elimina usuários, clientes, parceiros ou colaboradores humanos.
 
-Validação que precedeu a promoção canônica:
+## Current Do — Cycle 011
 
-- database reset: `PASS`;
-- full pgTAP: `PASS`;
-- database test files: `21`;
-- tests: `580`;
-- DDR source/candidate hashes: `PASS`;
-- post-test scope: `PASS`.
+### ANC-001 — ATTRIBUTABLE AI RUN
 
-Esses resultados demonstraram compatibilidade e regressão local antes da
-promoção. A canonicalidade decorre da Human Direction autorizada e do merge do
-PR #123, não dos testes isoladamente.
+`MERGED / CANONICAL / VERIFIED LOCAL-DETERMINISTIC`
 
-Nenhum novo produto, hackathon ou external initiative foi selecionado durante
-a reconciliação.
+PR:
+
+`#125`
+
+Merge:
+
+`8a4c8e8f1b1aa2b92cdab1c98e92a88704d2cf2b`
+
+Propriedade demonstrada:
+
+um humano consegue autorizar uma execução atribuível de IA dentro de um
+Project e DragonCycle delimitados, com contexto determinístico, runtime
+provider/model separado de Actor identity, provenance e CycleRecord
+epistemicamente limitado.
+
+Não demonstrou external provider runtime, external utility, adoption ou scale.
+
+### ANC-002 — LIVE LOCAL AI RUN / OLLAMA ADAPTER
+
+`MERGED / CANONICAL / PASS N=1 LOCAL REAL MODEL`
+
+Implementation PR:
+
+`#126`
+
+Implementation merge:
+
+`9200d1b4f905e5d5e04d7456b7577a8990ad5511`
+
+Observed runtime:
+
+`OLLAMA_LOCAL / qwen2.5-coder:3b`
+
+Result Package:
+
+`RP-C011-ANC002-LIVE-LOCAL-AI-RUN.md`
+
+Result Package SHA-256:
+
+`901376a21898eda25338a8ff5a3863f2f0bfd7fc2b6432092b4ca070b5362757`
+
+Demonstrado:
+
+um modelo local real executou contexto ANC delimitado e o resultado atravessou
+`AI Run → DDR CycleRecord` preservando attribution, provenance e limites de
+autoridade.
+
+Observed:
+
+- deterministic adapter properties: PASS;
+- real local model invocation: PASS;
+- exact raw provider bytes preserved locally by hash: PASS;
+- AI Run → DDR integration: PASS;
+- exact AI_AGENT authorship: PASS;
+- Human Direction inference: NO;
+- Claim/Evidence/Verification/Decision inference: NO;
+- role/delegation amplification: NO;
+- target-model external network: NO;
+- hosted Supabase mutation: NO.
+
+Um executor OpenAI Codex foi usado uma vez para criar os dois arquivos
+bounded do adapter. Isso é distinto da execução target-runtime ANC, que usou
+Ollama local.
+
+External-provider substitutability permanece `NOT TESTED`.
 
 ## Canonical capabilities already demonstrated
 
@@ -102,11 +164,9 @@ T3:
 
 `HUMAN ↔ SOFTWARE-AGENT COORDINATION / MERGED / CANONICAL`
 
-Essas tranches permanecem capacidades reais.
+A sequência T1→T2→T3→T4 não governa automaticamente o próximo trabalho.
 
-A sequência T1→T2→T3→T4 não governa mais automaticamente o próximo trabalho.
-
-T4 permanece condicionado a uma propriedade econômica ou de interoperabilidade
+T4 continua condicionado a uma propriedade econômica ou de interoperabilidade
 concreta.
 
 ### Coordination research
@@ -115,11 +175,7 @@ G-C1 / G-C2 / G-C3 produziram um reference model bounded e chegaram a:
 
 `PROFILE CANDIDATE BOUNDED / HOLD FOR FIELD PRESSURE`
 
-A extensão semântica candidata continua limitada, quando necessária, a:
-
-`Need / Claim / Verification / Decision`
-
-e standards existentes devem ser adotados ou mapeados antes de criar primitivas
+Standards existentes devem ser adotados ou mapeados antes de criar primitivas
 novas.
 
 ## External evidence
@@ -128,42 +184,31 @@ novas.
 
 `EXTERNAL UTILITY OBSERVED N=1 / BOUNDED REVIEW TRACK`
 
-Esse resultado permanece a principal evidência externa observada.
-
 Follow-up técnico EdgeLoom Q2:
 
 `PACKAGE-LEVEL FOREIGN NAMESPACE VERIFIED N=1 / MAINTAINER EVALUATION PENDING / NO ACTIVE WORK REQUIRED`
 
-Ele não demonstra recurrence, adoption, PMF ou scale.
+Isso não demonstra recurrence, adoption, PMF ou scale.
 
 ## Canonical DDR composition capability
 
-Cycle 010 promoveu o menor núcleo DDR reconciliado:
+DDR permanece:
 
-- `ddr_be001_human_ai_dreaming_core`;
-- `ddr_be002_plan_do_celebrate_bridge`;
-- testes DDR BE-001 / BE-002 / BE-003.
+`MERGED / CANONICAL CAPABILITY`
 
-Propriedade candidata:
+Propriedade bounded:
 
-> representar DREAM→PLAN→DO→CELEBRATE compondo objetos T1/T2/T3 existentes sem
-> criar um segundo conjunto de Artifact, Claim, Evidence, Verification ou
+> representar DREAM→PLAN→DO→CELEBRATE compondo objetos T1/T2/T3 existentes
+> sem criar um segundo conjunto de Artifact, Claim, Evidence, Verification ou
 > Decision.
-
-Estado:
-
-`DDR = MERGED / CANONICAL CAPABILITY`
-
-A verificação local e o CI demonstraram que o núcleo DDR pode coexistir com a
-base T1/T2/T3 sem depender das alterações locais de Room, Model Bridge, context
-compiler, research tree ou package dependencies.
 
 Isso demonstra composição técnica bounded; não demonstra external utility,
 adoption, PMF ou scale.
 
 ## Local capabilities not governing current priority
 
-Existem capacidades locais adicionais, ainda não canônicas, incluindo:
+Capacidades locais adicionais preservadas não governam automaticamente o
+presente, incluindo:
 
 - Room;
 - Model Bridge / provider routing;
@@ -171,19 +216,24 @@ Existem capacidades locais adicionais, ainda não canônicas, incluindo:
 - economic value-consequence lab;
 - Dream Evolution provenance.
 
-Elas permanecem preservadas, mas não formam uma segunda Célula Zero e não
-definem automaticamente o próximo gate.
+`PRESERVED ≠ CURRENT`
 
 ## Hold
 
-Atualmente em HOLD, salvo nova Human Direction ou propriedade concreta:
+Em HOLD salvo nova Human Direction ou propriedade concreta:
 
 - HABITABLE-ALPHA-001;
 - T4 implementation;
 - additional context infrastructure;
+- generic Model Bridge;
+- Room;
+- RAG / vector database;
+- MCP / A2A infrastructure;
 - Protocol-of-Protocols implementation;
 - specific Web3 implementations;
-- external contexts currently parked:
+- token / DAO;
+- universal reputation;
+- external contexts parked:
   - ResoVerse Commons;
   - GittieLabs SPEC-403;
   - ControlZ #3;
@@ -202,16 +252,10 @@ Preservar como história e proveniência:
 - ROADMAP-002 como master gate;
 - INTEGRATED-ALPHA como master roadmap;
 - AUTONOMOUS-108 como programa independente;
-- Cycles 001–009 como sequência de progresso.
+- Cycles 001–010 como sequência histórica de progresso.
 
 Resultados e capacidades produzidos por esses trabalhos permanecem utilizáveis
 quando relevantes.
-
-Preserve:
-
-`PRESERVED ≠ CURRENT`
-
-`SUPERSEDED ≠ ERASED`
 
 ## Durable constraints
 
@@ -225,51 +269,25 @@ Preserve:
 
 AI consensus does not create Human Direction or legitimacy.
 
-## Celebrate — Cycle 010
-
-`PASS / MERGED / CANONICAL`
-
-O avanço do Cycle 010 não é a atualização de documentos isoladamente.
-
-A capacidade demonstrada foi:
-
-> Célula Zero conseguiu retirar estruturas anteriormente legítimas do governo
-> operacional atual sem apagar sua história, preservar capacidades úteis,
-> integrar um núcleo técnico reconciliado sem importar todo o laboratório que o
-> produziu e voltar a operar sob um único processo.
-
-Aprendizados preservados:
-
-- `PRESERVED ≠ CURRENT`;
-- `SUPERSEDED ≠ ERASED`;
-- `canonical code ≠ current priority`;
-- `PASS ≠ external consequence`;
-- infrastructure capability não equivale automaticamente a participant capacity;
-- múltiplas IAs não são automaticamente melhores que uma IA suficiente;
-- ausência de um segundo humano não bloqueia evolução legítima;
-- continuidade de consequência importa mais que continuidade de conversa;
-- uma estrutura precisa poder ser aposentada, não apenas criada e preservada;
-- `DREAM → PLAN → DO → CELEBRATE` é o único processo de evolução governante.
-
-Cycle 010 reduziu fragmentação organizacional e técnica.
-
-Ele não demonstra:
-
-- nova external utility;
-- recurrence;
-- adoption;
-- PMF;
-- scale;
-- economic regeneration.
+PASS N=1 does not prove PMF, adoption or scale.
 
 ## Current next gate
 
-`NEXT DREAM — NOT YET SELECTED`
+ANC-002 está fechado.
 
-Cycle 010 está fechado.
+Não continuar alterando ANC-002 sem nova incerteza.
 
-O próximo trabalho deve começar por uma tensão, necessidade ou oportunidade
-consequencial do Grand Dream, e não pela reativação automática de um roadmap,
-track, tranche, tecnologia ou experimento histórico.
+Próxima pergunta candidata:
+
+> Can two or more attributable AI runs work on the SAME bounded company
+> problem, preserve disagreement/divergence and provenance, and leave the
+> human with a better decision surface without turning AI consensus into
+> legitimacy?
+
+Candidate:
+
+`ANC-003 — MULTI-AI BOUNDED COMPANY RUN`
+
+ANC-003 é somente candidato. Não está autorizado por esta atualização.
 
 END OF STATE
