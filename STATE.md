@@ -1,14 +1,14 @@
 # Estado operacional atual
 
-Última reconciliação candidata: 2026-08-29
+Última reconciliação canônica: 2026-08-29
 
 Repositório canônico:
 
 `MMaia-jr/celula-zero`
 
-Base canônica usada nesta reconciliação:
+Cycle 010 canonical merge:
 
-`838338300618b0b8f8d428dd78f6e7998d266a1e`
+`PR #123 / 7109e3cde7a7e9e2feb5b903e26efd62baf26f98`
 
 Este arquivo deve permanecer curto.
 
@@ -58,11 +58,11 @@ Objetivo:
 > reconciliar Dream, Plan, trabalho canônico, capacidades locais, histórico e
 > prioridades para que exista uma única Célula Zero operacional.
 
-Estado desta candidate reconciliation:
+Estado:
 
-`EXECUTED / LOCALLY VERIFIED / TARGETED RECONCILIATION CORRECTIONS APPLIED / NOT CANONICAL`
+`MERGED / CANONICAL / CELEBRATE`
 
-Validação local observada sobre a base canônica:
+Validação que precedeu a promoção canônica:
 
 - database reset: `PASS`;
 - full pgTAP: `PASS`;
@@ -71,10 +71,12 @@ Validação local observada sobre a base canônica:
 - DDR source/candidate hashes: `PASS`;
 - post-test scope: `PASS`.
 
-Esses resultados demonstram compatibilidade e regressão local da candidate
-reconciliation. Eles não tornam o trabalho canônico.
+Esses resultados demonstraram compatibilidade e regressão local antes da
+promoção. A canonicalidade decorre da Human Direction autorizada e do merge do
+PR #123, não dos testes isoladamente.
 
-Nenhum novo produto, hackathon ou external initiative compete com este gate.
+Nenhum novo produto, hackathon ou external initiative foi selecionado durante
+a reconciliação.
 
 ## Canonical capabilities already demonstrated
 
@@ -134,9 +136,9 @@ Follow-up técnico EdgeLoom Q2:
 
 Ele não demonstra recurrence, adoption, PMF ou scale.
 
-## Reconciliation capability candidate
+## Canonical DDR composition capability
 
-Cycle 010 está avaliando a promoção do menor núcleo DDR local:
+Cycle 010 promoveu o menor núcleo DDR reconciliado:
 
 - `ddr_be001_human_ai_dreaming_core`;
 - `ddr_be002_plan_do_celebrate_bridge`;
@@ -148,13 +150,16 @@ Propriedade candidata:
 > criar um segundo conjunto de Artifact, Claim, Evidence, Verification ou
 > Decision.
 
-Estado observado:
+Estado:
 
-`DDR = EXECUTED + LOCALLY VERIFIED ON CANONICAL BASE / NOT CANONICAL`
+`DDR = MERGED / CANONICAL CAPABILITY`
 
-A verificação local demonstra que o núcleo DDR candidato pode coexistir com a
+A verificação local e o CI demonstraram que o núcleo DDR pode coexistir com a
 base T1/T2/T3 sem depender das alterações locais de Room, Model Bridge, context
 compiler, research tree ou package dependencies.
+
+Isso demonstra composição técnica bounded; não demonstra external utility,
+adoption, PMF ou scale.
 
 ## Local capabilities not governing current priority
 
@@ -220,16 +225,51 @@ Preserve:
 
 AI consensus does not create Human Direction or legitimacy.
 
+## Celebrate — Cycle 010
+
+`PASS / MERGED / CANONICAL`
+
+O avanço do Cycle 010 não é a atualização de documentos isoladamente.
+
+A capacidade demonstrada foi:
+
+> Célula Zero conseguiu retirar estruturas anteriormente legítimas do governo
+> operacional atual sem apagar sua história, preservar capacidades úteis,
+> integrar um núcleo técnico reconciliado sem importar todo o laboratório que o
+> produziu e voltar a operar sob um único processo.
+
+Aprendizados preservados:
+
+- `PRESERVED ≠ CURRENT`;
+- `SUPERSEDED ≠ ERASED`;
+- `canonical code ≠ current priority`;
+- `PASS ≠ external consequence`;
+- infrastructure capability não equivale automaticamente a participant capacity;
+- múltiplas IAs não são automaticamente melhores que uma IA suficiente;
+- ausência de um segundo humano não bloqueia evolução legítima;
+- continuidade de consequência importa mais que continuidade de conversa;
+- uma estrutura precisa poder ser aposentada, não apenas criada e preservada;
+- `DREAM → PLAN → DO → CELEBRATE` é o único processo de evolução governante.
+
+Cycle 010 reduziu fragmentação organizacional e técnica.
+
+Ele não demonstra:
+
+- nova external utility;
+- recurrence;
+- adoption;
+- PMF;
+- scale;
+- economic regeneration.
+
 ## Current next gate
 
-`HUMAN DECISION — CANONICAL PROMOTION OF CYCLE 010 RECONCILIATION`
+`NEXT DREAM — NOT YET SELECTED`
 
-The technical candidate has already been executed and locally verified.
+Cycle 010 está fechado.
 
-The remaining gate is whether the reconciled direction, operational state,
-retirement of superseded structures and bounded DDR composition candidate
-accurately represent the Célula Zero that should become canonical.
-
-No next product initiative is selected by this state.
+O próximo trabalho deve começar por uma tensão, necessidade ou oportunidade
+consequencial do Grand Dream, e não pela reativação automática de um roadmap,
+track, tranche, tecnologia ou experimento histórico.
 
 END OF STATE
