@@ -1,10 +1,19 @@
 # INTEGRATED-ALPHA-ROADMAP
 
 Class: `WORKING ROADMAP / PRODUCT + ARCHITECTURE`
-Status: `ACTIVE ROADMAP`
+Status: `HISTORICAL TRAJECTORY / CAPABILITY REFERENCE`
 Canonical repository: `MMaia-jr/celula-zero`
 Canonical base reviewed: `14ea3b6bb6797102248f09029fd9dd44b466de37`
 Program: `INTEGRATED-ALPHA-001`
+
+
+Current role after Cycle 010 reconciliation:
+
+> This document preserves the trajectory that produced T1/T2/T3 and remains a
+> capability/architecture reference. It no longer governs Célula Zero as the
+> master current roadmap. Current priority is defined by `STATE.md` under the
+> unified `DREAM → PLAN → DO → CELEBRATE` process.
+
 
 ---
 

@@ -157,11 +157,16 @@ The external-utility question is:
 
 > Does a real person who was not involved in building Célula Zero receive measurable benefit?
 
-The current habitability observation chain is:
+For `HABITABLE-ALPHA-001`, the bounded habitability observation chain is:
 
 `ENTRY → ACTION → RELATION → SECOND PERSON → REAL-WORLD CONSEQUENCE → RETURN`
 
-Each transition must be observed separately.
+Each transition in that experiment must be observed separately.
+
+This chain is not a universal prerequisite for Célula Zero evolution. In
+particular, absence of a second human does not by itself block legitimate
+learning, production, technical progress or a DREAM → PLAN → DO → CELEBRATE
+cycle.
 
 Views, clicks, signups, likes, declarations of interest or a message sent do not by themselves prove a real-world consequence.
 
@@ -221,6 +226,29 @@ Read in this order:
 An old artifact may be valid history without being current direction.
 
 Git history preserves superseded states; `STATE.md` keeps the operational present short.
+
+### Supersession and retirement
+
+Preserving a valid historical record does not make it current operating
+direction.
+
+Preserve:
+
+`PRESERVED ≠ CURRENT`
+
+`SUPERSEDED ≠ ERASED`
+
+When a later legitimate Human Direction or Decision changes the operational
+path — including when that Decision is informed by new material evidence — the
+earlier structure remains reconstructible as history, evidence or capability
+but ceases to govern the present unless explicitly reactivated on a current
+basis.
+
+Evidence may challenge or inform a Decision; Evidence does not itself create
+legitimate supersession.
+
+A roadmap, track, experiment or implementation is therefore not kept active
+merely because it was once legitimate or required effort.
 
 ## 12. Provenance and content classes
 

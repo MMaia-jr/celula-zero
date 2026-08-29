@@ -4,6 +4,16 @@ Class: `WORKING ROADMAP / EVIDENCE GATES`
 
 State at preparation: `PREPARED / AWAITING HUMAN REVIEW`
 
+
+Current operational role after Cycle 010 reconciliation:
+
+`HISTORICAL EVIDENCE MAP / DOES NOT GOVERN CURRENT PRIORITY`
+
+The gates remain useful as evidence vocabulary and historical design. They are
+not the current master progression system. Current priority is defined by
+`STATE.md` under the unified `DREAM → PLAN → DO → CELEBRATE` process.
+
+
 Canonicality is determined by human-authorized GitHub promotion. This document
 does not self-authorize execution and does not replace `STATE.md` as the short
 operational state.
