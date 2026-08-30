@@ -93,28 +93,37 @@ trabalho real quando houver uma hipótese concreta de ganho.
 
 ### COMPANY CORE v0.1
 
-`PASS / LOCAL VERIFIED / REAL INTERNAL DOGFOOD N=1 / NOT YET CANONICAL`
+`PASS / MERGED / CANONICAL / INTERNAL REAL COMPANY USE N=1`
 
-Work Packet:
+Implementation PR:
 
-`WP-C011-COMPANY-CORE-V0.1.md`
+`#128`
+
+Canonical merge:
+
+`86e92d863d5f1a7def757de81812cf6246af8084`
 
 Result Package:
 
 `RP-C011-COMPANY-CORE-V0.1.md`
 
-Observed Human Evaluation:
+What is now demonstrated:
 
-`USEFUL`
+- the founder can operate a bounded Company Core loop for Célula Zero;
+- one successful attributable external Kimi run participated through the
+  adopted Vercel Gateway path;
+- AI contribution, Result, Human Evaluation and observed consequence remained
+  distinguishable;
+- the bounded episode is reconstructible afterward.
 
-Decision enabled:
+Execution history also preserves one earlier paid Kimi response that was lost
+before persistence because of a local helper contract defect. That failed
+persistence attempt is not counted as a successful attributable AI Run.
 
-`YES`
+This demonstrates bounded internal operation only.
 
-This demonstrates only bounded internal Company Core operation.
-
-External utility, customer demand, revenue, recurrence, PMF, adoption and scale
-remain untested/not inferred.
+It does not demonstrate external utility, customer demand, revenue, recurrence,
+PMF, adoption or scale.
 
 ## Canonical capabilities already demonstrated
 
@@ -247,18 +256,48 @@ AI consensus does not create Human Direction or legitimacy.
 
 PASS N=1 does not prove PMF, adoption or scale.
 
+## Celebrate — Cycle 011
+
+Human Direction recorded during the real internal Company Core dogfood:
+
+`CYCLE 011 = CLOSE AFTER PASS + CANONICAL PROMOTION`
+
+Observed result:
+
+`PASS / INTERNAL REAL COMPANY USE N=1`
+
+What returned to the system:
+
+- a founder-usable Need → Consequence operating surface;
+- attributable external AI work inside the company loop;
+- explicit Human Evaluation and consequence recording;
+- a canonical Result Package and reconstructible history.
+
+What remains unproven:
+
+- external utility;
+- customer demand;
+- revenue;
+- recurrence;
+- PMF;
+- adoption;
+- scale.
+
 ## Current next gate
 
-`COMPANY CORE v0.1 = PASS / LOCAL VERIFIED / PROMOTION AUTHORIZED IF GIT GATES PASS`
+`CYCLE 011 = CLOSED / PASS / CELEBRATED`
 
-Next:
+Next Human-directed gate:
 
-`commit → push → PR → CI → merge → STATE-only reconciliation`
+`DEFINE ONE CONCRETE EXTERNAL USER PROBLEM + ONE PLAUSIBLE USER PROFILE → PREPARE THE SMALLEST REAL EXTERNAL UTILITY TEST WITH 3–5 CONVERSATIONS OR DEMONSTRATIONS`
 
-Celebrate / closure remains contingent on successful canonical promotion and
-the explicit Human Direction recorded during dogfood.
+Do not launch a broad pre-sale offensive yet.
+
+A paid pilot may follow only if real benefit is observed.
 
 Preserve:
+
+`one pre-sale or pilot ≠ PMF ≠ adoption ≠ scale`
 
 `internal N=1 ≠ external utility ≠ PMF ≠ adoption ≠ scale`
 
