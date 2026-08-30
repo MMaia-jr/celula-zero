@@ -16,6 +16,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <Link href="/people">{en ? "People" : "Pessoas"}</Link>
           <Link href="/projects">{en ? "Projects" : "Projetos"}</Link>
           <Link href="/needs">Needs</Link>
+          <Link href="/company-core">{en ? "Company" : "Empresa"}</Link>
           <Link href="/activity">{en ? "Activity" : "Atividade"}</Link>
           <Link href="/me">{en ? "Profile" : "Perfil"}</Link>
           <Link href="/about/gate-1">{en ? "How it works" : "Como funciona"}</Link>

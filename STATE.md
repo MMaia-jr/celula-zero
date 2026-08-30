@@ -56,89 +56,65 @@ acontecem dentro desse processo.
 
 `AI-NATIVE COMPANY CORE`
 
+`HUMAN-APPROVED / PROMOTION CANDIDATE`
+
 Pergunta operacional:
 
 > Can one human + interchangeable AIs operate a coherent, multi-project,
 > economically legible company?
 
-Direção:
+Tese operacional aprovada:
 
-um humano legítimo deve conseguir criar, governar e desenvolver projetos com
-IAs atribuíveis sem precisar montar equipe humana proporcional à complexidade.
+> testar se um único humano legítimo, usando capacidades de IA intercambiáveis,
+> consegue transformar necessidades reais em acordos compreensíveis, trabalho
+> atribuível, resultados úteis e consequências econômicas observáveis,
+> repetidamente e em múltiplos projetos, sem exigir equipe humana proporcional
+> à complexidade.
 
-Isso não elimina usuários, clientes, parceiros ou colaboradores humanos.
+Primeira tese de produto habitável:
+
+`NEED → CONSEQUENCE`
+
+Roadmap atual:
+
+`P1 NEED→AGREEMENT → P2 AGREEMENT→USEFUL RESULT → P3 RESULT→ECONOMIC CONSEQUENCE → P4 REPEAT → P5 MULTI-PROJECT ONE-HUMAN COMPANY`
+
+Direção de runtime externo:
+
+`Vercel AI Gateway → moonshotai/kimi-k2.6 when sufficient / cost-preferred`
+
+Kimi é preferência econômica de capacidade, não dependência estrutural.
+
+ANC-001/002 permanecem capacidades canônicas. ANC-003 não governa mais como
+pré-condição standalone; multi-AI/divergência só deve ser testado dentro de
+trabalho real quando houver uma hipótese concreta de ganho.
 
 ## Current Do — Cycle 011
 
-### ANC-001 — ATTRIBUTABLE AI RUN
+### COMPANY CORE v0.1
 
-`MERGED / CANONICAL / VERIFIED LOCAL-DETERMINISTIC`
+`PASS / LOCAL VERIFIED / REAL INTERNAL DOGFOOD N=1 / NOT YET CANONICAL`
 
-PR:
+Work Packet:
 
-`#125`
-
-Merge:
-
-`8a4c8e8f1b1aa2b92cdab1c98e92a88704d2cf2b`
-
-Propriedade demonstrada:
-
-um humano consegue autorizar uma execução atribuível de IA dentro de um
-Project e DragonCycle delimitados, com contexto determinístico, runtime
-provider/model separado de Actor identity, provenance e CycleRecord
-epistemicamente limitado.
-
-Não demonstrou external provider runtime, external utility, adoption ou scale.
-
-### ANC-002 — LIVE LOCAL AI RUN / OLLAMA ADAPTER
-
-`MERGED / CANONICAL / PASS N=1 LOCAL REAL MODEL`
-
-Implementation PR:
-
-`#126`
-
-Implementation merge:
-
-`9200d1b4f905e5d5e04d7456b7577a8990ad5511`
-
-Observed runtime:
-
-`OLLAMA_LOCAL / qwen2.5-coder:3b`
+`WP-C011-COMPANY-CORE-V0.1.md`
 
 Result Package:
 
-`RP-C011-ANC002-LIVE-LOCAL-AI-RUN.md`
+`RP-C011-COMPANY-CORE-V0.1.md`
 
-Result Package SHA-256:
+Observed Human Evaluation:
 
-`901376a21898eda25338a8ff5a3863f2f0bfd7fc2b6432092b4ca070b5362757`
+`USEFUL`
 
-Demonstrado:
+Decision enabled:
 
-um modelo local real executou contexto ANC delimitado e o resultado atravessou
-`AI Run → DDR CycleRecord` preservando attribution, provenance e limites de
-autoridade.
+`YES`
 
-Observed:
+This demonstrates only bounded internal Company Core operation.
 
-- deterministic adapter properties: PASS;
-- real local model invocation: PASS;
-- exact raw provider bytes preserved locally by hash: PASS;
-- AI Run → DDR integration: PASS;
-- exact AI_AGENT authorship: PASS;
-- Human Direction inference: NO;
-- Claim/Evidence/Verification/Decision inference: NO;
-- role/delegation amplification: NO;
-- target-model external network: NO;
-- hosted Supabase mutation: NO.
-
-Um executor OpenAI Codex foi usado uma vez para criar os dois arquivos
-bounded do adapter. Isso é distinto da execução target-runtime ANC, que usou
-Ollama local.
-
-External-provider substitutability permanece `NOT TESTED`.
+External utility, customer demand, revenue, recurrence, PMF, adoption and scale
+remain untested/not inferred.
 
 ## Canonical capabilities already demonstrated
 
@@ -273,21 +249,17 @@ PASS N=1 does not prove PMF, adoption or scale.
 
 ## Current next gate
 
-ANC-002 está fechado.
+`COMPANY CORE v0.1 = PASS / LOCAL VERIFIED / PROMOTION AUTHORIZED IF GIT GATES PASS`
 
-Não continuar alterando ANC-002 sem nova incerteza.
+Next:
 
-Próxima pergunta candidata:
+`commit → push → PR → CI → merge → STATE-only reconciliation`
 
-> Can two or more attributable AI runs work on the SAME bounded company
-> problem, preserve disagreement/divergence and provenance, and leave the
-> human with a better decision surface without turning AI consensus into
-> legitimacy?
+Celebrate / closure remains contingent on successful canonical promotion and
+the explicit Human Direction recorded during dogfood.
 
-Candidate:
+Preserve:
 
-`ANC-003 — MULTI-AI BOUNDED COMPANY RUN`
-
-ANC-003 é somente candidato. Não está autorizado por esta atualização.
+`internal N=1 ≠ external utility ≠ PMF ≠ adoption ≠ scale`
 
 END OF STATE
