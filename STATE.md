@@ -75,6 +75,90 @@ Purpose:
 
 Closing the Dream did not convert `NOT TESTED` or `NOT PROVEN` into `PASS`.
 
+## Current active Dream — Dream 3
+
+`DREAM 3 = OPEN / DOING`
+
+Dragon Cycle:
+
+`a3d1f512-7595-48f4-8266-56cea9c9869d`
+
+### Current Human Direction
+
+> Dream 3 deve reduzir o trabalho operacional humano que não exige autoridade, julgamento ou entrada do mundo real, sem reduzir a participação humana legítima. Vamos distinguir HUMAN_DECISION_TIME, HUMAN_WORLD_INPUT_TIME e HUMAN_PLUMBING_TIME. Antes de construir Mission Runner, cz-do, orchestrator ou nova infraestrutura, vamos executar um único experimento real comparando o menor caminho baseado na infraestrutura existente com o rival convencional mais simples e automaticamente preparado. Construiremos somente a propriedade concreta que o rival não conseguir preservar. O primeiro caso real será preparar uma candidata verificada de reconciliação do STATE.md para o estado atual do Dream 3, sem promoção Git automática.
+
+Human Direction record:
+
+`3c770124-6ffa-41d9-8002-d40a033244d5`
+
+Dream 3 distinguishes:
+
+- `HUMAN_DECISION_TIME`;
+- `HUMAN_WORLD_INPUT_TIME`;
+- `HUMAN_PLUMBING_TIME`.
+
+Target: reduce avoidable `HUMAN_PLUMBING_TIME` without reducing legitimate
+human authority, judgment or world input.
+
+### Planning experiment — STATE reconciliation N=1
+
+`STATE RIVAL EXPERIMENT = PASS N=1 / HUMAN-REVIEWED`
+
+Two paths executed the same real STATE reconciliation task with the same
+canonical base, Human Direction, output contract and Kimi model:
+
+- Path A: canonical STATE + full official Room handoff;
+- Path B: canonical STATE + automatically generated minimal Markdown briefing.
+
+Observed result:
+
+- Path A machine validation: `PASS`;
+- Path B machine validation: `PARTIAL`;
+- semantic review of the Path B `PARTIAL`: `VALIDATOR FALSE POSITIVE`;
+- all required Path B factual checks passed;
+- no semantic property loss was observed for this task;
+- the minimal automatically prepared briefing was sufficient for
+  `STATE reconciliation N=1`.
+
+The false positive came from an over-broad canonicality pattern matching a
+sentence that explicitly said Dream 3 was **not GitHub canonical**.
+
+Raw experiment outputs were local/non-canonical at execution. This
+reconciliation promotes only the bounded state/result/verification record,
+not those raw execution outputs.
+
+Preserve:
+
+`STATE reconciliation N=1 ≠ all Célula Zero tasks`
+
+`machine validation ≠ semantic review ≠ Human Decision`
+
+### Human Decision after experiment
+
+> Para o caso STATE reconciliation N=1, considero que o rival simples automaticamente preparado preservou as propriedades relevantes. O `PARTIAL` do Path B decorreu de falso positivo do validator, não de perda semântica observada. Adotaremos o briefing automático mínimo como caminho atual para esta classe de tarefa, sem construir Mission Runner, cz-do, orchestrator ou nova infraestrutura. O STATE final deve usar esse caminho mínimo, com a concisão operacional observada no Path A. Qualquer EXTEND/MISSING futuro exigirá nova propriedade concreta perdida em trabalho real.
+
+Operational consequence for this task class:
+
+`ADOPT/MAP MINIMUM AUTOMATIC BRIEFING`
+
+No current evidence justifies:
+
+- Mission Runner;
+- `cz-do`;
+- generic orchestrator;
+- new context infrastructure.
+
+Any future `EXTEND / MISSING` requires a newly observed concrete property loss
+in real work.
+
+Result Package:
+
+`RP-DREAM3-STATE-RIVAL-EXPERIMENT-001.md`
+
+Verification:
+
+`VERIFICATION-DREAM3-STATE-RIVAL-001.md / PASS N=1 / NON-INDEPENDENT`
+
 ## Operational Room slice
 
 Status after promotion of this state:
@@ -189,13 +273,23 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-After this reconciliation is `MERGED / CANONICAL`:
+For `STATE reconciliation` work:
 
-`HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
+`DOING → USE MINIMUM AUTOMATIC BRIEFING`
 
-No next Dream is selected merely by Dream 2 closure.
+For a new real Dream 3 task class:
 
-A future real Dream may test cross-cycle continuity; do not create an artificial
-child cycle solely to convert `NOT TESTED` into `PASS`.
+`TEST THE SIMPLEST EXISTING-INFRASTRUCTURE PATH FIRST`
+
+Do not extrapolate `STATE reconciliation N=1` to other task classes.
+
+Do not create an artificial test solely to obtain another `PASS`.
+
+If a future real task loses a concrete property, classify that property through
+`ADOPT / MAP / EXTEND / MISSING` and build only the smallest missing extension.
+
+Dream 3 remains `OPEN / DOING`.
+
+`founder-light DREAM→CELEBRATE = NOT PROVEN`
 
 END OF STATE
