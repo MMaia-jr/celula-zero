@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação preparada: 2026-08-31
+Última reconciliação canônica: 2026-08-31
 
 Repositório canônico:
 
@@ -157,32 +157,43 @@ Em HOLD salvo nova Human Direction ou propriedade concreta:
 
 `HOLD ≠ REJECTED ≠ ABANDONED`
 
-## Post-celebration reconciliation proposal
+## Post-celebration Operational Convention
 
-Human proposal:
+Human Decision:
 
-> canonical reconciliation should happen after each celebration.
+`decisions/D011-post-celebration-canonical-reconciliation.md`
 
-Status:
+Status after promotion of this state:
 
-`PROPOSED / NOT YET PROMOTED AS DURABLE OPERATIONAL CONVENTION`
+`ADOPTED / CANONICAL`
 
-This C001 reconciliation follows that proposed practice.
+Convention:
 
-Do not silently convert the proposal into Protocol or permanent policy without
-an explicit Human Decision.
+`CELEBRATE → CANONICAL RECONCILIATION → NEXT DREAM`
+
+Operational rule:
+
+- after celebration/closure, perform the smallest necessary canonical
+  reconciliation before starting the next Dream;
+- preserve PASS / PARTIAL / FAIL exactly as observed;
+- `STATE.md` prepared for promotion describes the expected post-merge state;
+- merge remains a human-gated promotion action.
+
+C001 reconciliation:
+
+`PR #130 / MERGED / CANONICAL`
+
+Merge SHA:
+
+`a725c9aa6541788753a77585c4156dab78c38c92`
 
 ## Current next gate
 
-`REVIEW + MERGE C001 CANONICAL RECONCILIATION`
-
-Merge remains a separate human-authorized promotion step.
-
-After canonical reconciliation:
-
 `HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
+No next Dream is selected merely by C001 closure or by this convention.
+
 Candidates may include a founder-light cycle or a real external-utility cycle,
-but neither is started or selected by C001 closure alone.
+but selection remains a Human Direction decision.
 
 END OF STATE
