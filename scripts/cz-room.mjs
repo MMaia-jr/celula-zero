@@ -7,22 +7,43 @@ import { dirname, join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 import { stdin, stdout } from "node:process";
 
-const DEFAULTS = Object.freeze({
-  profileId: "a240350e-4bbc-4589-b3bc-adc17b182129",
-  humanActorId: "18af2804-ee20-460c-98cb-edc5f2871928",
-  aiActorId: "e64b68d7-e61f-4f0c-bf95-11f7f08cc757",
-  projectId: "49859ae3-0c7f-4a88-b503-513890c9261d",
-  cycleId: "2aaaa2d1-4c5c-4a9d-8fea-b377c6be498e",
-  model: "qwen3.5:9b",
-});
+const DEFAULT_MODEL = "qwen3.5:9b";
+
+const REQUIRED_OPERATIONAL_ENV = Object.freeze([
+  "ROOM_PROFILE_ID",
+  "ROOM_HUMAN_ACTOR_ID",
+  "ROOM_AI_ACTOR_ID",
+  "ROOM_PROJECT_ID",
+  "ROOM_CYCLE_ID",
+]);
+
+export function missingOperationalConfig(env = process.env) {
+  return REQUIRED_OPERATIONAL_ENV.filter(
+    (name) => !String(env[name] ?? "").trim(),
+  );
+}
+
+export function canonicalBaseMetadata(env = process.env) {
+  const base = String(env.ROOM_CANONICAL_BASE_SHA ?? "").trim();
+  return { base: base || null, source: base ? "EXPLICIT_ENV" : "UNKNOWN" };
+}
+
+function assertOperationalConfig() {
+  const missing = missingOperationalConfig();
+  if (missing.length) {
+    throw new Error(
+      "Contexto operacional explícito obrigatório. Defina: " + missing.join(", "),
+    );
+  }
+}
 
 const config = {
-  profileId: process.env.ROOM_PROFILE_ID ?? DEFAULTS.profileId,
-  humanActorId: process.env.ROOM_HUMAN_ACTOR_ID ?? DEFAULTS.humanActorId,
-  aiActorId: process.env.ROOM_AI_ACTOR_ID ?? DEFAULTS.aiActorId,
-  projectId: process.env.ROOM_PROJECT_ID ?? DEFAULTS.projectId,
-  cycleId: process.env.ROOM_CYCLE_ID ?? DEFAULTS.cycleId,
-  model: process.env.ROOM_AI_MODEL ?? DEFAULTS.model,
+  profileId: process.env.ROOM_PROFILE_ID?.trim() || null,
+  humanActorId: process.env.ROOM_HUMAN_ACTOR_ID?.trim() || null,
+  aiActorId: process.env.ROOM_AI_ACTOR_ID?.trim() || null,
+  projectId: process.env.ROOM_PROJECT_ID?.trim() || null,
+  cycleId: process.env.ROOM_CYCLE_ID?.trim() || null,
+  model: process.env.ROOM_AI_MODEL?.trim() || DEFAULT_MODEL,
   aiTimeoutMs: Number(process.env.ROOM_AI_TIMEOUT_MS ?? 120_000),
 };
 
@@ -124,6 +145,7 @@ function commandKey(prefix) {
 }
 
 function rpc(name, args, actor = config.humanActorId) {
+  assertOperationalConfig();
   const [key, command] = commandKey(name);
   return JSON.parse(authenticated(`select public.${name}(${args(actor)},'${command}','${key}')`));
 }
@@ -148,9 +170,11 @@ function transition(to, reason) {
 // CZ-108-PARTICIPATION-PORTABILITY-001
 // Preserve cycle participation context in portable Room projections.
 // Participation != authority. Operator identity is not exported here.
-export function projectionSql(cycleId) {
+export function projectionSql(cycleId, canonicalState = canonicalBaseMetadata()) {
+  const canonicalBaseSql = canonicalState.base ? sqlText(canonicalState.base) : "null";
+  const canonicalSourceSql = sqlText(canonicalState.source ?? "UNKNOWN");
   return `select jsonb_build_object(
-    'canonical_state', jsonb_build_object('base','838338300618b0b8f8d428dd78f6e7998d266a1e','boundaries',jsonb_build_array('Original Record != Interpretation','AI Synthesis != Human Direction','Room deliberation != T3 execution')),
+    'canonical_state', jsonb_build_object('base',${canonicalBaseSql},'source',${canonicalSourceSql},'boundaries',jsonb_build_array('Original Record != Interpretation','AI Synthesis != Human Direction','Room deliberation != T3 execution')),
     'project_name', p.title,
     'cycle', to_jsonb(c) - 'cell_id',
     'cycle_participations', coalesce((
@@ -184,11 +208,12 @@ export function projectionSql(cycleId) {
     'human_direction', (select to_jsonb(r) from public.cycle_records r where r.id=c.current_direction_record_id),
     'bound_canonical_objects', coalesce((select jsonb_agg(to_jsonb(b) order by b.created_at,b.id) from public.cycle_bindings b where b.cycle_id=c.id),'[]'::jsonb),
     'open_questions', coalesce((select jsonb_agg(jsonb_build_object('id',r.id,'content',r.content)) from public.cycle_records r where r.cycle_id=c.id and r.provenance->>'room_kind'='QUESTION'),'[]'::jsonb),
-    'known_limitations', jsonb_build_array('BE004 semantic fidelity was PARTIAL','Human Direction is never inferred from AI output','local technical use does not establish external utility')
+    'known_limitations', jsonb_build_array('BE004 semantic fidelity was PARTIAL','Human Direction is never inferred from AI output','local technical use does not establish external utility','Room DB transport currently uses local docker exec + postgres superuser; this is a trusted local development path, not a least-privilege external architecture')
   ) from public.dragon_cycles c join public.projects p on p.id=c.project_id where c.id='${cycleId}'`;
 }
 
 export function project() {
+  assertOperationalConfig();
   const raw = db(projectionSql(config.cycleId));
   if (!raw) throw new Error(`Ciclo ${config.cycleId} não encontrado no banco local.`);
   return JSON.parse(raw);
@@ -487,7 +512,8 @@ export function buildHandoffPackage(contextPort, rootDirectory = "/private/tmp",
     "SCHEMA=CZ_ROOM_HANDOFF_V1",
     `PROJECT_ID=${context.project.id}`,
     `CYCLE_ID=${context.cycle.id}`,
-    `CANONICAL_BASE_SHA=${context.canonical_state.base}`,
+    `CANONICAL_BASE_SHA=${context.canonical_state.base ?? "UNKNOWN"}`,
+    `CANONICAL_BASE_SOURCE=${context.canonical_state.source ?? "UNKNOWN"}`,
     `CURRENT_PHASE=${context.cycle.current_phase}`,
     `HUMAN_DIRECTION=${context.human_direction?.id ?? "NONE"}`,
     `CONTEXT_RECORD_COUNT=${context.records.length}`,

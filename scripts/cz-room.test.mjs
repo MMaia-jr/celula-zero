@@ -2,13 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { buildHandoffPackage, completeInferenceBeforePersist, externalResponseTemplate, humanInputNeedsConfirmation, humanState, parseAiEnvelope, portableContext, projectionSql, runOneShotCommand, sha256, sqlText, validateExternalResponse } from "./cz-room.mjs";
+import { buildHandoffPackage, canonicalBaseMetadata, completeInferenceBeforePersist, externalResponseTemplate, humanInputNeedsConfirmation, humanState, missingOperationalConfig, parseAiEnvelope, portableContext, projectionSql, runOneShotCommand, sha256, sqlText, validateExternalResponse } from "./cz-room.mjs";
 
 function projectionFixture() {
   const human = (id, content, provenance = {}) => ({ id, author_actor_id: "human", content_class: "ORIGINAL_RECORD", phase_context: "DREAMING", content, provenance, created_at: `2026-08-27T00:00:0${id}Z` });
   const ai = (id, content, contentClass = "ORIGINAL_RECORD", provenance = {}) => ({ id, author_actor_id: "ai", content_class: contentClass, phase_context: "DREAMING", content, provenance, created_at: `2026-08-27T00:00:0${id}Z` });
   return {
-    canonical_state: { base: "838338300618b0b8f8d428dd78f6e7998d266a1e", boundaries: [] }, project_name: "Célula Zero",
+    canonical_state: { base: null, source: "UNKNOWN", boundaries: [] }, project_name: "Célula Zero",
     cycle: { id: "cycle", current_phase: "DREAMING", state: "OPEN", current_direction_record_id: null },
     human_original_records: [human("1", "Dream sustentável e contexto portátil entre modelos"), human("4", "Continuidade e portabilidade continuam abertas", { room_kind: "RESPONSE" })],
     ai_original_records: [ai("2", "Qual contexto deve sobreviver?")],
@@ -88,6 +88,24 @@ test("projection explicitly contains every required context class", () => {
   for (const key of ["canonical_state", "human_original_records", "ai_interpretations", "ai_syntheses", "human_confirmations", "human_responses", "human_direction", "bound_canonical_objects", "open_questions", "known_limitations"]) assert.ok(sql.includes(`'${key}'`), key);
 });
 
+test("operational Room target fails closed without explicit identity env", () => {
+  assert.deepEqual(missingOperationalConfig({}), [
+    "ROOM_PROFILE_ID", "ROOM_HUMAN_ACTOR_ID", "ROOM_AI_ACTOR_ID", "ROOM_PROJECT_ID", "ROOM_CYCLE_ID",
+  ]);
+  assert.deepEqual(missingOperationalConfig({
+    ROOM_PROFILE_ID: "p", ROOM_HUMAN_ACTOR_ID: "h", ROOM_AI_ACTOR_ID: "a", ROOM_PROJECT_ID: "pr", ROOM_CYCLE_ID: "c",
+  }), []);
+});
+
+test("canonical base provenance is explicit-or-unknown", () => {
+  assert.deepEqual(canonicalBaseMetadata({}), { base: null, source: "UNKNOWN" });
+  assert.deepEqual(canonicalBaseMetadata({ ROOM_CANONICAL_BASE_SHA: "abc123" }), { base: "abc123", source: "EXPLICIT_ENV" });
+  const sql = projectionSql("cycle", canonicalBaseMetadata({}));
+  assert.ok(sql.includes("'canonical_state'"));
+  assert.ok(sql.includes("'source'"));
+  assert.doesNotMatch(sql, /838338300618b0b8f8d428dd78f6e7998d266a1e/);
+});
+
 test("human state is short and does not expose ontology", () => {
   const text = humanState({ project_name: "Célula Zero", cycle: { current_phase: "DREAMING", state: "OPEN" }, human_direction: null, human_original_records: [], ai_interpretations: [], ai_syntheses: [], open_questions: [], bound_canonical_objects: [], known_limitations: [] });
   assert.match(text, /Direção humana: ainda não adotada/);
@@ -141,6 +159,8 @@ test("handoff package preserves the demonstrated properties and hashes", () => {
   assert.equal(parsed.relations.length, 1);
   assert.doesNotMatch(JSON.stringify(parsed), /raw_ollama_envelope|not exported/);
   assert.equal(result.contextSha256, sha256(readFileSync(join(result.directory, "CONTEXT.json"))));
+  assert.match(result.manifest, /CANONICAL_BASE_SHA=UNKNOWN/);
+  assert.match(result.manifest, /CANONICAL_BASE_SOURCE=UNKNOWN/);
   for (const file of result.files) assert.equal(statSync(join(result.directory, file)).mode & 0o777, 0o600);
   assert.equal(statSync(result.directory).mode & 0o777, 0o700);
   for (const line of result.manifest.split("\n").filter((item) => item.startsWith("FILE_SHA256"))) {

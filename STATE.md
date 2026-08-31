@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação preparada: 2026-08-31
+Última reconciliação canônica: 2026-08-31
 
 Repositório canônico:
 
@@ -181,8 +181,11 @@ Convention:
 
 `CELEBRATE → CANONICAL RECONCILIATION → NEXT DREAM`
 
-Dream 2 is operationally closed. This prepared reconciliation becomes
-canonical only after an authorized PR merge.
+Dream 2 reconciliation:
+
+`PR #132 / MERGED / CANONICAL`
+
+The canonical state preserves the bounded Room slice and the Dream 2 Result Package without promoting the broader experimental worktree.
 
 ## Current next gate
 

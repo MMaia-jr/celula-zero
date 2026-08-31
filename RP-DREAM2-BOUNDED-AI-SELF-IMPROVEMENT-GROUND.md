@@ -162,6 +162,26 @@ Classification:
 
 `GENERAL AUTONOMOUS SELF-IMPROVEMENT = NOT PROVEN`
 
+## Local trusted DB transport limitation
+
+The promoted Room slice currently reaches the local database through:
+
+`docker exec ... psql -U postgres`
+
+Classification:
+
+`LOCAL TRUSTED DEVELOPMENT TRANSPORT / NOT A LEAST-PRIVILEGE EXTERNAL ARCHITECTURE`
+
+This transport was sufficient for the bounded local Dream 2 experiment and its deterministic validation. It does **not** demonstrate a production security boundary, remote multi-user authorization model, or least-privilege database transport.
+
+Future externalization must preserve the same authority semantics through a more restricted execution path before this local transport can be generalized.
+
+Preserve:
+
+`local trusted transport ≠ production security architecture`
+
+`database reachability ≠ authorization legitimacy`
+
 ## Official handoff and isolated cold start
 
 After the self-improvement result was materialized, the official Room handoff
