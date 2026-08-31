@@ -273,7 +273,15 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`DOING → APPLY MINIMUM AUTOMATIC BRIEFING TO THE NEXT REAL DREAM 3 TASK CLASS`
+For `STATE reconciliation` work:
+
+`DOING → USE MINIMUM AUTOMATIC BRIEFING`
+
+For a new real Dream 3 task class:
+
+`TEST THE SIMPLEST EXISTING-INFRASTRUCTURE PATH FIRST`
+
+Do not extrapolate `STATE reconciliation N=1` to other task classes.
 
 Do not create an artificial test solely to obtain another `PASS`.
 

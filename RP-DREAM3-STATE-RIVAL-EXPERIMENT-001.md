@@ -173,8 +173,8 @@ founder-light Dream 3 end to end.
 - no independent external verifier;
 - human minutes were not timed;
 - no external utility, adoption, PMF or scale tested;
-- final STATE candidate remains non-canonical;
-- no commit, push, PR or merge occurred.
+- at experiment/result capture, the final STATE candidate was non-canonical;
+- at experiment/result capture, no commit, push, PR or merge had occurred.
 
 ## STATE reconciliation artifact
 
