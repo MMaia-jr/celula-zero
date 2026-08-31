@@ -33,80 +33,95 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Latest completed Dream — C001
+## Latest completed Dream — Dream 2
 
-`C001 = CLOSED / CELEBRATED`
+`DREAM 2 = CLOSED / CELEBRATED`
 
 Dragon Cycle:
 
-`1add78c1-b2d8-4e1f-8fa8-2ee42612151c`
+`130401c7-43c1-4fb1-9eef-a01dfd16eee2`
 
-Final local result manifest:
+Closed at:
 
-`332e633d2b326951097c716a64c5ce1a9e9aa34a0ec968d6f51d6950a0f0399d`
+`2026-08-31T17:10:54.38172+00:00`
+
+Final material version:
+
+`41`
+
+Result Package:
+
+`RP-DREAM2-BOUNDED-AI-SELF-IMPROVEMENT-GROUND.md`
+
+Purpose:
+
+> preparar terreno para que IAs possam progressivamente melhorar a Célula Zero
+> com Dragon Dreaming, gasto de API limitado, autoridade humana preservada e
+> preferência por reutilizar infraestrutura existente.
+
+### Resultados preservados
+
+- bounded self-inspection: `PASS N=1`;
+- self-correction under counterevidence: `PASS N=1`;
+- durable cycle learning: `PASS N=1`;
+- real Room self-improvement: `PASS N=1`;
+- official Room export: `PASS N=1`;
+- official Room handoff: `PASS N=1`;
+- package-only cold start: `PASS N=1`;
+- cross-process continuity: `PASS N=1`;
+- cross-cycle continuity: `NOT TESTED`;
+- general autonomous self-improvement: `NOT PROVEN`;
+- founder-light DREAM→CELEBRATE: `NOT PROVEN`.
+
+Closing the Dream did not convert `NOT TESTED` or `NOT PROVEN` into `PASS`.
+
+## Operational Room slice
+
+Status after promotion of this state:
+
+`ROOM = BOUNDED OPERATIONAL RUNTIME / INTERNAL VERIFIED N=1 / CANONICAL SLICE`
+
+Promoted scope is intentionally narrow:
+
+- Room runtime;
+- focused Room regression test;
+- participation/context portability test;
+- minimal npm entrypoints.
+
+Not promoted with this slice:
+
+- MCP dependencies;
+- generic Model Bridge;
+- context compiler / benchmark;
+- broad experimental worktree.
+
+`Room ≠ universal platform ≠ autonomous orchestrator`
+
+## Previous completed Dream — C001
+
+`C001 = CLOSED / CELEBRATED / RECONCILED`
 
 Result Package:
 
 `RP-C001-DURABLE-GROUND-STATELESS-RECONSTRUCTION.md`
 
-C001 fechou operacionalmente sem desaparecer: permanece história
-reconstruível e lineage do Company Core.
-
-### Resultados preservados
-
-D1 Durable Ground:
-
-`PASS`
-
-D2 inicial:
-
-`execution PASS / deliverable PARTIAL`
-
-D2 FINAL:
-
-`provider execution PASS / semantic reconstruction PASS / strict output contract FAIL / ANC materialization FAIL`
-
-Fechar o ciclo não transformou PARTIAL ou FAIL em PASS.
-
-### O que foi demonstrado
-
-- Durable Ground determinístico e reconstruível;
-- cópia criptografada off-laptop verificada;
-- consumidor Kimi stateless reconstruiu semanticamente o handoff C001/Core a
-  partir do contexto congelado;
-- autoridade humana, output de IA, avaliação, proveniência e fases permaneceram
-  distintos;
-- execução real revelou um limite concreto de materialização do ANC-001.
-
-### Gap observado
-
-`EXTEND CANDIDATE — LARGE ATTRIBUTABLE AI OUTPUT`
-
-Propriedade concreta:
-
-> um output de IA atribuível e semanticamente completo pode exceder o caminho
-> textual atual do CycleRecord e falhar na materialização ANC.
-
-Menor direção candidata para teste futuro:
-
-`full output artifact by digest/URI + compact attributable CycleRecord pointer`
-
-Não construir isso automaticamente. Testar somente quando um próximo ciclo
-depender dessa propriedade.
+C001 remains reconstructible history and Company Core lineage.
 
 ## Classification boundary
 
-C001 não demonstra:
+Dream 2 does not demonstrate:
 
-- utilidade externa;
-- demanda;
-- receita;
-- recorrência;
-- adoção;
+- external utility from this Dream;
+- demand;
+- revenue;
+- recurrence;
+- adoption;
 - PMF;
-- escala;
+- scale;
 - strong physical-person assurance;
-- operação founder-light DREAM→CELEBRATE end to end.
+- cross-cycle continuity;
+- general autonomous self-improvement;
+- founder-light DREAM→CELEBRATE end to end.
 
 Preserve:
 
@@ -148,7 +163,6 @@ Em HOLD salvo nova Human Direction ou propriedade concreta:
 - HABITABLE-ALPHA-001;
 - T4 implementation;
 - generic Model Bridge;
-- Room;
 - RAG / vector database;
 - MCP / A2A infrastructure;
 - specific Web3 implementations;
@@ -163,37 +177,25 @@ Human Decision:
 
 `decisions/D011-post-celebration-canonical-reconciliation.md`
 
-Status after promotion of this state:
-
-`ADOPTED / CANONICAL`
-
 Convention:
 
 `CELEBRATE → CANONICAL RECONCILIATION → NEXT DREAM`
 
-Operational rule:
+Dream 2 reconciliation:
 
-- after celebration/closure, perform the smallest necessary canonical
-  reconciliation before starting the next Dream;
-- preserve PASS / PARTIAL / FAIL exactly as observed;
-- `STATE.md` prepared for promotion describes the expected post-merge state;
-- merge remains a human-gated promotion action.
+`PR #132 / MERGED / CANONICAL`
 
-C001 reconciliation:
-
-`PR #130 / MERGED / CANONICAL`
-
-Merge SHA:
-
-`a725c9aa6541788753a77585c4156dab78c38c92`
+The canonical state preserves the bounded Room slice and the Dream 2 Result Package without promoting the broader experimental worktree.
 
 ## Current next gate
 
+After this reconciliation is `MERGED / CANONICAL`:
+
 `HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
-No next Dream is selected merely by C001 closure or by this convention.
+No next Dream is selected merely by Dream 2 closure.
 
-Candidates may include a founder-light cycle or a real external-utility cycle,
-but selection remains a Human Direction decision.
+A future real Dream may test cross-cycle continuity; do not create an artificial
+child cycle solely to convert `NOT TESTED` into `PASS`.
 
 END OF STATE
