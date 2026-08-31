@@ -274,7 +274,7 @@ Dream 3 first-slice reconciliation:
 
 Dream 3 final reconciliation:
 
-`PR #__DREAM3_FINAL_PR__ / MERGED / CANONICAL`
+`PR #134 / MERGED / CANONICAL`
 
 The canonical state preserves the bounded Room slice and the Dream 2 Result Package without promoting the broader experimental worktree.
 
