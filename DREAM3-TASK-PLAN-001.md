@@ -1,6 +1,6 @@
 # DREAM3-TASK-PLAN-001
 
-Status: `ACTIVE PLAN / HUMAN-DIRECTED / AI-SYNTHESIZED`
+Status: `EXECUTED / CLOSED / PARTIAL / HUMAN-DIRECTED / AI-SYNTHESIZED`
 
 Dream: `Dream 3 — Célula Zero opera Célula Zero`
 
@@ -142,7 +142,7 @@ Evaluation must preserve both attempts:
 
 Do not manufacture PASS by deleting the failed attempt.
 EVIDENCE: task result artifacts.
-STOP: any critical task not PASS.
+STOP: insufficient evidence to classify, authority drift, or new Human decision/world input required. `PARTIAL / FAIL / INCONCLUSIVE` remain valid evaluations and may proceed to D3-T08 for celebration without being promoted to `PASS`.
 DEPENDENCIES: D3-T01...D3-T06.
 
 ### D3-T08 — Celebrate / close / canonical reconcile
@@ -153,12 +153,12 @@ authorization to execute D3-T08, prepare bounded Result Package + non-independen
 Verification + final STATE, then commit/push/open PR/merge the exact reconciliation
 bundle. Celebration preserves learning; it does not convert PARTIAL/FAIL into PASS.
 AUTHORITY: explicit Human full-sequence authorization.
-INPUT: D3-T07 PASS N=1.
+INPUT: completed D3-T07 evaluation (`PASS / PARTIAL / FAIL / INCONCLUSIVE`).
 OUTPUT: closed/celebrated Dream 3 + canonical Git reconciliation.
 DoD: cycle `CLOSED / CELEBRATING`; final Result Package/Verification/STATE/task
 plan merged; merge verified in `main`.
 EVIDENCE: Room readback + GitHub readback.
-STOP: D3-T07 not PASS; Git drift; failing checks; promotion scope drift.
+STOP: D3-T07 not completed; authority drift; Git drift; failing checks; promotion scope drift.
 DEPENDENCIES: D3-T07.
 
 ## Dream completion boundary
@@ -203,6 +203,12 @@ Preserve:
 `celebration ≠ PASS`
 
 `PARTIAL may be CLOSED / CELEBRATED if the Human-authorized cycle is evaluated and learned from`
+
+Execution note after Revision V2:
+
+`D3-T07 = PARTIAL` and D3-T08 legitimately proceeded to celebration/closure under
+the already-authorized full sequence. Celebration preserved `PARTIAL`; it did
+not convert the evaluation to `PASS`.
 
 ## Final execution status V2
 
