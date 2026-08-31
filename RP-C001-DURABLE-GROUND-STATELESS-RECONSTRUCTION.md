@@ -136,6 +136,55 @@ current ANC-001 CycleRecord-oriented text materialization boundary.
 
 This does not convert the failed AI Run into a completed one.
 
+## Intermediate result history preserved
+
+The final classifications above do not erase intermediate result states that
+were decision-relevant during C001.
+
+### D1 before off-laptop durability
+
+First D1 durability assessment:
+
+`PARTIAL`
+
+At that point:
+
+- local Durable Ground bundle: `PASS`;
+- reconstructibility check: `PASS`;
+- secret scan: `PASS`;
+- required off-laptop second copy: not yet satisfied.
+
+After the encrypted off-laptop copy and independent integrity verification were
+completed, the later D1 result became `PASS`.
+
+Preserve:
+
+`earlier D1 PARTIAL ≠ erased by later D1 PASS`
+
+### D3 after the initial D2 PARTIAL
+
+Initial D3 Result/Handoff package:
+
+`PASS`
+
+C001 DO result at that point:
+
+`PARTIAL`
+
+D3 manifest SHA-256:
+
+`722c2baa1a373cec1729db08f344a81d15e46938e610ff384182ff3cf02afc74`
+
+That package was not accepted as closure because the then-current D2
+deliverable remained `PARTIAL`. It was later superseded by the corrective D2
+FINAL test and the final C001 result preparation.
+
+Preserve:
+
+`D3 PACKAGE PASS ≠ C001 DO PASS`
+
+`SUPERSEDED ≠ ERASED`
+
 ## Observed technical gap
 
 Classification:
