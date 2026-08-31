@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-08-29
+Última reconciliação preparada: 2026-08-31
 
 Repositório canônico:
 
@@ -17,232 +17,116 @@ Preserve:
 
 `SUPERSEDED ≠ ERASED`
 
-## Current Dream
+## Current operational core
 
-`CYCLE 011 — ECONOMIA DE CAPACIDADES`
+`AI-NATIVE COMPANY CORE`
 
-Direção humana atual:
+`COMPANY CORE v0.1 = PASS / MERGED / CANONICAL / INTERNAL REAL COMPANY USE N=1`
 
-> Transformar necessidade + capacidade em consequência confiável —
-> e consequência em nova capacidade.
+Company Core continua sendo o core operacional atual até uma decisão humana
+explícita de substituição.
+
+Preservar o core e sua lineage não congela implementação, schema, modelos,
+providers, prompts, runners, storage ou tooling.
 
 Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-Loop econômico explorado:
+## Latest completed Dream — C001
 
-`NEED → CAPABILITY → AGREEMENT → CONTRIBUTION → RESULT → EVIDENCE → ECONOMIC CONSEQUENCE → LEARNING + TRUST + CAPABILITY → NEW OPPORTUNITY/NEED`
+`C001 = CLOSED / CELEBRATED`
 
-A economia ainda não é demonstrada externamente.
+Dragon Cycle:
 
-Não presumir produto validado, demanda, receita, sustentabilidade, PMF,
-adoção, escala, DAO, token, blockchain, reputação universal ou protocolo
-universal.
+`1add78c1-b2d8-4e1f-8fa8-2ee42612151c`
 
-Web3, smart contracts, tokens e outras arquiteturas permanecem não
-selecionadas.
+Final local result manifest:
 
-## One Process
-
-Toda a Célula Zero evolui através de:
-
-`DREAM → PLAN → DO → CELEBRATE`
-
-T1/T2/T3/T4, experimentos, projetos, oportunidades externas e tecnologias
-acontecem dentro desse processo.
-
-## Current Plan
-
-`AI-NATIVE COMPANY CORE`
-
-`HUMAN-APPROVED / PROMOTION CANDIDATE`
-
-Pergunta operacional:
-
-> Can one human + interchangeable AIs operate a coherent, multi-project,
-> economically legible company?
-
-Tese operacional aprovada:
-
-> testar se um único humano legítimo, usando capacidades de IA intercambiáveis,
-> consegue transformar necessidades reais em acordos compreensíveis, trabalho
-> atribuível, resultados úteis e consequências econômicas observáveis,
-> repetidamente e em múltiplos projetos, sem exigir equipe humana proporcional
-> à complexidade.
-
-Primeira tese de produto habitável:
-
-`NEED → CONSEQUENCE`
-
-Roadmap atual:
-
-`P1 NEED→AGREEMENT → P2 AGREEMENT→USEFUL RESULT → P3 RESULT→ECONOMIC CONSEQUENCE → P4 REPEAT → P5 MULTI-PROJECT ONE-HUMAN COMPANY`
-
-Direção de runtime externo:
-
-`Vercel AI Gateway → moonshotai/kimi-k2.6 when sufficient / cost-preferred`
-
-Kimi é preferência econômica de capacidade, não dependência estrutural.
-
-ANC-001/002 permanecem capacidades canônicas. ANC-003 não governa mais como
-pré-condição standalone; multi-AI/divergência só deve ser testado dentro de
-trabalho real quando houver uma hipótese concreta de ganho.
-
-## Current Do — Cycle 011
-
-### COMPANY CORE v0.1
-
-`PASS / MERGED / CANONICAL / INTERNAL REAL COMPANY USE N=1`
-
-Implementation PR:
-
-`#128`
-
-Canonical merge:
-
-`86e92d863d5f1a7def757de81812cf6246af8084`
+`332e633d2b326951097c716a64c5ce1a9e9aa34a0ec968d6f51d6950a0f0399d`
 
 Result Package:
 
-`RP-C011-COMPANY-CORE-V0.1.md`
+`RP-C001-DURABLE-GROUND-STATELESS-RECONSTRUCTION.md`
 
-What is now demonstrated:
+C001 fechou operacionalmente sem desaparecer: permanece história
+reconstruível e lineage do Company Core.
 
-- the founder can operate a bounded Company Core loop for Célula Zero;
-- one successful attributable external Kimi run participated through the
-  adopted Vercel Gateway path;
-- AI contribution, Result, Human Evaluation and observed consequence remained
-  distinguishable;
-- the bounded episode is reconstructible afterward.
+### Resultados preservados
 
-Execution history also preserves one earlier paid Kimi response that was lost
-before persistence because of a local helper contract defect. That failed
-persistence attempt is not counted as a successful attributable AI Run.
+D1 Durable Ground:
 
-This demonstrates bounded internal operation only.
+`PASS`
 
-It does not demonstrate external utility, customer demand, revenue, recurrence,
-PMF, adoption or scale.
+D2 inicial:
 
-## Canonical capabilities already demonstrated
+`execution PASS / deliverable PARTIAL`
 
-### OPERATING-LOOP-MVP
+D2 FINAL:
 
-`PASS N=1 INTERNAL`
+`provider execution PASS / semantic reconstruction PASS / strict output contract FAIL / ANC materialization FAIL`
 
-`Opportunity → Proposal → Commitment → Contribution → Artifact → Claim/Evidence → Verification`
+Fechar o ciclo não transformou PARTIAL ou FAIL em PASS.
 
-Limite: internal N=1 não demonstra external utility, adoption, PMF ou scale.
+### O que foi demonstrado
 
-### INTEGRATED ALPHA — extracted capabilities
+- Durable Ground determinístico e reconstruível;
+- cópia criptografada off-laptop verificada;
+- consumidor Kimi stateless reconstruiu semanticamente o handoff C001/Core a
+  partir do contexto congelado;
+- autoridade humana, output de IA, avaliação, proveniência e fases permaneceram
+  distintos;
+- execução real revelou um limite concreto de materialização do ANC-001.
 
-T1:
+### Gap observado
 
-`SOCIAL COORDINATION / MERGED / CANONICAL`
+`EXTEND CANDIDATE — LARGE ATTRIBUTABLE AI OUTPUT`
 
-T2:
+Propriedade concreta:
 
-`WORK → EVIDENCE → VERIFICATION → DECISION / MERGED / CANONICAL`
+> um output de IA atribuível e semanticamente completo pode exceder o caminho
+> textual atual do CycleRecord e falhar na materialização ANC.
 
-T3:
+Menor direção candidata para teste futuro:
 
-`HUMAN ↔ SOFTWARE-AGENT COORDINATION / MERGED / CANONICAL`
+`full output artifact by digest/URI + compact attributable CycleRecord pointer`
 
-A sequência T1→T2→T3→T4 não governa automaticamente o próximo trabalho.
+Não construir isso automaticamente. Testar somente quando um próximo ciclo
+depender dessa propriedade.
 
-T4 continua condicionado a uma propriedade econômica ou de interoperabilidade
-concreta.
+## Classification boundary
 
-### Coordination research
+C001 não demonstra:
 
-G-C1 / G-C2 / G-C3 produziram um reference model bounded e chegaram a:
+- utilidade externa;
+- demanda;
+- receita;
+- recorrência;
+- adoção;
+- PMF;
+- escala;
+- strong physical-person assurance;
+- operação founder-light DREAM→CELEBRATE end to end.
 
-`PROFILE CANDIDATE BOUNDED / HOLD FOR FIELD PRESSURE`
+Preserve:
 
-Standards existentes devem ser adotados ou mapeados antes de criar primitivas
-novas.
+`internal N=1 ≠ external utility ≠ PMF ≠ adoption ≠ scale`
 
-## External evidence
+`AI output ≠ Human Direction`
+
+`authenticated session ≠ physical-person assurance`
+
+## External evidence preserved
 
 ### EdgeLoom
 
 `EXTERNAL UTILITY OBSERVED N=1 / BOUNDED REVIEW TRACK`
 
-Follow-up técnico EdgeLoom Q2:
-
 `PACKAGE-LEVEL FOREIGN NAMESPACE VERIFIED N=1 / MAINTAINER EVALUATION PENDING / NO ACTIVE WORK REQUIRED`
 
 Isso não demonstra recurrence, adoption, PMF ou scale.
 
-## Canonical DDR composition capability
-
-DDR permanece:
-
-`MERGED / CANONICAL CAPABILITY`
-
-Propriedade bounded:
-
-> representar DREAM→PLAN→DO→CELEBRATE compondo objetos T1/T2/T3 existentes
-> sem criar um segundo conjunto de Artifact, Claim, Evidence, Verification ou
-> Decision.
-
-Isso demonstra composição técnica bounded; não demonstra external utility,
-adoption, PMF ou scale.
-
-## Local capabilities not governing current priority
-
-Capacidades locais adicionais preservadas não governam automaticamente o
-presente, incluindo:
-
-- Room;
-- Model Bridge / provider routing;
-- context portability/compiler;
-- economic value-consequence lab;
-- Dream Evolution provenance.
-
-`PRESERVED ≠ CURRENT`
-
-## Hold
-
-Em HOLD salvo nova Human Direction ou propriedade concreta:
-
-- HABITABLE-ALPHA-001;
-- T4 implementation;
-- additional context infrastructure;
-- generic Model Bridge;
-- Room;
-- RAG / vector database;
-- MCP / A2A infrastructure;
-- Protocol-of-Protocols implementation;
-- specific Web3 implementations;
-- token / DAO;
-- universal reputation;
-- external contexts parked:
-  - ResoVerse Commons;
-  - GittieLabs SPEC-403;
-  - ControlZ #3;
-- Nutrient hackathon.
-
-`HOLD ≠ REJECTED ≠ ABANDONED`
-
-## Historical structures that do not govern the present
-
-Preservar como história e proveniência:
-
-- D006 e o MVP de 30 dias;
-- D007 e seu sequencing;
-- D008 e a divisão Track A / Track B;
-- ROADMAP-30D;
-- ROADMAP-002 como master gate;
-- INTEGRATED-ALPHA como master roadmap;
-- AUTONOMOUS-108 como programa independente;
-- Cycles 001–010 como sequência histórica de progresso.
-
-Resultados e capacidades produzidos por esses trabalhos permanecem utilizáveis
-quando relevantes.
-
-## Durable constraints
+## Durable operating constraints
 
 Preserve:
 
@@ -256,49 +140,49 @@ AI consensus does not create Human Direction or legitimacy.
 
 PASS N=1 does not prove PMF, adoption or scale.
 
-## Celebrate — Cycle 011
+## Hold
 
-Human Direction recorded during the real internal Company Core dogfood:
+Em HOLD salvo nova Human Direction ou propriedade concreta:
 
-`CYCLE 011 = CLOSE AFTER PASS + CANONICAL PROMOTION`
+- broad pre-sale offensive;
+- HABITABLE-ALPHA-001;
+- T4 implementation;
+- generic Model Bridge;
+- Room;
+- RAG / vector database;
+- MCP / A2A infrastructure;
+- specific Web3 implementations;
+- token / DAO;
+- universal reputation.
 
-Observed result:
+`HOLD ≠ REJECTED ≠ ABANDONED`
 
-`PASS / INTERNAL REAL COMPANY USE N=1`
+## Post-celebration reconciliation proposal
 
-What returned to the system:
+Human proposal:
 
-- a founder-usable Need → Consequence operating surface;
-- attributable external AI work inside the company loop;
-- explicit Human Evaluation and consequence recording;
-- a canonical Result Package and reconstructible history.
+> canonical reconciliation should happen after each celebration.
 
-What remains unproven:
+Status:
 
-- external utility;
-- customer demand;
-- revenue;
-- recurrence;
-- PMF;
-- adoption;
-- scale.
+`PROPOSED / NOT YET PROMOTED AS DURABLE OPERATIONAL CONVENTION`
+
+This C001 reconciliation follows that proposed practice.
+
+Do not silently convert the proposal into Protocol or permanent policy without
+an explicit Human Decision.
 
 ## Current next gate
 
-`CYCLE 011 = CLOSED / PASS / CELEBRATED`
+`REVIEW + MERGE C001 CANONICAL RECONCILIATION`
 
-Next Human-directed gate:
+Merge remains a separate human-authorized promotion step.
 
-`DEFINE ONE CONCRETE EXTERNAL USER PROBLEM + ONE PLAUSIBLE USER PROFILE → PREPARE THE SMALLEST REAL EXTERNAL UTILITY TEST WITH 3–5 CONVERSATIONS OR DEMONSTRATIONS`
+After canonical reconciliation:
 
-Do not launch a broad pre-sale offensive yet.
+`HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
-A paid pilot may follow only if real benefit is observed.
-
-Preserve:
-
-`one pre-sale or pilot ≠ PMF ≠ adoption ≠ scale`
-
-`internal N=1 ≠ external utility ≠ PMF ≠ adoption ≠ scale`
+Candidates may include a founder-light cycle or a real external-utility cycle,
+but neither is started or selected by C001 closure alone.
 
 END OF STATE
