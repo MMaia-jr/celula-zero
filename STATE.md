@@ -33,6 +33,65 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
+## Current active Dream — Cycle 4
+
+`CYCLE 4 = DREAMING / OPEN`
+
+Dragon Cycle:
+
+`31224b3f-917d-450e-a535-0ef297afa394`
+
+Opening material version:
+
+`8`
+
+Human seed Dream record:
+
+`a1f22dbd-5980-4ecf-9af0-01b78ae1efd2`
+
+Process Container record:
+
+`907a9c3e-3361-43ce-98d3-887502607f87`
+
+Human opening authorization record:
+
+`060feadd-bb9b-46f8-840d-a9a46bcb835f`
+
+Initial AI participations:
+
+- GPT: `7a36545c-ac7b-45a7-9f2a-a1e806aa022f`;
+- Kimi: `dd071adb-e829-45d4-be14-2b8f2c31e9b9`.
+
+Current Human Direction:
+
+`NULL / DREAMING REMAINS FREE`
+
+Task Plan:
+
+`NO`
+
+Budget boundary:
+
+`TARGET <= USD 3 / NOT SPEND AUTHORIZATION`
+
+`PAID_SPEND_AUTHORIZED = NO`
+
+Historical technically `OPEN` Dragon cycle residuals remain preserved and
+unmodified:
+
+- `7e363dc9-9f4d-4d13-b262-4a9c03bafe40`;
+- `a98d7c87-fb39-4d15-80db-47592f10fded`.
+
+They are not classified as abandoned and are not the current Dream.
+
+Preserve:
+
+`technically OPEN ≠ CURRENT Dream`
+
+`opening ≠ Planning`
+
+`budget target ≠ spend authorization`
+
 ## Latest completed Dream — Dream 3
 
 `DREAM 3 = CLOSED / CELEBRATED / PARTIAL`
@@ -280,14 +339,17 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
+`DREAMING CIRCLE — ROUND 1`
 
-Dream 3 is closed/celebrated with final evaluation `PARTIAL` and canonically
-reconciled.
+Cycle 4 remains `DREAMING / OPEN`.
 
-Do not reopen Dream 3 merely to chase PASS.
+Do not infer from opening alone:
 
-A future real Dream may test fresh AI on the revised task-plan context or
-cross-cycle continuity if those properties become necessary.
+- Human Direction;
+- Task Plan;
+- paid spend authorization;
+- phase transition;
+- technical implementation;
+- mutation or abandonment of historical `OPEN` residual cycles.
 
 END OF STATE
