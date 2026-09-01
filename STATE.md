@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-08-31
+Última reconciliação canônica: 2026-09-01
 
 Repositório canônico:
 
@@ -33,48 +33,24 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Current active Dream — Cycle 4
+## Current Dream / next gate
 
-`CYCLE 4 = DREAMING / OPEN`
+`NO ACTIVE DREAM`
 
-Dragon Cycle:
+Cycle 4 has completed the current Dragon Dreaming loop and is reconciled by this
+promotion as:
 
-`31224b3f-917d-450e-a535-0ef297afa394`
+`CYCLE 4 = CLOSED / CELEBRATED / PARTIAL / CANONICAL`
 
-Opening material version:
+No Cycle 5 / next Dream has been opened by this reconciliation.
 
-`8`
+Current next gate:
 
-Human seed Dream record:
+`HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
-`a1f22dbd-5980-4ecf-9af0-01b78ae1efd2`
+Preserve the durable convention:
 
-Process Container record:
-
-`907a9c3e-3361-43ce-98d3-887502607f87`
-
-Human opening authorization record:
-
-`060feadd-bb9b-46f8-840d-a9a46bcb835f`
-
-Initial AI participations:
-
-- GPT: `7a36545c-ac7b-45a7-9f2a-a1e806aa022f`;
-- Kimi: `dd071adb-e829-45d4-be14-2b8f2c31e9b9`.
-
-Current Human Direction:
-
-`NULL / DREAMING REMAINS FREE`
-
-Task Plan:
-
-`NO`
-
-Budget boundary:
-
-`TARGET <= USD 3 / NOT SPEND AUTHORIZATION`
-
-`PAID_SPEND_AUTHORIZED = NO`
+`CELEBRATE → CANONICAL RECONCILIATION → NEXT DREAM`
 
 Historical technically `OPEN` Dragon cycle residuals remain preserved and
 unmodified:
@@ -84,15 +60,83 @@ unmodified:
 
 They are not classified as abandoned and are not the current Dream.
 
-Preserve:
-
 `technically OPEN ≠ CURRENT Dream`
 
-`opening ≠ Planning`
+## Latest completed Dream — Cycle 4
 
-`budget target ≠ spend authorization`
+`CYCLE 4 = CLOSED / CELEBRATED / PARTIAL`
 
-## Latest completed Dream — Dream 3
+Dragon Cycle:
+
+`31224b3f-917d-450e-a535-0ef297afa394`
+
+Closed at:
+
+`2026-09-01T16:50:45.321033+00:00`
+
+Final material version:
+
+`46`
+
+Human close Original Record:
+
+`64bec4c6-2c7b-4132-b134-01622578c303`
+
+Result Package:
+
+`RP-CYCLE4-HUMAN-AI-DRAGON-DREAMING-SOIL.md`
+
+### Result preserved
+
+- `C4-T01 Observe and Bound`: `PASS`;
+- `C4-T02 Simpler Rival Baseline`: `PASS`;
+- `C4-T03 Interpret and Represent`: `PASS`;
+- `C4-T04 Adversarial Reconstruction`: `PASS`;
+- `C4-T05 Verify / Minimize / Test Decay`: `PARTIAL`;
+- `C4-T06 Human Decision Surface / Cycle Evaluation`: `PARTIAL`;
+- direct-source baseline reconstruction: `5/5`;
+- full Soil Manifest reconstruction: `5/5`;
+- minimal Soil Manifest reconstruction: `5/5`;
+- full Soil Manifest unique capability over simpler rivals: `NOT DEMONSTRATED`;
+- new lifecycle infrastructure justified: `NO`;
+- final Cycle evaluation: `PARTIAL`.
+
+Paid AI/model execution observed for Cycle 4 remained within the Human-authorized
+`USD 3.00` ceiling. The three observed AI Gateway account deltas total
+approximately `USD 0.02363745`; this is an execution-log account-delta measure,
+not a provider-invoice claim.
+
+Celebration preserved two seeds:
+
+- `Human Process Awareness`;
+- `Como preservar rastro sem preservar carga?`.
+
+Observed learning:
+
+`HUMAN_DECISION_TIME ≠ HUMAN_PLUMBING_TIME ≠ HUMAN_PROCESS_AWARENESS`
+
+and:
+
+`minimum sufficient continuity > maximum preserved context`
+
+The second expression is an attributed Celebration synthesis, not a universal
+Protocol rule.
+
+No concrete property loss in this work justified a Soil Engine, new lifecycle
+database/schema, artifact graph, RAG, MCP/A2A layer, generic orchestrator or
+automated garbage collector.
+
+Preserve:
+
+`execution PASS ≠ experiment PASS`
+
+`celebration ≠ PASS`
+
+`PARTIAL ≠ FAIL`
+
+`internal N=1 ≠ external utility ≠ adoption ≠ PMF ≠ scale`
+
+## Previous completed Dream — Dream 3
 
 `DREAM 3 = CLOSED / CELEBRATED / PARTIAL`
 
@@ -339,17 +383,20 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`DREAMING CIRCLE — ROUND 1`
+`HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
-Cycle 4 remains `DREAMING / OPEN`.
+Cycle 4 is `CLOSED / CELEBRATED / PARTIAL / CANONICAL`.
 
-Do not infer from opening alone:
+No next Dream is selected or opened by this reconciliation.
 
-- Human Direction;
-- Task Plan;
-- paid spend authorization;
-- phase transition;
-- technical implementation;
-- mutation or abandonment of historical `OPEN` residual cycles.
+Do not infer from Cycle 4 closure:
+
+- external utility;
+- recurrence;
+- adoption;
+- PMF;
+- scale;
+- a universal lifecycle architecture;
+- authority to start Cycle 5 without new Human Direction.
 
 END OF STATE
