@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-01
+Última reconciliação canônica: 2026-09-02
 
 Repositório canônico:
 
@@ -37,32 +37,78 @@ Missão preservada:
 
 `NO ACTIVE DREAM`
 
-Cycle 4 has completed the current Dragon Dreaming loop and is reconciled by this
-promotion as:
+The latest completed local cycle is represented by this reconciliation
+candidate as:
 
-`CYCLE 4 = CLOSED / CELEBRATED / PARTIAL / CANONICAL`
+`INTERNAL HUMAN–MULTI-AI COMPOSITION N=1 = CLOSED / CELEBRATED`
 
-No Cycle 5 / next Dream has been opened by this reconciliation.
+DragonCycle:
 
-Current next gate:
+`0468d122-0358-42a3-b638-0dc4c8b33d74`
+
+Closed at:
+
+`2026-09-02T17:24:01.124325+00:00`
+
+Final local material version:
+
+`70`
+
+Execution result proposed for promotion:
+
+`PASS / INTERNAL HUMAN–MULTI-AI COMPOSITION N=1`
+
+Cycle experiment evaluation proposed for Human review:
+
+`PARTIAL`
+
+The `PARTIAL` classification is not inferred from closure. It reflects that the
+real chain completed through Human Decision while habitability remained weak
+and significant human/technical plumbing was still required.
+
+Current next gate expected after this reconciliation becomes canonical:
 
 `HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
-Preserve the durable convention:
+Preserve:
 
 `CELEBRATE → CANONICAL RECONCILIATION → NEXT DREAM`
 
-Historical technically `OPEN` Dragon cycle residuals remain preserved and
-unmodified:
+`internal N=1 ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
-- `7e363dc9-9f4d-4d13-b262-4a9c03bafe40`;
-- `a98d7c87-fb39-4d15-80db-47592f10fded`.
+## Latest completed Dream — Internal Human–Multi-AI Composition
 
-They are not classified as abandoned and are not the current Dream.
+Result Package:
 
-`technically OPEN ≠ CURRENT Dream`
+`RP-R2-INTERNAL-HUMAN-MULTI-AI-COMPOSITION-N1.md`
 
-## Latest completed Dream — Cycle 4
+Human Celebration:
+
+> Célula Zero já consegue representar e executar internamente uma relação humano–multi-IA com autoridade contextual, proveniência, evidência, revisão independente e decisão humana sem transformar IA em soberano. Mas ainda exige plumbing humano/técnico demais para ser uma experiência habitável.
+
+Observed result:
+
+- Dream → Plan → Need → Opportunity → Proposal → Commitment: `PASS`;
+- real GPT ANC contribution: `PASS`;
+- Contribution → Artifact → Claim → Evidence: `PASS`;
+- Kimi Verification: `PASS / INDEPENDENT under B2-B2 / conflict_codes=[]`;
+- Human Domain Decision: `ACCEPT_FOR_CONTEXT`;
+- Outcome: `NONE`;
+- Celebration / close: `PASS`;
+- public publication: `NO`.
+
+Observed integration seams justified the scoped R2-2A, R2-2B and R2-2D
+candidate extensions. Other failures were resolved by composing existing
+authority, ANC and T2 primitives.
+
+Preserve:
+
+`working primitives + poor composition ergonomics ≠ habitable system`
+
+No result here demonstrates external utility, recurrence, adoption, PMF or
+scale.
+
+## Previous completed Dream — Cycle 4
 
 `CYCLE 4 = CLOSED / CELEBRATED / PARTIAL`
 
@@ -385,18 +431,19 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 `HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
-Cycle 4 is `CLOSED / CELEBRATED / PARTIAL / CANONICAL`.
+The internal human–multi-AI composition cycle is represented by this
+reconciliation candidate as `CLOSED / CELEBRATED`.
 
-No next Dream is selected or opened by this reconciliation.
-
-Do not infer from Cycle 4 closure:
+Do not infer from closure or the internal N=1 PASS:
 
 - external utility;
 - recurrence;
 - adoption;
 - PMF;
 - scale;
-- a universal lifecycle architecture;
-- authority to start Cycle 5 without new Human Direction.
+- universal reviewer independence;
+- a generic orchestration requirement;
+- authority to open the next Dream before this reconciliation is
+  `MERGED / CANONICAL`.
 
 END OF STATE
