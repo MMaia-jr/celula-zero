@@ -37,10 +37,9 @@ Missão preservada:
 
 `NO ACTIVE DREAM`
 
-The latest completed local cycle is represented by this reconciliation
-candidate as:
+The latest completed Dragon Dreaming cycle is:
 
-`INTERNAL HUMAN–MULTI-AI COMPOSITION N=1 = CLOSED / CELEBRATED`
+`INTERNAL HUMAN–MULTI-AI COMPOSITION N=1 = CLOSED / CELEBRATED / PARTIAL / CANONICAL`
 
 DragonCycle:
 
@@ -54,19 +53,20 @@ Final local material version:
 
 `70`
 
-Execution result proposed for promotion:
+Execution result:
 
 `PASS / INTERNAL HUMAN–MULTI-AI COMPOSITION N=1`
 
-Cycle experiment evaluation proposed for Human review:
+Cycle experiment evaluation — Human review accepted:
 
 `PARTIAL`
 
-The `PARTIAL` classification is not inferred from closure. It reflects that the
-real chain completed through Human Decision while habitability remained weak
-and significant human/technical plumbing was still required.
+Human review accepted `PARTIAL` for this cycle. The classification is not
+inferred from closure: the real chain completed through Human Decision while
+habitability remained weak and significant human/technical plumbing was still
+required.
 
-Current next gate expected after this reconciliation becomes canonical:
+Current next gate:
 
 `HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
@@ -425,14 +425,18 @@ Dream 3 final reconciliation:
 
 `PR #134 / MERGED / CANONICAL`
 
+R2 internal human–multi-AI composition reconciliation:
+
+`PR #137 / MERGED / CANONICAL`
+
 The canonical state preserves the bounded Room slice and the Dream 2 Result Package without promoting the broader experimental worktree.
 
 ## Current next gate
 
 `HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
 
-The internal human–multi-AI composition cycle is represented by this
-reconciliation candidate as `CLOSED / CELEBRATED`.
+The internal human–multi-AI composition cycle is
+`CLOSED / CELEBRATED / PARTIAL / CANONICAL`.
 
 Do not infer from closure or the internal N=1 PASS:
 
@@ -443,7 +447,6 @@ Do not infer from closure or the internal N=1 PASS:
 - scale;
 - universal reviewer independence;
 - a generic orchestration requirement;
-- authority to open the next Dream before this reconciliation is
-  `MERGED / CANONICAL`.
+- authority to open the next Dream without new Human Direction.
 
 END OF STATE

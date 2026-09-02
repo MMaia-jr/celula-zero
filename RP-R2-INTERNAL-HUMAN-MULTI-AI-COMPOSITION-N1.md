@@ -2,7 +2,7 @@
 
 Status:
 
-`PREPARED FOR HUMAN REVIEW / NOT COMMITTED / NOT CANONICAL`
+`HUMAN REVIEW ACCEPTED / FINAL R2 RESULT FOR CANONICAL RECONCILIATION`
 
 DragonCycle:
 
@@ -16,7 +16,7 @@ Final local material version:
 
 `70`
 
-## Proposed cycle classification for Human review
+## Cycle classification — Human review accepted
 
 Execution result:
 
@@ -26,10 +26,10 @@ Experiment result:
 
 `PARTIAL`
 
-**Important:** `PARTIAL` is a coordinator synthesis proposed for Human review.
-It is not yet a separate Human Domain Decision merely because it appears in
-this candidate package. Approval of the reconciliation candidate should make
-the acceptance or rejection of this classification explicit.
+Human review explicitly accepted `EXPERIMENT = PARTIAL` together with the
+scoped R2-2A / R2-2B / R2-2D promotions and the durable cycle learnings recorded
+below. This cycle-level evaluation remains distinct from the earlier substantive
+Human Domain Decision on Claim `750a23cb-8a91-43af-b84e-30914d480f7d`.
 
 ## Dream
 
@@ -63,7 +63,7 @@ Not external utility, adoption, PMF or scale.
 - R2-T06 independent Kimi Verification: `PASS`
 - R2-T06 Human Domain Decision: `PASS / ACCEPT_FOR_CONTEXT`
 - R2-T07 Celebration + close: `PASS`
-- canonical reconciliation: `PREPARED / NOT PROMOTED`
+- canonical reconciliation vehicle: `PR #137`
 
 ## Real chain
 
@@ -144,7 +144,7 @@ Observed property loss:
 
 `operational openness ≠ public legibility`
 
-Candidate implementation/test preserved in this reconciliation package.
+Implementation/test selected by Human review for canonical reconciliation through PR #137.
 
 ### R2-2B — Opportunity OPEN without PUBLIC
 
@@ -152,7 +152,7 @@ Observed property loss:
 
 `operational openness ≠ public publication`
 
-Candidate implementation/test preserved in this reconciliation package.
+Implementation/test selected by Human review for canonical reconciliation through PR #137.
 
 ### R2-2D — one bounded AI Proposal authority
 
@@ -161,7 +161,7 @@ Observed property loss:
 a Human Steward needed to authorize one specific AI to submit one Proposal in
 one specific Opportunity without granting a broad role or permanent authority.
 
-Candidate implementation/test preserved in this reconciliation package.
+Implementation/test selected by Human review for canonical reconciliation through PR #137.
 
 ### Composition seam — proposal acceptance vs cumulative T2 authority
 
@@ -209,11 +209,11 @@ This is the Human Celebration contribution, not a universal Protocol rule.
 This seed does not open a next Dream and does not authorize an orchestrator,
 new platform or autonomous system.
 
-## Candidate learning
+## Human-reviewed durable learning
 
 `menos plumbing humano sem perder fronteiras > mais primitives`
 
-Coordinator synthesis only until Human review.
+Accepted in Human review as a durable learning scoped to this internal N=1 episode.
 
 ## Not demonstrated
 
@@ -227,10 +227,23 @@ Coordinator synthesis only until Human review.
 - universal truth from Evidence or Verification;
 - need for a generic orchestrator, RAG, MCP/A2A layer, token, DAO or universal reputation.
 
-## Promotion boundary
+## Promotion and canonicality boundary
 
-This Result Package is only a reconciliation candidate.
+Human review:
 
-`PREPARED ≠ COMMITTED ≠ PUSHED ≠ MERGED ≠ CANONICAL`
+`HUMAN REVIEW = ACCEPTED`
 
-Human review is required before any Git promotion.
+The reviewed reconciliation was committed and pushed through PR #137 under
+explicit Human authority. That promotion authorization did **not** authorize
+merge.
+
+PR #137 is the canonical-reconciliation vehicle for this Result Package. The
+content is written to represent the R2 result expected on `main` after an
+authorized merge; canonicality itself is determined by Git merge state, not by
+self-declaration inside this file.
+
+Preserve:
+
+`COMMITTED ≠ PUSHED ≠ PR OPEN ≠ MERGED ≠ CANONICAL`
+
+A separate Human authorization is required for merge.
