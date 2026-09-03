@@ -19,6 +19,7 @@
     "test:e2e:auth": "npm run test:e2e:auth --workspace=@celula-zero/web",
     "test:contracts": "node scripts/check-gate1-contracts.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run test:contracts && npm run build",
+    "cz": "python3 scripts/cz-founder.py",
     "room": "node scripts/cz-room.mjs",
     "room:export": "node scripts/cz-room.mjs --export",
     "room:handoff": "node scripts/cz-room.mjs --handoff",
