@@ -496,28 +496,24 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`FOUNDER-LIGHT CONTINUITY PROBE`
+`GATE 4 — RESOURCE METABOLISM / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
 
 Dream30D remains:
 
-`PLANNING / OPEN`.
+`DOING / OPEN`.
 
-Gate 1 Human review accepted:
+Canonical reviewed state:
 
-`PASS N=1 WITH EFFICIENCY WARNING`.
+- Gate 2: `PARTIAL / HUMAN REVIEW ACCEPTED`;
+- Gate 3: `PASS N=1 / HUMAN REVIEW ACCEPTED`;
+- Handoff Composition v1: `MERGED / CANONICAL`.
 
-Do not infer from Gate 1:
+Gate 4 execution is not authorized by G2/G3 review or promotion.
 
-- general autonomous understanding;
-- general cross-cycle continuity;
-- external utility;
-- recurrence;
-- adoption;
-- PMF;
-- scale;
-- that cache-read tokens prove prior Célula Zero conversation memory;
-- that quota percentage points equal a known USD cost.
+Preserve:
 
-Do not enter DOING without explicit Human Direction.
+`PARTIAL ≠ FAIL`
+
+`PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
 END OF STATE
