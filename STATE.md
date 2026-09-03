@@ -530,13 +530,68 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`GATE 5 — 24/7 THIN SLICE / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
+Latest Human Direction — current local Room decision:
+
+`23532935-4967-436e-b354-a7fd8d80e043`
+
+Original Record:
+
+> Esquece , precisamos avançar sem ninguem de fora... eu sou a pessoa que quer fazer celula zero , o problema é que nao fica pronto e vcs como IAs nao me ajudam .
+
+Operational interpretation:
+
+`FOUNDER FIRST`
+
+This Human Direction is already a legitimate current human decision.
+This STATE reconciliation makes Git represent that newer decision; Git does
+not create or legitimize the Human Direction.
+
+Current local Room:
+
+- cycle: `25262d4d-4014-474e-9e71-e485a06f09ba / OPEN`;
+- phase: `DOING`;
+- current PLAN_INPUT: `198f49ae-a9d4-4fc2-bb28-9622a648ff99`.
+
+Founder Session Bootstrap:
+
+`PR #143 / MERGED / CANONICAL`
+
+Canonical main after that promotion:
+
+`7f5d4498624d07d679c48c7f1831f0e0ab0964c6`
+
+Historical Gate 5 (`24/7 THIN SLICE`) remains:
+
+`NOT STARTED / NOT TESTED`
+
+Under the latest Human Direction it is no longer the current critical path.
+This does not convert Gate 5 into PASS, FAIL or CLOSED and does not erase it.
+
+Current next test:
+
+`Issue #55 / USER-ZERO-VALUE-TEST-001 / NOT TESTED`
+
+Use Founder Mode on one real current founder intention/problem and evaluate
+the preregistered criteria.
+
+The preregistered counterfactual remains:
+
+`Would the founder have reached the same or a better next action in a normal
+ChatGPT conversation without the explicit method?`
+
+Do not change that criterion after observing the result.
+
+A future PASS means only:
+
+`USEFUL TO FOUNDER / USER ZERO N=1`
+
+It does not demonstrate external utility, recurrence, adoption, PMF or scale.
 
 Dream30D remains:
 
 `DOING / OPEN`.
 
-Canonical reviewed state:
+Canonical reviewed state preserved:
 
 - Gate 2: `PARTIAL / HUMAN REVIEW ACCEPTED`;
 - Gate 3: `PASS N=1 / HUMAN REVIEW ACCEPTED`;
@@ -544,11 +599,13 @@ Canonical reviewed state:
 - G4-T01: `PARTIAL / HUMAN REVIEW ACCEPTED`;
 - Gate 4 promotion criterion: `PASS N=1 / HUMAN REVIEW ACCEPTED`.
 
-Gate 5 execution is not authorized by Gate 4 review or promotion.
-
 Preserve:
 
 `Task PARTIAL ≠ Gate promotion criterion failure`
+
+`Human Direction ≠ Git canonicalization`
+
+`FOUNDER FIRST ≠ external users rejected forever ≠ Gate 5 erased`
 
 `PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
