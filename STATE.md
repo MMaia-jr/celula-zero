@@ -35,7 +35,7 @@ Missão preservada:
 
 ## Current Dream / next gate
 
-`DREAM30D = ACTIVE / PLANNING / OPEN`
+`DREAM30D = ACTIVE / DOING / OPEN`
 
 DragonCycle:
 
@@ -81,15 +81,61 @@ Observed Antigravity run:
 The quota change is an observed provider-surface percentage-point change, not a
 USD-cost claim and not a token-to-quota conversion.
 
-Current next gate:
+Gate 2 — Founder-light continuity / Plus independence:
 
-`FOUNDER-LIGHT CONTINUITY PROBE`
+`PARTIAL / HUMAN REVIEW ACCEPTED`
 
-The cycle remains:
+Observed:
 
-`PLANNING / OPEN / NO AGENT TASK / NO DOING`
+- bounded state reconstruction across sessions/providers: `OBSERVED`;
+- exact clean 48h Plus-independence probe: `NOT DEMONSTRATED`;
+- founder context / technical plumbing: `TOO HIGH`;
+- initial probe contamination was preserved rather than repaired away.
+
+Result Package:
+
+`RP-DREAM30D-GATE2-FOUNDER-LIGHT-CONTINUITY-PARTIAL.md`
+
+Gate 3 — bounded self-improvement:
+
+`PASS N=1 / HUMAN REVIEW ACCEPTED`
+
+Observed improvement:
+
+`Handoff Composition v1`
+
+Properties demonstrated N=1:
+
+- exact five-file external bundle;
+- canonical `STATE.md` snapshot mapped from explicit Git base;
+- canonical Git and newer local Room state kept distinct;
+- founder manual file selection removed;
+- raw Markdown free-UI transport accepted instead of brittle strict JSON;
+- new unit test: `PASS`;
+- existing Room tests: `18/18 PASS`;
+- fresh external use reconstructed the canonical/local distinction.
+
+Result Package:
+
+`RP-DREAM30D-GATE3-HANDOFF-COMPOSITION-N1.md`
+
+Human review / promotion decision:
+
+`decisions/D014-dream30d-g2-g3-human-review-and-promotion.md`
+
+Local Room remains:
+
+`DOING / OPEN`
+
+G2 and G3 are reviewed; no later Gate execution is authorized by that fact.
+
+Current next candidate gate from the adopted Plan:
+
+`GATE 4 — RESOURCE METABOLISM / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
 
 Preserve:
+
+`PARTIAL ≠ FAIL`
 
 `PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
