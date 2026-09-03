@@ -127,15 +127,49 @@ Local Room remains:
 
 `DOING / OPEN`
 
-G2 and G3 are reviewed; no later Gate execution is authorized by that fact.
+G2 and G3 are reviewed.
+
+Gate 4 — Resource metabolism:
+
+`G4-T01 = PARTIAL / HUMAN REVIEW ACCEPTED`
+
+Gate 4 promotion criterion:
+
+`PASS N=1 / HUMAN REVIEW ACCEPTED`
+
+Observed:
+
+- resource events reconstructed: `5`;
+- known material paid events: `3`;
+- material paid events attributable to context/cause: `3/3`;
+- observed paid total reconstructible: `YES`;
+- observed account-delta total: `USD 0.02363745`;
+- exact model attribution: `1/5`;
+- exact usage attribution: `1/5`;
+- exact USD measurement: `3/5`;
+- new infrastructure justified: `NO`.
+
+Result Package:
+
+`RP-DREAM30D-GATE4-RESOURCE-METABOLISM-N1.md`
+
+Human review / promotion decision:
+
+`decisions/D015-dream30d-g4-human-review-and-promotion.md`
 
 Current next candidate gate from the adopted Plan:
 
-`GATE 4 — RESOURCE METABOLISM / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
+`GATE 5 — 24/7 THIN SLICE / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
 
 Preserve:
 
-`PARTIAL ≠ FAIL`
+`Task PARTIAL ≠ Gate promotion criterion failure`
+
+`reconstructed account delta ≠ provider invoice`
+
+`FREE_UI / HUMAN_RELAY ≠ paid API call`
+
+`quota percentage-point change ≠ USD cost`
 
 `PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
@@ -496,7 +530,7 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`GATE 4 — RESOURCE METABOLISM / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
+`GATE 5 — 24/7 THIN SLICE / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
 
 Dream30D remains:
 
@@ -506,13 +540,15 @@ Canonical reviewed state:
 
 - Gate 2: `PARTIAL / HUMAN REVIEW ACCEPTED`;
 - Gate 3: `PASS N=1 / HUMAN REVIEW ACCEPTED`;
-- Handoff Composition v1: `MERGED / CANONICAL`.
+- Handoff Composition v1: `MERGED / CANONICAL`;
+- G4-T01: `PARTIAL / HUMAN REVIEW ACCEPTED`;
+- Gate 4 promotion criterion: `PASS N=1 / HUMAN REVIEW ACCEPTED`.
 
-Gate 4 execution is not authorized by G2/G3 review or promotion.
+Gate 5 execution is not authorized by Gate 4 review or promotion.
 
 Preserve:
 
-`PARTIAL ≠ FAIL`
+`Task PARTIAL ≠ Gate promotion criterion failure`
 
 `PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
