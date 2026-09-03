@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-02
+Última reconciliação canônica: 2026-09-03
 
 Repositório canônico:
 
@@ -35,46 +35,63 @@ Missão preservada:
 
 ## Current Dream / next gate
 
-`NO ACTIVE DREAM`
-
-The latest completed Dragon Dreaming cycle is:
-
-`INTERNAL HUMAN–MULTI-AI COMPOSITION N=1 = CLOSED / CELEBRATED / PARTIAL / CANONICAL`
+`DREAM30D = ACTIVE / PLANNING / OPEN`
 
 DragonCycle:
 
-`0468d122-0358-42a3-b638-0dc4c8b33d74`
+`25262d4d-4014-474e-9e71-e485a06f09ba`
 
-Closed at:
+Human Direction:
 
-`2026-09-02T17:24:01.124325+00:00`
+`Collective Dream v0.1 / HUMAN ADOPTED`
 
-Final local material version:
+Local Human Direction record:
 
-`70`
+`858937c9-83d2-44d2-ac65-ce18d81c9fd1`
 
-Execution result:
+Human Plan:
 
-`PASS / INTERNAL HUMAN–MULTI-AI COMPOSITION N=1`
+`PLAN 30D v0.1 / HUMAN ADOPTED`
 
-Cycle experiment evaluation — Human review accepted:
+Local Human Plan record:
 
-`PARTIAL`
+`b737fb12-3920-4f71-b39e-be5ca258c8c5`
 
-Human review accepted `PARTIAL` for this cycle. The classification is not
-inferred from closure: the real chain completed through Human Decision while
-habitability remained weak and significant human/technical plumbing was still
-required.
+Gate 1 — self-understanding / canonical continuity:
+
+`PASS N=1 WITH EFFICIENCY WARNING / HUMAN REVIEW ACCEPTED`
+
+Human review record:
+
+`3fd46802-d3bd-49ea-b018-93fad341351d`
+
+Accepted detail:
+
+- fresh external semantic reconstruction: `PASS N=1`;
+- authority / temporal fidelity: `PASS N=1`;
+- transport / schema harness: `FAIL`;
+- evaluator input defect: `CONFIRMED`;
+- context efficiency: `PARTIAL`;
+- resource scarcity: `OBSERVED`.
+
+Observed Antigravity run:
+
+`gemini-3.1-pro-high / 108045 input tokens / 115844 total tokens / weekly Gemini quota 100% → 80%`
+
+The quota change is an observed provider-surface percentage-point change, not a
+USD-cost claim and not a token-to-quota conversion.
 
 Current next gate:
 
-`HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
+`CANONICAL RECONCILIATION → FOUNDER-LIGHT CONTINUITY PROBE`
+
+The cycle remains:
+
+`PLANNING / OPEN / NO AGENT TASK / NO DOING`
 
 Preserve:
 
-`CELEBRATE → CANONICAL RECONCILIATION → NEXT DREAM`
-
-`internal N=1 ≠ external utility ≠ adoption ≠ PMF ≠ scale`
+`PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
 ## Latest completed Dream — Internal Human–Multi-AI Composition
 
@@ -433,20 +450,28 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`HUMAN DIRECTION → CHOOSE THE NEXT DREAM`
+`CANONICAL RECONCILIATION → FOUNDER-LIGHT CONTINUITY PROBE`
 
-The internal human–multi-AI composition cycle is
-`CLOSED / CELEBRATED / PARTIAL / CANONICAL`.
+Dream30D remains:
 
-Do not infer from closure or the internal N=1 PASS:
+`PLANNING / OPEN`.
 
+Gate 1 Human review accepted:
+
+`PASS N=1 WITH EFFICIENCY WARNING`.
+
+Do not infer from Gate 1:
+
+- general autonomous understanding;
+- general cross-cycle continuity;
 - external utility;
 - recurrence;
 - adoption;
 - PMF;
 - scale;
-- universal reviewer independence;
-- a generic orchestration requirement;
-- authority to open the next Dream without new Human Direction.
+- that cache-read tokens prove prior Célula Zero conversation memory;
+- that quota percentage points equal a known USD cost.
+
+Do not enter DOING without explicit Human Direction.
 
 END OF STATE
