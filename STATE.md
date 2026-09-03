@@ -83,7 +83,7 @@ USD-cost claim and not a token-to-quota conversion.
 
 Current next gate:
 
-`CANONICAL RECONCILIATION → FOUNDER-LIGHT CONTINUITY PROBE`
+`FOUNDER-LIGHT CONTINUITY PROBE`
 
 The cycle remains:
 
@@ -450,7 +450,7 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`CANONICAL RECONCILIATION → FOUNDER-LIGHT CONTINUITY PROBE`
+`FOUNDER-LIGHT CONTINUITY PROBE`
 
 Dream30D remains:
 
