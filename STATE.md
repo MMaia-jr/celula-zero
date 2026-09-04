@@ -52,7 +52,7 @@ Primeiro envelope de preparação:
 
 Move 1 — Participant Boundary:
 
-`PARTICIPANT-BOUNDARY-001 = VERIFIED_LOCAL / PR #145`
+`PARTICIPANT-BOUNDARY-001 = VERIFIED_LOCAL / PR #145 / MERGED / CANONICAL`
 
 Observed:
 
@@ -76,9 +76,38 @@ Not demonstrated:
 
 `100 actual users / load capacity / production uptime / external utility / adoption / PMF / scale`
 
-Next preparedness candidate:
+Move 2 — Durable AI Job Plane + Hard Budget:
 
-`MOVE 2 — DURABLE AI JOB PLANE + HARD BUDGET / NOT AUTHORIZED`
+`MOVE2-VS1 = VERIFIED_LOCAL N=1 / PR #146 / MERGED / CANONICAL`
+
+Observed:
+
+- durable Job, AI Run, sponsored reservation and PGMQ delivery remain distinct;
+- hard sponsored-budget admission: `PASS`;
+- real two-session concurrent budget race: exactly one admission and one
+  `CZ409:SPONSORED_BUDGET_EXHAUSTED`;
+- independent Node worker after initiating Human process exit: `OBSERVED N=1`;
+- worker authority remains separate from Human authority;
+- successful MOCK execution:
+  `Job SUCCEEDED / AI Run COMPLETED / reservation SETTLED`;
+- AI output attributed to the AI Agent;
+- worker created no Human Direction, Claim, Evidence, Verification or Decision;
+- Kimi Code review completed;
+- Codex adjudication: `F02 SUPPORTED`; `F01, F03-F09 REJECTED`;
+- terminal stale PGMQ delivery repair: `PASS`;
+- worker tests: `9/9 PASS`;
+- targeted pgTAP after repair: `35/35 PASS`;
+- full DB regression after repair: `28 suites / 764 tests PASS`;
+- PR #146 Gate 1 CI: `PASS`.
+
+Preserve:
+
+`VERIFIED_LOCAL ≠ PRODUCTION_READY ≠ EXTERNAL_UTILITY ≠ ADOPTION ≠ SCALE`
+
+Not demonstrated:
+
+`production deployment / production worker credential delivery / production uptime /
+100 actual users / external utility / adoption / PMF / scale`
 
 ## Current Dream / next gate
 
@@ -578,22 +607,29 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`MOVE 2 — DURABLE AI JOB PLANE + HARD BUDGET / NOT AUTHORIZED`
+`NEXT PREPAREDNESS MOVE = NOT SELECTED / REQUIRES NEW HUMAN DIRECTION`
 
-Future Readiness is the current Human Direction. Dream30D remains preserved and
-open, but its historical Gate 5 is not the immediate next candidate unless a
+Future Readiness remains the current Human Direction. Dream30D remains preserved
+and open, but its historical Gate 5 is not the immediate next candidate unless a
 new Human Direction selects it again.
 
 Current preparedness state:
 
-- Move 1 Participant Boundary: `VERIFIED_LOCAL / PR #145`;
+- Move 1 Participant Boundary:
+  `VERIFIED_LOCAL / PR #145 / MERGED / CANONICAL`;
+- Move 2 Durable AI Job Plane + Hard Budget:
+  `VERIFIED_LOCAL N=1 / PR #146 / MERGED / CANONICAL`;
 - 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
 - 100 actual users: `NOT DEMONSTRATED`;
-- load/uptime/production readiness: `NOT DEMONSTRATED`.
+- load/uptime/production readiness: `NOT DEMONSTRATED`;
+- external utility from Move2: `NOT DEMONSTRATED`;
+- adoption / PMF / scale: `NOT DEMONSTRATED`.
 
 Preserve:
 
 `readiness ≠ demonstrated scale`
+
+`VERIFIED_LOCAL ≠ PRODUCTION_READY`
 
 `PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
