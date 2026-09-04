@@ -1,7 +1,7 @@
 begin;
 
 create extension if not exists pgtap with schema extensions;
-select plan(30);
+select plan(31);
 
 insert into auth.users(id, email, encrypted_password, email_confirmed_at, raw_user_meta_data)
 values
@@ -54,6 +54,23 @@ select is((select rd.code from public.role_assignments ra join public.role_defin
 select is((select count(*)::integer from public.role_capabilities rc join public.role_definitions rd on rd.id=rc.role_id where rd.cell_id=(select value from participant_fixture where key='cell_a') and rd.code='CELL_MEMBER'), 0, 'CELL_MEMBER has zero capabilities');
 select is((select count(*)::integer from public.role_assignments ra join public.role_definitions rd on rd.id=ra.role_id where ra.actor_id=(select value from participant_fixture where key='actor_a') and ra.scope_type='PROJECT' and ra.scope_id=(select value from participant_fixture where key='project_a') and rd.code='PROJECT_STEWARD' and ra.revoked_at is null), 1, 'PROJECT_STEWARD assignment is limited to Project A');
 select is((select array_agg(rc.capability_code order by rc.capability_code) from public.role_capabilities rc join public.role_definitions rd on rd.id=rc.role_id where rd.cell_id=(select value from participant_fixture where key='cell_a') and rd.code='PROJECT_STEWARD'), (select array_agg(capability_code order by capability_code) from public.role_capabilities where role_id='00000000-0000-4000-8000-00000000c202'), 'contextual PROJECT_STEWARD has exactly the canonical capabilities');
+
+-- Least-privilege boundary: authenticated callers must not be able to use the
+-- arbitrary-profile helper as a cross-profile membership oracle. Authenticated
+-- policies use b1_current_profile_has_cell_access(), which binds identity to
+-- auth.uid(), while the arbitrary-profile helper remains internal.
+select set_config('request.jwt.claim.sub', '91000000-0000-4000-8000-000000000001', true);
+set local role authenticated;
+select throws_ok(
+  $$select private.participant_has_active_cell_membership(
+      (select value from participant_fixture where key='cell_a'),
+      '91000000-0000-4000-8000-000000000002'
+    )$$,
+  '42501',
+  null,
+  'authenticated cannot query another profile through arbitrary-profile membership helper'
+);
+reset role;
 
 select set_config('request.jwt.claim.sub', '91000000-0000-4000-8000-000000000001', true);
 set local role authenticated;

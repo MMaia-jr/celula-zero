@@ -36,7 +36,6 @@ as $$
 $$;
 
 revoke all on function private.participant_has_active_cell_membership(uuid, uuid) from public;
-grant execute on function private.participant_has_active_cell_membership(uuid, uuid) to authenticated;
 
 create or replace function private.can_manage_project(
   p_project_id uuid,
@@ -96,11 +95,11 @@ $$;
 
 drop policy if exists cells_read on public.cells;
 create policy cells_read on public.cells for select to authenticated
-using (private.participant_has_active_cell_membership(id, (select auth.uid())));
+using (private.b1_current_profile_has_cell_access(id));
 
 drop policy if exists role_assignments_read_member on public.role_assignments;
 create policy role_assignments_read_member on public.role_assignments for select to authenticated
-using (private.participant_has_active_cell_membership(cell_id, (select auth.uid())));
+using (private.b1_current_profile_has_cell_access(cell_id));
 grant select on public.role_assignments to authenticated;
 
 create or replace function private.h1_sync_project_steward_authority()
