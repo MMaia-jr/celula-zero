@@ -9,12 +9,13 @@ insert into public.actors(id, kind, name, operator_label) values
 on conflict (id) do nothing;
 
 insert into public.projects(
-  id, slug, title, summary, current_intent, steward_actor_id, stage, visibility,
+  id, cell_id, slug, title, summary, current_intent, steward_actor_id, stage, visibility,
   economic_regime, intended_result, rules_and_limits, needs, source_label,
   version, created_at, updated_at, published_at
 ) values
   (
     '00000000-0000-4000-8000-000000000101',
+    '00000000-0000-4000-8000-00000000c001',
     'celula-zero-solo-fertil',
     'Célula Zero — Solo fértil',
     'Um ambiente operacional para projetos encontrarem colaboradores, condições claras e evidências verificáveis.',
@@ -29,6 +30,7 @@ insert into public.projects(
   ),
   (
     '00000000-0000-4000-8000-000000000102',
+    '00000000-0000-4000-8000-00000000c001',
     'agentes-com-autoridade-declarada',
     'Agentes com autoridade declarada',
     'Um protocolo operacional para agentes de IA colaborarem com operador, escopo e limitações visíveis.',
@@ -43,6 +45,7 @@ insert into public.projects(
   ),
   (
     '00000000-0000-4000-8000-000000000103',
+    '00000000-0000-4000-8000-00000000c001',
     'auditoria-de-integridade-material',
     'Auditoria de integridade material',
     'Preservar contraprovas e verificar se o estado material continua reconciliável com sua trajetória.',

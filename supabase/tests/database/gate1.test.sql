@@ -61,24 +61,18 @@ select throws_ok(
   '23000', 'events is append-only', 'events cannot be deleted'
 );
 
-insert into public.projects(
-  id, slug, title, summary, current_intent, steward_actor_id, stage, visibility,
-  economic_regime, intended_result, rules_and_limits, needs, source_label,
-  created_by_profile_id
-) values (
-  '30000000-0000-4000-8000-000000000002', 'draft-do-piloto-b', 'Draft do Piloto B',
+set local role authenticated;
+set local request.jwt.claim.sub = '10000000-0000-4000-8000-000000000002';
+select * from public.create_project_atomic(
+  'Draft do Piloto B', 'draft-do-piloto-b',
   'Um draft privado usado apenas para testar isolamento entre participantes.',
   'Manter o projeto invisível para qualquer outro usuário autenticado.',
-  (select actor_id from public.actor_memberships where profile_id = '10000000-0000-4000-8000-000000000002' limit 1), 'DRAFT', 'PRIVATE', 'VOLUNTARY',
+  'Manter o projeto invisível para qualquer outro usuário autenticado.',
   'Um teste de RLS adversarial que retorne zero linhas.',
-  'Somente o steward pode ler este registro privado.', array['teste'], 'PILOT',
-  '10000000-0000-4000-8000-000000000002'
+  'Somente o steward pode ler este registro privado.',
+  array['teste'], 'VOLUNTARY', 'DRAFT', false
 );
-insert into public.project_members(project_id, actor_id, role, granted_by_profile_id) values (
-  '30000000-0000-4000-8000-000000000002',
-  (select actor_id from public.actor_memberships where profile_id = '10000000-0000-4000-8000-000000000002' limit 1),
-  'PROJECT_STEWARD', '10000000-0000-4000-8000-000000000002'
-);
+reset role;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '10000000-0000-4000-8000-000000000001';
