@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-03
+Última reconciliação canônica: 2026-09-04
 
 Repositório canônico:
 
@@ -32,6 +32,53 @@ providers, prompts, runners, storage ou tooling.
 Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
+
+## Current Human Direction — Future Readiness
+
+`FUTURE READINESS / HUMAN DIRECTION / CURRENT 2026-09-04`
+
+Célula Zero não deve esperar a chegada de usuários, comunidade, capital ou
+trabalho externo para começar a descobrir capacidades previsivelmente
+necessárias para servi-los. Deve preparar antecipadamente uma arquitetura
+habitável, segura, econômica e extensível para o futuro que pretende criar,
+usando cenários explícitos de crescimento como stress tests, sem confundir
+preparação com adoção ou escala demonstrada.
+
+Primeiro envelope de preparação:
+
+`Marcos único → 1 usuário externo → 10 → capacidade de absorver 100 sem depender operacionalmente do fundador`
+
+`100-USER-SHOCK-TEST = preparedness stress test ≠ evidence of demand, adoption or scale`
+
+Move 1 — Participant Boundary:
+
+`PARTICIPANT-BOUNDARY-001 = VERIFIED_LOCAL / PR #145`
+
+Observed:
+
+- reconstructible local DB reset: `PASS`;
+- Participant Boundary pgTAP: `31/31 PASS`;
+- Gate1 compatibility: `PASS`;
+- B2-A and B2-B1 authority canaries: `PASS`;
+- full DB regression: `27 suites / 729 tests PASS`;
+- automatic Cell membership uses `CELL_MEMBER` with zero operational capabilities;
+- Cell membership does not become Cell administration or Project stewardship;
+- `PROJECT_STEWARD` remains contextual to the exact Project;
+- authenticated callers cannot query arbitrary-profile Cell membership through the internal helper.
+
+Preserve:
+
+`Cell membership ≠ Cell administration ≠ Project stewardship`
+
+`readiness ≠ demonstrated scale`
+
+Not demonstrated:
+
+`100 actual users / load capacity / production uptime / external utility / adoption / PMF / scale`
+
+Next preparedness candidate:
+
+`MOVE 2 — DURABLE AI JOB PLANE + HARD BUDGET / NOT AUTHORIZED`
 
 ## Current Dream / next gate
 
@@ -157,7 +204,8 @@ Human review / promotion decision:
 
 `decisions/D015-dream30d-g4-human-review-and-promotion.md`
 
-Current next candidate gate from the adopted Plan:
+Historical next candidate gate from the adopted Plan, superseded as immediate
+current direction by Future Readiness on 2026-09-04:
 
 `GATE 5 — 24/7 THIN SLICE / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
 
@@ -530,25 +578,22 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`GATE 5 — 24/7 THIN SLICE / NOT STARTED / REQUIRES NEW HUMAN DIRECTION`
+`MOVE 2 — DURABLE AI JOB PLANE + HARD BUDGET / NOT AUTHORIZED`
 
-Dream30D remains:
+Future Readiness is the current Human Direction. Dream30D remains preserved and
+open, but its historical Gate 5 is not the immediate next candidate unless a
+new Human Direction selects it again.
 
-`DOING / OPEN`.
+Current preparedness state:
 
-Canonical reviewed state:
-
-- Gate 2: `PARTIAL / HUMAN REVIEW ACCEPTED`;
-- Gate 3: `PASS N=1 / HUMAN REVIEW ACCEPTED`;
-- Handoff Composition v1: `MERGED / CANONICAL`;
-- G4-T01: `PARTIAL / HUMAN REVIEW ACCEPTED`;
-- Gate 4 promotion criterion: `PASS N=1 / HUMAN REVIEW ACCEPTED`.
-
-Gate 5 execution is not authorized by Gate 4 review or promotion.
+- Move 1 Participant Boundary: `VERIFIED_LOCAL / PR #145`;
+- 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
+- 100 actual users: `NOT DEMONSTRATED`;
+- load/uptime/production readiness: `NOT DEMONSTRATED`.
 
 Preserve:
 
-`Task PARTIAL ≠ Gate promotion criterion failure`
+`readiness ≠ demonstrated scale`
 
 `PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
 
