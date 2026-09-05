@@ -25,6 +25,7 @@ CHAT = GATEWAY + "/chat/completions"
 ROOT = Path.home() / ".celula-zero"
 CONFIG_FILE = ROOT / "founder-habitable.json"
 SESSION_DIR = ROOT / "founder-sessions"
+SNAPSHOT_DIR = ROOT / "room-snapshots"
 
 
 def stop(message: str) -> None:
@@ -103,6 +104,196 @@ def config() -> dict:
             encoding="utf-8"
         )
     )
+
+
+def snapshot_unavailable(reason: str) -> dict:
+    return {
+        "room_state": "UNAVAILABLE",
+        "room_locator_source": "PORTABLE_SNAPSHOT_FALLBACK",
+        "room_context_source": "PORTABLE_SNAPSHOT",
+        "room_locator_error": reason,
+    }
+
+
+def room_snapshot_state(
+    cfg: dict,
+    live_locator: dict,
+) -> dict | None:
+    """
+    Read one explicitly registered, immutable portable Room snapshot.
+
+    This is continuity evidence only. It never becomes Human Direction or
+    canonical Git state merely because the live local Room DB is unavailable.
+    """
+    locator = cfg.get("room_snapshot_locator") or {}
+
+    if not locator:
+        return None
+
+    if (
+        locator.get("classification")
+        != "NON_CANONICAL_ROOM_SNAPSHOT_LOCATOR"
+    ):
+        return snapshot_unavailable(
+            "INVALID_SNAPSHOT_LOCATOR_CLASSIFICATION"
+        )
+
+    if locator.get("auto_update") is not False:
+        return snapshot_unavailable(
+            "SNAPSHOT_LOCATOR_AUTO_UPDATE_NOT_FALSE"
+        )
+
+    raw_path = str(locator.get("path") or "").strip()
+    expected_sha = str(locator.get("sha256") or "").strip()
+
+    if not raw_path or not expected_sha:
+        return snapshot_unavailable(
+            "SNAPSHOT_LOCATOR_INCOMPLETE"
+        )
+
+    candidate = Path(raw_path).expanduser()
+
+    try:
+        resolved = candidate.resolve(strict=True)
+        root = SNAPSHOT_DIR.resolve(strict=True)
+        resolved.relative_to(root)
+    except (FileNotFoundError, ValueError):
+        return snapshot_unavailable(
+            "SNAPSHOT_PATH_INVALID"
+        )
+
+    if candidate.is_symlink() or not resolved.is_file():
+        return snapshot_unavailable(
+            "SNAPSHOT_PATH_UNSAFE"
+        )
+
+    raw = resolved.read_bytes()
+    actual_sha = hashlib.sha256(raw).hexdigest()
+
+    if actual_sha != expected_sha:
+        return snapshot_unavailable(
+            "ROOM_SNAPSHOT_SHA256_MISMATCH"
+        )
+
+    try:
+        snapshot = json.loads(raw)
+    except json.JSONDecodeError:
+        return snapshot_unavailable(
+            "ROOM_SNAPSHOT_JSON_INVALID"
+        )
+
+    if (
+        snapshot.get("snapshot_schema")
+        != "CZ_ROOM_RESUME_SNAPSHOT_V1"
+        or snapshot.get("classification")
+        != "NON_CANONICAL_LOCAL_CONTEXT_SNAPSHOT"
+    ):
+        return snapshot_unavailable(
+            "ROOM_SNAPSHOT_SCHEMA_INVALID"
+        )
+
+    cycle = snapshot.get("cycle") or {}
+
+    expected_cycle = (
+        live_locator.get("cycle_id")
+        or locator.get("cycle_id")
+    )
+    expected_project = (
+        live_locator.get("project_id")
+        or locator.get("project_id")
+    )
+
+    if cycle.get("id") != expected_cycle:
+        return snapshot_unavailable(
+            "ROOM_SNAPSHOT_CYCLE_MISMATCH"
+        )
+
+    observed_project = (
+        cycle.get("project_id")
+        or snapshot.get("project_id")
+    )
+
+    if observed_project != expected_project:
+        return snapshot_unavailable(
+            "ROOM_SNAPSHOT_PROJECT_MISMATCH"
+        )
+
+    if locator.get("cycle_id") != expected_cycle:
+        return snapshot_unavailable(
+            "SNAPSHOT_LOCATOR_CYCLE_MISMATCH"
+        )
+
+    if locator.get("project_id") != expected_project:
+        return snapshot_unavailable(
+            "SNAPSHOT_LOCATOR_PROJECT_MISMATCH"
+        )
+
+    participants = snapshot.get("cycle_participations") or []
+    participant_ids = {
+        str(item.get("actor_id") or "")
+        for item in participants
+        if isinstance(item, dict)
+    }
+
+    for key in ("human_actor_id", "ai_actor_id"):
+        actor_id = live_locator.get(key)
+        if actor_id and actor_id not in participant_ids:
+            return snapshot_unavailable(
+                "ROOM_SNAPSHOT_PARTICIPANT_MISMATCH"
+            )
+
+    result = dict(snapshot)
+    result["room_state"] = "AVAILABLE"
+    result["room_locator_source"] = (
+        "PORTABLE_SNAPSHOT_FALLBACK"
+    )
+    result["room_context_source"] = "PORTABLE_SNAPSHOT"
+    result["live_room_state"] = "UNAVAILABLE"
+    result["room_resume_mode"] = "READ_ONLY_PORTABLE_SNAPSHOT"
+    result["room_snapshot_path"] = str(resolved)
+    result["room_snapshot_sha256"] = actual_sha
+    return result
+
+
+def parse_canonical_state_controls(text: str) -> dict:
+    direction = "UNKNOWN"
+    next_gate = "UNKNOWN"
+
+    for line in text.splitlines():
+        if line.startswith("## Current Human Direction"):
+            if "—" in line:
+                direction = line.split("—", 1)[1].strip()
+            elif "-" in line:
+                direction = line.split("-", 1)[1].strip()
+            break
+
+    marker = "## Current next gate"
+    start = text.find(marker)
+    if start >= 0:
+        match = re.search(r"`([^`\n]+)`", text[start:])
+        if match:
+            next_gate = match.group(1).strip()
+
+    return {
+        "canonical_human_direction": direction,
+        "canonical_next_gate": next_gate,
+    }
+
+
+def canonical_state_controls() -> dict:
+    try:
+        state = run(
+            "git",
+            "show",
+            "origin/main:STATE.md",
+        )
+    except RuntimeError:
+        return {
+            "canonical_human_direction": "UNAVAILABLE",
+            "canonical_next_gate": "UNAVAILABLE",
+        }
+
+    return parse_canonical_state_controls(state)
 
 
 def room_project_state() -> dict:
@@ -208,9 +399,18 @@ def room_project_state() -> dict:
     )
 
     if result.returncode != 0:
+        snapshot = room_snapshot_state(
+            cfg,
+            locator,
+        )
+
+        if snapshot is not None:
+            return snapshot
+
         return {
             "room_state": "UNAVAILABLE",
             "room_locator_source": locator_source,
+            "room_context_source": "LIVE_ROOM",
             "room_locator_error":
                 "ROOM_PROJECT_READ_FAILED",
         }
@@ -382,6 +582,13 @@ def read_only_bootstrap() -> dict:
         room_state == "AVAILABLE"
     )
 
+    room_context_source = (
+        room.get("room_context_source")
+        or ("LIVE_ROOM" if room_available else "UNAVAILABLE")
+    )
+
+    controls = canonical_state_controls()
+
     cycle = room.get("cycle") or {}
     canonical_state = room.get("canonical_state") or {}
 
@@ -493,15 +700,40 @@ def read_only_bootstrap() -> dict:
     if local_head.startswith("UNAVAILABLE"):
         blockers.append("LOCAL_HEAD_UNRESOLVED")
 
-    if room_available and not human_direction_id:
+    snapshot_mode = (
+        room_context_source == "PORTABLE_SNAPSHOT"
+    )
+
+    if (
+        room_available
+        and not snapshot_mode
+        and not human_direction_id
+    ):
         blockers.append("HUMAN_DIRECTION_MISSING")
 
-    if room_available and not current_plan_id:
+    if (
+        room_available
+        and not snapshot_mode
+        and not current_plan_id
+    ):
         blockers.append("CURRENT_PLAN_INPUT_MISSING")
 
-    if implementation_not_authorized:
+    if (
+        not snapshot_mode
+        and implementation_not_authorized
+    ):
         blockers.append(
             "G5_IMPLEMENTATION_NOT_YET_AUTHORIZED"
+        )
+
+    if snapshot_mode and (
+        controls["canonical_human_direction"]
+        in {"UNKNOWN", "UNAVAILABLE"}
+        or controls["canonical_next_gate"]
+        in {"UNKNOWN", "UNAVAILABLE"}
+    ):
+        blockers.append(
+            "CANONICAL_STATE_CONTROLS_UNRESOLVED"
         )
 
     if "ROOM_LOCATOR_CONTEXT_MISMATCH" in blockers:
@@ -522,11 +754,20 @@ def read_only_bootstrap() -> dict:
     elif "CURRENT_PLAN_INPUT_MISSING" in blockers:
         next_move = "PROVIDE_PLAN_INPUT"
 
-    elif implementation_not_authorized:
+    elif "CANONICAL_STATE_CONTROLS_UNRESOLVED" in blockers:
+        next_move = "HUMAN_REVIEW_CANONICAL_STATE"
+
+    elif (
+        implementation_not_authorized
+        and not snapshot_mode
+    ):
         next_move = (
             "REQUEST_HUMAN_AUTHORIZATION_"
             "FOR_G5_IMPLEMENTATION"
         )
+
+    elif room_context_source == "PORTABLE_SNAPSHOT":
+        next_move = "FOLLOW_CANONICAL_NEXT_GATE_FROM_GIT"
 
     else:
         next_move = (
@@ -541,6 +782,43 @@ def read_only_bootstrap() -> dict:
         "room_locator_source":
             room.get("room_locator_source")
             or "UNKNOWN",
+
+        "room_context_source":
+            room_context_source,
+
+        "live_room_state":
+            room.get("live_room_state")
+            or (
+                "AVAILABLE"
+                if room_context_source == "LIVE_ROOM"
+                and room_available
+                else "UNAVAILABLE"
+            ),
+
+        "room_resume_mode":
+            room.get("room_resume_mode")
+            or (
+                "LIVE_ROOM"
+                if room_context_source == "LIVE_ROOM"
+                else "UNAVAILABLE"
+            ),
+
+        "room_snapshot_sha256":
+            room.get("room_snapshot_sha256")
+            or "NONE",
+
+        "room_direction_authority":
+            (
+                "HISTORICAL_NON_CANONICAL_SNAPSHOT"
+                if room_context_source == "PORTABLE_SNAPSHOT"
+                else "ROOM_CONTEXT_ONLY"
+            ),
+
+        "canonical_human_direction":
+            controls["canonical_human_direction"],
+
+        "canonical_next_gate":
+            controls["canonical_next_gate"],
 
         "cycle_id":
             cycle.get("id") or "UNKNOWN",
@@ -625,12 +903,44 @@ def print_read_only_bootstrap(bootstrap: dict) -> None:
         "ROOM_LOCATOR_SOURCE="
         + bootstrap["room_locator_source"]
     )
+    print(
+        "ROOM_CONTEXT_SOURCE="
+        + bootstrap["room_context_source"]
+    )
+    print(
+        "LIVE_ROOM_STATE="
+        + bootstrap["live_room_state"]
+    )
+    print(
+        "ROOM_RESUME_MODE="
+        + bootstrap["room_resume_mode"]
+    )
+    print(
+        "ROOM_SNAPSHOT_SHA256="
+        + bootstrap["room_snapshot_sha256"]
+    )
+    print(
+        "ROOM_DIRECTION_AUTHORITY="
+        + bootstrap["room_direction_authority"]
+    )
+    print(
+        "CANONICAL_HUMAN_DIRECTION="
+        + bootstrap["canonical_human_direction"]
+    )
+    print(
+        "CANONICAL_NEXT_GATE="
+        + bootstrap["canonical_next_gate"]
+    )
     print("CYCLE_ID=" + bootstrap["cycle_id"])
     print("CYCLE_STATE=" + bootstrap["cycle_state"])
     print("PHASE=" + bootstrap["phase"])
 
     print(
         "HUMAN_DIRECTION_ID="
+        + bootstrap["human_direction_id"]
+    )
+    print(
+        "ROOM_HUMAN_DIRECTION_ID="
         + bootstrap["human_direction_id"]
     )
 
