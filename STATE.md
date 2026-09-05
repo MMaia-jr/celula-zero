@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-04
+Última reconciliação canônica: 2026-09-05
 
 Repositório canônico:
 
@@ -109,6 +109,31 @@ Not demonstrated:
 `production deployment / production worker credential delivery / production uptime /
 100 actual users / external utility / adoption / PMF / scale`
 
+Remote Upgrade Compatibility:
+
+`REMOTE-UPGRADE-COMPAT-001 = VERIFIED_LOCAL / PR #148 / MERGED / CANONICAL`
+
+Observed:
+
+- fresh 32-migration schema: `29 database test files / 776 tests PASS`;
+- remote-shaped incremental upgrade `12 → 32`: `PASS`;
+- critical legacy data preserved;
+- legacy effective project authority preserved;
+- required zero-capability Cell membership backfilled without creating new
+  `PROJECT_STEWARD` authority;
+- `CELL_MEMBER` capabilities: `0`;
+- hosted S01 simulation: `PASS`;
+- anonymous public `SECURITY DEFINER` allowlist: exactly `5`;
+- non-allowlisted anonymous public `SECURITY DEFINER` functions: `0`;
+- postgres default anon/PUBLIC EXECUTE removed;
+- PR #148 Gate 1 CI: `PASS`.
+
+Preserve:
+
+`VERIFIED_LOCAL / MERGED / CANONICAL ≠ REMOTE_APPLIED ≠ DEPLOYED`
+
+Remote Supabase remains unchanged.
+
 ## Current Dream / next gate
 
 `DREAM30D = ACTIVE / DOING / OPEN`
@@ -167,6 +192,24 @@ Observed:
 - exact clean 48h Plus-independence probe: `NOT DEMONSTRATED`;
 - founder context / technical plumbing: `TOO HIGH`;
 - initial probe contamination was preserved rather than repaired away.
+
+Additional incident evidence — 2026-09-05:
+
+- local autonomous nightshift reached real Codex execution but violated
+  single-flight and produced concurrent workers;
+- restart/resume resilience: `FAIL N=1`;
+- single-flight execution: `FAIL`;
+- incident contained; contaminated output was not promoted;
+- no remote Supabase write, deployment or canonical promotion resulted from
+  the nightshift;
+- restart recovery required too much founder plumbing.
+
+Bounded preparedness criterion accepted after the incident:
+
+`interruption/restart → one human command → reconstruct canonical + durable local state → identify last valid step → exactly one next execution → durable result → STOP`
+
+This criterion does not by itself justify a daemon, generic orchestrator or new
+continuity platform.
 
 Result Package:
 
@@ -607,11 +650,14 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`NEXT PREPAREDNESS MOVE = NOT SELECTED / REQUIRES NEW HUMAN DIRECTION`
+`NEXT PREPAREDNESS CRITERION = RESTART RESILIENCE / ONE-COMMAND RESUME`
 
 Future Readiness remains the current Human Direction. Dream30D remains preserved
-and open, but its historical Gate 5 is not the immediate next candidate unless a
-new Human Direction selects it again.
+and open, but its historical Gate 5 is not the immediate next candidate.
+
+The current bounded criterion is to test whether interruption/restart can be
+recovered through one Human command using existing canonical and durable local
+state before introducing new orchestration infrastructure.
 
 Current preparedness state:
 
@@ -619,6 +665,11 @@ Current preparedness state:
   `VERIFIED_LOCAL / PR #145 / MERGED / CANONICAL`;
 - Move 2 Durable AI Job Plane + Hard Budget:
   `VERIFIED_LOCAL N=1 / PR #146 / MERGED / CANONICAL`;
+- Remote Upgrade Compatibility:
+  `VERIFIED_LOCAL / PR #148 / MERGED / CANONICAL`;
+- remote Supabase application: `NOT EXECUTED`;
+- restart/resume resilience: `FAIL N=1`;
+- single-flight autonomous execution: `FAIL`;
 - 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
 - 100 actual users: `NOT DEMONSTRATED`;
 - load/uptime/production readiness: `NOT DEMONSTRATED`;
