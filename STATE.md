@@ -675,50 +675,49 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`NEXT PREPAREDNESS CRITERION = SINGLE-FLIGHT EXECUTION`
+HABITABLE-V0-VS1 real provider execution:
 
-Future Readiness remains the current Human Direction. Dream30D remains preserved
-and open, but its historical Gate 5 is not the immediate next candidate.
+`EXECUTED_LOCAL N=1 / PASS`
 
-Restart/resume resilience is now `VERIFIED_LOCAL N=1 / PR #150 / MERGED /
-CANONICAL`. Single-flight has progressed from the incident-level failure to a
-canonical process-level primitive and a protected real Founder entrypoint.
-Full autonomous single-flight execution remains `PARTIAL`: no canonical lived
-autonomous supervisor → worker → model-call-capable tree has yet demonstrated
-the complete criterion. The current bounded criterion is to define and test the
-smallest real autonomous execution surface so one Human command produces at
-most one admitted execution tree, with no duplicate execution after
-restart/retry and a durable result before STOP.
+Observed on 2026-09-05:
 
-Current preparedness state:
+- Human authorization and durable enqueue: `PASS`;
+- initiating Human process exited before worker execution: `PASS`;
+- same durable Job survived pre-worker STOPs and was resumed: `PASS N=1`;
+- single-flight worker admission: `PASS`;
+- real Vercel AI Gateway call to `moonshotai/kimi-k2.6`: `PASS`;
+- Job: `SUCCEEDED`;
+- AI Run: `COMPLETED`;
+- Company Core: `AI_COMPLETED`;
+- sponsored reservation: `SETTLED`;
+- provider-reported cost: `USD 0.00577085`;
+- observed bounded Vercel account delta: `USD 0.00577085`;
+- AI output persisted as `SYNTHESIS`;
+- AI output did not automatically become Human Result, Evaluation, Claim,
+  Evidence, Verification, Decision or Human Direction;
+- Remote Supabase writes: `0`;
+- deployment: `NO`.
 
-- Move 1 Participant Boundary:
-  `VERIFIED_LOCAL / PR #145 / MERGED / CANONICAL`;
-- Move 2 Durable AI Job Plane + Hard Budget:
-  `VERIFIED_LOCAL N=1 / PR #146 / MERGED / CANONICAL`;
-- Remote Upgrade Compatibility:
-  `VERIFIED_LOCAL / PR #148 / MERGED / CANONICAL`;
-- remote Supabase application: `NOT EXECUTED`;
-- Restart / Resume Resilience:
-  `VERIFIED_LOCAL N=1 / PR #150 / MERGED / CANONICAL`;
-- Single-flight process primitive:
-  `VERIFIED_LOCAL N=1 / PR #152 / MERGED / CANONICAL`;
-- canonical `npm run cz` Founder entry:
-  `SINGLE-FLIGHT PROTECTED / PR #153 / MERGED / CANONICAL`;
-- single-flight autonomous execution:
-  `PARTIAL / CURRENT NEXT CRITERION`;
-- 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
-- 100 actual users: `NOT DEMONSTRATED`;
-- load/uptime/production readiness: `NOT DEMONSTRATED`;
-- external utility from Move2: `NOT DEMONSTRATED`;
-- adoption / PMF / scale: `NOT DEMONSTRATED`.
+Result Package:
+
+`RP-HABITABLE-V0-VS1-REAL-PROVIDER-N1.md`
+
+Current remaining preparedness gap:
+
+`CLEAN END-TO-END HUMAN ENTRYPOINT = NOT DEMONSTRATED`
+
+The lived experiment proved the durable real execution surface, but the complete
+Need → authorization → worker → durable result experience still required manual
+Human plumbing and resume commands.
+
+Next candidate preparedness criterion:
+
+`CLEAN HABITABLE ENTRYPOINT / REQUIRES HUMAN DIRECTION`
 
 Preserve:
 
-`readiness ≠ demonstrated scale`
+`EXECUTED_LOCAL N=1 ≠ PRODUCTION_READY ≠ EXTERNAL_UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
 
-`VERIFIED_LOCAL ≠ PRODUCTION_READY`
+`AI OUTPUT ≠ HUMAN RESULT`
 
-`PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
-
-END OF STATE
+`provider-reported cost ≠ provider invoice`

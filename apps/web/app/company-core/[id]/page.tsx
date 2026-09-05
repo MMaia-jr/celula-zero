@@ -9,7 +9,12 @@ import {
   recordEvaluationAction,
   recordResultAction,
 } from "@/app/company-core/actions";
-import { getAiRunOutput, getCompanyCoreCycle } from "@/lib/data/company-core";
+import {
+  getAiJobOperationalStatus,
+  getAiRunOutput,
+  getCompanyCoreCycle,
+  listSponsoredBudgetPools,
+} from "@/lib/data/company-core";
 import { getLocale } from "@/lib/i18n/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -38,7 +43,11 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
   const { data: authData } = await client.auth.getUser();
   if (!authData.user) redirect(`/login?next=${encodeURIComponent(`/company-core/${id}`)}`);
 
-  const aiOutput = cycle.aiRunId ? await getAiRunOutput(id) : null;
+  const [aiOutput, aiJob] = await Promise.all([
+    cycle.aiRunId ? getAiRunOutput(id) : Promise.resolve(null),
+    cycle.aiRunId ? getAiJobOperationalStatus(cycle.aiRunId) : Promise.resolve(null),
+  ]);
+  const sponsoredPools = cycle.state === "AGREEMENT_DEFINED" ? await listSponsoredBudgetPools(cycle.cellId) : [];
 
   const stateLabel: Record<string, string> = {
     NEED_CREATED: en ? "Need created" : "Need criada",
@@ -57,7 +66,7 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
     NEED_CREATED: en ? "Define agreement" : "Definir acordo",
     AGREEMENT_DEFINED: en ? "Authorize AI work" : "Autorizar trabalho de IA",
     WORK_AUTHORIZED: en ? "AI is running…" : "IA está executando…",
-    AI_RUNNING: en ? "AI is running…" : "IA está executando…",
+    AI_RUNNING: en ? "Check AI Job status" : "Verificar estado do Job de IA",
     AI_COMPLETED: en ? "Record result" : "Registrar resultado",
     AI_FAILED: en ? "Record result (AI failed)" : "Registrar resultado (IA falhou)",
     RESULT_RECORDED: en ? "Record evaluation" : "Registrar avaliação",
@@ -119,6 +128,18 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
         {cycle.aiRunId ? (
           <>
             <p><strong>{en ? "AI Run state" : "Estado da execução de IA"}:</strong> {cycle.aiRunState}</p>
+            <p><strong>{en ? "AI Job operational state" : "Estado operacional do Job de IA"}:</strong> {aiJob?.state ?? "—"}</p>
+            {aiJob?.failureCode ? (
+              <p><strong>{en ? "AI Job failure code" : "Código de falha do Job de IA"}:</strong> {aiJob.failureCode}</p>
+            ) : null}
+            {aiJob?.state === "NEEDS_RECONCILIATION" ? (
+              <p>
+                <strong>{en ? "Reconciliation required" : "Reconciliação necessária"}:</strong>{" "}
+                {en
+                  ? "The execution outcome is uncertain and requires reconciliation."
+                  : "O resultado da execução é incerto e requer reconciliação."}
+              </p>
+            ) : null}
             <p><strong>{en ? "Provider" : "Provedor"}:</strong> {cycle.aiRunProvider ?? "—"}</p>
             <p><strong>{en ? "Model" : "Modelo"}:</strong> {cycle.aiRunModel ?? "—"}</p>
             {cycle.aiRunInputTokens != null ? (
@@ -241,8 +262,29 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
             <p className="mini-label">{en ? "Authority boundary" : "Limite de autoridade"}</p>
             <p>{cycle.agreementAuthority ?? "Assist only; no human authority is delegated."}</p>
 
-            <button className="button button-primary" type="submit">
-              {en ? "Authorize & Execute AI Work" : "Autorizar e Executar Trabalho de IA"}
+            <label>
+              <span>{en ? "Sponsored budget pool" : "Fundo de orçamento patrocinado"}</span>
+              <select name="sponsoredPoolId" required>
+                <option value="">{en ? "Select a pool…" : "Selecione um fundo…"}</option>
+                {sponsoredPools.map((pool) => (
+                  <option key={pool.id} value={pool.id}>
+                    {pool.name} · ${pool.settledUsd.toFixed(2)} / ${pool.hardLimitUsd.toFixed(2)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>{en ? "Sponsored reservation (USD)" : "Reserva patrocinada (USD)"}</span>
+              <input name="reservationUsd" type="number" min="0.0000000001" step="0.0000000001" required />
+            </label>
+            <p>
+              {en
+                ? "This is an internal sponsored budget reservation. It is not proof of a provider-side hard-spend ceiling."
+                : "Esta é uma reserva interna de orçamento patrocinado. Não é prova de um teto rígido de gasto no provedor."}
+            </p>
+
+            <button className="button button-primary" type="submit" disabled={sponsoredPools.length === 0}>
+              {en ? "Authorize & Queue AI Work" : "Autorizar e Enfileirar Trabalho de IA"}
             </button>
           </form>
         ) : null}
@@ -268,7 +310,6 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
                 minLength={1}
                 maxLength={8000}
                 required
-                defaultValue={aiOutput ?? ""}
               />
             </label>
 
