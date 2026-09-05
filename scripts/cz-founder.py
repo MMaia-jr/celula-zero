@@ -700,15 +700,40 @@ def read_only_bootstrap() -> dict:
     if local_head.startswith("UNAVAILABLE"):
         blockers.append("LOCAL_HEAD_UNRESOLVED")
 
-    if room_available and not human_direction_id:
+    snapshot_mode = (
+        room_context_source == "PORTABLE_SNAPSHOT"
+    )
+
+    if (
+        room_available
+        and not snapshot_mode
+        and not human_direction_id
+    ):
         blockers.append("HUMAN_DIRECTION_MISSING")
 
-    if room_available and not current_plan_id:
+    if (
+        room_available
+        and not snapshot_mode
+        and not current_plan_id
+    ):
         blockers.append("CURRENT_PLAN_INPUT_MISSING")
 
-    if implementation_not_authorized:
+    if (
+        not snapshot_mode
+        and implementation_not_authorized
+    ):
         blockers.append(
             "G5_IMPLEMENTATION_NOT_YET_AUTHORIZED"
+        )
+
+    if snapshot_mode and (
+        controls["canonical_human_direction"]
+        in {"UNKNOWN", "UNAVAILABLE"}
+        or controls["canonical_next_gate"]
+        in {"UNKNOWN", "UNAVAILABLE"}
+    ):
+        blockers.append(
+            "CANONICAL_STATE_CONTROLS_UNRESOLVED"
         )
 
     if "ROOM_LOCATOR_CONTEXT_MISMATCH" in blockers:
@@ -729,7 +754,13 @@ def read_only_bootstrap() -> dict:
     elif "CURRENT_PLAN_INPUT_MISSING" in blockers:
         next_move = "PROVIDE_PLAN_INPUT"
 
-    elif implementation_not_authorized:
+    elif "CANONICAL_STATE_CONTROLS_UNRESOLVED" in blockers:
+        next_move = "HUMAN_REVIEW_CANONICAL_STATE"
+
+    elif (
+        implementation_not_authorized
+        and not snapshot_mode
+    ):
         next_move = (
             "REQUEST_HUMAN_AUTHORIZATION_"
             "FOR_G5_IMPLEMENTATION"

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 MODULE_PATH = Path(__file__).with_name("cz-founder.py")
 spec = importlib.util.spec_from_file_location("cz_founder", MODULE_PATH)
@@ -92,6 +93,109 @@ class RestartResumeTests(unittest.TestCase):
         sha = self.write()
         state = cz.room_snapshot_state(self.cfg(sha), self.live)
         self.assertEqual(state["room_locator_error"], "ROOM_SNAPSHOT_CYCLE_MISMATCH")
+
+    def test_historical_plan_restriction_does_not_override_git(self):
+        historical_room = {
+            "room_state": "AVAILABLE",
+            "room_locator_source":
+                "PORTABLE_SNAPSHOT_FALLBACK",
+            "room_context_source": "PORTABLE_SNAPSHOT",
+            "live_room_state": "UNAVAILABLE",
+            "room_resume_mode":
+                "READ_ONLY_PORTABLE_SNAPSHOT",
+            "cycle": {
+                "id": CYCLE,
+                "project_id": PROJECT,
+                "state": "OPEN",
+                "current_phase": "DOING",
+                "current_direction_record_id":
+                    "old-direction",
+            },
+            "human_direction": {
+                "id": "old-direction",
+            },
+            "human_original_records": [
+                {
+                    "id": "historical-plan",
+                    "created_at":
+                        "2026-09-03T00:00:00+00:00",
+                    "content":
+                        "Não autoriza ainda implementação.",
+                    "provenance": {
+                        "room_kind": "PLAN_INPUT",
+                    },
+                },
+            ],
+            "canonical_state": {},
+        }
+
+        controls = {
+            "canonical_human_direction":
+                "Future Readiness",
+            "canonical_next_gate":
+                "NEXT PREPAREDNESS CRITERION = "
+                "RESTART RESILIENCE / ONE-COMMAND RESUME",
+        }
+
+        sha = "a" * 40
+
+        with (
+            patch.object(
+                cz,
+                "room_project_state",
+                return_value=historical_room,
+            ),
+            patch.object(
+                cz,
+                "canonical_state_controls",
+                return_value=controls,
+            ),
+            patch.object(
+                cz,
+                "git_sha",
+                return_value=sha,
+            ),
+            patch.object(
+                cz,
+                "run",
+                return_value="## clean",
+            ),
+            patch.object(
+                cz,
+                "git_relation_to_remote",
+                return_value="SAME",
+            ),
+        ):
+            bootstrap = cz.read_only_bootstrap()
+
+        self.assertEqual(
+            bootstrap["blockers"],
+            [],
+        )
+        self.assertEqual(
+            bootstrap["next_allowed_move"],
+            "FOLLOW_CANONICAL_NEXT_GATE_FROM_GIT",
+        )
+        self.assertFalse(
+            bootstrap["requires_human"],
+        )
+        self.assertEqual(
+            bootstrap["canonical_human_direction"],
+            "Future Readiness",
+        )
+
+    def test_unknown_canonical_controls_remain_unresolved(self):
+        parsed = cz.parse_canonical_state_controls(
+            "# unrelated state\n"
+        )
+        self.assertEqual(
+            parsed["canonical_human_direction"],
+            "UNKNOWN",
+        )
+        self.assertEqual(
+            parsed["canonical_next_gate"],
+            "UNKNOWN",
+        )
 
     def test_canonical_controls_are_separate(self):
         parsed = cz.parse_canonical_state_controls(
