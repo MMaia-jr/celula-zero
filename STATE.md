@@ -681,10 +681,14 @@ Future Readiness remains the current Human Direction. Dream30D remains preserved
 and open, but its historical Gate 5 is not the immediate next candidate.
 
 Restart/resume resilience is now `VERIFIED_LOCAL N=1 / PR #150 / MERGED /
-CANONICAL`. The remaining observed execution-control failure is single-flight.
-The current bounded criterion is to test whether one Human command can produce
-at most one supervisor, one active worker and one active model call, with no
-duplicate execution after restart/retry and a durable result before STOP.
+CANONICAL`. Single-flight has progressed from the incident-level failure to a
+canonical process-level primitive and a protected real Founder entrypoint.
+Full autonomous single-flight execution remains `PARTIAL`: no canonical lived
+autonomous supervisor → worker → model-call-capable tree has yet demonstrated
+the complete criterion. The current bounded criterion is to define and test the
+smallest real autonomous execution surface so one Human command produces at
+most one admitted execution tree, with no duplicate execution after
+restart/retry and a durable result before STOP.
 
 Current preparedness state:
 
@@ -697,7 +701,12 @@ Current preparedness state:
 - remote Supabase application: `NOT EXECUTED`;
 - Restart / Resume Resilience:
   `VERIFIED_LOCAL N=1 / PR #150 / MERGED / CANONICAL`;
-- single-flight autonomous execution: `FAIL / CURRENT NEXT CRITERION`;
+- Single-flight process primitive:
+  `VERIFIED_LOCAL N=1 / PR #152 / MERGED / CANONICAL`;
+- canonical `npm run cz` Founder entry:
+  `SINGLE-FLIGHT PROTECTED / PR #153 / MERGED / CANONICAL`;
+- single-flight autonomous execution:
+  `PARTIAL / CURRENT NEXT CRITERION`;
 - 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
 - 100 actual users: `NOT DEMONSTRATED`;
 - load/uptime/production readiness: `NOT DEMONSTRATED`;
