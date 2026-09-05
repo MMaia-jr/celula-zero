@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { callAiGateway } from "@/lib/domain/ai-gateway";
 
 const projectContextSchema = z.object({
   projectId: z.string().uuid(),
@@ -44,6 +43,8 @@ const defineAgreementSchema = z.object({
 
 const authorizeWorkSchema = z.object({
   cycleId: z.string().uuid(),
+  sponsoredPoolId: z.string().uuid(),
+  reservationUsd: z.coerce.number().positive().finite(),
 }).and(commandSchema);
 
 const recordResultSchema = z.object({
@@ -206,6 +207,8 @@ export async function defineAgreementAction(formData: FormData): Promise<void> {
 export async function authorizeWorkAction(formData: FormData): Promise<void> {
   const parsed = authorizeWorkSchema.safeParse({
     cycleId: formData.get("cycleId"),
+    sponsoredPoolId: formData.get("sponsoredPoolId"),
+    reservationUsd: formData.get("reservationUsd"),
     commandId: formData.get("commandId"),
     idempotencyKey: formData.get("idempotencyKey"),
   });
@@ -233,20 +236,6 @@ export async function authorizeWorkAction(formData: FormData): Promise<void> {
 
   if (!steward) redirect("/company-core?error=no-actor");
 
-  // Step 1: transition state to WORK_AUTHORIZED
-  const { data: authData2, error: authError } = await client.rpc("company_core_authorize_work", {
-    p_actor_id: steward.id,
-    p_cycle_id: input.cycleId,
-    p_command_id: input.commandId,
-    p_idempotency_key: input.idempotencyKey,
-  });
-
-  const authResult = authData2 as { ok?: boolean; cycle_id?: string; state?: string } | null;
-  if (authError || !authResult?.ok) {
-    redirect(`/company-core/${input.cycleId}?error=authorize-failed`);
-  }
-
-  // Step 2: fetch cycle details to build the prompt
   const { data: cycleRow } = await client
     .from("company_core_cycles")
     .select("project_id, dragon_cycle_id, need_title, need_problem, need_desired_result, need_context, agreement_expected_result, agreement_scope, agreement_evaluation_criterion, agreement_authority")
@@ -270,7 +259,8 @@ export async function authorizeWorkAction(formData: FormData): Promise<void> {
     agreement_authority: string | null;
   };
 
-  // Step 3: find or create an AI agent actor for this project
+  // Agent identity and active participation must exist before the atomic
+  // authorization/enqueue command; neither authorizes provider execution.
   const { data: agentRow } = await client
     .from("actors")
     .select("id")
@@ -302,7 +292,6 @@ export async function authorizeWorkAction(formData: FormData): Promise<void> {
     redirect(`/company-core/${input.cycleId}?error=no-agent`);
   }
 
-  // Step 4: build context manifest for ANC-001
   const contextManifest = {
     manifest_version: "cz.ai-context.v1",
     project_id: cycle.project_id,
@@ -329,16 +318,7 @@ export async function authorizeWorkAction(formData: FormData): Promise<void> {
     task: contextManifest.task,
   });
 
-  const encoder = new TextEncoder();
-
   const prompt = buildCompanyCorePrompt(cycle);
-  const inputDigestBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(prompt));
-  const inputDigest = Array.from(new Uint8Array(inputDigestBuffer))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-
-  // Step 5: prepare AI run
-  const prepareCommandId = crypto.randomUUID();
   const companyCoreParticipationResponse = await client.rpc(
     "ddr_add_cycle_ai_participant",
     {
@@ -364,144 +344,35 @@ export async function authorizeWorkAction(formData: FormData): Promise<void> {
       : null;
 
   if (companyCoreParticipationError) {
-    throw new Error(
-      `AI cycle participation failed: ${String(companyCoreParticipationError)}`,
-    );
+    redirect(`/company-core/${input.cycleId}?error=ai-participation-failed`);
   }
-
-  const { data: prepData, error: prepError } = await client.rpc("anc001_prepare_ai_run", {
-    p_requester_actor_id: steward.id,
-    p_project_id: cycle.project_id,
-    p_cycle_id: cycle.dragon_cycle_id,
-    p_agent_actor_id: agentActorId,
-    p_purpose: contextManifest.purpose,
-    p_provider: "moonshotai",
-    p_model: "moonshotai/kimi-k2.6",
-    p_context_manifest: contextManifest,
-    p_context_manifest_canonical: canonical,
-p_input_digest: inputDigest,
-    p_command_id: prepareCommandId,
-    p_idempotency_key: `company-core-prep-${input.commandId}`,
-  });
-
-  const prepResult = prepData as { ok?: boolean; ai_run_id?: string } | null;
-  if (prepError || !prepResult?.ok || !prepResult.ai_run_id) {
-    redirect(`/company-core/${input.cycleId}?error=ai-prepare-failed`);
-  }
-
-  const aiRunId = prepResult.ai_run_id;
-
-  // Step 6: start AI run
-  const startCommandId = crypto.randomUUID();
-  const { data: startData, error: startError } = await client.rpc("anc001_start_ai_run", {
-    p_requester_actor_id: steward.id,
-    p_ai_run_id: aiRunId,
-    p_command_id: startCommandId,
-    p_idempotency_key: `company-core-start-${input.commandId}`,
-  });
-
-  const startResult = startData as { ok?: boolean; state?: string } | null;
-  if (startError || !startResult?.ok) {
-    redirect(`/company-core/${input.cycleId}?error=ai-start-failed`);
-  }
-
-  // Step 7: call AI Gateway
-  const gatewayResult = await callAiGateway({
+  const inferenceEnvelope = {
+    provider: "moonshotai",
     model: "moonshotai/kimi-k2.6",
     messages: [
       { role: "system", content: systemPrompt() },
       { role: "user", content: prompt },
     ],
     temperature: 0.3,
-    maxTokens: 4096,
-  });
-
-  // Step 8: complete or fail the AI run
-  if (!gatewayResult.ok) {
-    const failCommandId = crypto.randomUUID();
-    await client.rpc("anc001_fail_ai_run", {
-      p_requester_actor_id: steward.id,
-      p_ai_run_id: aiRunId,
-      p_failure_code: gatewayResult.failureCode ?? "GATEWAY_FAILURE",
-      p_command_id: failCommandId,
-      p_idempotency_key: `company-core-fail-${input.commandId}`,
-    });
-
-    // Attach failed run to cycle
-    const attachFailCommandId = crypto.randomUUID();
-    await client.rpc("company_core_attach_ai_run", {
-      p_actor_id: steward.id,
-      p_cycle_id: input.cycleId,
-      p_ai_run_id: aiRunId,
-      p_command_id: attachFailCommandId,
-      p_idempotency_key: `company-core-attach-fail-${input.commandId}`,
-    });
-
-    revalidatePath(`/company-core/${input.cycleId}`);
-    redirect(`/company-core/${input.cycleId}?error=ai-gateway-failed`);
-  }
-
-  const outputDigestBuffer = await crypto.subtle.digest(
-    "SHA-256",
-    encoder.encode(gatewayResult.output),
-  );
-  const outputDigest = Array.from(new Uint8Array(outputDigestBuffer))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-
-  const completeCommandId = crypto.randomUUID();
-  const { data: completeData, error: completeError } = await client.rpc("anc001_complete_ai_run", {
-    p_requester_actor_id: steward.id,
-    p_ai_run_id: aiRunId,
-    p_output: gatewayResult.output,
-    p_output_digest: outputDigest,
-    p_output_size_bytes: new TextEncoder().encode(gatewayResult.output).length,
-    p_input_tokens: Number(gatewayResult.usage.promptTokens),
-    p_output_tokens: Number(gatewayResult.usage.completionTokens),
-    p_total_tokens: Number(gatewayResult.usage.totalTokens),
-    p_cost_usd: gatewayResult.costUsd,
-    p_cost_source: gatewayResult.costSource,
-    p_command_id: completeCommandId,
-    p_idempotency_key: `company-core-complete-${input.commandId}`,
-  });
-
-  const completeResult = completeData as { ok?: boolean; state?: string; cycle_record_id?: string } | null;
-  if (completeError || !completeResult?.ok) {
-    // Attempt to fail the run
-    await client.rpc("anc001_fail_ai_run", {
-      p_requester_actor_id: steward.id,
-      p_ai_run_id: aiRunId,
-      p_failure_code: "ANC_COMPLETE_FAILED",
-      p_command_id: crypto.randomUUID(),
-      p_idempotency_key: `company-core-fail-complete-${input.commandId}`,
-    });
-
-    const attachFailCommandId2 = crypto.randomUUID();
-    await client.rpc("company_core_attach_ai_run", {
-      p_actor_id: steward.id,
-      p_cycle_id: input.cycleId,
-      p_ai_run_id: aiRunId,
-      p_command_id: attachFailCommandId2,
-      p_idempotency_key: `company-core-attach-fail2-${input.commandId}`,
-    });
-
-    revalidatePath(`/company-core/${input.cycleId}`);
-    redirect(`/company-core/${input.cycleId}?error=ai-complete-failed`);
-  }
-
-  // Step 9: attach completed AI run to cycle
-  const attachCommandId = crypto.randomUUID();
-  const { data: attachData, error: attachError } = await client.rpc("company_core_attach_ai_run", {
+    max_tokens: 4096,
+  };
+  // This is the only command that grants human execution authority. The DB
+  // transaction also reserves budget, persists the exact envelope and queues.
+  const { data, error } = await client.rpc("company_core_authorize_and_enqueue_ai", {
     p_actor_id: steward.id,
     p_cycle_id: input.cycleId,
-    p_ai_run_id: aiRunId,
-    p_command_id: attachCommandId,
-    p_idempotency_key: `company-core-attach-${input.commandId}`,
+    p_agent_actor_id: agentActorId,
+    p_pool_id: input.sponsoredPoolId,
+    p_reservation_usd: input.reservationUsd,
+    p_inference_envelope: inferenceEnvelope,
+    p_context_manifest: contextManifest,
+    p_context_manifest_canonical: canonical,
+    p_command_id: input.commandId,
+    p_idempotency_key: input.idempotencyKey,
   });
-
-  const attachResult = attachData as { ok?: boolean; state?: string } | null;
-  if (attachError || !attachResult?.ok) {
-    redirect(`/company-core/${input.cycleId}?error=attach-failed`);
+  const result = data as { ok?: boolean; job_id?: string } | null;
+  if (error || !result?.ok || !result.job_id) {
+    redirect(`/company-core/${input.cycleId}?error=authorize-enqueue-failed`);
   }
 
   revalidatePath(`/company-core/${input.cycleId}`);

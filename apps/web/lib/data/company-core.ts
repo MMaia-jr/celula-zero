@@ -68,6 +68,18 @@ export interface CompanyCoreCycle {
   consequenceRecordedAt: string | null;
 }
 
+export interface SponsoredBudgetPoolOption {
+  id: string;
+  name: string;
+  hardLimitUsd: number;
+  settledUsd: number;
+}
+
+export interface AiJobOperationalStatus {
+  state: string;
+  failureCode: string | null;
+}
+
 const selection = `
   id,
   project_id,
@@ -262,4 +274,37 @@ export async function getAiRunOutput(cycleId: string): Promise<string | null> {
     .maybeSingle();
 
   return record ? String(record.content ?? "") : null;
+}
+
+export async function getAiJobOperationalStatus(aiRunId: string): Promise<AiJobOperationalStatus | null> {
+  const client = await createSupabaseServerClient();
+  if (!client) return null;
+
+  const { data, error } = await client
+    .from("ai_jobs")
+    .select("state,failure_code")
+    .eq("ai_run_id", aiRunId)
+    .maybeSingle();
+
+  if (error) throw new Error(`Não foi possível carregar o estado operacional do Job de IA: ${error.message}`);
+  return data
+    ? { state: String(data.state), failureCode: data.failure_code ? String(data.failure_code) : null }
+    : null;
+}
+
+export async function listSponsoredBudgetPools(cellId: string): Promise<SponsoredBudgetPoolOption[]> {
+  const client = await createSupabaseServerClient();
+  if (!client) return [];
+  const { data, error } = await client
+    .from("sponsored_budget_pools")
+    .select("id,name,hard_limit_usd,settled_usd")
+    .eq("cell_id", cellId)
+    .order("name", { ascending: true });
+  if (error) throw new Error(`Não foi possível carregar fundos patrocinados: ${error.message}`);
+  return (data ?? []).map((pool) => ({
+    id: String(pool.id),
+    name: String(pool.name),
+    hardLimitUsd: Number(pool.hard_limit_usd),
+    settledUsd: Number(pool.settled_usd),
+  }));
 }
