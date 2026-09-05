@@ -134,6 +134,31 @@ Preserve:
 
 Remote Supabase remains unchanged.
 
+Restart / Resume Resilience:
+
+`RESTART-RESUME-001 = VERIFIED_LOCAL N=1 / PR #150 / MERGED / CANONICAL`
+
+Observed:
+
+- live Room DB was unavailable;
+- durable portable snapshot restored usable operational context;
+- snapshot context remained historical and non-canonical for Human Direction;
+- Git-canonical `Future Readiness` remained authoritative;
+- unresolved canonical controls fail closed;
+- focused tests: `6/6 PASS`;
+- lived bootstrap: `PASS N=1`;
+- model calls: `0`;
+- remote Supabase writes: `0`.
+
+Preserve:
+
+`initial restart FAIL N=1 ≠ current restart/resume capability`
+
+`historical snapshot context ≠ current Human Direction`
+
+`VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
+
+
 ## Current Dream / next gate
 
 `DREAM30D = ACTIVE / DOING / OPEN`
@@ -197,7 +222,7 @@ Additional incident evidence — 2026-09-05:
 
 - local autonomous nightshift reached real Codex execution but violated
   single-flight and produced concurrent workers;
-- restart/resume resilience: `FAIL N=1`;
+- initial restart/resume resilience before repair: `FAIL N=1`;
 - single-flight execution: `FAIL`;
 - incident contained; contaminated output was not promoted;
 - no remote Supabase write, deployment or canonical promotion resulted from
@@ -650,14 +675,16 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`NEXT PREPAREDNESS CRITERION = RESTART RESILIENCE / ONE-COMMAND RESUME`
+`NEXT PREPAREDNESS CRITERION = SINGLE-FLIGHT EXECUTION`
 
 Future Readiness remains the current Human Direction. Dream30D remains preserved
 and open, but its historical Gate 5 is not the immediate next candidate.
 
-The current bounded criterion is to test whether interruption/restart can be
-recovered through one Human command using existing canonical and durable local
-state before introducing new orchestration infrastructure.
+Restart/resume resilience is now `VERIFIED_LOCAL N=1 / PR #150 / MERGED /
+CANONICAL`. The remaining observed execution-control failure is single-flight.
+The current bounded criterion is to test whether one Human command can produce
+at most one supervisor, one active worker and one active model call, with no
+duplicate execution after restart/retry and a durable result before STOP.
 
 Current preparedness state:
 
@@ -668,8 +695,9 @@ Current preparedness state:
 - Remote Upgrade Compatibility:
   `VERIFIED_LOCAL / PR #148 / MERGED / CANONICAL`;
 - remote Supabase application: `NOT EXECUTED`;
-- restart/resume resilience: `FAIL N=1`;
-- single-flight autonomous execution: `FAIL`;
+- Restart / Resume Resilience:
+  `VERIFIED_LOCAL N=1 / PR #150 / MERGED / CANONICAL`;
+- single-flight autonomous execution: `FAIL / CURRENT NEXT CRITERION`;
 - 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
 - 100 actual users: `NOT DEMONSTRATED`;
 - load/uptime/production readiness: `NOT DEMONSTRATED`;
