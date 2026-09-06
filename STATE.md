@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-05
+Última reconciliação canônica: 2026-09-06
 
 Repositório canônico:
 
@@ -33,9 +33,11 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Current Human Direction — Future Readiness
+## Current umbrella Human Direction — Future Readiness
 
-`FUTURE READINESS / HUMAN DIRECTION / CURRENT 2026-09-04`
+`FUTURE READINESS / HUMAN DIRECTION / CURRENT UMBRELLA 2026-09-04`
+
+Immediate sequencing is governed by the newer D020 Karabirrdt Human Direction below.
 
 Célula Zero não deve esperar a chegada de usuários, comunidade, capital ou
 trabalho externo para começar a descobrir capacidades previsivelmente
@@ -255,16 +257,28 @@ Preserve:
 
 `PASS N=1 ≠ adoption ≠ PMF ≠ scale`
 
-Next gate:
+Current action surface before G1:
 
-`HUMAN REVIEW / AUTHORIZE FIRST BOUNDED DOING`
+`K3 SELECT REAL OPPORTUNITY → K4 MAP / ADAPT EXISTING EXTERNAL-RUN CAPABILITY`
+
+K3/K4 are bounded Planning/Boundary continuity. They do not by themselves
+authorize outreach, participant enrollment, intervention, paid model calls,
+implementation or Remote Supabase writes.
+
+Next Human gate before K5:
+
+`G1 / HUMAN REVIEW / AUTHORIZE FIRST BOUNDED DOING`
 
 No paid model call, outreach, participant enrollment, implementation, Remote
 Supabase write or Doing is authorized by this canonical reconciliation.
 
-## Current Dream / next gate
+## Preserved open Dream30D track — not current immediate sequencing
 
-`DREAM30D = ACTIVE / DOING / OPEN`
+`DREAM30D = ACTIVE / DOING / OPEN / PRESERVED TRACK`
+
+`CURRENT IMMEDIATE SEQUENCING = D020 / KARABIRRDT 001`
+
+`DREAM30D DOING / OPEN ≠ D020 K5 AUTHORIZATION`
 
 DragonCycle:
 
@@ -370,9 +384,11 @@ Human review / promotion decision:
 
 `decisions/D014-dream30d-g2-g3-human-review-and-promotion.md`
 
-Local Room remains:
+Local Room track status remains:
 
-`DOING / OPEN`
+`DOING / OPEN / PRESERVED`
+
+This track-local status does not authorize K5 or any new D020 Doing.
 
 G2 and G3 are reviewed.
 
@@ -776,23 +792,26 @@ R2 internal human–multi-AI composition reconciliation:
 
 The canonical state preserves the bounded Room slice and the Dream 2 Result Package without promoting the broader experimental worktree.
 
-## Current next gate
+## Historical preparedness gate — D016 / preserved, refined by D020
 
-`NEXT PREPAREDNESS CRITERION = CLEAN HABITABLE INTERNAL N=1 → SIMPLE BASELINE N=1`
+`HISTORICAL D016 PREPAREDNESS CRITERION = CLEAN HABITABLE INTERNAL N=1 → SIMPLE BASELINE N=1`
 
 Human Direction:
 
-`OPERATIONAL LEARNING RETENTION + HABITABLE BASELINE / CURRENT 2026-09-06`
+`OPERATIONAL LEARNING RETENTION + HABITABLE BASELINE / PRESERVED D016 / CURRENT SEQUENCING REFINED BY D020`
 
 Decision:
 
 `decisions/D016-operational-learning-retention-and-baseline-gate.md`
 
-Future Readiness remains the umbrella Human Direction. This newer decision
-refines the immediate sequencing without turning readiness into evidence of
-external utility, adoption, PMF or scale.
+Future Readiness remains the umbrella Human Direction. D016 remains preserved
+Human Direction and operational-learning discipline, but D020 is the newer
+Human Direction governing current sequencing. Under D020, clean internal N=1 and
+the simple baseline are supporting readiness/calibration when material; they are
+not absolute blockers to K3/K4 or a substitute for the adopted Karabirrdt
+songline.
 
-Current criterion:
+Historical D016 criterion:
 
 1. one real internal Need reaches authorization, bounded AI execution, Human
    Result, evaluation and consequence through a normal human entrypoint without
@@ -806,7 +825,7 @@ Current criterion:
 No new infrastructure is justified by this comparison unless a concrete
 property is shown to be lost in the simpler baseline.
 
-Operational learning retention is now part of the current operating direction:
+Operational learning retention remains part of the operating discipline:
 
 `FIXED ONCE ≠ LEARNED`
 
@@ -815,7 +834,7 @@ incident, falsified assumption, generalized rule and a deterministic
 regression/preflight when applicable, using existing repository structures
 before inventing new memory infrastructure.
 
-Current preparedness state:
+Preparedness capabilities preserved:
 
 - Move 1 Participant Boundary:
   `VERIFIED_LOCAL / PR #145 / MERGED / CANONICAL`;
@@ -835,9 +854,9 @@ Current preparedness state:
 - HABITABLE-V0-VS1 durable real-provider capability:
   `EXECUTED_LOCAL N=1 / PR #155`;
 - clean habitable internal entrypoint:
-  `NOT DEMONSTRATED / CURRENT NEXT CRITERION`;
+  `NOT DEMONSTRATED / SUPPORTING READINESS WHEN MATERIAL UNDER D020`;
 - simple ordinary-tool baseline:
-  `NOT EXECUTED / FOLLOWS CLEAN INTERNAL N=1`;
+  `NOT EXECUTED / SUPPORTING CALIBRATION WHEN MATERIAL UNDER D020`;
 - 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
 - 100 actual users: `NOT DEMONSTRATED`;
 - load/uptime/production readiness: `NOT DEMONSTRATED`;
