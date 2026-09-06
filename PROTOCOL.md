@@ -276,3 +276,45 @@ Historical gaps must not be reconstructed by inference and presented as Original
 This is a direction under investigation.
 
 It is **not** evidence that a universal protocol is implemented, externally useful, adopted or scalable.
+
+## 14. Operational learning retention
+
+A material execution incident is not closed merely because the immediate error
+was corrected.
+
+When an incident falsifies an assumption or changes how future work should be
+executed, preserve the smallest durable learning appropriate to the case.
+
+Prefer:
+
+`observed incident → falsified assumption → generalized rule → regression/preflight when applicable → durable retrievable record`
+
+Preserve:
+
+`FIXED ONCE ≠ LEARNED`
+
+`DIAGNOSIS ≠ VERIFIED LEARNING`
+
+Use existing structures before creating new memory infrastructure:
+
+- a Result Package records the concrete episode and evidence;
+- `PROTOCOL.md` records only generalized reusable operating rules;
+- a deterministic test or cheap preflight encodes machine-enforceable
+  consequences when appropriate;
+- `STATE.md` records only short current consequences or active gates;
+- Git history preserves lineage.
+
+For paid or otherwise costly AI/provider execution:
+
+- when configuration or response-contract behavior is uncertain, prefer the
+  smallest cheap probe before a large-context or multi-call run;
+- transport/provider success is not task success when attributable output is
+  expected; validate the expected visible or structured output before advancing;
+- distinguish substantive-output failure from deterministic format-contract
+  failure;
+- do not assume generic SDK controls are equivalent to provider/model-specific
+  execution semantics.
+
+Do not build a separate memory platform, RAG layer, graph or new database merely
+to preserve operational learning unless a concrete property is shown to be lost
+with the existing repository, Result Packages, protocol rules and tests.
