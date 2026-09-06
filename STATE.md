@@ -721,3 +721,5 @@ Preserve:
 `AI OUTPUT ≠ HUMAN RESULT`
 
 `provider-reported cost ≠ provider invoice`
+
+END OF STATE

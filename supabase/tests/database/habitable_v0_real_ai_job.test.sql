@@ -171,6 +171,38 @@ select is((select content_class from public.cycle_records where id=(select cycle
 select is((select author_actor_id from public.cycle_records where id=(select cycle_record_id from public.ai_runs where id=(select ai_run_id from public.ai_jobs where id=(select u from hv where k='j1')))),(select u from hv where k='agent'),'AI Actor authored output');
 select ok((select provenance @> '{"human_direction":false,"claim":false,"evidence":false,"verification":false,"decision":false}' from public.cycle_records where id=(select cycle_record_id from public.ai_runs where id=(select ai_run_id from public.ai_jobs where id=(select u from hv where k='j1')))),'provenance denies Human Direction, Claim, Evidence, Verification, Decision');
 
+-- Falsifier: a completed AI Run from another Dragon Cycle must not be attachable
+-- to a different Company Core cycle, even when project and requester match.
+insert into hv(k,u) values('attach_target',pg_temp.make_cycle('attach-target'));
+select public.company_core_authorize_work(
+  (select u from hv where k='owner'),
+  (select u from hv where k='attach_target'),
+  gen_random_uuid(),
+  'hv-attach-target-authorize'
+);
+select throws_ok(
+  format(
+    'select public.company_core_attach_ai_run(%L::uuid,%L::uuid,%L::uuid,gen_random_uuid(),%L)',
+    (select u from hv where k='owner'),
+    (select u from hv where k='attach_target'),
+    (select ai_run_id from public.ai_jobs where id=(select u from hv where k='j1')),
+    'hv-attach-cross-cycle'
+  ),
+  'P0001',
+  'CZ409:AI_RUN_CONTEXT_MISMATCH',
+  'company_core_attach_ai_run rejects AI Run from another Dragon Cycle'
+);
+select is(
+  (select state from public.company_core_cycles where id=(select u from hv where k='attach_target')),
+  'WORK_AUTHORIZED',
+  'rejected foreign Run leaves target cycle state unchanged'
+);
+select is(
+  (select ai_run_id from public.company_core_cycles where id=(select u from hv where k='attach_target')),
+  null::uuid,
+  'rejected foreign Run leaves target cycle unlinked'
+);
+
 -- Exercise UNKNOWN and over-reservation completion using independent cycles.
 insert into hv(k,u) values('cu',pg_temp.make_cycle('unknown')),('co',pg_temp.make_cycle('over'));
 insert into hv(k,j) select 'ju',pg_temp.enqueue((select u from hv where k='cu'),(select u from hv where k='pool'),0.5,'u','hv-u'); update hv set u=(j->>'job_id')::uuid where k='ju';

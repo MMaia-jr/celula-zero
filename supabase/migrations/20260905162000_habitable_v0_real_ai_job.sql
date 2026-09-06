@@ -508,6 +508,13 @@ begin
   select * into v_run from public.ai_runs where id = p_ai_run_id;
   if not found then raise exception using errcode = 'P0001', message = 'CZ404:AI_RUN_NOT_FOUND'; end if;
 
+  if v_run.cell_id <> v_cycle.cell_id
+     or v_run.project_id <> v_cycle.project_id
+     or v_run.cycle_id <> v_cycle.dragon_cycle_id
+     or v_run.requested_by_actor_id <> p_actor_id then
+    raise exception using errcode = 'P0001', message = 'CZ409:AI_RUN_CONTEXT_MISMATCH';
+  end if;
+
   v_new_state := case when v_run.state = 'COMPLETED' then 'AI_COMPLETED' when v_run.state = 'FAILED' then 'AI_FAILED' else v_cycle.state end;
 
   select replayed, saved_result into v_replayed, v_result

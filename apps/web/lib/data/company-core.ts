@@ -14,6 +14,7 @@ export type CompanyCoreState =
 
 export interface CompanyCoreCycle {
   id: string;
+  cellId: string;
   projectId: string;
   projectSlug: string;
   projectTitle: string;
@@ -82,6 +83,7 @@ export interface AiJobOperationalStatus {
 
 const selection = `
   id,
+  cell_id,
   project_id,
   dragon_cycle_id,
   owner_actor_id,
@@ -148,6 +150,7 @@ function mapCycle(row: Record<string, unknown>): CompanyCoreCycle | null {
 
   return {
     id: String(row.id),
+    cellId: String(row.cell_id),
     projectId: project.id,
     projectSlug: project.slug,
     projectTitle: project.title,
