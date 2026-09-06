@@ -675,20 +675,42 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-`NEXT PREPAREDNESS CRITERION = SINGLE-FLIGHT EXECUTION`
+`NEXT PREPAREDNESS CRITERION = CLEAN HABITABLE INTERNAL N=1 → SIMPLE BASELINE N=1`
 
-Future Readiness remains the current Human Direction. Dream30D remains preserved
-and open, but its historical Gate 5 is not the immediate next candidate.
+Human Direction:
 
-Restart/resume resilience is now `VERIFIED_LOCAL N=1 / PR #150 / MERGED /
-CANONICAL`. Single-flight has progressed from the incident-level failure to a
-canonical process-level primitive and a protected real Founder entrypoint.
-Full autonomous single-flight execution remains `PARTIAL`: no canonical lived
-autonomous supervisor → worker → model-call-capable tree has yet demonstrated
-the complete criterion. The current bounded criterion is to define and test the
-smallest real autonomous execution surface so one Human command produces at
-most one admitted execution tree, with no duplicate execution after
-restart/retry and a durable result before STOP.
+`OPERATIONAL LEARNING RETENTION + HABITABLE BASELINE / CURRENT 2026-09-06`
+
+Decision:
+
+`decisions/D016-operational-learning-retention-and-baseline-gate.md`
+
+Future Readiness remains the umbrella Human Direction. This newer decision
+refines the immediate sequencing without turning readiness into evidence of
+external utility, adoption, PMF or scale.
+
+Current criterion:
+
+1. one real internal Need reaches authorization, bounded AI execution, Human
+   Result, evaluation and consequence through a normal human entrypoint without
+   manual UUID, SQL, `psql` or bespoke recovery plumbing;
+2. the same or a closely comparable problem is then executed through the
+   simplest ordinary alternative;
+3. compare consequential properties such as wall-clock time, founder plumbing,
+   output usefulness, later reconstructibility and beneficiary evaluation when
+   applicable.
+
+No new infrastructure is justified by this comparison unless a concrete
+property is shown to be lost in the simpler baseline.
+
+Operational learning retention is now part of the current operating direction:
+
+`FIXED ONCE ≠ LEARNED`
+
+Material incidents that alter future execution should preserve the observed
+incident, falsified assumption, generalized rule and a deterministic
+regression/preflight when applicable, using existing repository structures
+before inventing new memory infrastructure.
 
 Current preparedness state:
 
@@ -706,19 +728,27 @@ Current preparedness state:
 - canonical `npm run cz` Founder entry:
   `SINGLE-FLIGHT PROTECTED / PR #153 / MERGED / CANONICAL`;
 - single-flight autonomous execution:
-  `PARTIAL / CURRENT NEXT CRITERION`;
+  `PARTIAL / PRESERVED CAPABILITY GAP`;
+- PR #155 HABITABLE real-provider candidate:
+  `OPEN / DRAFT / NON-CANONICAL / REQUIRES SEPARATE HUMAN MERGE REVIEW`;
+- clean habitable internal entrypoint:
+  `NOT DEMONSTRATED / CURRENT NEXT CRITERION`;
+- simple ordinary-tool baseline:
+  `NOT EXECUTED / FOLLOWS CLEAN INTERNAL N=1`;
 - 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
 - 100 actual users: `NOT DEMONSTRATED`;
 - load/uptime/production readiness: `NOT DEMONSTRATED`;
-- external utility from Move2: `NOT DEMONSTRATED`;
+- external utility: `NOT DEMONSTRATED BY THIS DIRECTION`;
 - adoption / PMF / scale: `NOT DEMONSTRATED`.
 
 Preserve:
 
-`readiness ≠ demonstrated scale`
+`Future Readiness ≠ infrastructure expansion`
 
-`VERIFIED_LOCAL ≠ PRODUCTION_READY`
+`clean habitability ≠ external utility`
 
-`PASS N=1 ≠ general autonomy ≠ external utility ≠ adoption ≠ PMF ≠ scale`
+`baseline comparison ≠ adoption ≠ PMF ≠ scale`
+
+`FIXED ONCE ≠ LEARNED`
 
 END OF STATE
