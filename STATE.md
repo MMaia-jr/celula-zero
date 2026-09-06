@@ -729,8 +729,8 @@ Current preparedness state:
   `SINGLE-FLIGHT PROTECTED / PR #153 / MERGED / CANONICAL`;
 - single-flight autonomous execution:
   `PARTIAL / PRESERVED CAPABILITY GAP`;
-- PR #155 HABITABLE real-provider candidate:
-  `OPEN / DRAFT / NON-CANONICAL / REQUIRES SEPARATE HUMAN MERGE REVIEW`;
+- HABITABLE-V0-VS1 durable real-provider capability:
+  `EXECUTED_LOCAL N=1 / PR #155`;
 - clean habitable internal entrypoint:
   `NOT DEMONSTRATED / CURRENT NEXT CRITERION`;
 - simple ordinary-tool baseline:

@@ -4,6 +4,9 @@ const pilotEmail = "pilot@celulazero.local";
 const mailpitUrl = process.env.LOCAL_MAILPIT_URL ?? "http://127.0.0.1:54324";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000";
 
+// Authenticated end-to-end journey owns its project fixture.
+test.setTimeout(60_000);
+
 interface MailpitMessage {
   HTML?: string;
   Text?: string;
@@ -52,15 +55,68 @@ async function loginAsPilot(page: import("@playwright/test").Page, request: APIR
   await expect(page).toHaveURL(`${siteUrl}/company-core`, { timeout: 15_000 });
 }
 
-test("COMPANY CORE V0.1 founder traverses full cycle including mocked AI failure path", async ({
+test("COMPANY CORE V0.1 founder reaches durable AI queue authorization boundary", async ({
   page,
   request,
 }) => {
   await loginAsPilot(page, request);
 
+  // SELF-CONTAINED PROJECT FIXTURE
+  //
+  // This authenticated journey owns its project precondition instead of
+  // depending on another Playwright spec having run first.
+  await page.goto("/projects/new");
+  await expect(
+    page.getByRole("heading", {
+      name: "Crie um projeto com intenção e limites explícitos.",
+    }),
+  ).toBeVisible({ timeout: 15_000 });
+
+  const projectSuffix = `${Date.now()}`;
+  const projectTitle = `Projeto Company Core E2E ${projectSuffix}`;
+
+  await page.getByLabel("Título").fill(projectTitle);
+  await page
+    .getByLabel("Resumo público")
+    .fill("Projeto local criado pelo próprio teste autenticado do Company Core.");
+  await page
+    .getByLabel("Registro Original")
+    .fill("Preservar uma origem verificável para o ciclo Company Core E2E.");
+  await page
+    .getByLabel("Interpretação atual")
+    .fill("Verificar o Company Core sem dependência de ordem entre specs.");
+  await page
+    .getByLabel("Resultado pretendido")
+    .fill("O fundador consegue abrir uma Need no projeto que acabou de criar.");
+  await page
+    .getByLabel("Necessidades atuais")
+    .fill("coordenação, teste determinístico, capacidade");
+  await page
+    .getByLabel("Regras e limites")
+    .fill("Stack local; nenhuma chamada de provider; nenhuma publicação externa.");
+
+  await expect(page.getByLabel("Publicar após criar")).toBeChecked();
+
+  await page.getByRole("button", { name: "Criar projeto" }).click();
+
+  await expect(page).toHaveURL(
+    /\/projects\/(?!new$)[a-z0-9-]+$/,
+    { timeout: 15_000 },
+  );
+  await expect(
+    page.getByRole("heading", { level: 1, name: projectTitle }),
+  ).toBeVisible();
+
+  await page.goto("/company-core");
+
   // 1. Create Need
   await page.getByRole("link", { name: /Criar need da empresa|Create company need/ }).click();
   await expect(page).toHaveURL(/\/company-core\/new$/);
+
+  const projectSelect = page.getByRole("combobox", {
+    name: /^(Projeto|Project)$/,
+  });
+  await expect(projectSelect.locator("option:checked")).toHaveText(projectTitle);
 
   const needTitle = `Need Company Core v0.1 ${Date.now()}`;
   await page.getByLabel(/Título da Need|Need title/).fill(needTitle);
@@ -77,7 +133,6 @@ test("COMPANY CORE V0.1 founder traverses full cycle including mocked AI failure
   await expect(page).toHaveURL(/\/company-core\/[0-9a-f-]+$/);
   const cycleUrl = page.url();
 
-
   await expect(page.getByRole("heading", { level: 1, name: needTitle })).toBeVisible();
   await expect(page.getByText("Need criada")).toBeVisible();
 
@@ -91,41 +146,32 @@ test("COMPANY CORE V0.1 founder traverses full cycle including mocked AI failure
 
   await expect(page.getByText("Acordo definido")).toBeVisible();
 
-  // 3. Authorize AI Work (will fail because Gateway is not configured in test env)
-  await page.getByRole("button", { name: /Autorizar e Executar|Authorize & Execute/ }).click();
+  // 3. The new contract is durable authorization + queue, not a synchronous
+  // Gateway call inside the web request. A clean CI seed has no sponsored
+  // pool, so provider execution must remain impossible rather than silently
+  // creating an unfunded Job.
+  await expect(
+    page.getByLabel(/Fundo de orçamento patrocinado|Sponsored budget pool/),
+  ).toBeVisible();
+  await expect(
+    page.getByLabel(/Reserva patrocinada \(USD\)|Sponsored reservation \(USD\)/),
+  ).toBeVisible();
 
-  // After failure, cycle should be in AI_FAILED state
-  await expect(page.getByText("COMPANY CORE v0.1 · IA falhou", { exact: true })).toBeVisible();
+  const authorizeButton = page.getByRole("button", {
+    name: /Autorizar e Enfileirar Trabalho de IA|Authorize & Queue AI Work/,
+  });
+  await expect(authorizeButton).toBeDisabled();
 
-  // 4. Record Result anyway
-  await page.getByLabel(/Conteúdo do resultado|Result content/).fill("Resultado de teste E2E determinístico.");
-  await page.getByRole("button", { name: /Registrar Resultado|Record Result/ }).click();
+  await expect(
+    page.getByText(/Nenhuma execução de IA ainda\.|No AI execution yet\./),
+  ).toBeVisible();
 
-  await expect(page.getByText("Resultado registrado")).toBeVisible();
-
-  // 5. Record Evaluation
-  await page.getByLabel(/Veredicto|Verdict/).selectOption("USEFUL");
-  await page.getByLabel(/Fundamento|Rationale/).fill("O teste E2E verificou o ciclo completo.");
-  await page.getByRole("button", { name: /Registrar Avaliação|Record Evaluation/ }).click();
-
-  await expect(page.getByText("Avaliação registrada")).toBeVisible();
-
-  // 6. Record Consequence
-  await page.getByLabel(/Tipo de consequência|Consequence type/).selectOption("TIME_SAVED");
-  await page.getByLabel(/Descrição|Description/).fill("O ciclo Company Core v0.1 funcionou localmente.");
-  await page.getByLabel(/Tempo do fundador|Founder time/).fill("15");
-  await page.getByRole("button", { name: /Registrar Consequência|Record Consequence/ }).click();
-
-  await expect(page.getByText("Consequência registrada")).toBeVisible();
-
-  // 7. Verify lineage is reconstructible
+  // 4. Persisted state remains reconstructible after the boundary is reached.
   await page.reload();
+  await expect(page).toHaveURL(cycleUrl);
   await expect(page.getByRole("heading", { level: 1, name: needTitle })).toBeVisible();
-  await expect(page.getByText("Consequência registrada")).toBeVisible();
-  await expect(page.getByText("USEFUL")).toBeVisible();
-  await expect(page.getByText("TIME_SAVED")).toBeVisible();
+  await expect(page.getByText("Acordo definido")).toBeVisible();
 
-  // Verify navigation from list
   await page.goto("/company-core");
   await expect(page.getByRole("link", { name: needTitle })).toBeVisible();
   await page.getByRole("link", { name: needTitle }).click();
