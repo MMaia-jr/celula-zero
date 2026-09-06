@@ -159,65 +159,108 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
-## Current immediate planning — Dragon Planning Circle 001
+## Current immediate planning — Karabirrdt 001
 
-`PLANNING P1/P2 = EXECUTED_LOCAL / HUMAN REVIEWED`
+`KARABIRRDT 001 = EXECUTED_LOCAL / HUMAN REVIEWED / HUMAN ADOPTED / D020`
 
 Human Direction:
 
-`decisions/D019-human-adopts-planning-goal-objectives.md`
+`decisions/D020-human-adopts-karabirrdt-001.md`
 
-Dream basis:
+Dream / Goal basis:
 
-`decisions/D018-human-adopts-corrected-collective-dream.md`
+- `decisions/D018-human-adopts-corrected-collective-dream.md`;
+- `decisions/D019-human-adopts-planning-goal-objectives.md`.
 
-Human-reviewed Planning result:
+Human-reviewed result:
 
-`RP-DRAGON-PLANNING-CIRCLE-001-HUMAN-REVIEWED.md`
+`RP-DRAGON-KARABIRRDT-CIRCLE-001-HUMAN-REVIEWED.md`
 
-Planning Work Packet:
+Observed Karabirrdt Circle 001:
 
-`WP-DRAGON-PLANNING-001.md`
-
-Human-adopted Planning state:
-
-- Goal: `HUMAN ADOPTED / D019`;
-- Objectives: `O1–O7 HUMAN ADOPTED / D019`;
-- Human Authority Boundary: `INVARIANT H1`;
-- O8 scope-bounded scaling: `REMOVED FROM D018 OBJECTIVES`;
-- nine capability domains: `HUMAN-ADOPTED INVESTIGATION DOMAINS / NOT CLOSED TAXONOMY`;
-- habitability: `MUST BE DEMONSTRATED IN REAL ENCOUNTERS`.
-
-Observed Planning Circle 001:
-
+- canonical execution base:
+  `5cb4675577a9c2ee2c83b6f940f6453b8fdc78f8`;
 - model: `moonshotai/kimi-k2.6`;
-- model calls: `10`;
-- observed spend: `USD 0.14139388 / USD 2.00 hard ceiling`;
-- D018 context fidelity: `PASS`;
-- candidate Goal/Objectives: `CREATED`;
-- AI→AI questions: `0 created / 0 answered`;
-- Karabirrdt: `NOT EXECUTED`;
-- tasks: `NOT BUILT`;
+- model calls: `12`;
+- observed spend: `USD 0.23509832 / USD 2.00 hard ceiling`;
+- candidate: `CREATED`;
+- AI→AI questions: `0 created / 0 answered / 0 open`;
+- raw deterministic diagnostics: `PARTIAL`;
+- raw identifier/reference defects:
+  `T006a` invalid under `T###` contract and one dependent unknown reference;
+- paid retry: `NO`;
 - Doing: `NOT EXECUTED`;
+- task execution: `NOT EXECUTED`;
 - Remote Supabase writes: `NO`.
 
-Human-adopted Objectives:
+Human-adopted corrected map:
 
-`O1 continuity / O2 proportional preservation / O3 multi-AI investigation and work / O4 provenance-evidence integrity / O5 process facilitation / O6 capability discovery by practice / O7 external utility-habitability`
+`G1 Human Gate / K1 minimum readiness / K2 simple baseline / K3 real opportunity selected / K4 map-adapt existing external-run scaffold / K5 real intervention / K6 feedback + Human Review / K7 material learning preserved`
 
-Next gate:
+Primary bounded songline:
 
-`DESIGN / REVIEW KARABIRRDT FROM D019`
+`K3 → K4 → G1 → K5 → K6 → K7`
+
+K1/K2:
+
+`SUPPORTING / CALIBRATION WHEN MATERIAL ≠ GLOBAL COMPLETION PREREQUISITES`
+
+Existing external-run capability:
+
+`WP-HA-001-FIRST-EXTERNAL-RUN.md = ADOPT / MAP BEFORE NEW ENTRY BUILD`
+
+Raw candidate consequences:
+
+`old T004 = MAP EXISTING / CONDITIONAL EXTEND / NON-BLOCKING`
+
+`old T005 = DEFER / NON-BLOCKING`
+
+`raw T006a idea = PRESERVED AS ZERO-BUILD DISCOVERY ROUTE / INVALID RAW ID NOT PRESERVED`
+
+D016 sequencing:
+
+`D016 ORIGINAL DIRECTION = PRESERVED`
+
+`D020 = REFINES CURRENT SEQUENCING`
+
+`internal N=1 + simple baseline = readiness/calibration when material ≠ absolute blocker to external opportunity discovery/selection`
+
+Current bounded phase state:
+
+`DREAM = HUMAN ADOPTED / D018`
+
+`GOAL + OBJECTIVES O1–O7 = HUMAN ADOPTED / D019`
+
+`KARABIRRDT = HUMAN ADOPTED / D020`
+
+`PLANNING = HUMAN ADOPTED / CANONICALLY RECONCILED`
+
+`DOING = NOT AUTHORIZED`
+
+`TASK EXECUTION = NOT AUTHORIZED`
+
+External habitability N=1 requires:
+
+`real need + concrete intervention + observable result + direct participant benefit indication + reconstructibility + Human Review + material learning preserved`
 
 Preserve:
 
-`Goal/Objectives Human Adopted ≠ Planning complete`
+`Human Gate ≠ task`
 
-`Planning P1/P2 executed ≠ AI→AI dialogue demonstrated in this run`
-
-`Karabirrdt not executed ≠ Doing authorized`
+`Karabirrdt ≠ Doing authorization`
 
 `internal preparation ≠ demonstrated habitability`
+
+`contact ≠ utility`
+
+`PASS N=1 ≠ adoption ≠ PMF ≠ scale`
+
+Next gate:
+
+`HUMAN REVIEW / AUTHORIZE FIRST BOUNDED DOING`
+
+No paid model call, outreach, participant enrollment, implementation, Remote
+Supabase write or Doing is authorized by this canonical reconciliation.
 
 ## Current Dream / next gate
 
