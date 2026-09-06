@@ -159,60 +159,65 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
-## Current immediate experiment — AI Dragon Circle v2
+## Current immediate planning — Dragon Planning Circle 001
 
-`AI DRAGON CIRCLE v2 = EXECUTED_LOCAL N=1 / HUMAN REVIEWED / PASS N=1 BOUNDED STOP`
+`PLANNING P1/P2 = EXECUTED_LOCAL / HUMAN REVIEWED`
 
 Human Direction:
 
+`decisions/D019-human-adopts-planning-goal-objectives.md`
+
+Dream basis:
+
 `decisions/D018-human-adopts-corrected-collective-dream.md`
 
-Human-adopted corrected Dream:
+Human-reviewed Planning result:
 
-`DREAMING = HUMAN ADOPTED / D018`
-
-Human-reviewed result:
-
-`RP-AI-DRAGON-CIRCLE-V2-HUMAN-REVIEWED.md`
+`RP-DRAGON-PLANNING-CIRCLE-001-HUMAN-REVIEWED.md`
 
 Planning Work Packet:
 
-`WP-DRAGON-PLANNING-001.md / PREPARED / NON-EXECUTED`
+`WP-DRAGON-PLANNING-001.md`
 
-Observed Dreaming v2:
+Human-adopted Planning state:
+
+- Goal: `HUMAN ADOPTED / D019`;
+- Objectives: `O1–O7 HUMAN ADOPTED / D019`;
+- Human Authority Boundary: `INVARIANT H1`;
+- O8 scope-bounded scaling: `REMOVED FROM D018 OBJECTIVES`;
+- nine capability domains: `HUMAN-ADOPTED INVESTIGATION DOMAINS / NOT CLOSED TAXONOMY`;
+- habitability: `MUST BE DEMONSTRATED IN REAL ENCOUNTERS`.
+
+Observed Planning Circle 001:
 
 - model: `moonshotai/kimi-k2.6`;
-- rounds: `4`;
-- model calls: `21`;
-- Turn Cards parsed: `16`;
-- AI→AI questions: `9 created / 8 answered / 1 open`;
-- Shared Context actual injection path: `YES`;
-- observed phase spend: `USD 0.22929508 / USD 2.00 hard ceiling`;
-- close reason: `MAX_ROUNDS_BOUNDED_STOP`;
-- Planning executed: `NO`;
+- model calls: `10`;
+- observed spend: `USD 0.14139388 / USD 2.00 hard ceiling`;
+- D018 context fidelity: `PASS`;
+- candidate Goal/Objectives: `CREATED`;
+- AI→AI questions: `0 created / 0 answered`;
+- Karabirrdt: `NOT EXECUTED`;
+- tasks: `NOT BUILT`;
+- Doing: `NOT EXECUTED`;
 - Remote Supabase writes: `NO`.
 
-Human Review corrections that MUST reach Planning:
+Human-adopted Objectives:
 
-- continuity need remains live;
-- material learning must survive the chat boundary and remain retrievable in the project;
-- “ghost desire” / “desire retirement” is not an adopted diagnosis of Marcos;
-- current scope is `CÉLULA ZERO / MARCOS + CURRENT AGENTS`;
-- universal human–AI generalization is `NOT DEMONSTRATED`.
+`O1 continuity / O2 proportional preservation / O3 multi-AI investigation and work / O4 provenance-evidence integrity / O5 process facilitation / O6 capability discovery by practice / O7 external utility-habitability`
 
 Next gate:
 
-`REVIEW / AUTHORIZE PLANNING EXECUTION FROM D018`
+`DESIGN / REVIEW KARABIRRDT FROM D019`
 
 Preserve:
 
-`Dreaming PASS N=1 ≠ general orchestrator architecture`
+`Goal/Objectives Human Adopted ≠ Planning complete`
 
-`Human-adopted Dream ≠ Planning authorization`
+`Planning P1/P2 executed ≠ AI→AI dialogue demonstrated in this run`
 
-`Planning Work Packet prepared ≠ Planning executed`
+`Karabirrdt not executed ≠ Doing authorized`
 
-`AI convergence ≠ Human Direction`
+`internal preparation ≠ demonstrated habitability`
 
 ## Current Dream / next gate
 
