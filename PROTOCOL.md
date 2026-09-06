@@ -318,3 +318,21 @@ For paid or otherwise costly AI/provider execution:
 Do not build a separate memory platform, RAG layer, graph or new database merely
 to preserve operational learning unless a concrete property is shown to be lost
 with the existing repository, Result Packages, protocol rules and tests.
+
+### Executor runtime compatibility
+
+For a human-facing executor whose operator runtime is known, make material
+runtime assumptions explicit and verify compatibility against that runtime or an
+intentionally stricter compatible target before delivery when feasible.
+
+If an incident reveals a runtime incompatibility, check the corrected artifact
+across the relevant incompatibility class before retrying, rather than repairing
+only the first observed occurrence.
+
+Preserve:
+
+`executor valid in developer environment ≠ executor compatible with operator runtime`
+
+`CORRECTION PREPARED ≠ CORRECTION VERIFIED`
+
+A lived pass on one runtime is `N=1`; it does not prove universal portability.
