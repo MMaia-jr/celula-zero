@@ -159,6 +159,43 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
+## Current immediate experiment — AI Dragon Circle v2
+
+`AI DRAGON CIRCLE v2 = HUMAN AUTHORIZED / DREAMING / NOT YET EXECUTED`
+
+Human Direction:
+
+`decisions/D017-ai-dragon-circle-v2-dreaming-authorization.md`
+
+Active Work Packet:
+
+`WP-AI-DRAGON-CIRCLE-V2.md`
+
+Learning basis:
+
+`RP-DREAM-ROUND003-REPAIR-LEARNING.md`
+
+Current bounded authority:
+
+- model family for this experiment: `moonshotai/kimi-k2.6`;
+- Dreaming hard paid-provider ceiling: `USD 2.00`;
+- Facilitator may manage process/resources inside the authorized phase;
+- Planning transition: `NOT AUTHORIZED`;
+- Remote Supabase writes: `NO`;
+- Git promotion of experiment results: `NO / REQUIRES LATER HUMAN REVIEW`.
+
+Next gate:
+
+`execute AI Dragon Circle v2 Dreaming → Human Review / Expand-Correct → no automatic Planning`
+
+Preserve:
+
+`working multi-AI circle ≠ general memory architecture`
+
+`AI convergence ≠ Human Direction`
+
+`Dreaming PASS N=1 ≠ external utility ≠ adoption ≠ scale`
+
 ## Current Dream / next gate
 
 `DREAM30D = ACTIVE / DOING / OPEN`
