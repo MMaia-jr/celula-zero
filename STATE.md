@@ -675,51 +675,80 @@ The canonical state preserves the bounded Room slice and the Dream 2 Result Pack
 
 ## Current next gate
 
-HABITABLE-V0-VS1 real provider execution:
+`NEXT PREPAREDNESS CRITERION = CLEAN HABITABLE INTERNAL N=1 → SIMPLE BASELINE N=1`
 
-`EXECUTED_LOCAL N=1 / PASS`
+Human Direction:
 
-Observed on 2026-09-05:
+`OPERATIONAL LEARNING RETENTION + HABITABLE BASELINE / CURRENT 2026-09-06`
 
-- Human authorization and durable enqueue: `PASS`;
-- initiating Human process exited before worker execution: `PASS`;
-- same durable Job survived pre-worker STOPs and was resumed: `PASS N=1`;
-- single-flight worker admission: `PASS`;
-- real Vercel AI Gateway call to `moonshotai/kimi-k2.6`: `PASS`;
-- Job: `SUCCEEDED`;
-- AI Run: `COMPLETED`;
-- Company Core: `AI_COMPLETED`;
-- sponsored reservation: `SETTLED`;
-- provider-reported cost: `USD 0.00577085`;
-- observed bounded Vercel account delta: `USD 0.00577085`;
-- AI output persisted as `SYNTHESIS`;
-- AI output did not automatically become Human Result, Evaluation, Claim,
-  Evidence, Verification, Decision or Human Direction;
-- Remote Supabase writes: `0`;
-- deployment: `NO`.
+Decision:
 
-Result Package:
+`decisions/D016-operational-learning-retention-and-baseline-gate.md`
 
-`RP-HABITABLE-V0-VS1-REAL-PROVIDER-N1.md`
+Future Readiness remains the umbrella Human Direction. This newer decision
+refines the immediate sequencing without turning readiness into evidence of
+external utility, adoption, PMF or scale.
 
-Current remaining preparedness gap:
+Current criterion:
 
-`CLEAN END-TO-END HUMAN ENTRYPOINT = NOT DEMONSTRATED`
+1. one real internal Need reaches authorization, bounded AI execution, Human
+   Result, evaluation and consequence through a normal human entrypoint without
+   manual UUID, SQL, `psql` or bespoke recovery plumbing;
+2. the same or a closely comparable problem is then executed through the
+   simplest ordinary alternative;
+3. compare consequential properties such as wall-clock time, founder plumbing,
+   output usefulness, later reconstructibility and beneficiary evaluation when
+   applicable.
 
-The lived experiment proved the durable real execution surface, but the complete
-Need → authorization → worker → durable result experience still required manual
-Human plumbing and resume commands.
+No new infrastructure is justified by this comparison unless a concrete
+property is shown to be lost in the simpler baseline.
 
-Next candidate preparedness criterion:
+Operational learning retention is now part of the current operating direction:
 
-`CLEAN HABITABLE ENTRYPOINT / REQUIRES HUMAN DIRECTION`
+`FIXED ONCE ≠ LEARNED`
+
+Material incidents that alter future execution should preserve the observed
+incident, falsified assumption, generalized rule and a deterministic
+regression/preflight when applicable, using existing repository structures
+before inventing new memory infrastructure.
+
+Current preparedness state:
+
+- Move 1 Participant Boundary:
+  `VERIFIED_LOCAL / PR #145 / MERGED / CANONICAL`;
+- Move 2 Durable AI Job Plane + Hard Budget:
+  `VERIFIED_LOCAL N=1 / PR #146 / MERGED / CANONICAL`;
+- Remote Upgrade Compatibility:
+  `VERIFIED_LOCAL / PR #148 / MERGED / CANONICAL`;
+- remote Supabase application: `NOT EXECUTED`;
+- Restart / Resume Resilience:
+  `VERIFIED_LOCAL N=1 / PR #150 / MERGED / CANONICAL`;
+- Single-flight process primitive:
+  `VERIFIED_LOCAL N=1 / PR #152 / MERGED / CANONICAL`;
+- canonical `npm run cz` Founder entry:
+  `SINGLE-FLIGHT PROTECTED / PR #153 / MERGED / CANONICAL`;
+- single-flight autonomous execution:
+  `PARTIAL / PRESERVED CAPABILITY GAP`;
+- HABITABLE-V0-VS1 durable real-provider capability:
+  `EXECUTED_LOCAL N=1 / PR #155`;
+- clean habitable internal entrypoint:
+  `NOT DEMONSTRATED / CURRENT NEXT CRITERION`;
+- simple ordinary-tool baseline:
+  `NOT EXECUTED / FOLLOWS CLEAN INTERNAL N=1`;
+- 100-user shock test: `ARCHITECTURE STRESS TEST ONLY`;
+- 100 actual users: `NOT DEMONSTRATED`;
+- load/uptime/production readiness: `NOT DEMONSTRATED`;
+- external utility: `NOT DEMONSTRATED BY THIS DIRECTION`;
+- adoption / PMF / scale: `NOT DEMONSTRATED`.
 
 Preserve:
 
-`EXECUTED_LOCAL N=1 ≠ PRODUCTION_READY ≠ EXTERNAL_UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+`Future Readiness ≠ infrastructure expansion`
 
-`AI OUTPUT ≠ HUMAN RESULT`
+`clean habitability ≠ external utility`
 
-`provider-reported cost ≠ provider invoice`
+`baseline comparison ≠ adoption ≠ PMF ≠ scale`
+
+`FIXED ONCE ≠ LEARNED`
 
 END OF STATE
