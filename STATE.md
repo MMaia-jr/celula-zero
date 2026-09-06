@@ -161,40 +161,58 @@ Preserve:
 
 ## Current immediate experiment — AI Dragon Circle v2
 
-`AI DRAGON CIRCLE v2 = HUMAN AUTHORIZED / DREAMING / NOT YET EXECUTED`
+`AI DRAGON CIRCLE v2 = EXECUTED_LOCAL N=1 / HUMAN REVIEWED / PASS N=1 BOUNDED STOP`
 
 Human Direction:
 
-`decisions/D017-ai-dragon-circle-v2-dreaming-authorization.md`
+`decisions/D018-human-adopts-corrected-collective-dream.md`
 
-Active Work Packet:
+Human-adopted corrected Dream:
 
-`WP-AI-DRAGON-CIRCLE-V2.md`
+`DREAMING = HUMAN ADOPTED / D018`
 
-Learning basis:
+Human-reviewed result:
 
-`RP-DREAM-ROUND003-REPAIR-LEARNING.md`
+`RP-AI-DRAGON-CIRCLE-V2-HUMAN-REVIEWED.md`
 
-Current bounded authority:
+Planning Work Packet:
 
-- model family for this experiment: `moonshotai/kimi-k2.6`;
-- Dreaming hard paid-provider ceiling: `USD 2.00`;
-- Facilitator may manage process/resources inside the authorized phase;
-- Planning transition: `NOT AUTHORIZED`;
-- Remote Supabase writes: `NO`;
-- Git promotion of experiment results: `NO / REQUIRES LATER HUMAN REVIEW`.
+`WP-DRAGON-PLANNING-001.md / PREPARED / NON-EXECUTED`
+
+Observed Dreaming v2:
+
+- model: `moonshotai/kimi-k2.6`;
+- rounds: `4`;
+- model calls: `21`;
+- Turn Cards parsed: `16`;
+- AI→AI questions: `9 created / 8 answered / 1 open`;
+- Shared Context actual injection path: `YES`;
+- observed phase spend: `USD 0.22929508 / USD 2.00 hard ceiling`;
+- close reason: `MAX_ROUNDS_BOUNDED_STOP`;
+- Planning executed: `NO`;
+- Remote Supabase writes: `NO`.
+
+Human Review corrections that MUST reach Planning:
+
+- continuity need remains live;
+- material learning must survive the chat boundary and remain retrievable in the project;
+- “ghost desire” / “desire retirement” is not an adopted diagnosis of Marcos;
+- current scope is `CÉLULA ZERO / MARCOS + CURRENT AGENTS`;
+- universal human–AI generalization is `NOT DEMONSTRATED`.
 
 Next gate:
 
-`execute AI Dragon Circle v2 Dreaming → Human Review / Expand-Correct → no automatic Planning`
+`REVIEW / AUTHORIZE PLANNING EXECUTION FROM D018`
 
 Preserve:
 
-`working multi-AI circle ≠ general memory architecture`
+`Dreaming PASS N=1 ≠ general orchestrator architecture`
+
+`Human-adopted Dream ≠ Planning authorization`
+
+`Planning Work Packet prepared ≠ Planning executed`
 
 `AI convergence ≠ Human Direction`
-
-`Dreaming PASS N=1 ≠ external utility ≠ adoption ≠ scale`
 
 ## Current Dream / next gate
 
