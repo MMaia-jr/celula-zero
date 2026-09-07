@@ -34,7 +34,7 @@ Global boundaries:
 | Compose Room + canonical Git state | `node scripts/cz-compose-handoff.mjs` | local files | 5-file composed bundle | manifest hashes; focused response-contract test | no npm alias |
 | Capture external response | `node scripts/cz-compose-handoff.mjs --capture ... < response.md` | local files | response + SHA preserved | SHA + heading validation | no dedicated end-to-end capture test |
 | Validate predecessor before dependent paid call | `python3 scripts/cz-paid-call-fail-closed.py ...` | none from validator itself | reject/accept predecessor contract | `--self-test` | no package alias |
-| Run an already-authorized Move2 Job | `npm run worker:move2` | DB mutation + provider/model cost | `IDLE` / `SUCCEEDED` / `FAILED` / `NEEDS_RECONCILIATION` | worker tests | reconciliation disposition unresolved |
+| Run an already-authorized Move2 Job | `npm run worker:move2` | DB mutation + provider/model cost | `IDLE` / `SUCCEEDED` / `FAILED` / `NEEDS_RECONCILIATION` | worker tests | late-output recovery after ambiguous dispatch remains outside GI1-003 |
 | Prepare first external concierge run | `WP-HA-001-FIRST-EXTERNAL-RUN.md` | real-world/privacy risk | observed run or STOP | packet Result Package criteria | not current immediate sequencing |
 
 ## 1. Canonical resume / Founder bootstrap
@@ -403,10 +403,82 @@ Verify:
 node --test scripts/move2-vs1-worker.test.mjs
 ```
 
-Current substantive gap:
-`ambiguity detected ≠ ambiguity disposition resolved`
+### 7.1 Human disposition of an already-held reconciliation Job
 
-Deterministic disposition of `NEEDS_RECONCILIATION` remains unresolved.
+GI1-003 adds a bounded Human-facing reconciliation surface for a Job that is
+already in `NEEDS_RECONCILIATION`.
+
+Canonical RPC:
+
+```text
+public.move2_dispose_reconciliation(
+  p_actor_id,
+  p_job_id,
+  p_disposition,
+  p_observed_actual_cost_usd,
+  p_basis,
+  p_command_id,
+  p_idempotency_key
+)
+```
+
+This is not a worker command and does not grant authority by knowing a Job ID.
+
+Required authority and context:
+
+- authenticated Profile controls the supplied requester Actor;
+- requester Actor must be the exact Job requester;
+- requester must hold `cycle.manage` for the exact Project;
+- Job must still be `NEEDS_RECONCILIATION`;
+- sponsored reservation must still be `HELD_FOR_RECONCILIATION`.
+
+Supported explicit dispositions:
+
+- `NO_CHARGE_OBSERVED`
+- `CHARGE_OBSERVED_NO_OUTPUT`
+- `COMPLETED_OUTPUT_COST_OBSERVED`
+
+The disposition must match the existing reconciliation cause and AI Run state.
+
+Observed terminal behavior:
+
+- no-output dispatch ambiguity → Job `FAILED`;
+- no-charge observation → reservation `RELEASED`;
+- observed charge without output → reservation `SETTLED`;
+- already-completed output + reconciled cost → Job `SUCCEEDED` and reservation
+  `SETTLED`;
+- settlement rechecks the sponsored hard budget atomically;
+- hard-budget overflow fails closed and preserves the reconciliation hold;
+- completed AI Run provider-time cost metadata is not rewritten by a later Human
+  reconciliation observation;
+- reconciliation creates no new PGMQ delivery and never implicitly redispatches
+  the ambiguous Job.
+
+Verify locally:
+
+```bash
+npx --yes supabase@2.115.0 test db   supabase/tests/database/move2_reconciliation_disposition.test.sql --local
+node --test scripts/move2-vs1-worker.test.mjs
+```
+
+Evidence:
+
+`RP-GI1-003-MOVE2-RECONCILIATION-DISPOSITION-N1.md`
+
+Evidence level:
+
+`VERIFIED_LOCAL N=1 / CANONICAL AFTER MERGE`
+
+Preserve:
+
+`ambiguity detected ≠ ambiguity resolved until explicit disposition`
+
+`provider-time Original Record ≠ later Human reconciliation observation`
+
+Known boundary:
+
+Late provider-output recovery/import after dispatch ambiguity is outside
+GI1-003. It is preserved but is not selected as current work.
 
 ## 8. First external concierge run
 
@@ -448,8 +520,11 @@ Current examples:
 
 The behavior itself remains unresolved.
 
-Current example:
-- deterministic Move2 reconciliation disposition after `NEEDS_RECONCILIATION`.
+GI1-003 repaired the previously listed deterministic Move2 disposition gap for
+the verified existing reconciliation classes.
+
+An adjacent late-output recovery/import case remains explicitly outside GI1-003
+and is not selected as current work.
 
 Do not convert documentation friction into architectural absence.
 
