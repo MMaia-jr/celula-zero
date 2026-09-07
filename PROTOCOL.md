@@ -315,9 +315,65 @@ For paid or otherwise costly AI/provider execution:
 - do not assume generic SDK controls are equivalent to provider/model-specific
   execution semantics.
 
+Paid-call fail-closed:
+
+- when a later paid call depends on the output of an earlier paid call, the
+  predecessor result must be explicitly accepted before the next call is
+  admitted;
+- acceptance requires, when applicable: raw envelope/accounting captured,
+  acceptable finish state, required non-empty content, and response-contract
+  validation;
+- a failed predecessor result must STOP dependent paid continuation before
+  fan-out, retry, Shared Context admission or downstream synthesis;
+- remaining phase budget is necessary but not sufficient justification for a
+  subsequent paid call;
+- when provider/model/configuration/response-contract behavior is new or
+  materially changed, prefer one representative probe and validate it before
+  multi-call fan-out.
+
+Preserve:
+
+`provider returned ≠ role completed`
+
+`budget remaining ≠ next paid call justified`
+
+`contract failure → STOP before next dependent paid call`
+
 Do not build a separate memory platform, RAG layer, graph or new database merely
 to preserve operational learning unless a concrete property is shown to be lost
 with the existing repository, Result Packages, protocol rules and tests.
+
+### Workspace identity and write preflight
+
+For repository-writing executors, do not infer an operational workspace solely
+from repository name, conventional filesystem location or matching remote
+origin.
+
+Before writes, verify when applicable:
+
+- explicit or deterministically resolved workspace;
+- expected repository identity/origin;
+- expected canonical base;
+- relevant local branch/worktree state;
+- local modifications that must be preserved.
+
+If multiple plausible matching workspaces exist, fail closed rather than
+choosing one arbitrarily.
+
+A historical, recovery, detached or stale clone may remain valid evidence or
+preserved work without being the current operational workspace.
+
+Preserve:
+
+`same origin ≠ same operational workspace`
+
+`repository identity ≠ repository filesystem location`
+
+`workspace discovered ≠ workspace authorized`
+
+Prefer a fresh isolated canonical workspace when existing candidates are
+ambiguous or unsuitable and no unpublished local work from those candidates is
+required.
 
 ### Executor runtime compatibility
 

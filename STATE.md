@@ -272,6 +272,26 @@ Next Human gate before K5:
 No paid model call, outreach, participant enrollment, implementation, Remote
 Supabase write or Doing is authorized by this canonical reconciliation.
 
+Paid-call safety consequence from the local Dualite K3 incident:
+
+`PAID-CALL FAIL-CLOSED REGRESSION = VERIFIED_LOCAL N=1 / MODEL_CALLS 0 / PAID SPEND USD 0`
+
+`DUALITE PAID MULTI-CALL RETRY = BLOCKED`
+
+Next possible paid step:
+
+`ONE REPRESENTATIVE TRANSPORT / CONTRACT PROBE = REQUIRES EXPLICIT HUMAN AUTHORIZATION`
+
+Preserve:
+
+`regression PASS ≠ paid probe authorized`
+
+`probe PASS ≠ multi-call execution automatically authorized`
+
+Incident record:
+
+`RP-K3-DUALITE-PAID-CALL-FAIL-CLOSED-001.md`
+
 ## Preserved open Dream30D track — not current immediate sequencing
 
 `DREAM30D = ACTIVE / DOING / OPEN / PRESERVED TRACK`
