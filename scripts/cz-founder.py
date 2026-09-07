@@ -17,6 +17,7 @@ import urllib.error
 from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 GATEWAY = "https://ai-gateway.vercel.sh/v1"
@@ -26,6 +27,7 @@ ROOT = Path.home() / ".celula-zero"
 CONFIG_FILE = ROOT / "founder-habitable.json"
 SESSION_DIR = ROOT / "founder-sessions"
 SNAPSHOT_DIR = ROOT / "room-snapshots"
+CANONICAL_REPOSITORY = "github.com/mmaia-jr/celula-zero"
 
 
 def stop(message: str) -> None:
@@ -259,20 +261,36 @@ def parse_canonical_state_controls(text: str) -> dict:
     direction = "UNKNOWN"
     next_gate = "UNKNOWN"
 
-    for line in text.splitlines():
-        if line.startswith("## Current Human Direction"):
-            if "—" in line:
-                direction = line.split("—", 1)[1].strip()
-            elif "-" in line:
-                direction = line.split("-", 1)[1].strip()
-            break
+    gate_marker = "Next Human gate before K5:"
+    gate_starts = [
+        match.start()
+        for match in re.finditer(re.escape(gate_marker), text)
+    ]
 
-    marker = "## Current next gate"
-    start = text.find(marker)
-    if start >= 0:
-        match = re.search(r"`([^`\n]+)`", text[start:])
-        if match:
-            next_gate = match.group(1).strip()
+    if len(gate_starts) == 1:
+        gate_start = gate_starts[0]
+        gate_match = re.match(
+            r"\s*`([^`\n]+)`",
+            text[gate_start + len(gate_marker):],
+        )
+        direction_marker = "Human Direction:"
+        direction_start = text.rfind(
+            direction_marker,
+            0,
+            gate_start,
+        )
+
+        if gate_match and direction_start >= 0:
+            direction_match = re.match(
+                r"\s*`([^`\n]+)`",
+                text[
+                    direction_start
+                    + len(direction_marker):
+                ],
+            )
+            if direction_match:
+                direction = direction_match.group(1).strip()
+                next_gate = gate_match.group(1).strip()
 
     return {
         "canonical_human_direction": direction,
@@ -280,12 +298,75 @@ def parse_canonical_state_controls(text: str) -> dict:
     }
 
 
-def canonical_state_controls() -> dict:
+def canonical_remote_main_sha() -> str:
+    if not canonical_repository_identity():
+        return "UNAVAILABLE:CANONICAL_REPOSITORY_IDENTITY"
+
+    output = git_sha(
+        "REMOTE_MAIN",
+        "git",
+        "ls-remote",
+        "--exit-code",
+        "origin",
+        "refs/heads/main",
+    )
+
+    if output.startswith("UNAVAILABLE"):
+        return output
+
+    match = re.fullmatch(
+        r"([0-9a-f]{40})\s+refs/heads/main",
+        output,
+    )
+    return match.group(1) if match else "UNAVAILABLE:REMOTE_MAIN"
+
+
+def canonical_repository_identity() -> bool:
+    try:
+        remote = run("git", "remote", "get-url", "origin").strip()
+    except RuntimeError:
+        return False
+
+    scp_match = re.fullmatch(
+        r"(?:[^@/:]+@)?([^/:]+):(.+)",
+        remote,
+    )
+
+    if scp_match and "://" not in remote:
+        host = scp_match.group(1)
+        path = scp_match.group(2)
+    else:
+        parsed = urlparse(remote)
+        host = parsed.hostname or ""
+        path = parsed.path
+
+    identity = (
+        host.lower().rstrip("/")
+        + "/"
+        + path.strip("/").removesuffix(".git").lower()
+    )
+    return identity == CANONICAL_REPOSITORY
+
+
+def canonical_state_controls(remote_main: str) -> dict:
+    local_tracking_main = git_sha(
+        "LOCAL_TRACKING_MAIN",
+        "git",
+        "rev-parse",
+        "origin/main",
+    )
+
+    if remote_main != local_tracking_main:
+        return {
+            "canonical_human_direction": "UNAVAILABLE",
+            "canonical_next_gate": "UNAVAILABLE",
+        }
+
     try:
         state = run(
             "git",
             "show",
-            "origin/main:STATE.md",
+            remote_main + ":STATE.md",
         )
     except RuntimeError:
         return {
@@ -587,8 +668,6 @@ def read_only_bootstrap() -> dict:
         or ("LIVE_ROOM" if room_available else "UNAVAILABLE")
     )
 
-    controls = canonical_state_controls()
-
     cycle = room.get("cycle") or {}
     canonical_state = room.get("canonical_state") or {}
 
@@ -601,12 +680,8 @@ def read_only_bootstrap() -> dict:
         or "UNKNOWN"
     )
 
-    remote_main = git_sha(
-        "REMOTE_MAIN",
-        "git",
-        "rev-parse",
-        "origin/main",
-    )
+    remote_main = canonical_remote_main_sha()
+    controls = canonical_state_controls(remote_main)
 
     local_head = git_sha(
         "LOCAL_HEAD",
@@ -726,7 +801,7 @@ def read_only_bootstrap() -> dict:
             "G5_IMPLEMENTATION_NOT_YET_AUTHORIZED"
         )
 
-    if snapshot_mode and (
+    if (
         controls["canonical_human_direction"]
         in {"UNKNOWN", "UNAVAILABLE"}
         or controls["canonical_next_gate"]
@@ -1028,11 +1103,11 @@ def print_read_only_bootstrap(bootstrap: dict) -> None:
     )
 
 
-def current_state() -> str:
+def current_state(remote_main: str) -> str:
     text = run(
         "git",
         "show",
-        "origin/main:STATE.md",
+        remote_main + ":STATE.md",
     )
 
     marker = "## Current Dream / next gate"
@@ -1048,6 +1123,14 @@ def current_state() -> str:
         text = text[:end]
 
     return text[:10000]
+
+
+def require_canonical_controls(bootstrap: dict) -> None:
+    if (
+        "CANONICAL_STATE_CONTROLS_UNRESOLVED"
+        in bootstrap["blockers"]
+    ):
+        stop("FOUNDER_CANONICAL_CONTROLS_UNRESOLVED")
 
 
 def gateway_key() -> str:
@@ -2061,8 +2144,10 @@ def main() -> None:
     bootstrap = read_only_bootstrap()
     print_read_only_bootstrap(bootstrap)
 
+    require_canonical_controls(bootstrap)
+
     base = bootstrap["remote_main_sha"]
-    state = current_state()
+    state = current_state(base)
     git_status = bootstrap["git_status"]
 
     focus_rel: str | None = None
