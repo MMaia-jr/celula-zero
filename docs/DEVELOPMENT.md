@@ -2,6 +2,8 @@
 
 This guide is the shortest supported path for running the current Célula Zero software locally.
 
+For operating existing Célula Zero capabilities after the environment is available, use [OPERATIONS.md](OPERATIONS.md). `DEVELOPMENT.md` answers “how do I set up and test the software?”; `OPERATIONS.md` answers “which existing capability do I use, under what preconditions and authority boundary, where does it stop, and how do I verify it?”
+
 Célula Zero has a bounded public alpha deployment; `STATE.md` is authoritative for its exact operational status and evidence limits. This document describes the local development environment represented in this repository.
 
 ## Prerequisites

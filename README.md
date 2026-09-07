@@ -24,7 +24,7 @@ If you are new, use this order:
 4. **[CONTRIBUTING.md](CONTRIBUTING.md)** — how to propose or contribute safely.
 5. Follow only the active decisions, Work Packets, tests and results referenced by `STATE.md` for the task you are trying to understand.
 
-If you want to run or test the current software locally, use **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)**. For security-sensitive findings, read **[SECURITY.md](SECURITY.md)** before publishing details. Participation expectations are in **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)**.
+If you want to run or test the current software locally, use **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)**. If you need to operate an existing Célula Zero capability, use **[docs/OPERATIONS.md](docs/OPERATIONS.md)** to find its entrypoint, preconditions, authority boundary, expected stop and verification path. For security-sensitive findings, read **[SECURITY.md](SECURITY.md)** before publishing details. Participation expectations are in **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)**.
 
 Do **not** infer current priority from an old issue, round, branch, pull request, historical experiment or superseded decision without checking `STATE.md`.
 
