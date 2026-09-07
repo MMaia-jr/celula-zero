@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 MODULE_PATH = Path(__file__).with_name("cz-founder.py")
 spec = importlib.util.spec_from_file_location("cz_founder", MODULE_PATH)
@@ -152,7 +152,7 @@ class RestartResumeTests(unittest.TestCase):
             ),
             patch.object(
                 cz,
-                "git_sha",
+                "canonical_remote_main_sha",
                 return_value=sha,
             ),
             patch.object(
@@ -197,16 +197,168 @@ class RestartResumeTests(unittest.TestCase):
             "UNKNOWN",
         )
 
-    def test_canonical_controls_are_separate(self):
+    def test_actual_canonical_state_controls_parse(self):
         parsed = cz.parse_canonical_state_controls(
-            "## Current Human Direction — Future Readiness\n\n"
-            "## Current next gate\n\n"
-            "`NEXT PREPAREDNESS CRITERION = RESTART RESILIENCE / ONE-COMMAND RESUME`\n"
+            MODULE_PATH.parent.parent.joinpath("STATE.md").read_text(
+                encoding="utf-8"
+            )
         )
-        self.assertEqual(parsed["canonical_human_direction"], "Future Readiness")
+        self.assertNotEqual(
+            parsed["canonical_human_direction"],
+            "UNKNOWN",
+        )
+        self.assertEqual(
+            parsed["canonical_human_direction"],
+            "decisions/D020-human-adopts-karabirrdt-001.md",
+        )
+        self.assertNotEqual(
+            parsed["canonical_next_gate"],
+            "UNKNOWN",
+        )
         self.assertEqual(
             parsed["canonical_next_gate"],
-            "NEXT PREPAREDNESS CRITERION = RESTART RESILIENCE / ONE-COMMAND RESUME",
+            "G1 / HUMAN REVIEW / AUTHORIZE FIRST BOUNDED DOING",
+        )
+
+    def test_ambiguous_current_gate_fails_closed(self):
+        state = (
+            "Human Direction:\n\n`decisions/D020.md`\n\n"
+            "Next Human gate before K5:\n\n`G1`\n"
+        )
+        parsed = cz.parse_canonical_state_controls(state + state)
+        self.assertEqual(parsed["canonical_human_direction"], "UNKNOWN")
+        self.assertEqual(parsed["canonical_next_gate"], "UNKNOWN")
+
+    def test_mismatched_tracking_ref_rejects_canonical_state(self):
+        with patch.object(
+            cz,
+            "git_sha",
+            return_value="b" * 40,
+        ):
+            parsed = cz.canonical_state_controls("a" * 40)
+
+        self.assertEqual(
+            parsed["canonical_human_direction"],
+            "UNAVAILABLE",
+        )
+        self.assertEqual(
+            parsed["canonical_next_gate"],
+            "UNAVAILABLE",
+        )
+
+    def test_canonical_repository_identity_accepts_https_and_ssh(self):
+        for remote in (
+            "https://github.com/MMaia-jr/celula-zero.git",
+            "git@github.com:MMaia-jr/celula-zero.git",
+            "ssh://git@github.com/MMaia-jr/celula-zero.git",
+        ):
+            with self.subTest(remote=remote), patch.object(
+                cz,
+                "run",
+                return_value=remote,
+            ):
+                self.assertTrue(cz.canonical_repository_identity())
+
+    def test_canonical_repository_identity_rejects_mismatch(self):
+        with patch.object(
+            cz,
+            "run",
+            return_value="git@github.com:someone-else/celula-zero.git",
+        ):
+            self.assertFalse(cz.canonical_repository_identity())
+
+    def test_repository_mismatch_rejects_remote_main(self):
+        with patch.object(
+            cz,
+            "canonical_repository_identity",
+            return_value=False,
+        ):
+            self.assertEqual(
+                cz.canonical_remote_main_sha(),
+                "UNAVAILABLE:CANONICAL_REPOSITORY_IDENTITY",
+            )
+
+    def test_unresolved_controls_block_live_room(self):
+        live_room = {
+            "room_state": "AVAILABLE",
+            "room_context_source": "LIVE_ROOM",
+            "cycle": {
+                "current_direction_record_id": "direction",
+            },
+            "human_original_records": [
+                {
+                    "id": "plan",
+                    "created_at": "2026-09-07T00:00:00Z",
+                    "content": "bounded plan",
+                    "provenance": {"room_kind": "PLAN_INPUT"},
+                }
+            ],
+        }
+
+        with (
+            patch.object(cz, "room_project_state", return_value=live_room),
+            patch.object(
+                cz,
+                "canonical_state_controls",
+                return_value={
+                    "canonical_human_direction": "UNKNOWN",
+                    "canonical_next_gate": "UNKNOWN",
+                },
+            ),
+            patch.object(
+                cz,
+                "canonical_remote_main_sha",
+                return_value="a" * 40,
+            ),
+            patch.object(cz, "git_sha", return_value="a" * 40),
+            patch.object(cz, "run", return_value="## clean"),
+            patch.object(cz, "git_relation_to_remote", return_value="SAME"),
+        ):
+            bootstrap = cz.read_only_bootstrap()
+
+        self.assertIn(
+            "CANONICAL_STATE_CONTROLS_UNRESOLVED",
+            bootstrap["blockers"],
+        )
+        self.assertTrue(bootstrap["requires_human"])
+
+    def test_unresolved_controls_stop_before_gateway_activity(self):
+        gateway_key = Mock()
+        bootstrap = {
+            "blockers": ["CANONICAL_STATE_CONTROLS_UNRESOLVED"],
+            "requires_human": True,
+        }
+
+        with (
+            patch.object(
+                cz,
+                "config",
+                return_value={
+                    "model": "unused",
+                    "call_cap_usd": "0",
+                    "session_cap_usd": "0",
+                    "max_calls_per_session": 0,
+                    "max_output_tokens": 0,
+                },
+            ),
+            patch.object(cz, "read_only_bootstrap", return_value=bootstrap),
+            patch.object(cz, "print_read_only_bootstrap"),
+            patch.object(cz, "gateway_key", gateway_key),
+        ):
+            with self.assertRaisesRegex(
+                RuntimeError,
+                "FOUNDER_CANONICAL_CONTROLS_UNRESOLVED",
+            ):
+                cz.main()
+
+        gateway_key.assert_not_called()
+
+    def test_unrelated_blockers_do_not_stop_founder_conversation(self):
+        cz.require_canonical_controls(
+            {
+                "blockers": ["G5_IMPLEMENTATION_NOT_YET_AUTHORIZED"],
+                "requires_human": True,
+            }
         )
 
 
