@@ -27,7 +27,7 @@ Global boundaries:
 | --- | --- | --- | --- | --- | --- |
 | Reconstruct canonical state without a model call | `npm run cz -- --check` | read/network bootstrap only | canonical controls or fail-closed STOP | Founder regression | does not discover every capability |
 | Enter Founder Mode | `npm run cz` | provider/model and paid calls; accepted local replacement | exit, cap, or unresolved controls | Founder regression | no additional gap established |
-| Create private Project + Need + Agreement only | `node tools/company_core_stage_headless.mjs < payload.json` | local DB writes | `AGREEMENT_DEFINED` | focused Node tests + real-run readback | fresh Human auth/token bootstrap |
+| Create private Project + Need + Agreement only | `node tools/company_core_stage_headless.mjs < payload.json` | local DB writes | `AGREEMENT_DEFINED` | focused Node tests + real-run readback | documented local auth composition; no one-command auth wrapper |
 | Use Project Room | `npm run room` | durable Room writes; configured AI turn | `/quit` or missing-context STOP | Room tests | fresh path to five required IDs |
 | Export Room context | `npm run room:export` | local files | JSON + Markdown export | emitted hashes; portability tests | CLI file-writing verification partial |
 | Build Room handoff | `npm run room:handoff` | local files | 5-file handoff package | `scripts/cz-room.test.mjs` | no new system gap established |
@@ -159,9 +159,273 @@ actor control, state, linkages and zero work-authorization evidence.
 
 Evidence level: `VERIFIED_LOCAL N=1 / CANONICAL`.
 
-Current precondition/bootstrap gap: a fresh operator's supported Human
-authentication/access-token path has not yet been demonstrated as a one-command
-operation. Do not weaken authentication to hide that gap.
+A fresh local Human can compose the existing Supabase passwordless-auth path
+with this staged headless entrypoint without a service-role/admin credential and
+without weakening the identity boundary.
+
+### 3.1 Fresh local Human auth/access-token bootstrap
+
+Scope:
+
+`local Supabase only → legitimate Human session → staged headless credential`
+
+This is a composition of existing capabilities, not a new authentication
+primitive. It does not grant Company Core authority by itself.
+
+Preconditions:
+
+- run from the repository root against the canonical local Supabase development
+  stack;
+- the local stack is already running;
+- the email has a legitimate active pilot invite; the canonical local seed uses
+  `pilot@celulazero.local`;
+- Python 3 and the pinned Supabase CLI command below are available;
+- do not run the recipe with shell tracing (`set -x`), and do not print or persist
+  `SUPABASE_ACCESS_TOKEN`.
+
+The recipe intentionally captures `supabase status -o env` and retains only the
+local API URL plus the public anon/publishable client key. It does not use the
+local secret/service-role key.
+
+<!-- GI1-004-T2-AUTH-RECIPE-BEGIN -->
+```bash
+# Local development only. Keep shell tracing disabled so the user token is not printed.
+set +x
+CZ_LOCAL_AUTH_EMAIL="${CZ_LOCAL_AUTH_EMAIL:-pilot@celulazero.local}"
+CZ_AUTH_EXPORTS="$(mktemp "${TMPDIR:-/tmp}/cz-gi1-004-auth.XXXXXX")" ||
+  { echo "STOP: could not allocate temporary auth export file" >&2; return 1 2>/dev/null || exit 1; }
+chmod 600 "$CZ_AUTH_EXPORTS"
+
+if ! CZ_LOCAL_AUTH_EMAIL="$CZ_LOCAL_AUTH_EMAIL" python3 >"$CZ_AUTH_EXPORTS" <<'PY'
+import html
+import json
+import os
+import re
+import shlex
+import subprocess
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+email = os.environ["CZ_LOCAL_AUTH_EMAIL"]
+
+status = subprocess.run(
+    ["npx", "--yes", "supabase@2.115.0", "status", "-o", "env"],
+    check=True,
+    text=True,
+    capture_output=True,
+)
+
+values = {}
+for raw in status.stdout.splitlines():
+    if "=" not in raw:
+        continue
+    key, value = raw.split("=", 1)
+    values[key.strip()] = value.strip().strip('"')
+
+api = values.get("API_URL")
+anon = values.get("ANON_KEY") or values.get("PUBLISHABLE_KEY")
+if not api or not anon:
+    raise SystemExit("STOP: local API_URL or public client key not discoverable")
+
+api_url = urllib.parse.urlparse(api)
+if api_url.scheme not in ("http", "https") or api_url.hostname not in (
+    "127.0.0.1",
+    "localhost",
+    "::1",
+):
+    raise SystemExit("STOP: refusing non-local Supabase URL")
+
+config = Path("supabase/config.toml").read_text(encoding="utf-8")
+mail_port = None
+for section in ("local_smtp", "inbucket"):
+    match = re.search(
+        rf"^\[{re.escape(section)}\]\s*$([\s\S]*?)(?=^\[|\Z)",
+        config,
+        re.M,
+    )
+    if not match:
+        continue
+    port = re.search(r"^port\s*=\s*(\d+)\s*$", match.group(1), re.M)
+    if port:
+        mail_port = int(port.group(1))
+        break
+if mail_port is None:
+    raise SystemExit("STOP: local Mailpit/SMTP port not discoverable")
+
+mail = f"http://127.0.0.1:{mail_port}"
+
+def request_json(url, *, method="GET", payload=None, headers=None, timeout=10):
+    body = None if payload is None else json.dumps(payload).encode()
+    merged = {"Accept": "application/json", **(headers or {})}
+    if payload is not None:
+        merged["Content-Type"] = "application/json"
+    req = urllib.request.Request(url, data=body, method=method, headers=merged)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            raw = response.read()
+            return response.status, json.loads(raw or b"{}")
+    except urllib.error.HTTPError as exc:
+        raw = exc.read()
+        try:
+            detail = json.loads(raw or b"{}")
+        except Exception:
+            detail = {"raw": raw.decode(errors="replace")}
+        raise SystemExit(
+            f"STOP: HTTP {exc.code} at {urllib.parse.urlparse(url).path}: {detail}"
+        )
+
+code, _ = request_json(
+    f"{api.rstrip('/')}/auth/v1/otp",
+    method="POST",
+    payload={"email": email, "create_user": True},
+    headers={"apikey": anon},
+)
+if code not in (200, 201, 204):
+    raise SystemExit(f"STOP: unexpected passwordless-auth status {code}")
+
+magic = ""
+deadline = time.time() + 20
+while time.time() < deadline:
+    try:
+        _, message = request_json(f"{mail}/api/v1/message/latest", timeout=3)
+    except Exception:
+        time.sleep(0.5)
+        continue
+
+    recipients = message.get("To") or []
+    addressed = any(
+        isinstance(item, dict)
+        and str(item.get("Address", "")).lower() == email.lower()
+        for item in recipients
+    )
+    if not addressed:
+        time.sleep(0.5)
+        continue
+
+    content = f"{message.get('HTML') or ''}\n{message.get('Text') or ''}"
+    found = re.search(r'href=["\']([^"\']*/auth/v1/verify[^"\']*)["\']', content, re.I)
+    if found:
+        magic = html.unescape(found.group(1))
+    else:
+        found = re.search(
+            r'https?://[^\s<>"\']*/auth/v1/verify[^\s<>"\']*',
+            content,
+            re.I,
+        )
+        if found:
+            magic = html.unescape(found.group(0))
+    if magic:
+        break
+    time.sleep(0.5)
+
+if not magic:
+    raise SystemExit("STOP: local passwordless email was not observed")
+
+magic_url = urllib.parse.urlparse(magic)
+if (
+    magic_url.scheme,
+    magic_url.hostname,
+    magic_url.port,
+    magic_url.path,
+) != (
+    api_url.scheme,
+    api_url.hostname,
+    api_url.port,
+    "/auth/v1/verify",
+):
+    raise SystemExit("STOP: magic link escaped expected local Auth origin")
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+opener = urllib.request.build_opener(NoRedirect)
+location = None
+try:
+    with opener.open(urllib.request.Request(magic, method="GET"), timeout=10) as response:
+        location = response.headers.get("Location")
+except urllib.error.HTTPError as exc:
+    if exc.code in (301, 302, 303, 307, 308):
+        location = exc.headers.get("Location")
+    else:
+        raise SystemExit(f"STOP: magic-link verification returned HTTP {exc.code}")
+
+if not location:
+    raise SystemExit("STOP: passwordless verification produced no session redirect")
+
+redirect = urllib.parse.urlparse(location)
+params = {}
+params.update(urllib.parse.parse_qs(redirect.query))
+params.update(urllib.parse.parse_qs(redirect.fragment))
+token = (params.get("access_token") or [None])[0]
+if not token:
+    raise SystemExit("STOP: verified local auth did not yield a usable user access token")
+
+code, user = request_json(
+    f"{api.rstrip('/')}/auth/v1/user",
+    headers={"apikey": anon, "Authorization": f"Bearer {token}"},
+)
+if code != 200 or not user.get("id"):
+    raise SystemExit("STOP: user access token could not be verified")
+if str(user.get("email", "")).lower() != email.lower():
+    raise SystemExit("STOP: authenticated user email mismatch")
+
+print("export SUPABASE_URL=" + shlex.quote(api.rstrip("/")))
+print("export SUPABASE_ANON_KEY=" + shlex.quote(anon))
+print("export SUPABASE_ACCESS_TOKEN=" + shlex.quote(token))
+print("export CZ_AUTHENTICATED_USER_ID=" + shlex.quote(str(user["id"])))
+PY
+then
+  rm -f "$CZ_AUTH_EXPORTS"
+  unset CZ_AUTH_EXPORTS
+  echo "STOP: local Human passwordless authentication failed" >&2
+  return 1 2>/dev/null || exit 1
+fi
+
+# shellcheck source=/dev/null
+if ! . "$CZ_AUTH_EXPORTS"; then
+  rm -f "$CZ_AUTH_EXPORTS"
+  unset CZ_AUTH_EXPORTS
+  echo "STOP: generated auth environment could not be loaded" >&2
+  return 1 2>/dev/null || exit 1
+fi
+rm -f "$CZ_AUTH_EXPORTS"
+unset CZ_AUTH_EXPORTS
+
+test -n "${SUPABASE_URL:-}" &&
+test -n "${SUPABASE_ANON_KEY:-}" &&
+test -n "${SUPABASE_ACCESS_TOKEN:-}" &&
+test -n "${CZ_AUTHENTICATED_USER_ID:-}" ||
+  { echo "STOP: local Human authentication bootstrap incomplete" >&2; return 1 2>/dev/null || exit 1; }
+
+printf 'LOCAL_HUMAN_AUTH=PASS\n'
+printf 'AUTHENTICATED_USER_ID=%s\n' "$CZ_AUTHENTICATED_USER_ID"
+printf 'ACCESS_TOKEN_PRINTED=NO\n'
+```
+<!-- GI1-004-T2-AUTH-RECIPE-END -->
+
+After `LOCAL_HUMAN_AUTH=PASS`, invoke the existing staged entrypoint with an
+authorized payload:
+
+```bash
+node tools/company_core_stage_headless.mjs < /path/to/payload.json
+unset SUPABASE_ACCESS_TOKEN CZ_AUTHENTICATED_USER_ID
+```
+
+Expected bounded result remains:
+
+`PRIVATE Project → Need → Agreement → AGREEMENT_DEFINED → STOP`
+
+The auth recipe does not call `company_core_authorize_work`, any AI provider, or
+Remote Supabase. A local passwordless session is not authority beyond the
+existing Profile / Actor / Project contracts.
+
+Current ergonomic limit: this is a documented multi-step local composition, not
+a dedicated one-command authentication wrapper. That ergonomic absence is not
+evidence that a new authentication primitive is required.
 
 ## 4. Project Room
 
@@ -512,9 +776,12 @@ Current examples:
 Capability exists and is documented, but a legitimate fresh-operator path to a
 required precondition is not yet demonstrated.
 
-Current examples:
-- Company Core Human auth/access-token bootstrap;
+Current example:
 - Project Room acquisition of all five required IDs.
+
+Company Core local Human auth/access-token composition is documented in §3.1.
+The absence of a dedicated one-command auth wrapper is an ergonomic limit, not a
+demonstrated missing authentication primitive.
 
 ### Substantive property gap
 
