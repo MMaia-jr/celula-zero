@@ -199,44 +199,66 @@ Preserve:
 
 `preparation ≠ adoption ≠ PMF ≠ scale`
 
+Observed internal-operability result:
+
+`GI1-002 / COMPANY CORE STAGED HEADLESS = VERIFIED_LOCAL N=1`
+
+Result Package:
+
+`RP-GI1-002-COMPANY-CORE-STAGED-HEADLESS-N1.md`
+
+Observed:
+
+- bounded staged surface:
+  `tools/company_core_stage_headless.mjs`;
+- focused deterministic tests:
+  `7/7 PASS`;
+- real local first-login authentication:
+  `PASS`;
+- real staged execution count:
+  `1`;
+- created Project visibility:
+  `PRIVATE`;
+- durable Company Core state:
+  `AGREEMENT_DEFINED`;
+- independent DB readback:
+  `PASS`;
+- authenticated Profile controls the exact `PERSON` steward Actor:
+  `PASS`;
+- `ai_run_id / result_content / evaluation_verdict / consequence_type`:
+  `NULL`;
+- `COMPANY_CORE_WORK_AUTHORIZED` events for the N=1 cycle:
+  `0`;
+- implemented-system model calls:
+  `0`;
+- implemented-system paid calls:
+  `0`;
+- Remote Supabase writes:
+  `0`;
+- frontend execution:
+  `0`.
+
+Preserve:
+
+`VERIFIED_LOCAL N=1 ≠ PRODUCTION_READY ≠ EXTERNAL_UTILITY ≠ ADOPTION ≠ SCALE`
+
+`staged Agreement PASS ≠ work authorization`
+
+`N=1 PASS ≠ universal operability`
+
+Do not repeat GI1-002 without a new material uncertainty.
+
 Current next material property to falsify:
 
-`COMPANY CORE STAGED HEADLESS OPERATION`
-
-Target bounded path:
-
-`authenticated Human → controlled PERSON Actor → PRIVATE Project → Company Core Need → Agreement → AGREEMENT_DEFINED → STOP`
-
-Required boundaries:
-
-`FRONTEND = NO`
-
-`AI WORK = NO`
-
-`IMPLEMENTED-SYSTEM MODEL CALLS = 0`
-
-`PAID CALLS = 0`
-
-`REMOTE SUPABASE = NO`
-
-`OUTREACH = NO`
-
-`EXTERNAL DOING = NO`
+`MOVE2 AMBIGUOUS-JOB RECONCILIATION DISPOSITION`
 
 Current allowed planning move:
 
-`MAP EXISTING COMPANY CORE HEADLESS CAPABILITY → FALSIFY MISSING PROPERTY → STOP FOR HUMAN REVIEW IF EXTEND REMAINS NECESSARY`
-
-Do not create a new primitive merely because the composed headless path is
-awkward.
+`MAP EXISTING MOVE2 RECONCILIATION / DISPOSITION CAPABILITY → FALSIFY PROPERTY LOSS → STOP FOR HUMAN REVIEW IF EXTEND REMAINS NECESSARY`
 
 Use:
 
 `ADOPT → MAP → EXTEND only on demonstrated property loss`
-
-Move2 ambiguous-job disposition remains:
-
-`PRESERVED LATER MATERIAL GAP / NOT CURRENT EXECUTION`
 
 Generic documentation cleanup remains:
 
@@ -256,7 +278,7 @@ External Doing remains:
 
 Next Human gate before K5:
 
-`GI1-002 / HUMAN REVIEW / AUTHORIZE SMALLEST COMPANY CORE HEADLESS REPAIR IF PROPERTY LOSS REMAINS`
+`GI1-003 / HUMAN REVIEW / AUTHORIZE SMALLEST MOVE2 RECONCILIATION REPAIR IF PROPERTY LOSS REMAINS`
 
 No implementation, paid call, Remote Supabase write, external enrollment,
 outreach or Doing is authorized by D021 alone.
