@@ -209,7 +209,7 @@ class RestartResumeTests(unittest.TestCase):
         )
         self.assertEqual(
             parsed["canonical_human_direction"],
-            "decisions/D020-human-adopts-karabirrdt-001.md",
+            "decisions/D021-internal-operability-before-external-doing.md",
         )
         self.assertNotEqual(
             parsed["canonical_next_gate"],
@@ -217,7 +217,10 @@ class RestartResumeTests(unittest.TestCase):
         )
         self.assertEqual(
             parsed["canonical_next_gate"],
-            "G1 / HUMAN REVIEW / AUTHORIZE FIRST BOUNDED DOING",
+            (
+                "GI1-002 / HUMAN REVIEW / AUTHORIZE SMALLEST COMPANY CORE "
+                "HEADLESS REPAIR IF PROPERTY LOSS REMAINS"
+            ),
         )
 
     def test_ambiguous_current_gate_fails_closed(self):

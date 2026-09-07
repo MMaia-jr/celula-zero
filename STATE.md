@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-06
+Última reconciliação canônica: 2026-09-07
 
 Repositório canônico:
 
@@ -37,7 +37,7 @@ Missão preservada:
 
 `FUTURE READINESS / HUMAN DIRECTION / CURRENT UMBRELLA 2026-09-04`
 
-Immediate sequencing is governed by the newer D020 Karabirrdt Human Direction below.
+Immediate sequencing is governed by the newer D021 Internal Operability Human Direction below. D020 remains preserved as the external Karabirrdt track and resumes when the current internal operability gate permits.
 
 Célula Zero não deve esperar a chegada de usuários, comunidade, capital ou
 trabalho externo para começar a descobrir capacidades previsivelmente
@@ -161,7 +161,107 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
-## Current immediate planning — Karabirrdt 001
+## Current immediate Human Direction — Internal Operability
+
+`D021 / INTERNAL OPERABILITY BEFORE EXTERNAL DOING / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D021-internal-operability-before-external-doing.md`
+
+D021 refines immediate sequencing without erasing D020.
+
+Current reason:
+
+`internal capability exists ≠ safely discoverable / composable / resumable operation`
+
+The current priority is to repair only material internal operability properties
+already demonstrated before returning to external K3/K4 execution.
+
+Observed canonical result:
+
+`WP-GI1-001 / PR #165 = MERGED / CANONICAL`
+
+Founder canonical bootstrap now:
+
+- verifies canonical repository identity;
+- resolves actual remote `main`;
+- rejects stale local tracking state;
+- reads canonical `STATE.md` by verified SHA;
+- parses current Human Direction + next gate;
+- fails closed before provider activity when canonical controls are unresolved.
+
+Preserve:
+
+`Founder repair PASS ≠ all internal operability solved`
+
+`internal operability work ≠ external utility`
+
+`preparation ≠ adoption ≠ PMF ≠ scale`
+
+Current next material property to falsify:
+
+`COMPANY CORE STAGED HEADLESS OPERATION`
+
+Target bounded path:
+
+`authenticated Human → controlled PERSON Actor → PRIVATE Project → Company Core Need → Agreement → AGREEMENT_DEFINED → STOP`
+
+Required boundaries:
+
+`FRONTEND = NO`
+
+`AI WORK = NO`
+
+`IMPLEMENTED-SYSTEM MODEL CALLS = 0`
+
+`PAID CALLS = 0`
+
+`REMOTE SUPABASE = NO`
+
+`OUTREACH = NO`
+
+`EXTERNAL DOING = NO`
+
+Current allowed planning move:
+
+`MAP EXISTING COMPANY CORE HEADLESS CAPABILITY → FALSIFY MISSING PROPERTY → STOP FOR HUMAN REVIEW IF EXTEND REMAINS NECESSARY`
+
+Do not create a new primitive merely because the composed headless path is
+awkward.
+
+Use:
+
+`ADOPT → MAP → EXTEND only on demonstrated property loss`
+
+Move2 ambiguous-job disposition remains:
+
+`PRESERVED LATER MATERIAL GAP / NOT CURRENT EXECUTION`
+
+Generic documentation cleanup remains:
+
+`NOT CURRENT TASK`
+
+Dualite remains:
+
+`PRESERVED / STRONG K3 CANDIDATE / NOT CURRENT IMMEDIATE EXECUTION`
+
+D020 remains:
+
+`PRESERVED / EXTERNAL KARABIRRDT TRACK / REFINED BY D021 FOR CURRENT SEQUENCING`
+
+External Doing remains:
+
+`NOT AUTHORIZED`
+
+Next Human gate before K5:
+
+`GI1-002 / HUMAN REVIEW / AUTHORIZE SMALLEST COMPANY CORE HEADLESS REPAIR IF PROPERTY LOSS REMAINS`
+
+No implementation, paid call, Remote Supabase write, external enrollment,
+outreach or Doing is authorized by D021 alone.
+
+## Preserved external planning — Karabirrdt 001 / D020
 
 `KARABIRRDT 001 = EXECUTED_LOCAL / HUMAN REVIEWED / HUMAN ADOPTED / D020`
 
@@ -223,7 +323,7 @@ D016 sequencing:
 
 `D016 ORIGINAL DIRECTION = PRESERVED`
 
-`D020 = REFINES CURRENT SEQUENCING`
+`D020 = PRESERVED / REFINED BY D021 FOR CURRENT IMMEDIATE SEQUENCING`
 
 `internal N=1 + simple baseline = readiness/calibration when material ≠ absolute blocker to external opportunity discovery/selection`
 
@@ -257,7 +357,7 @@ Preserve:
 
 `PASS N=1 ≠ adoption ≠ PMF ≠ scale`
 
-Current action surface before G1:
+Preserved D020 external action surface before G1:
 
 `K3 SELECT REAL OPPORTUNITY → K4 MAP / ADAPT EXISTING EXTERNAL-RUN CAPABILITY`
 
@@ -265,7 +365,7 @@ K3/K4 are bounded Planning/Boundary continuity. They do not by themselves
 authorize outreach, participant enrollment, intervention, paid model calls,
 implementation or Remote Supabase writes.
 
-Next Human gate before K5:
+Preserved D020 external Human gate before K5:
 
 `G1 / HUMAN REVIEW / AUTHORIZE FIRST BOUNDED DOING`
 
