@@ -218,8 +218,8 @@ class RestartResumeTests(unittest.TestCase):
         self.assertEqual(
             parsed["canonical_next_gate"],
             (
-                "GI1-002 / HUMAN REVIEW / AUTHORIZE SMALLEST COMPANY CORE "
-                "HEADLESS REPAIR IF PROPERTY LOSS REMAINS"
+                "GI1-003 / HUMAN REVIEW / AUTHORIZE SMALLEST MOVE2 "
+                "RECONCILIATION REPAIR IF PROPERTY LOSS REMAINS"
             ),
         )
 
