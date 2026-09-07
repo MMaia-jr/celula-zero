@@ -308,13 +308,58 @@ Remaining gaps are explicitly separated:
 
 Do not repeat GI1-D1 without a new material uncertainty.
 
+Observed internal-operability result:
+
+`GI1-003 / MOVE2 RECONCILIATION DISPOSITION = VERIFIED_LOCAL N=1`
+
+Result Package:
+
+`RP-GI1-003-MOVE2-RECONCILIATION-DISPOSITION-N1.md`
+
+Observed:
+
+- exact implementation scope:
+  `2 repository files`;
+- migration:
+  `20260907193000_move2_reconciliation_disposition.sql`;
+- authenticated Human reconciliation RPC:
+  `public.move2_dispose_reconciliation(...)`;
+- supported explicit dispositions:
+  `NO_CHARGE_OBSERVED / CHARGE_OBSERVED_NO_OUTPUT / COMPLETED_OUTPUT_COST_OBSERVED`;
+- targeted reconciliation pgTAP:
+  `70/70 PASS`;
+- Move2 worker regression:
+  `18/18 PASS`;
+- full local database regression:
+  `31 files / 911 tests PASS`;
+- ambiguous Job redispatch:
+  `NO`;
+- provider/model-call paths executed:
+  `0`;
+- Remote Supabase writes:
+  `0`;
+- frontend execution:
+  `0`;
+- migration rewritten during pgTAP recovery:
+  `NO`.
+
+Preserve:
+
+`VERIFIED_LOCAL N=1 ≠ REMOTE_APPLIED ≠ PRODUCTION_READY ≠ EXTERNAL_UTILITY ≠ ADOPTION ≠ SCALE`
+
+`provider-time Original Record ≠ later Human reconciliation observation`
+
+`late-output recovery/import after ambiguous dispatch = OUT OF GI1-003 / NOT SELECTED`
+
+Do not repeat GI1-003 without a new material uncertainty.
+
 Current next material property to falsify:
 
-`MOVE2 AMBIGUOUS-JOB RECONCILIATION DISPOSITION`
+`NONE SELECTED / HUMAN REVIEW REQUIRED`
 
 Current allowed planning move:
 
-`MAP EXISTING MOVE2 RECONCILIATION / DISPOSITION CAPABILITY → FALSIFY PROPERTY LOSS → STOP FOR HUMAN REVIEW IF EXTEND REMAINS NECESSARY`
+`HUMAN REVIEW ONLY / SELECT NEXT MATERIAL INTERNAL OPERABILITY PROPERTY`
 
 Use:
 
@@ -338,7 +383,7 @@ External Doing remains:
 
 Next Human gate before K5:
 
-`GI1-003 / HUMAN REVIEW / AUTHORIZE SMALLEST MOVE2 RECONCILIATION REPAIR IF PROPERTY LOSS REMAINS`
+`GI1-004 / HUMAN REVIEW / SELECT NEXT MATERIAL INTERNAL OPERABILITY PROPERTY`
 
 No implementation, paid call, Remote Supabase write, external enrollment,
 outreach or Doing is authorized by D021 alone.
