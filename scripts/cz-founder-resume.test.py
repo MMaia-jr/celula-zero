@@ -218,7 +218,7 @@ class RestartResumeTests(unittest.TestCase):
         self.assertEqual(
             parsed["canonical_next_gate"],
             (
-                "GI1-004 / HUMAN REVIEW / SELECT NEXT MATERIAL INTERNAL "
+                "GI1-005 / HUMAN REVIEW / SELECT NEXT MATERIAL INTERNAL "
                 "OPERABILITY PROPERTY"
             ),
         )

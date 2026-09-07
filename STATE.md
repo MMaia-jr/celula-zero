@@ -297,13 +297,14 @@ Preserve:
 
 `PASS N=1 ≠ universal operability ≠ production readiness ≠ external utility ≠ adoption ≠ scale`
 
-Remaining gaps are explicitly separated:
+Gaps observed at GI1-D1 time are preserved as history; later GI1 results
+below resolve some of them:
 
 - discoverability/ergonomics:
   composed handoff alias; paid predecessor validator alias;
-- fresh-operator precondition/bootstrap:
+- fresh-operator precondition/bootstrap at GI1-D1 time:
   Company Core Human auth/access-token path; Project Room five-ID acquisition;
-- substantive property:
+- substantive property at GI1-D1 time:
   Move2 deterministic `NEEDS_RECONCILIATION` disposition.
 
 Do not repeat GI1-D1 without a new material uncertainty.
@@ -353,6 +354,74 @@ Preserve:
 
 Do not repeat GI1-003 without a new material uncertainty.
 
+Observed internal-operability result:
+
+`GI1-004 / COMPANY CORE FRESH-OPERATOR BOOTSTRAP = VERIFIED_LOCAL N=1`
+
+Result Package:
+
+`RP-GI1-004-COMPANY-CORE-FRESH-OPERATOR-BOOTSTRAP-N1.md`
+
+Observed:
+
+- read-only MAP narrowed the suspected gap from missing authentication capability
+  to the composition between existing passwordless Human auth/session and the
+  existing staged headless Company Core surface;
+- GI1-004-T1:
+  `PASS / EXECUTED_LOCAL N=1`;
+- T1 legitimate user session/access-token acquisition:
+  `PASS`;
+- T1 existing staged headless composition:
+  `PASS`;
+- T1 final state:
+  `PRIVATE Project / AGREEMENT_DEFINED / STOP`;
+- T2 first run:
+  `INCONCLUSIVE / DOCUMENT RECIPE PORTABILITY DEFECT`;
+- T2 recovery V1:
+  `INCONCLUSIVE / EXECUTOR REPLACEMENT BUG`;
+- T2 recovery V2:
+  `PASS / EXECUTED_LOCAL N=1`;
+- exact documented recipe extracted from `docs/OPERATIONS.md`:
+  `PASS`;
+- local macOS Bash syntax:
+  `PASS`;
+- documented auth recipe execution:
+  `PASS`;
+- legitimate user session:
+  `PASS`;
+- existing staged headless tool:
+  `UNCHANGED`;
+- work authorization executed:
+  `NO`;
+- runtime capability added:
+  `NO`;
+- repository auth/helper script added:
+  `NO`;
+- provider/model calls:
+  `0`;
+- Remote Supabase writes:
+  `0`.
+
+Classification:
+
+`AUTH PRIMITIVES / PROFILE-PERSON BOOTSTRAP / PILOT AUTH / STAGED HEADLESS / AUTH→HEADLESS COMPOSITION = ADOPT`
+
+`NEW AUTH PRIMITIVE = NOT REQUIRED BY OBSERVED N=1`
+
+`DEDICATED ONE-COMMAND AUTH WRAPPER = ERGONOMIC LIMIT ONLY / NOT SELECTED`
+
+Known unresolved candidate:
+
+`Project Room fresh path to five required IDs = PRESERVED / NOT SELECTED`
+
+Preserve:
+
+`VERIFIED_LOCAL N=1 ≠ PRODUCTION_READY ≠ EXTERNAL_UTILITY ≠ ADOPTION ≠ SCALE`
+
+`documented local auth composition ≠ production auth deployment`
+
+Do not repeat GI1-004 without a new material uncertainty.
+
 Current next material property to falsify:
 
 `NONE SELECTED / HUMAN REVIEW REQUIRED`
@@ -383,7 +452,7 @@ External Doing remains:
 
 Next Human gate before K5:
 
-`GI1-004 / HUMAN REVIEW / SELECT NEXT MATERIAL INTERNAL OPERABILITY PROPERTY`
+`GI1-005 / HUMAN REVIEW / SELECT NEXT MATERIAL INTERNAL OPERABILITY PROPERTY`
 
 No implementation, paid call, Remote Supabase write, external enrollment,
 outreach or Doing is authorized by D021 alone.
