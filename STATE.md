@@ -248,6 +248,66 @@ Preserve:
 
 Do not repeat GI1-002 without a new material uncertainty.
 
+Observed internal-operability result:
+
+`GI1-D1 / OPERATIONAL DISCOVERABILITY = VERIFIED_FRESH_OPERATOR N=1`
+
+Result Package:
+
+`RP-GI1-D1-OPERATIONAL-DISCOVERABILITY-N1.md`
+
+Observed:
+
+- canonical front door:
+  `README.md → docs/OPERATIONS.md = PASS N=1`;
+- refined operational index:
+  `472 lines / SHA256 4409279710c91c12a2811c8cf42ee08da503a4c977b35e04c2a0146d4a94ad03`;
+- Fresh Operator V1:
+  `INCONCLUSIVE / TEST HARNESS ERROR`;
+- Fresh Operator V2:
+  `PARTIAL / 9 of 9 questions answered / authority errors 0 / STOP errors 0`;
+- Fresh Operator V3:
+  `PASS`;
+- V3 operator intents:
+  `11/11 discovered correctly`;
+- undocumented repository search:
+  `0`;
+- arbitrary implementation exploration:
+  `0`;
+- false or unsupported operational claims:
+  `0`;
+- authority-boundary errors:
+  `0`;
+- STOP-boundary errors:
+  `0`;
+- test-coverage overclaims:
+  `0`;
+- gap-classification errors:
+  `0`;
+- operational commands executed during V3:
+  `0`;
+- implemented-system model calls during V3:
+  `0`;
+- implemented-system paid calls during V3:
+  `0`.
+
+Preserve:
+
+`discoverability PASS N=1 ≠ every capability executable by a fresh operator`
+
+`PASS N=1 ≠ universal operability ≠ production readiness ≠ external utility ≠ adoption ≠ scale`
+
+Remaining gaps are explicitly separated:
+
+- discoverability/ergonomics:
+  composed handoff alias; paid predecessor validator alias;
+- fresh-operator precondition/bootstrap:
+  Company Core Human auth/access-token path; Project Room five-ID acquisition;
+- substantive property:
+  Move2 deterministic `NEEDS_RECONCILIATION` disposition.
+
+Do not repeat GI1-D1 without a new material uncertainty.
+
 Current next material property to falsify:
 
 `MOVE2 AMBIGUOUS-JOB RECONCILIATION DISPOSITION`
