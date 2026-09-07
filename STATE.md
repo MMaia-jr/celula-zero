@@ -272,23 +272,52 @@ Next Human gate before K5:
 No paid model call, outreach, participant enrollment, implementation, Remote
 Supabase write or Doing is authorized by this canonical reconciliation.
 
-Paid-call safety consequence from the local Dualite K3 incident:
+Paid-call safety / Dualite K3 consequence:
 
-`PAID-CALL FAIL-CLOSED REGRESSION = VERIFIED_LOCAL N=1 / MODEL_CALLS 0 / PAID SPEND USD 0`
+`PAID-CALL FAIL-CLOSED REGRESSION = VERIFIED_LOCAL N=1 / CANONICAL VIA PR #163`
 
-`DUALITE PAID MULTI-CALL RETRY = BLOCKED`
+Post-PR #163 bounded probes:
 
-Next possible paid step:
-
-`ONE REPRESENTATIVE TRANSPORT / CONTRACT PROBE = REQUIRES EXPLICIT HUMAN AUTHORIZATION`
+- Probe 003:
+  `moonshotai/kimi-k2.6 / reasoning=minimal / 1 call / FAIL`;
+  `6000 completion / 5999 reasoning / finish=length / visible content empty`;
+  provider-reported cost:
+  `USD 0.02652035`;
+  fail-closed:
+  `PASS / NO RETRY / NO FAN-OUT`;
+- zero-cost routing diagnosis:
+  `finalProvider=moonshotai`;
+- Probe 004 controlled follow-up:
+  `moonshotai/kimi-k2.6 / provider pinned moonshotai / reasoning=none / 1 call`;
+  `2139 completion / 1 reasoning / finish=stop / visible content present`;
+  response contract:
+  `PASS`;
+  provider-reported cost:
+  `USD 0.00945843`;
+  classification:
+  `TRANSPORT / CONTRACT PASS N=1`;
+- Probe 004 Product/Business Turn Card:
+  `SUBSTANTIVE REVIEW = PARTIAL / HIGH-VALUE / ADMIT WITH REVIEW ANNOTATIONS`.
 
 Preserve:
 
-`regression PASS ≠ paid probe authorized`
+`Moonshot + reasoning=none PASS N=1 ≠ universal Kimi configuration`
 
-`probe PASS ≠ multi-call execution automatically authorized`
+`contract PASS ≠ substantive contribution PASS`
 
-Incident record:
+`probe PASS ≠ multi-call authorization`
+
+`AI MORE ≠ Human Direction`
+
+Current Dualite status:
+
+`STRONG K3 CANDIDATE / CURRENT NEED + PARTICIPANT ACCEPTANCE NOT YET CONFIRMED`
+
+`DUALITE MULTI-CALL = NOT AUTHORIZED`
+
+`NO FURTHER PAID CALL = AUTHORIZED`
+
+Incident / continuation record:
 
 `RP-K3-DUALITE-PAID-CALL-FAIL-CLOSED-001.md`
 
