@@ -1,0 +1,15 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+select no_plan();
+select has_table('public','wallet_bindings','WalletBinding exists separately from Actor');
+select has_table('public','treasury_references','TreasuryReference exists separately from custody');
+select has_column('public','wallet_bindings','actor_id','binding references Actor');
+select hasnt_column('public','wallet_bindings','private_key','no private key column');
+select hasnt_column('public','wallet_bindings','mnemonic','no mnemonic column');
+select hasnt_column('public','treasury_references','signing_authority','no signing authority is modeled');
+select throws_ok($$select private.k002_reject_secret_fields('{"private_key":"forbidden"}'::jsonb)$$,'CZ422:SECRET_OR_PROOF_MATERIAL_FORBIDDEN','secret material fails closed');
+select lives_ok($$select private.k002_reject_secret_fields('{"address":"0xabc"}'::jsonb)$$,'public address reference is allowed');
+select has_function('public','k002_bind_wallet',array['uuid','uuid','text','text','text','text','timestamp with time zone','uuid','text'],'auditable wallet binding command exists');
+select has_function('public','k002_create_treasury_reference',array['uuid','uuid','text','text','text','text','text','uuid','text'],'auditable treasury reference command exists');
+select * from finish();
+rollback;

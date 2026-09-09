@@ -15,6 +15,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <nav aria-label={en ? "Main navigation" : "Navegação principal"}>
           <Link href="/people">{en ? "People" : "Pessoas"}</Link>
           <Link href="/projects">{en ? "Projects" : "Projetos"}</Link>
+          <Link href="/cells">Cells</Link>
           <Link href="/needs">Needs</Link>
           <Link href="/company-core">{en ? "Company" : "Empresa"}</Link>
           <Link href="/activity">{en ? "Activity" : "Atividade"}</Link>
