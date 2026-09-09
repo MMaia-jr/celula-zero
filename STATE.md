@@ -251,17 +251,54 @@ Observed within the declared local/CI envelope:
 - chain transactions: `0`;
 - real funds: `0`.
 
-K002 task impact snapshot after Wave1:
+Current canonical construction result — K002-WAVE2:
+
+`K002-WAVE2 / PR #174 = EXECUTED LOCAL / DETERMINISTIC VALIDATION PASS / INDEPENDENTLY REVIEWED PASS / HUMAN ACCEPTED / MERGED / CANONICAL`
+
+Canonical implementation:
+
+`e4b2ef881c06742d36bb67cc911d99cd695c0692`
+
+Canonical merge:
+
+`9b3316058db2101529f89981b5552cdf946347ce`
+
+Observed:
+
+- thin append-only metabolism composition seam over canonical records;
+- Agreement / Claim / Verification / Human Decision / economic authorization
+  boundaries fail closed and remain distinct;
+- deterministic settlement/reconciliation failure fixtures: `PASS`;
+- independent Kimi review: `FINDINGS=NONE / FINAL_VERDICT=PASS`;
+- GitHub Gate 1 CI: `2/2 PASS`;
+- Remote Supabase / deployment / external enrollment / Safe / chain / real funds:
+  `0`.
+
+Observed harness defect:
+
+`persisted reviewer PASS → parser false INCONCLUSIVE N=1`
+
+Preserve:
+
+`KIMI REVIEW PASS ≠ HARNESS PARSER PASS`
+
+`DETERMINISTIC SETTLEMENT FIXTURE ≠ REAL RAIL VALIDATION`
+
+`ECONOMIC INSTRUCTION ≠ PAYMENT`
+
+`MERGED / CANONICAL ≠ REMOTE_APPLIED ≠ DEPLOYED ≠ EXTERNAL_UTILITY`
+
+K002 task impact snapshot after Wave2:
 
 - `T10 shared participation/membership boundary = PARTIAL`;
-- `T11 evaluation/decision/economic-authority reconciliation = PARTIAL`;
+- `T11 evaluation/decision/economic-authority reconciliation = PARTIAL / CANONICAL COMPOSITION + ADVERSARIAL TESTS STRENGTHENED`;
 - `T12 privacy/export/never-secret boundary = PARTIAL`;
-- `T18 internal acceptance suite = PARTIAL`;
-- `T20 canonical metabolism composition = PARTIAL`;
+- `T18 internal acceptance suite = PARTIAL / WAVE2 ADVERSARIAL COVERAGE ADDED`;
+- `T20 canonical metabolism composition = PARTIAL / THIN CANONICAL SEAM MERGED`;
 - `T21 shared Cell habitability capability = PARTIAL`;
-- `T22 protected economic/reconciliation seam = PARTIAL`;
-- `T23 Cell export/readback = PARTIAL`;
-- `T24 adversarial internal rehearsal = PARTIAL`;
+- `T22 protected economic/reconciliation seam = PARTIAL / PROVIDER-NEUTRAL COMPOSITION STRENGTHENED`;
+- `T23 Cell export/readback = PARTIAL / EPISODE READBACK ADDED; CELL EXPORT STILL INCOMPLETE`;
+- `T24 adversarial internal rehearsal = PARTIAL / DETERMINISTIC ATTACKS ADDED; FULL REHEARSAL NOT DONE`;
 - `T25 case-specific Web3 property-loss decision = NOT_STARTED`;
 - `T26 Safe/testnet receipt execution = NOT_STARTED`.
 
@@ -301,21 +338,23 @@ Current next Human gate:
 
 `K002 / SELECT NEXT INTEGRATED WAVE AGAINST REMAINING TASK EVIDENCE`
 
-Selection must begin from the new canonical Wave1 foundations and the adopted
+Selection must begin from the canonical Wave1 + Wave2 foundations and the adopted
 Karabirrdt 002, not from a new ontology or replacement plan.
 
 Immediate coordination question:
 
 `Which remaining property most blocks the first operational Genesis Cell episode?`
 
-Strong next-wave candidates are the unfinished composition around Agreement /
-Verification / Human Decision / economic consequence, shared Cell habitability and
-rehearsal/recovery. Case discovery may proceed in parallel; it is not existential
-permission to continue building.
+Wave2 materially strengthened the Agreement → Verification → Human Decision →
+economic-consequence composition. The leading unresolved blocker candidate is now
+shared Cell habitability plus a two-Human adversarial rehearsal/recovery path;
+privacy/export boundaries remain incomplete. Human selection is still required
+before a next integrated wave. Case discovery may proceed in parallel; it is not
+existential permission to continue building.
 
 No Remote Supabase write, external enrollment/outreach, Safe creation,
 testnet/mainnet transaction, real-fund movement or subsequent Git promotion is
-authorized merely by the Wave1 merge or by D022/D023.
+authorized merely by the Wave1/Wave2 merges or by D022/D023.
 
 ## Preserved historical Human Direction — D021 / Internal Operability
 
