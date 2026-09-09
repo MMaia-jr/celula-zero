@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-08
+Última reconciliação canônica: 2026-09-09
 
 Repositório canônico:
 
@@ -191,7 +191,7 @@ Current construction discipline:
 
 `ADOPT / MAP → COMPOSE → EXTEND → BUILD FROM ZERO only when necessary`
 
-Current read-only K1 result:
+Preserved K1 read-only result before K002-WAVE1:
 
 `WP-K002-01 / GENESIS CELL CANONICAL COMPOSITION AND HABITABILITY MAP = PARTIAL OVERALL`
 
@@ -219,6 +219,70 @@ compose a bounded, consentful, habitable external participation journey using
 existing auth/PERSON + Project/Opportunity + authority/privacy primitives before
 inventing broader membership infrastructure.
 
+Current canonical construction result — K002-WAVE1:
+
+`K002-WAVE1 / PR #172 = EXECUTED / VERIFIED LOCAL / INDEPENDENTLY REVIEWED PASS / HUMAN ACCEPTED / MERGED / CANONICAL`
+
+Canonical merge:
+
+`405d4a94d2c6a91bbad9bfc9f2c0dc508a2f1fb8`
+
+Observed within the declared local/CI envelope:
+
+- exactly `27` changed files / `1011` additions;
+- participation lifecycle foundation: invite / accept / consent / participation /
+  leave, without implicit membership, role, delegation or authority grant;
+- provider-neutral `WalletBinding` and `TreasuryReference` foundations;
+- protected economy foundation:
+  `EconomicInstruction → SettlementAttempt → SettlementReceipt → Reconciliation`;
+- `cz.cell.v1` Cell context/export/readback foundation;
+- bounded Cell and participation web surfaces;
+- pre-promotion local gates:
+  `git diff --check / db reset / db tests / web check = PASS`;
+- independent Kimi Code review across all 27 files:
+  initial `NEEDS_FIX` on two LOW findings → bounded repair → final `PASS`;
+- GitHub Gate 1 CI:
+  PostgreSQL/RLS/authenticated journey `PASS`;
+  lint/typecheck/unit/domain/build/public smoke `PASS`;
+- Remote Supabase writes: `0`;
+- deployment: `0`;
+- external enrollment/outreach: `0`;
+- Safe creation: `0`;
+- chain transactions: `0`;
+- real funds: `0`.
+
+K002 task impact snapshot after Wave1:
+
+- `T10 shared participation/membership boundary = PARTIAL`;
+- `T11 evaluation/decision/economic-authority reconciliation = PARTIAL`;
+- `T12 privacy/export/never-secret boundary = PARTIAL`;
+- `T18 internal acceptance suite = PARTIAL`;
+- `T20 canonical metabolism composition = PARTIAL`;
+- `T21 shared Cell habitability capability = PARTIAL`;
+- `T22 protected economic/reconciliation seam = PARTIAL`;
+- `T23 Cell export/readback = PARTIAL`;
+- `T24 adversarial internal rehearsal = PARTIAL`;
+- `T25 case-specific Web3 property-loss decision = NOT_STARTED`;
+- `T26 Safe/testnet receipt execution = NOT_STARTED`.
+
+These task classifications are operational readback in `STATE.md`; they do not
+rewrite the Human-adopted D023 Decision or claim completion of the full task
+evidence criteria.
+
+Preserve:
+
+`FOUNDATION CANONICAL ≠ FULL TASK DONE`
+
+`SCALABLE-BY-DESIGN ≠ SCALE DEMONSTRATED`
+
+`READY FOR DECLARED ENVELOPE ≠ PRODUCTION READY`
+
+`WALLET/TREASURY FOUNDATION ≠ WEB3 GO`
+
+`ECONOMIC RECORD ≠ REAL PAYMENT`
+
+`CI PASS ≠ EXTERNAL UTILITY`
+
 Preserve:
 
 `BUILD FOR TEST ≠ CLAIM BEFORE TEST`
@@ -235,10 +299,23 @@ Preserve:
 
 Current next Human gate:
 
-`K002 / SELECT + AUTHORIZE SMALLEST WRITEFUL WORK PACKET`
+`K002 / SELECT NEXT INTEGRATED WAVE AGAINST REMAINING TASK EVIDENCE`
 
-No implementation, paid model call, Remote Supabase write, external enrollment,
-real-fund transaction or further Git promotion is authorized by D022/D023 alone.
+Selection must begin from the new canonical Wave1 foundations and the adopted
+Karabirrdt 002, not from a new ontology or replacement plan.
+
+Immediate coordination question:
+
+`Which remaining property most blocks the first operational Genesis Cell episode?`
+
+Strong next-wave candidates are the unfinished composition around Agreement /
+Verification / Human Decision / economic consequence, shared Cell habitability and
+rehearsal/recovery. Case discovery may proceed in parallel; it is not existential
+permission to continue building.
+
+No Remote Supabase write, external enrollment/outreach, Safe creation,
+testnet/mainnet transaction, real-fund movement or subsequent Git promotion is
+authorized merely by the Wave1 merge or by D022/D023.
 
 ## Preserved historical Human Direction — D021 / Internal Operability
 
