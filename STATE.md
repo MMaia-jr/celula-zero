@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-07
+Última reconciliação canônica: 2026-09-08
 
 Repositório canônico:
 
@@ -161,7 +161,90 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
-## Current immediate Human Direction — Internal Operability
+## Current Human Direction — Build for Test / Genesis Cell Operating System
+
+`D022 / BUILD FOR TEST / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D022-build-for-test-integrated-construction.md`
+
+D022 supersedes D021 as the current sequencing rule without erasing D021 or its
+verified operability results.
+
+Current Plan:
+
+`D023 / HUMAN ADOPTS KARABIRRDT 002 / GENESIS CELL OPERATING SYSTEM`
+
+Human Direction:
+
+`decisions/D023-human-adopts-karabirrdt-002-cell-operating-system.md`
+
+Current target:
+
+make the Genesis Cell Célula Zero operate the adopted seven-objective,
+36-task Karabirrdt and place one bounded real external episode through:
+
+`Dream/Need → Karabirrdt → Agreement → Work → Result/Artifact → Claim/Evidence → Verification → Human Decision → Economic Consequence → Celebration`
+
+Current construction discipline:
+
+`ADOPT / MAP → COMPOSE → EXTEND → BUILD FROM ZERO only when necessary`
+
+Current read-only K1 result:
+
+`WP-K002-01 / GENESIS CELL CANONICAL COMPOSITION AND HABITABILITY MAP = PARTIAL OVERALL`
+
+Observed:
+
+- Genesis Cell stable identity: `PASS`;
+- AI participation: `PASS / INTERNAL N=1`;
+- external PUBLIC/OPEN Opportunity → Proposal entry without Cell membership:
+  `PASS / CANONICAL CAPABILITY`;
+- Genesis Human-authority lifecycle: `PARTIAL`;
+- integrated habitability: `PARTIAL`;
+- economy/treasury: `PARTIAL`;
+- privacy at full Genesis episode scope: `PARTIAL`;
+- Cell-level portability: `PARTIAL`.
+
+Primary K1 conclusion:
+
+`DO NOT CREATE A SECOND CELL ONTOLOGY`
+
+`DO NOT REQUIRE EXTERNAL PROJECT PARTICIPANTS TO BECOME GENESIS CELL MEMBERS WITHOUT A CONCRETE PROPERTY NEED`
+
+Current runtime candidate:
+
+compose a bounded, consentful, habitable external participation journey using
+existing auth/PERSON + Project/Opportunity + authority/privacy primitives before
+inventing broader membership infrastructure.
+
+Preserve:
+
+`BUILD FOR TEST ≠ CLAIM BEFORE TEST`
+
+`GENESIS CELL EXISTS ≠ GENESIS CELL FULLY HABITABLE`
+
+`CANONICAL CAPABILITY ≠ EXTERNAL USE`
+
+`EXTERNAL PROJECT PARTICIPATION ≠ GENESIS CELL MEMBERSHIP`
+
+`TESTNET TOKEN ≠ PUBLIC TOKEN`
+
+`TECHNICAL CAPABILITY ≠ ADOPTION`
+
+Current next Human gate:
+
+`K002 / SELECT + AUTHORIZE SMALLEST WRITEFUL WORK PACKET`
+
+No implementation, paid model call, Remote Supabase write, external enrollment,
+real-fund transaction or further Git promotion is authorized by D022/D023 alone.
+
+## Preserved historical Human Direction — D021 / Internal Operability
+
+Any “current” wording inside this preserved D021/GI1 block describes the
+canonical state as of 2026-09-07 and is superseded for present sequencing by
+D022/D023. Historical results and evidence remain valid as bounded results.
 
 `D021 / INTERNAL OPERABILITY BEFORE EXTERNAL DOING / HUMAN DIRECTION`
 
