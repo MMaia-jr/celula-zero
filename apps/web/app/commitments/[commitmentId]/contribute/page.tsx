@@ -117,6 +117,33 @@ export default async function ContributePage({ params }: ContributePageProps) {
           <textarea name="limitations" rows={5} minLength={2} maxLength={2000} required />
         </label>
 
+        <label>
+          <span>{en ? "Who can read this Contribution?" : "Quem pode ler esta Contribution?"}</span>
+          <select name="visibility" defaultValue="" required>
+            <option value="" disabled>
+              {en ? "Choose explicitly" : "Escolha explicitamente"}
+            </option>
+            <option value="PRIVATE">
+              {en ? "PRIVATE — only you" : "PRIVATE — somente você"}
+            </option>
+            <option value="PARTIES">
+              {en
+                ? "PARTIES — you and the exact Commitment counterparty"
+                : "PARTIES — você e a contraparte exata do Commitment"}
+            </option>
+            <option value="PROJECT">
+              {en
+                ? "PROJECT — you, the exact Commitment counterparty and the legitimate Project steward"
+                : "PROJECT — você, a contraparte exata do Commitment e o steward legítimo do Project"}
+            </option>
+          </select>
+          <small>
+            {en
+              ? "Artifacts created from this Contribution inherit this visibility. Future audience widening requires explicit disclosure/publication."
+              : "Artifacts criados a partir desta Contribution herdam esta visibilidade. Ampliação futura exige disclosure/publication explícito."}
+          </small>
+        </label>
+
         <button className="button button-primary button-large" type="submit">
           {en ? "Record Contribution" : "Registrar Contribution"}
         </button>

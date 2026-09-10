@@ -8,6 +8,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 const schema = z.object({
   commitmentId: z.string().uuid(),
   actorId: z.string().uuid(),
+  visibility: z.enum(["PRIVATE", "PARTIES", "PROJECT"]),
   description: z.string().trim().min(10).max(4000),
   limitations: z.string().trim().min(2).max(2000),
   commandId: z.string().uuid(),
@@ -18,6 +19,7 @@ export async function submitContributionAction(formData: FormData): Promise<void
   const parsed = schema.safeParse({
     commitmentId: formData.get("commitmentId"),
     actorId: formData.get("actorId"),
+    visibility: formData.get("visibility"),
     description: formData.get("description"),
     limitations: formData.get("limitations"),
     commandId: formData.get("commandId"),
@@ -64,6 +66,7 @@ export async function submitContributionAction(formData: FormData): Promise<void
     p_commitment_id: input.commitmentId,
     p_description: input.description,
     p_limitations: input.limitations,
+    p_visibility: input.visibility,
     p_supersedes_contribution_id: null,
     p_command_id: input.commandId,
     p_idempotency_key: input.idempotencyKey,
