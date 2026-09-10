@@ -207,17 +207,49 @@ Adopted first-slice boundary:
 
 `THIRD-PARTY DISCLOSURE = explicit + contextual + material-bound`
 
-Supporting local execution before canonicalization:
+Current canonical enforcement result:
 
-`CURRENT-RLS OBSERVATION = PASS / 16 TESTS / 24-ROW MATRIX`
+`K002-T12-D026-VISIBILITY / PR #182 = EXECUTED LOCAL / DETERMINISTIC GREEN / MERGED / CANONICAL / GATE 1 CI PASS`
 
-`NORMATIVE EXPECTED-POLICY RED = 4 OF 19 EXACT DIVERGENCES / EXPECTED FAIL`
+Canonical implementation:
+
+`b7feb9292d5b67f17d0d43f1b1fdd5d625a6ef52`
+
+Canonical merge:
+
+`45be0cd74363e6efe7d891e473054d4b67023412`
+
+Observed:
+
+- pre-policy current-RLS observation:
+  `16/16 PASS / 24-ROW MATRIX / PROPERTY LOSS CONFIRMED`;
+- normative expected-policy RED:
+  `4 OF 19 EXACT DIVERGENCES / EXPECTED FAIL`;
+- local implementation against D026:
+  `19/19 PASS / NORMATIVE DIVERGENCES = NONE`;
+- full local database regression:
+  `38 files / 1035 tests PASS`;
+- exact promotion scope:
+  `2 files / migration + normative regression test`;
+- PR #182 Gate 1 CI run `34480720949`:
+  `COMPLETED / SUCCESS`;
+- CI jobs:
+  `PostgreSQL, RLS and authenticated journey = PASS`;
+  `Web, domain and portability = PASS`;
+- app code / new ACL / new membership model:
+  `0`;
+- Remote Supabase / deployment / outreach / paid model calls:
+  `0`.
 
 Preserve:
 
-`POLICY ADOPTED ≠ RLS IMPLEMENTED`
+`D026 FIRST-SLICE VISIBILITY ENFORCEMENT = CANONICAL`
 
-`LOCAL VERIFIED ≠ CANONICAL IMPLEMENTATION`
+`D026 FIRST-SLICE VISIBILITY ENFORCEMENT ≠ T12 FULL PRIVACY COMPLETE`
+
+`VISIBILITY ENFORCEMENT ≠ RETENTION / DELETION / SENSITIVITY / PUBLICATION`
+
+`CI PASS ≠ EXTERNAL UTILITY`
 
 Preserved construction direction:
 
@@ -487,7 +519,12 @@ Current Human constraint:
 
 Current next internal gate:
 
-`D026 / T12 MINIMUM RLS IMPLEMENTATION AGAINST ADOPTED VISIBILITY MATRIX / REQUIRES SEPARATE HUMAN AUTHORIZATION + T13 + T15 + T16 + T17 + T24 RESIDUAL READBACK`
+`D025 / T12 RESIDUAL PRIVACY SEMANTICS + T13 + T15 + T16 + T17 + T24 RESIDUAL READBACK / PROPERTY-LOSS MAPPING`
+
+T12 first-slice visibility enforcement is canonical. Remaining T12 work must be
+driven by concrete property loss across retention/deletion, sensitivity,
+disclosure, cross-Cell sharing, publication/export and other unresolved privacy
+dimensions; no further privacy implementation is selected automatically.
 
 T19 remains pending and must not be simulated as Human evidence. Real-case
 discovery may use already-existing records without contacting anyone. Further
