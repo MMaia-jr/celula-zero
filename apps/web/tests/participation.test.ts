@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  controlledActorForParticipation,
   PARTICIPANT_CONTEXT_NOTICE,
   PARTICIPATION_NOTICE,
   tokenFromFragment,
+  uniqueControlledPersonActor,
 } from "@/lib/domain/participation";
 
 describe("participation bearer boundary", () => {
@@ -24,5 +26,18 @@ describe("participation bearer boundary", () => {
     expect(PARTICIPANT_CONTEXT_NOTICE).toContain("role");
     expect(PARTICIPANT_CONTEXT_NOTICE).toContain("delegation");
     expect(PARTICIPANT_CONTEXT_NOTICE).toContain("authority");
+  });
+
+  it("fails closed instead of choosing among multiple controlled PERSON actors", () => {
+    expect(uniqueControlledPersonActor(["person-a"])).toBe("person-a");
+    expect(uniqueControlledPersonActor(["person-a", "person-a"])).toBe("person-a");
+    expect(uniqueControlledPersonActor(["person-a", "person-b"])).toBeNull();
+    expect(uniqueControlledPersonActor([])).toBeNull();
+  });
+
+  it("resolves an existing participation to its exact controlled PERSON actor", () => {
+    expect(controlledActorForParticipation("person-b", ["person-a", "person-b"])).toBe("person-b");
+    expect(controlledActorForParticipation("person-b", ["person-a"])).toBeNull();
+    expect(controlledActorForParticipation(null, ["person-a"])).toBeNull();
   });
 });

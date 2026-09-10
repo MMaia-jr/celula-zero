@@ -9,6 +9,20 @@ export function tokenFromFragment(fragment: string): string | null {
   return value && /^[0-9a-f]{64}$/.test(value) ? value : null;
 }
 
+export function uniqueControlledPersonActor(actorIds: string[]): string | null {
+  const unique = [...new Set(actorIds.filter(Boolean))];
+  return unique.length === 1 ? (unique[0] ?? null) : null;
+}
+
+export function controlledActorForParticipation(
+  participationActorId: string | null | undefined,
+  controlledActorIds: string[],
+): string | null {
+  if (!participationActorId) return null;
+  const controlled = new Set(controlledActorIds.filter(Boolean));
+  return controlled.has(participationActorId) ? participationActorId : null;
+}
+
 export type ParticipationActionState = { ok: boolean; message: string };
 
 export interface ParticipantCellContext {
