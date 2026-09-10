@@ -241,6 +241,33 @@ Observed:
 - Remote Supabase / deployment / outreach / paid model calls:
   `0`.
 
+Content-boundary follow-up:
+
+`K002-T12-D026-ARTIFACT-TEXT-CONTENT-INHERIT / PR #184 = EXECUTED LOCAL / DETERMINISTIC GREEN / MERGED / CANONICAL / GATE 1 CI PASS`
+
+Observed:
+
+- pre-fix local adversarial observation:
+  `20/20 PASS / 12-ROW CONTENT MATRIX / 2 EXACT D026 DIVERGENCES`;
+- smallest correction:
+  `artifact_text_contents READ = parent Artifact READ`;
+- local focused regression:
+  `22/22 PASS / 12/12 CONTENT MATRIX / D026 DIVERGENCES = 0 / PARENT ARTIFACT PARITY PASS`;
+- full local database regression:
+  `39 files / 1057 tests PASS`;
+- PR #184 Gate 1 CI run `34486949902`:
+  `COMPLETED / SUCCESS`;
+- new helper / ACL / ontology / app code:
+  `0`;
+- Remote Supabase / deployment / outreach / paid model calls:
+  `0`.
+
+Preserve:
+
+`TEXT ARTIFACT CONTENT ACCESS = PARENT ARTIFACT ACCESS / CANONICAL`
+
+`CONTENT INHERITANCE ≠ T12 FULL PRIVACY COMPLETE`
+
 Preserve:
 
 `D026 FIRST-SLICE VISIBILITY ENFORCEMENT = CANONICAL`
