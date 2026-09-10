@@ -2,13 +2,33 @@
 
 Status: provisional policy v0.1.
 
-## No repository-wide open license
+## Mixed licensing / no repository-wide open license
 
-This repository is publicly accessible for transparency, research, provenance and auditability.
+This repository is publicly accessible for transparency, research, provenance
+and auditability.
 
-No repository-wide open-source, Creative Commons or other general public license has been granted at this stage.
+D032 adopts the Mozilla Public License 2.0 (`MPL-2.0`) only for Célula Zero
+software explicitly identified in `LICENSING.md`, and only to the extent the
+relevant Contributor has rights that can be licensed under the MPL.
 
-Except for permissions arising from applicable law and from the GitHub Terms of Service for content made public through the platform, public availability must not be interpreted as a general authorization to reproduce, redistribute, commercialize, sublicense, transform or incorporate protected material from this repository into other works.
+The full MPL-2.0 text is preserved at `LICENSES/MPL-2.0.txt`.
+
+There is still **no repository-wide open-source, Creative Commons or other
+general public license**. Material outside an explicit license scope remains
+under its applicable rights regime.
+
+A path designation does not erase or relicense third-party material or rights
+that the relevant Contributor does not possess. Dependencies retain their own
+licenses.
+
+Except for an explicit license grant, permissions arising from applicable law,
+and permissions arising from the GitHub Terms of Service for content made
+public through the platform, public availability must not be interpreted as a
+general authorization to reproduce, redistribute, commercialize, sublicense,
+transform or incorporate protected material from this repository into other
+works.
+
+See `LICENSING.md` for the normative repository scope map.
 
 ## Human-authored material
 
@@ -64,15 +84,23 @@ Public access to this repository does not constitute authorization to represent 
 
 Trademark and naming policies may be established separately if and when necessary.
 
-## Future licensing
+## License continuity and future licensing
 
-Different parts of the project may later receive different licenses.
+Different parts of the project may continue to receive different licenses.
 
 For example:
 
-- software may receive a software license;
-- documentation may receive a documentation license;
-- research records may remain under a provenance-specific regime;
+- explicitly scoped Célula Zero software is currently under `MPL-2.0` as
+  defined by `LICENSING.md`;
+- documentation may later receive a separate documentation license;
+- research and provenance records may remain under a separate rights regime;
 - sensitive or restricted material may remain unpublished.
 
-Any future license decision must be explicit and must not retroactively alter the provenance of prior contributions without a documented basis.
+A future licensing decision must be explicit and may apply only to material
+and versions for which the necessary rights are available.
+
+A later project licensing change does not retroactively revoke permissions
+already granted for versions distributed under `MPL-2.0`.
+
+A licensing change also does not alter the provenance, ownership or third-party
+rights history of prior contributions merely by declaration.

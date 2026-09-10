@@ -33,6 +33,26 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
+## Current repository licensing boundary
+
+`D032 / PHASE-1 MPL-2.0 SOFTWARE LICENSING / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D032-human-adopts-phase1-mpl-software-licensing.md`
+
+Repository licensing:
+
+`MIXED / EXPLICIT CZ SOFTWARE SCOPE = MPL-2.0 / SEE LICENSING.md`
+
+Preserve:
+
+`MPL SCOPE ≠ REPOSITORY SCOPE`
+
+`PUBLIC ≠ MPL-COVERED`
+
+`THIRD-PARTY MATERIAL ≠ RELICENSED`
+
 ## Preserved umbrella context — Future Readiness
 
 `FUTURE READINESS / HUMAN DIRECTION / PRESERVED UMBRELLA CONTEXT 2026-09-04`

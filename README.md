@@ -30,6 +30,15 @@ Do **not** infer current priority from an old issue, round, branch, pull request
 
 Some canonical operational material is written in Portuguese. This README provides an English front door for external readers; translations are aids and do not silently replace the canonical source text.
 
+## Licensing
+
+This repository uses **mixed licensing**. Célula Zero software explicitly
+listed in [`LICENSING.md`](LICENSING.md) is available under the Mozilla Public
+License 2.0 (`MPL-2.0`). The repository as a whole is **not** licensed under
+MPL-2.0; decisions, provenance and research records, Cell content, project
+identity, third-party material and sensitive material remain under separate
+regimes. See [`RIGHTS.md`](RIGHTS.md) and [`LICENSING.md`](LICENSING.md).
+
 ## What problem are we trying to solve?
 
 Useful intentions, knowledge, needs and capabilities are often scattered across conversations, documents, projects, people and AI systems.
