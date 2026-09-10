@@ -189,6 +189,36 @@ Human Direction:
 D025 reconciles D023 with D024 and valid work already completed or locally
 executed. It does not restart the Cell ontology or erase D023 history.
 
+Current T12 visibility decision:
+
+`D026 / FIRST-SLICE VISIBILITY SEMANTICS / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D026-human-adopts-t12-first-slice-visibility-semantics.md`
+
+Adopted first-slice boundary:
+
+`PRIVATE = originator/controller only`
+
+`PARTIES = exact parties of the governing Commitment`
+
+`PROJECT = originator + exact Commitment parties + legitimate Project steward`
+
+`THIRD-PARTY DISCLOSURE = explicit + contextual + material-bound`
+
+Supporting local execution before canonicalization:
+
+`CURRENT-RLS OBSERVATION = PASS / 16 TESTS / 24-ROW MATRIX`
+
+`NORMATIVE EXPECTED-POLICY RED = 4 OF 19 EXACT DIVERGENCES / EXPECTED FAIL`
+
+Preserve:
+
+`POLICY ADOPTED ≠ RLS IMPLEMENTED`
+
+`LOCAL VERIFIED ≠ CANONICAL IMPLEMENTATION`
+
 Preserved construction direction:
 
 `D022 / BUILD FOR TEST / HUMAN DIRECTION`
@@ -457,7 +487,7 @@ Current Human constraint:
 
 Current next internal gate:
 
-`D025 / T12 PRIVACY SEMANTICS + T13 + T15 + T16 + T17 + T24 RESIDUAL READBACK / PROPERTY-LOSS MAPPING`
+`D026 / T12 MINIMUM RLS IMPLEMENTATION AGAINST ADOPTED VISIBILITY MATRIX / REQUIRES SEPARATE HUMAN AUTHORIZATION + T13 + T15 + T16 + T17 + T24 RESIDUAL READBACK`
 
 T19 remains pending and must not be simulated as Human evidence. Real-case
 discovery may use already-existing records without contacting anyone. Further
