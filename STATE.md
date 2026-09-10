@@ -33,11 +33,14 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Current umbrella Human Direction — Future Readiness
+## Preserved umbrella context — Future Readiness
 
-`FUTURE READINESS / HUMAN DIRECTION / CURRENT UMBRELLA 2026-09-04`
+`FUTURE READINESS / HUMAN DIRECTION / PRESERVED UMBRELLA CONTEXT 2026-09-04`
 
-Immediate sequencing is governed by the newer D021 Internal Operability Human Direction below. D020 remains preserved as the external Karabirrdt track and resumes when the current internal operability gate permits.
+Future Readiness remains preserved context. Current Dream and PLAN sequencing are
+governed by D024/D025 below. D020–D023 remain preserved lineage and bounded
+history; their earlier "current" wording must not override the newer Human
+Direction.
 
 Célula Zero não deve esperar a chegada de usuários, comunidade, capital ou
 trabalho externo para começar a descobrir capacidades previsivelmente
@@ -161,35 +164,60 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
-## Current Human Direction — Build for Test / Genesis Cell Operating System
+## Current Human Direction — Collective Dream / Reconciled Genesis Cell Plan
 
-`D022 / BUILD FOR TEST / HUMAN DIRECTION`
+Current Dream:
+
+`D024 / COLLECTIVE DREAM / AUTONOMY, HABITABILITY AND SOVEREIGN CELLS`
 
 Human Direction:
 
-`decisions/D022-build-for-test-integrated-construction.md`
+`decisions/D024-human-adopts-collective-dream-autonomy-habitability.md`
 
-D022 supersedes D021 as the current sequencing rule without erasing D021 or its
-verified operability results.
+Core adopted proposition:
+
+`Célula Zero should not only preserve autonomy. It should increase autonomy.`
 
 Current Plan:
 
-`D023 / HUMAN ADOPTS KARABIRRDT 002 / GENESIS CELL OPERATING SYSTEM`
+`D025 / HUMAN ADOPTS KARABIRRDT 002-R / RECONCILED GENESIS CELL PLAN`
 
 Human Direction:
 
-`decisions/D023-human-adopts-karabirrdt-002-cell-operating-system.md`
+`decisions/D025-human-adopts-karabirrdt-002-r-reconciled-genesis-cell-plan.md`
+
+D025 reconciles D023 with D024 and valid work already completed or locally
+executed. It does not restart the Cell ontology or erase D023 history.
+
+Preserved construction direction:
+
+`D022 / BUILD FOR TEST / HUMAN DIRECTION`
+
+Preserved base plan:
+
+`D023 / HUMAN ADOPTS KARABIRRDT 002 / GENESIS CELL OPERATING SYSTEM`
 
 Current target:
 
-make the Genesis Cell Célula Zero operate the adopted seven-objective,
-36-task Karabirrdt and place one bounded real external episode through:
+make the Genesis Cell execute one real, bounded, economically explicit and
+habitable episode such that an external person can participate without Marcos
+translating the system, receive an observable benefit or an honest bounded
+failure, and allow Célula Zero to test whether the experience increases or
+decreases participant autonomy.
+
+Preserved metabolism:
 
 `Dream/Need → Karabirrdt → Agreement → Work → Result/Artifact → Claim/Evidence → Verification → Human Decision → Economic Consequence → Celebration`
 
 Current construction discipline:
 
 `ADOPT / MAP → COMPOSE → EXTEND → BUILD FROM ZERO only when necessary`
+
+Current immediate coordination:
+
+`REAL CASE DISCOVERY + WAVE3 RELEVANCE + TWO-HUMAN HABITABILITY`
+
+No next integrated technical Wave is selected automatically by D024/D025.
 
 Preserved K1 read-only result before K002-WAVE1:
 
@@ -334,33 +362,36 @@ Preserve:
 
 `TECHNICAL CAPABILITY ≠ ADOPTION`
 
+Noncanonical work preserved after Wave2:
+
+`K002-WAVE3-PHASE2 = EXECUTED LOCAL / DETERMINISTIC VALIDATION PASS / INDEPENDENT REVIEW PASS / NOT COMMITTED / NOT PUSHED / NOT MERGED / NOT CANONICAL`
+
+Two-Human rehearsal:
+
+`NOT EXECUTED`
+
+Wave3 is neither discarded nor automatically promoted. D025 requires a Human
+relevance review before promotion or discard against the property:
+
+`active participant can inhabit shared Cell context without unintended membership / administration / delegation / authority`
+
 Current next Human gate:
 
-`K002 / SELECT NEXT INTEGRATED WAVE AGAINST REMAINING TASK EVIDENCE`
+`D025 / REAL CASE DISCOVERY + WAVE3 RELEVANCE + TWO-HUMAN HABITABILITY`
 
-Selection must begin from the canonical Wave1 + Wave2 foundations and the adopted
-Karabirrdt 002, not from a new ontology or replacement plan.
+Parallel planning may advance T03–T06 real-case discovery and the bounded
+habitability/protection work defined by D025. Further technical construction
+should follow observed property loss rather than automatic Wave selection.
 
-Immediate coordination question:
-
-`Which remaining property most blocks the first operational Genesis Cell episode?`
-
-Wave2 materially strengthened the Agreement → Verification → Human Decision →
-economic-consequence composition. The leading unresolved blocker candidate is now
-shared Cell habitability plus a two-Human adversarial rehearsal/recovery path;
-privacy/export boundaries remain incomplete. Human selection is still required
-before a next integrated wave. Case discovery may proceed in parallel; it is not
-existential permission to continue building.
-
-No Remote Supabase write, external enrollment/outreach, Safe creation,
-testnet/mainnet transaction, real-fund movement or subsequent Git promotion is
-authorized merely by the Wave1/Wave2 merges or by D022/D023.
+No Wave3 promotion, Wave4, new implementation, Remote Supabase write, external
+enrollment/outreach, Safe creation, testnet/mainnet transaction or real-fund
+movement is authorized by D024/D025.
 
 ## Preserved historical Human Direction — D021 / Internal Operability
 
 Any “current” wording inside this preserved D021/GI1 block describes the
 canonical state as of 2026-09-07 and is superseded for present sequencing by
-D022/D023. Historical results and evidence remain valid as bounded results.
+D024/D025. Historical results and evidence remain valid as bounded results.
 
 `D021 / INTERNAL OPERABILITY BEFORE EXTERNAL DOING / HUMAN DIRECTION`
 
@@ -820,7 +851,7 @@ Incident / continuation record:
 
 `DREAM30D = ACTIVE / DOING / OPEN / PRESERVED TRACK`
 
-`CURRENT IMMEDIATE SEQUENCING = D020 / KARABIRRDT 001`
+`HISTORICAL IMMEDIATE SEQUENCING AT THIS TRACK SNAPSHOT = D020 / KARABIRRDT 001`
 
 `DREAM30D DOING / OPEN ≠ D020 K5 AUTHORIZATION`
 
@@ -1348,12 +1379,11 @@ Decision:
 
 `decisions/D016-operational-learning-retention-and-baseline-gate.md`
 
-Future Readiness remains the umbrella Human Direction. D016 remains preserved
-Human Direction and operational-learning discipline, but D020 is the newer
-Human Direction governing current sequencing. Under D020, clean internal N=1 and
-the simple baseline are supporting readiness/calibration when material; they are
-not absolute blockers to K3/K4 or a substitute for the adopted Karabirrdt
-songline.
+Future Readiness and D016 remain preserved Human Direction and
+operational-learning discipline. Present Dream/PLAN sequencing is governed by
+D024/D025. Earlier D020 sequencing remains preserved history and still informs
+the external N=1 truth test; clean internal N=1 and the simple baseline remain
+supporting readiness/calibration when material rather than absolute blockers.
 
 Historical D016 criterion:
 
