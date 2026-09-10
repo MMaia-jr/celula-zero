@@ -457,6 +457,85 @@ Preserve:
 
 `TWO-ACTOR TECHNICAL REHEARSAL ≠ TWO-HUMAN HABITABILITY`
 
+Pre-T19 property-loss reconciliation:
+
+`D029 / EVIDENCE AUDIENCE PRESERVATION / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D029-human-adopts-evidence-audience-preservation-relations-readback.md`
+
+`D031 / CONTEXTUAL SETTLEMENT RECORDER / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D031-human-adopts-contextual-settlement-recorder-designation.md`
+
+Canonical implementation result:
+
+`K002-D029-D031-PRE-T19 / PR #192 = PRE-FIX PROPERTY LOSSES REPRODUCED / D029 RELATION FIX GREEN / D031 SETTLEMENT-RECORDER CHAIN GREEN / FULL DB PASS / REVIEW PASS BOUNDED / MERGED / CANONICAL / GATE 1 CI PASS`
+
+Canonical merge:
+
+`5f96445609b0fbcdc0cc807d486bfc57b863ca20`
+
+Observed before implementation:
+
+- D029 canonical write path:
+  `PRIVATE Evidence direct READ = DENY / Verification READ = ALLOW / verification_evidence_items READ = ALLOW / RELATION PROPERTY LOSS CONFIRMED`;
+- D029 integrated episode getter on the tested external-participant path:
+  `DENY / 42501 / already fail-closed`;
+- T17:
+  `EconomicInstruction = PASS / SettlementAttempt = DENY / CZ403:CAPABILITY_DENIED / settlement.record authority property loss confirmed`.
+
+Smallest canonical corrections:
+
+- D029:
+  `verification_evidence_items READ = readable Verification AND readable Evidence`;
+- integrated episode getter change:
+  `NO`;
+- D031:
+  `explicit PERSON SETTLEMENT_RECORDER / exact PROJECT scope / settlement.record only`;
+- designation creates Cell membership:
+  `NO`;
+- designation grants `economic.instruct`:
+  `NO`;
+- designation grants `settlement.reconcile`:
+  `NO`;
+- designated recorder:
+  `SettlementAttempt + SettlementReceipt = PASS`;
+- Project steward:
+  `Reconciliation = PASS`;
+- recorder Reconciliation:
+  `DENY`;
+- revocation:
+  `post-revocation settlement.record = DENY`;
+- real payment / external rail call:
+  `NO`.
+
+Validation:
+
+- pre-fix combined reproduction:
+  `Files=1, Tests=17,  0 wallclock secs ( 0.07 usr  0.02 sys +  0.03 cusr  0.03 csys =  0.15 CPU) / PASS`;
+- focused post-fix replay:
+  `Files=1, Tests=49,  1 wallclock secs ( 0.09 usr  0.02 sys +  0.04 cusr  0.02 csys =  0.17 CPU) / PASS`;
+- full local database:
+  `Files=43, Tests=1181, 18 wallclock secs ( 0.62 usr  0.19 sys +  1.28 cusr  0.78 csys =  2.87 CPU) / PASS`;
+- PR Gate 1 CI run `34524973226`:
+  `COMPLETED / SUCCESS`.
+
+Preserve:
+
+`RELATION / PROJECTION ≠ NEW READ AUTHORITY`
+
+`ECONOMIC INSTRUCTION ≠ SETTLEMENT RECORDING ≠ RECONCILIATION`
+
+`DESIGNATION ≠ MEMBERSHIP ≠ PROJECT STEWARDSHIP`
+
+`PROVIDER-NEUTRAL RECORD CHAIN PASS ≠ REAL PAYMENT`
+
+`LOCAL SYNTHETIC REPLAY ≠ TWO-HUMAN HABITABILITY`
+
 Two-Human habitability:
 
 `PENDING / NOT EXECUTED / DO NOT SIMULATE AS HUMAN EVIDENCE`
