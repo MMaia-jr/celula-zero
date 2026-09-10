@@ -215,7 +215,21 @@ Current construction discipline:
 
 Current immediate coordination:
 
-`REAL CASE DISCOVERY + WAVE3 RELEVANCE + TWO-HUMAN HABITABILITY`
+`INTERNAL READBACK / PROPERTY-LOSS MAPPING`
+
+Current Human constraint:
+
+`EXTERNAL CONTACT / OUTREACH = HOLD`
+
+`REAL CASE DISCOVERY = EXISTING-RECORD READBACK ONLY / NO NEW CONTACT`
+
+Wave3 relevance:
+
+`RESOLVED / YES / PROMOTED CANONICAL`
+
+Two-Human habitability:
+
+`PENDING / NOT EXECUTED / DO NOT SIMULATE AS HUMAN EVIDENCE`
 
 No next integrated technical Wave is selected automatically by D024/D025.
 
@@ -362,30 +376,65 @@ Preserve:
 
 `TECHNICAL CAPABILITY ≠ ADOPTION`
 
-Noncanonical work preserved after Wave2:
+Current canonical construction result — K002-WAVE3-PHASE2:
 
-`K002-WAVE3-PHASE2 = EXECUTED LOCAL / DETERMINISTIC VALIDATION PASS / INDEPENDENT REVIEW PASS / NOT COMMITTED / NOT PUSHED / NOT MERGED / NOT CANONICAL`
+`K002-WAVE3-PHASE2 / PR #177 = EXECUTED LOCAL / DETERMINISTIC RERUN PASS / INDEPENDENT REVIEW PASS / HUMAN PROMOTION AUTHORIZED / MERGED / CANONICAL`
+
+Canonical implementation:
+
+`1e2e469aa7bd7154e68d865be8a1607082157e51`
+
+Canonical merge:
+
+`8b39847ea0c4452d6bfd0ecf9a4d16ec3c1d15a5`
+
+Observed:
+
+- active participant can read bounded shared Cell context;
+- participation does not silently grant membership, role, delegation, Cell
+  administration, project stewardship or economic authority;
+- participant may leave their own participation and participation-dependent
+  context then fails closed;
+- focused Wave3 database test: `24/24 PASS`;
+- full database suite: `36 files / 1002 tests PASS`;
+- web check: `18 files / 73 tests PASS`, plus lint/typecheck/contracts/build PASS;
+- Remote Supabase / deployment / external enrollment / Safe / chain / real funds:
+  `0`.
+
+Preserve:
+
+`WAVE3 MERGED / CANONICAL ≠ TWO-HUMAN HABITABILITY`
+
+`TECHNICAL PARTICIPANT CONTEXT ≠ EXTERNAL UTILITY`
+
+`READ ACCESS ≠ AUTHORITY`
+
+`PARTICIPATION ≠ MEMBERSHIP`
+
+Post-merge executor defect:
+
+`CANONICAL HASH LOOP = HARNESS FAIL AFTER SUCCESSFUL MERGE / GITHUB PR+MAIN READBACK CONFIRMED PROMOTION`
 
 Two-Human rehearsal:
 
 `NOT EXECUTED`
 
-Wave3 is neither discarded nor automatically promoted. D025 requires a Human
-relevance review before promotion or discard against the property:
+Current Human constraint:
 
-`active participant can inhabit shared Cell context without unintended membership / administration / delegation / authority`
+`NO EXTERNAL CONTACT / OUTREACH NOW`
 
-Current next Human gate:
+Current next internal gate:
 
-`D025 / REAL CASE DISCOVERY + WAVE3 RELEVANCE + TWO-HUMAN HABITABILITY`
+`D025 / T12 + T13 + T15 + T16 + T17 + T24 READBACK / PROPERTY-LOSS MAPPING`
 
-Parallel planning may advance T03–T06 real-case discovery and the bounded
-habitability/protection work defined by D025. Further technical construction
-should follow observed property loss rather than automatic Wave selection.
+T19 remains pending and must not be simulated as Human evidence. Real-case
+discovery may use already-existing records without contacting anyone. Further
+technical construction should follow observed property loss rather than
+automatic Wave selection.
 
-No Wave3 promotion, Wave4, new implementation, Remote Supabase write, external
+No Wave4, new implementation, Remote Supabase write, external
 enrollment/outreach, Safe creation, testnet/mainnet transaction or real-fund
-movement is authorized by D024/D025.
+movement is authorized by this STATE reconciliation.
 
 ## Preserved historical Human Direction — D021 / Internal Operability
 
