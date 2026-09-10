@@ -4,7 +4,7 @@ Status: provisional contribution policy for the current external-alpha stage.
 
 Célula Zero can receive bounded external proposals and contributions, but submission does **not** automatically create authority, endorsement, ownership, economic rights, a Commitment or a merge obligation.
 
-The repository currently has **no repository-wide open license**. Public readability does not by itself grant a general right to reuse or redistribute repository content. See `RIGHTS.md`.
+The repository uses **mixed licensing**. Célula Zero software inside the explicit Phase-1 scope in `LICENSING.md` is available under `MPL-2.0`; the repository as a whole is not under one open license. Public readability does not by itself grant a general right to reuse or redistribute material outside an explicit license scope. See `LICENSING.md` and `RIGHTS.md`.
 
 ## Fast path
 
@@ -45,7 +45,16 @@ The project must establish, when applicable:
 
 No transfer of intellectual-property ownership is inferred from submission alone.
 
-For software or documentation intended for incorporation, rights must be explicit enough for the intended use; the absence of a repository-wide license must not be silently papered over.
+For an intentional contribution to the software paths covered by `MPL-2.0`,
+the contributor must have sufficient authority to provide the contribution on
+terms that permit distribution under `MPL-2.0`. Submission does not transfer
+ownership by itself. Third-party code or other protected material must retain
+its applicable notices and must not be incorporated unless its terms are
+compatible with the intended use.
+
+For documentation or material outside the explicit MPL software scope, rights
+must still be explicit enough for the intended use; mixed licensing must not
+be silently collapsed into a repository-wide grant.
 
 ## What can I contribute now?
 
