@@ -301,6 +301,47 @@ Preserve:
 
 `VISIBILITY EXPRESSION + ARTIFACT INHERITANCE ≠ T12 FULL PRIVACY COMPLETE`
 
+Current T12/T24 episode-readback decision:
+
+`D028 / FAIL-CLOSED INTEGRATED EPISODE READBACK / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D028-human-adopts-t12-t24-episode-readback-fail-closed.md`
+
+Canonical implementation result:
+
+`K002-T12-T24-D028-FAIL-CLOSED / PR #188 = EXECUTED LOCAL / DETERMINISTIC GREEN / REVIEW PASS BOUNDED / MERGED / CANONICAL / GATE 1 CI PASS`
+
+Canonical merge:
+
+`65c76185ed5f9cd4f4bd8dfd3cf3b0ba2e764603`
+
+Observed:
+
+- pre-fix adversarial control:
+  `DIRECT PRIVATE CHILD READS = DENY / EPISODE ROW + GETTER = ALLOW / PROPERTY LOSS CONFIRMED`;
+- focused local regression:
+  `1 file / 22 tests / PASS`;
+- fail-closed:
+  `UNRELATED SAME-CELL PRIVATE CHILD READS = DENY / EPISODE ROW = DENY / GETTER = DENY`;
+- owner positive readback:
+  `PASS`;
+- full local database regression:
+  `41 files / 1105 tests / PASS`;
+- PR Gate 1 CI run `34504427512`:
+  `COMPLETED / SUCCESS`;
+- new ACL / ontology / sensitivity / retention-deletion / publication change:
+  `NO`.
+
+Preserve:
+
+`EPISODE READBACK ≠ NEW READ AUTHORITY`
+
+`D028 DIRECT-MATERIAL FAIL-CLOSED ≠ T12 FULL PRIVACY COMPLETE`
+
+`DOWNSTREAM AGGREGATED-STAGE PRIVACY = UNTESTED / OUTSIDE D028 FIRST SLICE`
+
 Preserve:
 
 `TEXT ARTIFACT CONTENT ACCESS = PARENT ARTIFACT ACCESS / CANONICAL`
