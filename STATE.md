@@ -262,6 +262,45 @@ Observed:
 - Remote Supabase / deployment / outreach / paid model calls:
   `0`.
 
+Current T12 visibility-expression decision:
+
+`D027 / HUMAN VISIBILITY EXPRESSION + ARTIFACT INHERITANCE / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D027-human-adopts-t12-visibility-expression-and-artifact-inheritance.md`
+
+Canonical implementation result:
+
+`K002-T12-VISIBILITY-EXPRESSION-INHERITANCE / PR #186 = EXECUTED LOCAL / DETERMINISTIC GREEN / MERGED / CANONICAL / GATE 1 CI PASS`
+
+Observed:
+
+- Human-facing Contribution creation requires explicit
+  `PRIVATE / PARTIES / PROJECT`;
+- derived Artifact inherits exact Contribution `visibility`;
+- generated `Contribution → Artifact → text content` audience widening:
+  `0`;
+- B2-A seven-argument compatibility remains preserved;
+- focused database:
+  `26/26 PASS / EXPRESSION DIVERGENCES = 0`;
+- full local database:
+  `40 files / 1083 tests PASS`;
+- web:
+  `19 files / 77 tests PASS / contracts PASS / build PASS`;
+- PR #186 Gate 1 CI run `34496066202`:
+  `COMPLETED / SUCCESS`;
+- sensitivity / retention-deletion / publication / RLS change:
+  `NO`;
+- Remote Supabase / deployment / outreach / paid model calls:
+  `0`.
+
+Preserve:
+
+`HUMAN-FACING EXPLICIT CHOICE ≠ LEGACY API DEFAULT`
+
+`VISIBILITY EXPRESSION + ARTIFACT INHERITANCE ≠ T12 FULL PRIVACY COMPLETE`
+
 Preserve:
 
 `TEXT ARTIFACT CONTENT ACCESS = PARENT ARTIFACT ACCESS / CANONICAL`
