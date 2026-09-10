@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-09
+Última reconciliação canônica: 2026-09-10
 
 Repositório canônico:
 
@@ -411,6 +411,38 @@ Preserve:
 
 `PARTICIPATION ≠ MEMBERSHIP`
 
+Current canonical hardening result — K002 T12/T24 Person Boundary:
+
+`K002-T12-T24-PERSON-BOUNDARY-001 / PR #179 = EXECUTED LOCAL / DETERMINISTIC PASS / READ-ONLY REVIEW PASS / HUMAN PROMOTION AUTHORIZED / MERGED / CANONICAL`
+
+Canonical implementation:
+
+`1b41a77fadacef0ad2215c2d58a3339f98f6069f`
+
+Canonical merge:
+
+`e67e9fb33b2b5ce0a3a746a8e2fa4eef831db96f`
+
+Observed:
+
+- implicit first-PERSON selection removed;
+- existing participation resolves through its exact controlled PERSON Actor;
+- zero or multiple controlled PERSON Actors fail closed for invitation acceptance
+  instead of being selected implicitly;
+- focused adversarial database test: `14/14 PASS`;
+- full database suite: `37 files / 1016 tests PASS`;
+- web check: `18 files / 75 tests PASS`, plus
+  lint/typecheck/contracts/build PASS;
+- exact promotion scope: `5 files`;
+- Remote Supabase / deployment / outreach / external enrollment / chain /
+  real funds: `0`.
+
+Preserve:
+
+`MULTI-PERSON UNIT VERIFIED ≠ FULL MULTI-PERSON INTEGRATION VERIFIED`
+
+`T12/T24 HARDENING ≠ T12 FULL PRIVACY COMPLETE ≠ T24 FULL REHEARSAL COMPLETE`
+
 Post-merge executor defect:
 
 `CANONICAL HASH LOOP = HARNESS FAIL AFTER SUCCESSFUL MERGE / GITHUB PR+MAIN READBACK CONFIRMED PROMOTION`
@@ -425,7 +457,7 @@ Current Human constraint:
 
 Current next internal gate:
 
-`D025 / T12 + T13 + T15 + T16 + T17 + T24 READBACK / PROPERTY-LOSS MAPPING`
+`D025 / T12 PRIVACY SEMANTICS + T13 + T15 + T16 + T17 + T24 RESIDUAL READBACK / PROPERTY-LOSS MAPPING`
 
 T19 remains pending and must not be simulated as Human evidence. Real-case
 discovery may use already-existing records without contacting anyone. Further
