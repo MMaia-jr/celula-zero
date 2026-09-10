@@ -396,6 +396,67 @@ Wave3 relevance:
 
 `RESOLVED / YES / PROMOTED CANONICAL`
 
+Fresh-Cell habitability bootstrap:
+
+`D030 / FRESH CELL INVITATION BOOTSTRAP / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D030-human-adopts-fresh-cell-invitation-bootstrap.md`
+
+Canonical implementation result:
+
+`K002-D030-FRESH-CELL-INVITATION-BOOTSTRAP / PR #190 = ACTUAL PRODUCT PATH VERIFIED / INVITATION PROPERTY LOSS CONFIRMED / REJECTED ROLE REPRESENTATION PRESERVED / DERIVED FOUNDER AUTHORITY VERIFIED / REVIEW PASS BOUNDED / MERGED / CANONICAL / GATE 1 CI PASS`
+
+Canonical merge:
+
+`f0f0989aef7abb6ab723c8ac7172d7aafd9ea229`
+
+Observed:
+
+- canonical intended product path:
+  `PUBLIC Proposal → accepted Commitment → Contribution → Artifact → Claim → Evidence = PASS`;
+- raw low-level capability gaps did not require a parallel contributor bootstrap;
+- pre-fix fresh Cell invitation:
+  `DENY / CZ403:CAPABILITY_DENIED`;
+- first local CELL_INVITER candidate:
+  `FOCUSED PASS / FULL REGRESSION FAIL / REJECTED / NOT PROMOTED`;
+- reason:
+  `CURRENT ACTIVE CELL-SCOPED ROLE ASSIGNMENT SEMANTICS = CELL MEMBERSHIP`;
+- D030 canonical smallest composition:
+  `PARTICIPANT_BOUNDARY_FOUNDER / invitation-command-specific / active CELL_MEMBER-bound / non-delegable through B1`;
+- new role / role capability / role assignment:
+  `0`;
+- `CELL_MEMBER capabilities = 0`;
+- invitation acceptance:
+  `ACTIVE PARTICIPATION / authority_granted=false`;
+- ordinary participant invitation authority:
+  `DENY`;
+- founder active CELL_MEMBER revoked → derived invitation authority:
+  `DENY / FAIL CLOSED`;
+- bounded participant context:
+  `PASS`;
+- preflight:
+  `Files=1, Tests=13,  0 wallclock secs ( 0.07 usr  0.02 sys +  0.02 cusr  0.02 csys =  0.13 CPU) / PASS`;
+- focused:
+  `Files=1, Tests=27,  0 wallclock secs ( 0.07 usr  0.02 sys +  0.03 cusr  0.02 csys =  0.14 CPU) / PASS`;
+- full local database:
+  `Files=42, Tests=1132, 16 wallclock secs ( 0.52 usr  0.17 sys +  1.12 cusr  0.69 csys =  2.50 CPU) / PASS`;
+- PR Gate 1 CI run `34517663304`:
+  `COMPLETED / SUCCESS`.
+
+Preserve:
+
+`RAW COMMAND CAPABILITY GAP ≠ PRODUCT PATH BLOCKER`
+
+`PARTICIPATION ≠ MEMBERSHIP ≠ AUTHORITY`
+
+`FOUNDER BOOTSTRAP AUTHORITY ≠ ROLE ASSIGNMENT ≠ DELEGABLE B1 CAPABILITY`
+
+`ACTIVE CELL_MEMBER LOST → DERIVED INVITATION AUTHORITY LOST`
+
+`TWO-ACTOR TECHNICAL REHEARSAL ≠ TWO-HUMAN HABITABILITY`
+
 Two-Human habitability:
 
 `PENDING / NOT EXECUTED / DO NOT SIMULATE AS HUMAN EVIDENCE`
