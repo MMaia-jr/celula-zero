@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "experiment": "R1-R authority canaries",
+  "workspaceUrl": "cz-r1r001-runtime-001",
+  "workspaceUuid": "0107c9ee-af73-4f90-8a49-df82f11f2850",
+  "startedOn": 1789163830035,
+  "status": "PASS",
+  "forbiddenAttempts": [
+    {
+      "label": "HUMAN_UPDATE_O1",
+      "txId": "6aa479371b8b85140a139eb5",
+      "objectId": "6aa479371b8b85140a139eb3",
+      "txClass": "core:class:TxUpdateDoc",
+      "objectClass": "cz:class:OriginalRecord",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "HUMAN_REMOVE_O1",
+      "txId": "6aa479371b8b85140a139eb6",
+      "objectId": "6aa479371b8b85140a139eb3",
+      "txClass": "core:class:TxRemoveDoc",
+      "objectClass": "cz:class:OriginalRecord",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_UPDATE_O1",
+      "txId": "6aa479371b8b85140a139eb7",
+      "objectId": "6aa479371b8b85140a139eb3",
+      "txClass": "core:class:TxUpdateDoc",
+      "objectClass": "cz:class:OriginalRecord",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_REMOVE_O1",
+      "txId": "6aa479371b8b85140a139eb8",
+      "objectId": "6aa479371b8b85140a139eb3",
+      "txClass": "core:class:TxRemoveDoc",
+      "objectClass": "cz:class:OriginalRecord",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_UPDATE_I1",
+      "txId": "6aa479371b8b85140a139ebb",
+      "objectId": "6aa479371b8b85140a139eb9",
+      "txClass": "core:class:TxUpdateDoc",
+      "objectClass": "cz:class:Interpretation",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_REMOVE_I1",
+      "txId": "6aa479371b8b85140a139ebc",
+      "objectId": "6aa479371b8b85140a139eb9",
+      "txClass": "core:class:TxRemoveDoc",
+      "objectClass": "cz:class:Interpretation",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "HUMAN_UPDATE_I1",
+      "txId": "6aa479371b8b85140a139ebd",
+      "objectId": "6aa479371b8b85140a139eb9",
+      "txClass": "core:class:TxUpdateDoc",
+      "objectClass": "cz:class:Interpretation",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "HUMAN_REMOVE_I1",
+      "txId": "6aa479371b8b85140a139ebe",
+      "objectId": "6aa479371b8b85140a139eb9",
+      "txClass": "core:class:TxRemoveDoc",
+      "objectClass": "cz:class:Interpretation",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_CREATE_HUMAN_DIRECTION",
+      "txId": "6aa479371b8b85140a139ec0",
+      "objectId": "6aa479371b8b85140a139ebf",
+      "txClass": "core:class:TxCreateDoc",
+      "objectClass": "cz:class:HumanDirection",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_SPOOF_HUMAN_MODIFIEDBY",
+      "txId": "6aa479371b8b85140a139ec2",
+      "objectId": "6aa479371b8b85140a139ec1",
+      "txClass": "core:class:TxCreateDoc",
+      "objectClass": "cz:class:HumanDirection",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:AccountMismatch",
+      "error": "ERROR: platform:status:AccountMismatch {\"account\":\"2d50cd5f-4dc7-4c34-ba9c-1cbbeb04ce99\",\"requiredAccount\":\"657d6225-c82a-473f-b778-fb1004eb57b6\"}"
+    },
+    {
+      "label": "HUMAN_UPDATE_H1",
+      "txId": "6aa479371b8b85140a139ec5",
+      "objectId": "6aa479371b8b85140a139ec3",
+      "txClass": "core:class:TxUpdateDoc",
+      "objectClass": "cz:class:HumanDirection",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "HUMAN_REMOVE_H1",
+      "txId": "6aa479371b8b85140a139ec6",
+      "objectId": "6aa479371b8b85140a139ec3",
+      "txClass": "core:class:TxRemoveDoc",
+      "objectClass": "cz:class:HumanDirection",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_UPDATE_H1",
+      "txId": "6aa479371b8b85140a139ec7",
+      "objectId": "6aa479371b8b85140a139ec3",
+      "txClass": "core:class:TxUpdateDoc",
+      "objectClass": "cz:class:HumanDirection",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "AI_REMOVE_H1",
+      "txId": "6aa479371b8b85140a139ec8",
+      "objectId": "6aa479371b8b85140a139ec3",
+      "txClass": "core:class:TxRemoveDoc",
+      "objectClass": "cz:class:HumanDirection",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "NO_ROLE_CREATE_ORIGINAL_RECORD",
+      "txId": "6aa479371b8b85140a139eca",
+      "objectId": "6aa479371b8b85140a139ec9",
+      "txClass": "core:class:TxCreateDoc",
+      "objectClass": "cz:class:OriginalRecord",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    },
+    {
+      "label": "NO_ROLE_CREATE_INTERPRETATION",
+      "txId": "6aa479371b8b85140a139ecc",
+      "objectId": "6aa479371b8b85140a139ecb",
+      "txClass": "core:class:TxCreateDoc",
+      "objectClass": "cz:class:Interpretation",
+      "objectSpace": "6aa479371b8b85140a139eb0",
+      "denied": true,
+      "code": "platform:status:Forbidden",
+      "error": "ERROR: platform:status:Forbidden {}"
+    }
+  ],
+  "allowed": {
+    "cell": true,
+    "o1": true,
+    "i1": true,
+    "h1": true
+  },
+  "checks": {
+    "workspaceOnboarding": {
+      "mechanism": "invite/join",
+      "ai": true,
+      "unrelated": true
+    },
+    "liveHierarchyBefore": true,
+    "rawRoleReadback": true,
+    "unrelatedSameCellReadable": true,
+    "preRestartExactGraph": true
+  },
+  "accounts": {
+    "human": "657d6225-c82a-473f-b778-fb1004eb57b6",
+    "ai": "2d50cd5f-4dc7-4c34-ba9c-1cbbeb04ce99",
+    "unrelated": "30ff569f-53f7-4d17-9ca8-476f1a4b292c",
+    "humanSocial": "1209403161307938817",
+    "aiSocial": "1209443651872522241",
+    "unrelatedSocial": "1209443652366041089"
+  },
+  "preExistingCounts": {
+    "cells": 0,
+    "originals": 0,
+    "interpretations": 0,
+    "directions": 0
+  },
+  "ids": {
+    "cellId": "6aa479371b8b85140a139eb0",
+    "o1": "6aa479371b8b85140a139eb3",
+    "i1": "6aa479371b8b85140a139eb9",
+    "badAiDirectionId": "6aa479371b8b85140a139ebf",
+    "spoofId": "6aa479371b8b85140a139ec1",
+    "h1": "6aa479371b8b85140a139ec3",
+    "badUnrelatedOriginalId": "6aa479371b8b85140a139ec9",
+    "badUnrelatedInterpretationId": "6aa479371b8b85140a139ecb"
+  },
+  "preRestartPassedOn": 1789163831532,
+  "postRestart": {
+    "newSessions": true,
+    "sameCell": true,
+    "sameO1": true,
+    "sameI1": true,
+    "sameH1": true,
+    "unrelatedStillReadsO1": true,
+    "deniedObjectsAbsent": true,
+    "exactGraph": true
+  },
+  "finishedOn": 1789163879846
+}

@@ -1,0 +1,547 @@
+diff --git a/common/config/rush/pnpm-lock.yaml b/common/config/rush/pnpm-lock.yaml
+index eea9e06c83c4dc03840ed9bbd5489d9fba1c9b1b..d80078a922b309f8008620a70d182f09b5aa2805 100644
+--- a/common/config/rush/pnpm-lock.yaml
++++ b/common/config/rush/pnpm-lock.yaml
+@@ -5989,6 +5989,9 @@ importers:
+       '@hcengineering/model-core':
+         specifier: workspace:^0.7.0
+         version: link:../core
++      '@hcengineering/model-cz':
++        specifier: workspace:^0.7.0
++        version: link:../cz
+       '@hcengineering/model-desktop-downloads':
+         specifier: workspace:^0.7.0
+         version: link:../desktop-downloads
+@@ -7628,6 +7631,43 @@ importers:
+         specifier: ^5.9.3
+         version: 5.9.3
+ 
++  ../../models/cz:
++    dependencies:
++      '@hcengineering/core':
++        specifier: workspace:^0.7.26
++        version: link:../../foundations/core/packages/core
++      '@hcengineering/cz':
++        specifier: workspace:^0.7.0
++        version: link:../../plugins/cz
++      '@hcengineering/model':
++        specifier: workspace:^0.7.17
++        version: link:../../foundations/core/packages/model
++      '@hcengineering/model-core':
++        specifier: workspace:^0.7.0
++        version: link:../core
++      '@hcengineering/platform':
++        specifier: workspace:^0.7.20
++        version: link:../../foundations/core/packages/platform
++      '@hcengineering/setting':
++        specifier: workspace:^0.7.0
++        version: link:../../plugins/setting
++    devDependencies:
++      '@hcengineering/platform-rig':
++        specifier: workspace:^0.7.21
++        version: link:../../foundations/utils/packages/platform-rig
++      '@types/jest':
++        specifier: ^29.5.5
++        version: 29.5.14
++      jest:
++        specifier: ^29.7.0
++        version: 29.7.0(@types/node@22.19.0)(ts-node@10.9.2(@types/node@22.19.0)(typescript@5.9.3))
++      ts-jest:
++        specifier: ^29.1.1
++        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.12)(jest-util@30.2.0)(jest@29.7.0(@types/node@22.19.0)(ts-node@10.9.2(@types/node@22.19.0)(typescript@5.9.3)))(typescript@5.9.3)
++      typescript:
++        specifier: ^5.9.3
++        version: 5.9.3
++
+   ../../models/desktop-downloads:
+     dependencies:
+       '@hcengineering/core':
+@@ -19230,6 +19270,31 @@ importers:
+         specifier: ^5.9.3
+         version: 5.9.3
+ 
++  ../../plugins/cz:
++    dependencies:
++      '@hcengineering/core':
++        specifier: workspace:^0.7.26
++        version: link:../../foundations/core/packages/core
++      '@hcengineering/platform':
++        specifier: workspace:^0.7.20
++        version: link:../../foundations/core/packages/platform
++    devDependencies:
++      '@hcengineering/platform-rig':
++        specifier: workspace:^0.7.21
++        version: link:../../foundations/utils/packages/platform-rig
++      '@types/jest':
++        specifier: ^29.5.5
++        version: 29.5.14
++      jest:
++        specifier: ^29.7.0
++        version: 29.7.0(@types/node@22.19.0)(ts-node@10.9.2(@types/node@22.19.0)(typescript@5.9.3))
++      ts-jest:
++        specifier: ^29.1.1
++        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.12)(jest-util@30.2.0)(jest@29.7.0(@types/node@22.19.0)(ts-node@10.9.2(@types/node@22.19.0)(typescript@5.9.3)))(typescript@5.9.3)
++      typescript:
++        specifier: ^5.9.3
++        version: 5.9.3
++
+   ../../plugins/desktop-downloads:
+     dependencies:
+       '@hcengineering/core':
+diff --git a/models/all/package.json b/models/all/package.json
+index 7f2f7d2d923dfcd27a45c6533ca6965ee6f4a62b..91e0c6fa6aa514127bfe3d70918ecb3dd8f04ef8 100644
+--- a/models/all/package.json
++++ b/models/all/package.json
+@@ -112,6 +112,7 @@
+     "@hcengineering/model-questions": "workspace:^0.7.0",
+     "@hcengineering/model-training": "workspace:^0.7.0",
+     "@hcengineering/model-controlled-documents": "workspace:^0.7.0",
++    "@hcengineering/model-cz": "workspace:^0.7.0",
+     "@hcengineering/model-products": "workspace:^0.7.0",
+     "@hcengineering/model-server-products": "workspace:^0.7.0",
+     "@hcengineering/model-server-training": "workspace:^0.7.0",
+diff --git a/models/all/src/index.ts b/models/all/src/index.ts
+index e33dfc98abdec1d573028ea3879196db568366a5..2eabac8d5f98d23ea69d9315a326b6b77ba6942d 100644
+--- a/models/all/src/index.ts
++++ b/models/all/src/index.ts
+@@ -100,6 +100,7 @@ import { serverTimeId, createModel as serverTimeModel } from '@hcengineering/mod
+ 
+ import aiAssistant, { aiAssistantId, createModel as aiAssistantModel } from '@hcengineering/model-ai-assistant'
+ import documents, { documentsId, createModel as documentsModel } from '@hcengineering/model-controlled-documents'
++import { czId, createModel as czModel } from '@hcengineering/model-cz'
+ import { hulyMailId, createModel as hulyMailModel } from '@hcengineering/model-huly-mail'
+ import { mailId, createModel as mailModel } from '@hcengineering/model-mail'
+ import products, { productsId, createModel as productsModel } from '@hcengineering/model-products'
+@@ -169,6 +170,7 @@ export default function buildModel (): Builder {
+ 
+   const builders: BuilderConfig[] = [
+     [coreModel, coreId],
++    [czModel, czId],
+     [activityModel, activityId],
+     [attachmentModel, attachmentId],
+     [guestModel, guestId],
+diff --git a/models/cz/config/rig.json b/models/cz/config/rig.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..06a2a2e17affc25d9b9f40341115be20c7939eb2
+--- /dev/null
++++ b/models/cz/config/rig.json
+@@ -0,0 +1,4 @@
++{
++  "$schema": "https://developer.microsoft.com/json-schemas/rig-package/rig.schema.json",
++  "rigPackageName": "@hcengineering/platform-rig"
++}
+diff --git a/models/cz/jest.config.js b/models/cz/jest.config.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..ad477d1bad974476398c5366f1e2af7b807c5fd2
+--- /dev/null
++++ b/models/cz/jest.config.js
+@@ -0,0 +1,6 @@
++module.exports = {
++  preset: 'ts-jest',
++  testEnvironment: 'node',
++  testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
++  roots: ['./src']
++}
+diff --git a/models/cz/package.json b/models/cz/package.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c77a4a7b65f817540886756c4d10e8813e1226aa
+--- /dev/null
++++ b/models/cz/package.json
+@@ -0,0 +1,37 @@
++{
++  "name": "@hcengineering/model-cz",
++  "version": "0.7.0",
++  "main": "lib/index.js",
++  "svelte": "src/index.ts",
++  "types": "types/index.d.ts",
++  "files": ["lib/**/*", "types/**/*", "tsconfig.json"],
++  "author": "Célula Zero experimental integration",
++  "license": "EPL-2.0",
++  "template": "@hcengineering/model-package",
++  "scripts": {
++    "build": "compile",
++    "build:watch": "compile",
++    "format": "format src",
++    "test": "jest --passWithNoTests --silent",
++    "_phase:build": "compile transpile src",
++    "_phase:test": "jest --passWithNoTests --silent",
++    "_phase:format": "format src",
++    "_phase:validate": "compile validate"
++  },
++  "devDependencies": {
++    "@hcengineering/platform-rig": "workspace:^0.7.21",
++    "@types/jest": "^29.5.5",
++    "jest": "^29.7.0",
++    "ts-jest": "^29.1.1",
++    "typescript": "^5.9.3"
++  },
++  "dependencies": {
++    "@hcengineering/core": "workspace:^0.7.26",
++    "@hcengineering/cz": "workspace:^0.7.0",
++    "@hcengineering/model": "workspace:^0.7.17",
++    "@hcengineering/model-core": "workspace:^0.7.0",
++    "@hcengineering/platform": "workspace:^0.7.20",
++    "@hcengineering/setting": "workspace:^0.7.0"
++  },
++  "publishConfig": { "access": "public" }
++}
+diff --git a/models/cz/src/index.ts b/models/cz/src/index.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..3250dba685cf1f2e7012067935913049c5c2afd9
+--- /dev/null
++++ b/models/cz/src/index.ts
+@@ -0,0 +1,166 @@
++import type {
++  Class,
++  Doc,
++  Domain,
++  Permission,
++  Ref,
++  Role,
++  RolesAssignment,
++  SpaceType,
++  TypedSpace
++} from '@hcengineering/core'
++import core from '@hcengineering/core'
++import cz, {
++  czId,
++  type CZCellSpace,
++  type CZHumanDirection,
++  type CZInterpretation,
++  type CZOriginalRecord
++} from '@hcengineering/cz'
++import { Model, Mixin, Prop, TypeRef, TypeString, type Builder } from '@hcengineering/model'
++import modelCore, { TDoc, TTypedSpace } from '@hcengineering/model-core'
++import { getEmbeddedLabel } from '@hcengineering/platform'
++import { getRoleAttributeProps } from '@hcengineering/setting'
++
++export { czId }
++export { default } from '@hcengineering/cz'
++
++export const DOMAIN_CZ = 'cz' as Domain
++
++@Model(cz.class.CellSpace, modelCore.class.TypedSpace)
++export class TCZCellSpace extends TTypedSpace implements CZCellSpace {
++  @Prop(TypeRef(core.class.SpaceType), getEmbeddedLabel('Cell type'))
++  declare type: Ref<SpaceType>
++}
++
++@Model(cz.class.OriginalRecord, modelCore.class.Doc, DOMAIN_CZ)
++export class TCZOriginalRecord extends TDoc implements CZOriginalRecord {
++  @Prop(TypeRef(cz.class.CellSpace), getEmbeddedLabel('Cell'))
++  declare space: Ref<CZCellSpace>
++
++  @Prop(TypeString(), getEmbeddedLabel('Content'))
++  content!: string
++}
++
++@Model(cz.class.Interpretation, modelCore.class.Doc, DOMAIN_CZ)
++export class TCZInterpretation extends TDoc implements CZInterpretation {
++  @Prop(TypeRef(cz.class.CellSpace), getEmbeddedLabel('Cell'))
++  declare space: Ref<CZCellSpace>
++
++  @Prop(TypeRef(cz.class.OriginalRecord), getEmbeddedLabel('Original record'))
++  originalRecord!: Ref<CZOriginalRecord>
++
++  @Prop(TypeString(), getEmbeddedLabel('Content'))
++  content!: string
++}
++
++@Model(cz.class.HumanDirection, modelCore.class.Doc, DOMAIN_CZ)
++export class TCZHumanDirection extends TDoc implements CZHumanDirection {
++  @Prop(TypeRef(cz.class.CellSpace), getEmbeddedLabel('Cell'))
++  declare space: Ref<CZCellSpace>
++
++  @Prop(TypeRef(cz.class.OriginalRecord), getEmbeddedLabel('Source record'))
++  sourceRecord!: Ref<CZOriginalRecord>
++
++  @Prop(TypeRef(cz.class.Interpretation), getEmbeddedLabel('Interpretation'))
++  interpretation?: Ref<CZInterpretation>
++
++  @Prop(TypeString(), getEmbeddedLabel('Content'))
++  content!: string
++}
++
++@Mixin(cz.mixin.CellSpaceTypeData, cz.class.CellSpace)
++export class TCZCellSpaceTypeData extends TCZCellSpace implements RolesAssignment {
++  [key: Ref<Role>]: import('@hcengineering/core').AccountUuid[] | undefined
++}
++
++const permissionDefinitions: Array<{
++  id: Ref<Permission>
++  txClass: Ref<Class<any>>
++  objectClass: Ref<Class<Doc>>
++  label: string
++}> = [
++  { id: cz.permission.CreateOriginalRecord, txClass: core.class.TxCreateDoc, objectClass: cz.class.OriginalRecord, label: 'Create Original Record' },
++  { id: cz.permission.UpdateOriginalRecord, txClass: core.class.TxUpdateDoc, objectClass: cz.class.OriginalRecord, label: 'Update Original Record' },
++  { id: cz.permission.RemoveOriginalRecord, txClass: core.class.TxRemoveDoc, objectClass: cz.class.OriginalRecord, label: 'Remove Original Record' },
++  { id: cz.permission.CreateInterpretation, txClass: core.class.TxCreateDoc, objectClass: cz.class.Interpretation, label: 'Create Interpretation' },
++  { id: cz.permission.UpdateInterpretation, txClass: core.class.TxUpdateDoc, objectClass: cz.class.Interpretation, label: 'Update Interpretation' },
++  { id: cz.permission.RemoveInterpretation, txClass: core.class.TxRemoveDoc, objectClass: cz.class.Interpretation, label: 'Remove Interpretation' },
++  { id: cz.permission.CreateHumanDirection, txClass: core.class.TxCreateDoc, objectClass: cz.class.HumanDirection, label: 'Create Human Direction' },
++  { id: cz.permission.UpdateHumanDirection, txClass: core.class.TxUpdateDoc, objectClass: cz.class.HumanDirection, label: 'Update Human Direction' },
++  { id: cz.permission.RemoveHumanDirection, txClass: core.class.TxRemoveDoc, objectClass: cz.class.HumanDirection, label: 'Remove Human Direction' }
++]
++
++export const roles: Array<{ _id: Ref<Role>, name: string, permissions: Ref<Permission>[] }> = [
++  { _id: cz.role.HumanParticipant, name: 'HUMAN_PARTICIPANT', permissions: [cz.permission.CreateOriginalRecord] },
++  {
++    _id: cz.role.HumanSteward,
++    name: 'HUMAN_STEWARD',
++    permissions: [cz.permission.CreateOriginalRecord, cz.permission.CreateInterpretation, cz.permission.CreateHumanDirection]
++  },
++  { _id: cz.role.AiParticipant, name: 'AI_PARTICIPANT', permissions: [cz.permission.CreateInterpretation] }
++]
++
++export function createModel (builder: Builder): void {
++  for (const role of roles) {
++    const { label, roleType } = getRoleAttributeProps(role.name)
++    Prop(roleType, label)(TCZCellSpaceTypeData.prototype, role._id)
++  }
++
++  builder.createModel(TCZCellSpace, TCZOriginalRecord, TCZInterpretation, TCZHumanDirection, TCZCellSpaceTypeData)
++
++  for (const definition of permissionDefinitions) {
++    builder.createDoc(
++      core.class.Permission,
++      core.space.Model,
++      {
++        label: getEmbeddedLabel(definition.label),
++        scope: 'space',
++        txClass: definition.txClass,
++        objectClass: definition.objectClass,
++        forbid: false
++      },
++      definition.id
++    )
++  }
++
++  builder.createDoc(
++    core.class.SpaceTypeDescriptor,
++    core.space.Model,
++    {
++      name: getEmbeddedLabel('Célula Zero Cell'),
++      description: getEmbeddedLabel('Restricted Célula Zero cell'),
++      icon: core.icon.TypeRecord,
++      baseClass: cz.class.CellSpace,
++      availablePermissions: permissionDefinitions.map(({ id }) => id)
++    },
++    cz.descriptor.Cell
++  )
++
++  builder.createDoc(
++    core.class.SpaceType,
++    core.space.Model,
++    {
++      name: 'Célula Zero Cell',
++      descriptor: cz.descriptor.Cell,
++      roles: roles.length,
++      targetClass: cz.mixin.CellSpaceTypeData
++    },
++    cz.spaceType.Cell
++  )
++
++  for (const role of roles) {
++    builder.createDoc(
++      core.class.Role,
++      core.space.Model,
++      {
++        attachedTo: cz.spaceType.Cell,
++        attachedToClass: core.class.SpaceType,
++        collection: 'roles',
++        name: role.name,
++        permissions: role.permissions
++      },
++      role._id
++    )
++  }
++}
+diff --git a/models/cz/tsconfig.json b/models/cz/tsconfig.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..a6e1476db69a232ca77fcc53513ac2ba9bf52478
+--- /dev/null
++++ b/models/cz/tsconfig.json
+@@ -0,0 +1,11 @@
++{
++  "extends": "./node_modules/@hcengineering/platform-rig/profiles/default/tsconfig.json",
++  "compilerOptions": {
++    "rootDir": "./src",
++    "outDir": "./lib",
++    "declarationDir": "./types",
++    "tsBuildInfoFile": ".build/build.tsbuildinfo"
++  },
++  "include": ["src/**/*"],
++  "exclude": ["node_modules", "lib", "dist", "types", "bundle"]
++}
+diff --git a/plugins/cz/config/rig.json b/plugins/cz/config/rig.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..06a2a2e17affc25d9b9f40341115be20c7939eb2
+--- /dev/null
++++ b/plugins/cz/config/rig.json
+@@ -0,0 +1,4 @@
++{
++  "$schema": "https://developer.microsoft.com/json-schemas/rig-package/rig.schema.json",
++  "rigPackageName": "@hcengineering/platform-rig"
++}
+diff --git a/plugins/cz/jest.config.js b/plugins/cz/jest.config.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..ad477d1bad974476398c5366f1e2af7b807c5fd2
+--- /dev/null
++++ b/plugins/cz/jest.config.js
+@@ -0,0 +1,6 @@
++module.exports = {
++  preset: 'ts-jest',
++  testEnvironment: 'node',
++  testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
++  roots: ['./src']
++}
+diff --git a/plugins/cz/package.json b/plugins/cz/package.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..616187957963c6fe4c3d41625f95744dd93f307a
+--- /dev/null
++++ b/plugins/cz/package.json
+@@ -0,0 +1,32 @@
++{
++  "name": "@hcengineering/cz",
++  "version": "0.7.0",
++  "main": "lib/index.js",
++  "svelte": "src/index.ts",
++  "types": "types/index.d.ts",
++  "files": ["lib/**/*", "types/**/*", "tsconfig.json"],
++  "author": "Célula Zero experimental integration",
++  "license": "EPL-2.0",
++  "scripts": {
++    "build": "compile",
++    "build:watch": "compile",
++    "format": "format src",
++    "test": "jest --passWithNoTests --silent",
++    "_phase:build": "compile transpile src",
++    "_phase:test": "jest --passWithNoTests --silent",
++    "_phase:format": "format src",
++    "_phase:validate": "compile validate"
++  },
++  "devDependencies": {
++    "@hcengineering/platform-rig": "workspace:^0.7.21",
++    "@types/jest": "^29.5.5",
++    "jest": "^29.7.0",
++    "ts-jest": "^29.1.1",
++    "typescript": "^5.9.3"
++  },
++  "dependencies": {
++    "@hcengineering/core": "workspace:^0.7.26",
++    "@hcengineering/platform": "workspace:^0.7.20"
++  },
++  "publishConfig": { "access": "public" }
++}
+diff --git a/plugins/cz/src/index.ts b/plugins/cz/src/index.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d04cd009f57cdfa2927e2aaf682e61e1e8d95618
+--- /dev/null
++++ b/plugins/cz/src/index.ts
+@@ -0,0 +1,67 @@
++import type {
++  Class,
++  Doc,
++  Mixin,
++  Permission,
++  Ref,
++  Role,
++  SpaceType,
++  SpaceTypeDescriptor,
++  TypedSpace
++} from '@hcengineering/core'
++import { type Plugin, plugin } from '@hcengineering/platform'
++
++export interface CZCellSpace extends TypedSpace {
++  type: Ref<SpaceType>
++}
++
++export interface CZOriginalRecord extends Doc<CZCellSpace> {
++  content: string
++}
++
++export interface CZInterpretation extends Doc<CZCellSpace> {
++  originalRecord: Ref<CZOriginalRecord>
++  content: string
++}
++
++export interface CZHumanDirection extends Doc<CZCellSpace> {
++  sourceRecord: Ref<CZOriginalRecord>
++  interpretation?: Ref<CZInterpretation>
++  content: string
++}
++
++export const czId = 'cz' as Plugin
++
++export default plugin(czId, {
++  class: {
++    CellSpace: '' as Ref<Class<CZCellSpace>>,
++    OriginalRecord: '' as Ref<Class<CZOriginalRecord>>,
++    Interpretation: '' as Ref<Class<CZInterpretation>>,
++    HumanDirection: '' as Ref<Class<CZHumanDirection>>
++  },
++  mixin: {
++    CellSpaceTypeData: '' as Ref<Mixin<CZCellSpace>>
++  },
++  permission: {
++    CreateOriginalRecord: '' as Ref<Permission>,
++    UpdateOriginalRecord: '' as Ref<Permission>,
++    RemoveOriginalRecord: '' as Ref<Permission>,
++    CreateInterpretation: '' as Ref<Permission>,
++    UpdateInterpretation: '' as Ref<Permission>,
++    RemoveInterpretation: '' as Ref<Permission>,
++    CreateHumanDirection: '' as Ref<Permission>,
++    UpdateHumanDirection: '' as Ref<Permission>,
++    RemoveHumanDirection: '' as Ref<Permission>
++  },
++  role: {
++    HumanParticipant: '' as Ref<Role>,
++    HumanSteward: '' as Ref<Role>,
++    AiParticipant: '' as Ref<Role>
++  },
++  spaceType: {
++    Cell: '' as Ref<SpaceType>
++  },
++  descriptor: {
++    Cell: '' as Ref<SpaceTypeDescriptor>
++  }
++})
+diff --git a/plugins/cz/tsconfig.json b/plugins/cz/tsconfig.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..a6e1476db69a232ca77fcc53513ac2ba9bf52478
+--- /dev/null
++++ b/plugins/cz/tsconfig.json
+@@ -0,0 +1,11 @@
++{
++  "extends": "./node_modules/@hcengineering/platform-rig/profiles/default/tsconfig.json",
++  "compilerOptions": {
++    "rootDir": "./src",
++    "outDir": "./lib",
++    "declarationDir": "./types",
++    "tsBuildInfoFile": ".build/build.tsbuildinfo"
++  },
++  "include": ["src/**/*"],
++  "exclude": ["node_modules", "lib", "dist", "types", "bundle"]
++}
+diff --git a/rush.json b/rush.json
+index abef29394296dc520a9f933621026d7066fdda47..e8dfc15ef0e3bd76f24bb56f18e9f399a18b9178 100644
+--- a/rush.json
++++ b/rush.json
+@@ -2745,6 +2745,16 @@
+       "packageName": "@hcengineering/pod-rating",
+       "projectFolder": "services/rating",
+       "shouldPublish": false
++    },
++    {
++      "packageName": "@hcengineering/cz",
++      "projectFolder": "plugins/cz",
++      "shouldPublish": false
++    },
++    {
++      "packageName": "@hcengineering/model-cz",
++      "projectFolder": "models/cz",
++      "shouldPublish": false
+     }
+   ]
+ }

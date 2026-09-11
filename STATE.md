@@ -402,6 +402,43 @@ Current construction discipline:
 
 `ADOPT / MAP → COMPOSE → EXTEND → BUILD FROM ZERO only when necessary`
 
+Current Huly substrate authority result:
+
+`HULY-CZ-SUBSTRATE-R1R-001 = VERIFIED_LOCAL / PASS N=1`
+
+Canonical result record:
+
+`RP-HULY-CZ-SUBSTRATE-R1R-001.md`
+
+Observed:
+
+- original R1 authority run: `FAIL`;
+- root cause: `CZ MODEL ORDERING INTEGRATION BUG / CONFIRMED`;
+- corrected hierarchy: `CellSpace -> TypedSpace -> Space -> Doc / PASS`;
+- corrected R1-R authority canaries: `PASS N=1`;
+- tested forbidden mutations persisted in tx journal: `0`;
+- exact `Cell / O1 / I1 / H1` graph survived controlled restart;
+- same-Cell member with no CZ role: `READ PASS / PROTECTED WRITES FORBIDDEN`;
+- AI HumanDirection creation: `FORBIDDEN`;
+- AI identity spoof: `ACCOUNT_MISMATCH`;
+- Huly functional core patch required: `NO EVIDENCE`;
+- architectural falsifier: `NOT TRIGGERED`.
+
+Residuals:
+
+- repeated Huly model replay warnings remain
+  `OBSERVED / REPRODUCED / UNRESOLVED / NON-BLOCKING FOR THIS GATE`;
+- prior Cell/I1 disappearance:
+  `NOT REPRODUCED UNDER CORRECTED COMPOSITION / HISTORICAL CAUSE UNRESOLVED`.
+
+Preserve:
+
+`VERIFIED_LOCAL N=1 != PRODUCTION_READY != EXTERNAL_UTILITY != ADOPTION != SCALE`
+
+`NORMAL API IMMUTABILITY != CRYPTOGRAPHIC / OPERATOR / DIRECT-DB IMMUTABILITY`
+
+`R1-R PASS != HUMAN DECISION TO ADOPT HULY AS FINAL OR UNIVERSAL SUBSTRATE`
+
 Current immediate coordination:
 
 `INTERNAL READBACK / PROPERTY-LOSS MAPPING`
