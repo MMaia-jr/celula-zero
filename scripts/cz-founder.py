@@ -258,39 +258,37 @@ def room_snapshot_state(
 
 
 def parse_canonical_state_controls(text: str) -> dict:
-    direction = "UNKNOWN"
-    next_gate = "UNKNOWN"
+    current_sections = list(re.finditer(
+        r"(?m)^## Current Human Direction(?:\s+[^\n]*)?$",
+        text,
+    ))
 
-    gate_marker = "Next Human gate before K5:"
-    gate_starts = [
-        match.start()
-        for match in re.finditer(re.escape(gate_marker), text)
-    ]
+    if len(current_sections) != 1:
+        return {
+            "canonical_human_direction": "UNKNOWN",
+            "canonical_next_gate": "UNKNOWN",
+        }
 
-    if len(gate_starts) == 1:
-        gate_start = gate_starts[0]
-        gate_match = re.match(
-            r"\s*`([^`\n]+)`",
-            text[gate_start + len(gate_marker):],
+    section_start = current_sections[0].end()
+    next_section = re.search(r"(?m)^##\s+", text[section_start:])
+    section_end = (
+        section_start + next_section.start()
+        if next_section
+        else len(text)
+    )
+    section = text[section_start:section_end]
+
+    def current_values(marker: str) -> list[str]:
+        matches = re.findall(
+            rf"(?m)^{re.escape(marker)}\s*\n\s*`([^`\n]+)`",
+            section,
         )
-        direction_marker = "Human Direction:"
-        direction_start = text.rfind(
-            direction_marker,
-            0,
-            gate_start,
-        )
+        return [match.strip() for match in matches]
 
-        if gate_match and direction_start >= 0:
-            direction_match = re.match(
-                r"\s*`([^`\n]+)`",
-                text[
-                    direction_start
-                    + len(direction_marker):
-                ],
-            )
-            if direction_match:
-                direction = direction_match.group(1).strip()
-                next_gate = gate_match.group(1).strip()
+    directions = current_values("Human Direction:")
+    gates = current_values("Current immediate coordination:")
+    direction = directions[0] if directions else "UNKNOWN"
+    next_gate = gates[0] if len(gates) == 1 else "UNKNOWN"
 
     return {
         "canonical_human_direction": direction,
