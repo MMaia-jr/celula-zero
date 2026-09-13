@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-10
+Última reconciliação canônica: 2026-09-13
 
 Repositório canônico:
 
@@ -57,10 +57,10 @@ Preserve:
 
 `FUTURE READINESS / HUMAN DIRECTION / PRESERVED UMBRELLA CONTEXT 2026-09-04`
 
-Future Readiness remains preserved context. Current Dream and PLAN sequencing are
-governed by D024/D025 below. D020–D023 remain preserved lineage and bounded
-history; their earlier "current" wording must not override the newer Human
-Direction.
+Future Readiness remains preserved context. D024 remains the adopted Collective
+Dream and D025 remains preserved reconciled plan lineage. Current sequencing is
+governed by D033 below. D020–D023 remain preserved lineage and bounded history;
+their earlier "current" wording must not override the newer Human Direction.
 
 Célula Zero não deve esperar a chegada de usuários, comunidade, capital ou
 trabalho externo para começar a descobrir capacidades previsivelmente
@@ -184,9 +184,35 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
-## Current Human Direction — Collective Dream / Reconciled Genesis Cell Plan
+## Current Human Direction — Genesis Human / Integrated Evolution
 
-Current Dream:
+`D033 / GENESIS HUMAN + INTEGRATED EVOLUTION / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D033-human-adopts-genesis-human-integrated-evolution.md`
+
+Current sequence:
+
+`GENESIS HUMAN = MARCOS`
+
+`Marcos inhabits CZ → Living Presence → Discovery → Relation → Space / Project → Existing CZ Operating Core → Result / Learning → updated trajectory`
+
+Preserve:
+
+`FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
+`DISCOVERY ≠ RELATION ≠ AGREEMENT ≠ CONTRIBUTION`
+
+`PRESERVED ≠ CURRENT`
+
+`SUPERSEDED ≠ ERASED`
+
+D033 changes current sequencing and integration direction. It does not erase
+D024/D025 history, restart the Cell ontology, replace Company Core, or promote
+manual chat experiments as canonical Result Packages.
+
+Adopted Collective Dream remains:
 
 `D024 / COLLECTIVE DREAM / AUTONOMY, HABITABILITY AND SOVEREIGN CELLS`
 
@@ -198,7 +224,7 @@ Core adopted proposition:
 
 `Célula Zero should not only preserve autonomy. It should increase autonomy.`
 
-Current Plan:
+Preserved reconciled plan lineage:
 
 `D025 / HUMAN ADOPTS KARABIRRDT 002-R / RECONCILED GENESIS CELL PLAN`
 
@@ -207,7 +233,7 @@ Human Direction:
 `decisions/D025-human-adopts-karabirrdt-002-r-reconciled-genesis-cell-plan.md`
 
 D025 reconciles D023 with D024 and valid work already completed or locally
-executed. It does not restart the Cell ontology or erase D023 history.
+executed. D033 changes present sequencing without erasing that plan lineage.
 
 Current T12 visibility decision:
 
@@ -388,11 +414,17 @@ Preserved base plan:
 
 Current target:
 
-make the Genesis Cell execute one real, bounded, economically explicit and
-habitable episode such that an external person can participate without Marcos
-translating the system, receive an observable benefit or an honest bounded
-failure, and allow Célula Zero to test whether the experience increases or
-decreases participant autonomy.
+make Marcos inhabit Célula Zero as the Genesis Human through existing
+capabilities first, so the system can increase or fail to increase his
+observable capacity before external transfer testing.
+
+Current social-to-core metabolism:
+
+`Living Presence → Discovery → Relation → Space / Project → Existing CZ Operating Core → Result / Learning → updated trajectory`
+
+The external-person episode remains a later transfer / external-utility gate.
+It is not cancelled, and founder N=1 must not be interpreted as external
+utility.
 
 Preserved metabolism:
 
@@ -441,7 +473,14 @@ Preserve:
 
 Current immediate coordination:
 
-`INTERNAL READBACK / PROPERTY-LOSS MAPPING`
+`DISCOVERY-CONTEXT-N1 / READBACK-FIRST / MANUAL REFERENCE SLICE`
+
+First method:
+
+`existing data + structured filters + existing relations + ordinary text search`
+
+Do not select embeddings, vector infrastructure or a new Living Presence
+ontology without demonstrated property loss.
 
 Current Human constraint:
 
@@ -597,7 +636,7 @@ Two-Human habitability:
 
 `PENDING / NOT EXECUTED / DO NOT SIMULATE AS HUMAN EVIDENCE`
 
-No next integrated technical Wave is selected automatically by D024/D025.
+No next integrated technical Wave is selected automatically by D024/D025/D033.
 
 Preserved K1 read-only result before K002-WAVE1:
 
@@ -823,15 +862,23 @@ Current Human constraint:
 
 Current next internal gate:
 
-`D025 / T12 RESIDUAL PRIVACY SEMANTICS + T13 + T15 + T16 + T17 + T24 RESIDUAL READBACK / PROPERTY-LOSS MAPPING`
+`D033 / DISCOVERY-CONTEXT-N1 / LIVING PRESENCE + CURRENT INTENT + CONTEXT + USER CONTROLS`
 
-T12 first-slice visibility enforcement is canonical. Remaining T12 work must be
-driven by concrete property loss across retention/deletion, sensitivity,
-disclosure, cross-Cell sharing, publication/export and other unresolved privacy
-dimensions; no further privacy implementation is selected automatically.
+Question:
 
-T19 remains pending and must not be simulated as Human evidence. Real-case
-discovery may use already-existing records without contacting anyone. Further
+> What is the smallest representation sufficient to discover relevant
+> candidates among structures that already exist and explain why they appeared?
+
+Start with existing data, structured filters, existing relations and ordinary
+text search. Only demonstrated semantic property loss may justify embeddings or
+vector infrastructure.
+
+T12 first-slice visibility enforcement remains canonical. Its residual privacy
+work is preserved but is not the current sequencing gate merely because it was
+previously next.
+
+T19 remains pending and must not be simulated as Human evidence. The later
+external-person episode remains the transfer / external-utility gate. Further
 technical construction should follow observed property loss rather than
 automatic Wave selection.
 
@@ -843,7 +890,8 @@ movement is authorized by this STATE reconciliation.
 
 Any “current” wording inside this preserved D021/GI1 block describes the
 canonical state as of 2026-09-07 and is superseded for present sequencing by
-D024/D025. Historical results and evidence remain valid as bounded results.
+D033. D024/D025 remain preserved Dream/Plan lineage. Historical results and
+evidence remain valid as bounded results.
 
 `D021 / INTERNAL OPERABILITY BEFORE EXTERNAL DOING / HUMAN DIRECTION`
 
@@ -1832,10 +1880,11 @@ Decision:
 `decisions/D016-operational-learning-retention-and-baseline-gate.md`
 
 Future Readiness and D016 remain preserved Human Direction and
-operational-learning discipline. Present Dream/PLAN sequencing is governed by
-D024/D025. Earlier D020 sequencing remains preserved history and still informs
-the external N=1 truth test; clean internal N=1 and the simple baseline remain
-supporting readiness/calibration when material rather than absolute blockers.
+operational-learning discipline. Present sequencing is governed by D033 while
+D024/D025 remain preserved Dream/Plan lineage. Earlier D020 sequencing remains
+preserved history and still informs the external N=1 truth test; clean internal
+N=1 and the simple baseline remain supporting readiness/calibration when
+material rather than absolute blockers.
 
 Historical D016 criterion:
 
