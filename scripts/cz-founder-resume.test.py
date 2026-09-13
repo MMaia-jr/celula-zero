@@ -209,7 +209,7 @@ class RestartResumeTests(unittest.TestCase):
         )
         self.assertEqual(
             parsed["canonical_human_direction"],
-            "decisions/D021-internal-operability-before-external-doing.md",
+            "decisions/D033-human-adopts-genesis-human-integrated-evolution.md",
         )
         self.assertNotEqual(
             parsed["canonical_next_gate"],
@@ -218,17 +218,34 @@ class RestartResumeTests(unittest.TestCase):
         self.assertEqual(
             parsed["canonical_next_gate"],
             (
-                "GI1-005 / HUMAN REVIEW / SELECT NEXT MATERIAL INTERNAL "
-                "OPERABILITY PROPERTY"
+                "DISCOVERY-CONTEXT-N1 / READBACK-FIRST / MANUAL "
+                "REFERENCE SLICE"
             ),
         )
 
-    def test_ambiguous_current_gate_fails_closed(self):
+    def test_preserved_history_cannot_override_current_state(self):
         state = (
-            "Human Direction:\n\n`decisions/D020.md`\n\n"
-            "Next Human gate before K5:\n\n`G1`\n"
+            "## Current Human Direction — newest\n\n"
+            "Human Direction:\n\n`decisions/current.md`\n\n"
+            "Current immediate coordination:\n\n`CURRENT-GATE`\n\n"
+            "## Preserved historical Human Direction\n\n"
+            "Human Direction:\n\n`decisions/historical.md`\n\n"
+            "Current immediate coordination:\n\n`HISTORICAL-GATE`\n"
         )
-        parsed = cz.parse_canonical_state_controls(state + state)
+        parsed = cz.parse_canonical_state_controls(state)
+        self.assertEqual(
+            parsed["canonical_human_direction"],
+            "decisions/current.md",
+        )
+        self.assertEqual(parsed["canonical_next_gate"], "CURRENT-GATE")
+
+    def test_ambiguous_current_sections_fail_closed(self):
+        section = (
+            "## Current Human Direction\n\n"
+            "Human Direction:\n\n`decisions/current.md`\n\n"
+            "Current immediate coordination:\n\n`CURRENT-GATE`\n"
+        )
+        parsed = cz.parse_canonical_state_controls(section + section)
         self.assertEqual(parsed["canonical_human_direction"], "UNKNOWN")
         self.assertEqual(parsed["canonical_next_gate"], "UNKNOWN")
 
