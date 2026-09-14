@@ -382,5 +382,219 @@ class RestartResumeTests(unittest.TestCase):
         )
 
 
+class GenesisTerminalTests(unittest.TestCase):
+    PROFILE = "10000000-0000-4000-8000-000000000001"
+    ACTOR = "20000000-0000-4000-8000-000000000001"
+    CELL = "30000000-0000-4000-8000-000000000001"
+    PROJECT = "40000000-0000-4000-8000-000000000001"
+    CELL_ROLE = "50000000-0000-4000-8000-000000000001"
+    STEWARD_ROLE = "60000000-0000-4000-8000-000000000001"
+
+    class Client:
+        def __init__(self, owner):
+            self.owner = owner
+            self.records = []
+
+        def record_preproject_text(self, actor_id, record_class, content, provenance):
+            record = {
+                "id": f"record-{len(self.records) + 1}",
+                "owner_actor_id": actor_id,
+                "record_class": record_class,
+                "content": content,
+                "content_sha256": hashlib.sha256(content.encode()).hexdigest(),
+                "provenance": provenance,
+                "visibility": "PRIVATE",
+                "created_at": "2026-09-13T12:00:00Z",
+            }
+            self.records.append(record)
+            return {"record_id": record["id"], "visibility": "PRIVATE"}
+
+        def select(self, table, columns, **filters):
+            t = GenesisTerminalTests
+            if table == "profiles":
+                return [{
+                    "id": t.PROFILE,
+                    "display_name": "Marcos",
+                    "visibility": "PRIVATE",
+                }]
+            if table == "actor_memberships":
+                return [{
+                    "actor_id": t.ACTOR,
+                    "profile_id": t.PROFILE,
+                    "role": "OWNER",
+                }]
+            if table == "actors":
+                return [{"id": t.ACTOR, "kind": "PERSON", "name": "Marcos"}]
+            if table == "role_assignments":
+                return []
+            if table == "project_members":
+                return []
+            if table == "projects":
+                return []
+            if table == "cell_participations":
+                return []
+            if table == "preproject_records":
+                wanted = filters["id"].removeprefix("eq.")
+                return [row for row in self.records if row["id"] == wanted]
+            self.owner.fail(f"unexpected select: {table} {filters}")
+
+    @staticmethod
+    def answers(source_path=""):
+        return iter(["Quero compreender meu próximo passo exatamente.  ", source_path])
+
+    def run_terminal(self, client, answers):
+        output = []
+        return cz.run_genesis_terminal(
+            {"canonical_human_direction": cz.GENESIS_DIRECTION},
+            input_fn=lambda _prompt: next(answers),
+            output_fn=output.append,
+            configuration_fn=lambda: (
+                "http://127.0.0.1:54321",
+                "public-key",
+                "http://127.0.0.1:54324",
+            ),
+            authenticate_fn=lambda *_args: (
+                "secret-access-token",
+                {"id": self.PROFILE, "email": cz.GENESIS_HUMAN_EMAIL},
+            ),
+            client_factory=lambda *_args: client,
+        ), output
+
+    def test_default_main_routes_to_zero_model_genesis_terminal(self):
+        bootstrap = {
+            "canonical_human_direction": cz.GENESIS_DIRECTION,
+            "blockers": [],
+        }
+        with (
+            patch.object(cz.sys, "argv", ["cz-founder.py"]),
+            patch.object(cz, "read_only_bootstrap", return_value=bootstrap),
+            patch.object(cz, "print_read_only_bootstrap"),
+            patch.object(cz, "run_genesis_terminal") as terminal,
+            patch.object(cz, "gateway_key") as gateway,
+        ):
+            cz.main()
+        terminal.assert_called_once_with(bootstrap)
+        gateway.assert_not_called()
+
+    def test_ai_founder_requires_explicit_flag(self):
+        bootstrap = {"blockers": []}
+        with (
+            patch.object(cz.sys, "argv", ["cz-founder.py", "--ai"]),
+            patch.object(cz, "read_only_bootstrap", return_value=bootstrap),
+            patch.object(cz, "print_read_only_bootstrap"),
+            patch.object(cz, "run_ai_founder") as ai,
+            patch.object(cz, "run_genesis_terminal") as terminal,
+        ):
+            cz.main()
+        ai.assert_called_once_with(bootstrap)
+        terminal.assert_not_called()
+
+    def test_declined_import_has_only_exact_original_record(self):
+        client = self.Client(self)
+        result, output = self.run_terminal(client, self.answers())
+        self.assertTrue(result["ok"])
+        self.assertEqual(len(client.records), 1)
+        self.assertEqual(client.records[0]["record_class"], "ORIGINAL_RECORD")
+        self.assertEqual(client.records[0]["content"], "Quero compreender meu próximo passo exatamente.  ")
+        self.assertIn("SOURCE_MATERIAL=NOT_PROVIDED", output)
+        self.assertIn("PROJECT_CREATED=NO", output)
+        self.assertIn("MODEL_CALLS=0", output)
+        self.assertNotIn("secret-access-token", "\n".join(output))
+
+    def test_record_rpc_is_private_bounded_and_carries_controlled_actor(self):
+        observed = {}
+
+        def request(url, **kwargs):
+            observed["url"] = url
+            observed.update(kwargs)
+            return {"record_id": "record-1", "visibility": "PRIVATE"}
+
+        with patch.object(cz, "local_json_request", side_effect=request):
+            client = cz.GenesisLocalClient(
+                "http://127.0.0.1:54321", "public-key", "secret-token"
+            )
+            result = client.record_preproject_text(
+                self.ACTOR, "ORIGINAL_RECORD", "exact", {"capture": "terminal"}
+            )
+
+        self.assertEqual(result["record_id"], "record-1")
+        self.assertEqual(
+            observed["url"],
+            "http://127.0.0.1:54321/rest/v1/rpc/record_preproject_human_text",
+        )
+        payload = observed["payload"]
+        self.assertEqual(payload["p_actor_id"], self.ACTOR)
+        self.assertEqual(payload["p_record_class"], "ORIGINAL_RECORD")
+        self.assertNotIn("project", json.dumps(payload).lower())
+
+    def test_confirmed_source_preview_and_exact_readback(self):
+        client = self.Client(self)
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "trajetória.md"
+            exact = "# Minha trajetória\nlinha final  \n"
+            source.write_bytes(exact.encode("utf-8"))
+            answers = iter([
+                "Minha fala original.", str(source), "IMPORT"
+            ])
+            result, output = self.run_terminal(client, answers)
+        self.assertTrue(result["ok"])
+        self.assertEqual(len(client.records), 2)
+        imported = client.records[1]
+        self.assertEqual(imported["content"], exact)
+        self.assertEqual(imported["record_class"], "SOURCE_MATERIAL")
+        self.assertEqual(imported["provenance"]["supplied_path"], str(source))
+        self.assertEqual(imported["provenance"]["media_type"], "text/markdown; charset=utf-8")
+        self.assertEqual(imported["provenance"]["sha256"], hashlib.sha256(exact.encode()).hexdigest())
+        self.assertIn("SOURCE ≠ TRUTH ≠ CURRENT IDENTITY.", output)
+        self.assertIn("SOURCE_MATERIAL=VERIFIED", output)
+        self.assertEqual(output[-1], "STOP")
+
+    def test_unconfirmed_source_creates_zero_source_records(self):
+        client = self.Client(self)
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.txt"
+            source.write_text("exact source", encoding="utf-8")
+            result, output = self.run_terminal(
+                client, iter(["Original", str(source), "not IMPORT"])
+            )
+        self.assertTrue(result["ok"])
+        self.assertEqual([r["record_class"] for r in client.records], ["ORIGINAL_RECORD"])
+        self.assertIn("SOURCE_MATERIAL=NOT_PROVIDED", output)
+
+    def test_identity_and_existing_state_fail_closed_before_mutation(self):
+        client = self.Client(self)
+        original = client.select
+
+        def ambiguous(table, columns, **filters):
+            if table == "actors":
+                return [
+                    {"id": self.ACTOR, "kind": "PERSON", "name": "Marcos"},
+                    {"id": "other", "kind": "PERSON", "name": "Other"},
+                ]
+            return original(table, columns, **filters)
+
+        client.select = ambiguous
+        with self.assertRaisesRegex(
+            RuntimeError, "GENESIS_CONTROLLED_PERSON_COUNT_NOT_ONE"
+        ):
+            self.run_terminal(client, self.answers())
+        self.assertFalse(client.records)
+
+        client = self.Client(self)
+        original = client.select
+
+        def existing(table, columns, **filters):
+            if table == "role_assignments":
+                return [{"scope_type": "CELL"}]
+            return original(table, columns, **filters)
+
+        client.select = existing
+        with self.assertRaisesRegex(
+            RuntimeError, "GENESIS_FIRST_PROJECT_NO_LONGER_APPLICABLE"
+        ):
+            self.run_terminal(client, self.answers())
+        self.assertFalse(client.records)
+
+
 if __name__ == "__main__":
     unittest.main()
