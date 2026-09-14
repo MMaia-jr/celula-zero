@@ -1996,4 +1996,21 @@ Preserve:
 
 `FIXED ONCE ≠ LEARNED`
 
+## Genesis Human / Living Presence — founder real N=1
+
+`GENESIS HUMAN / LIVING PRESENCE N=1 = PASS N=1 / WITH RECOVERED FAILURES`
+
+Result Package:
+
+`RP-GENESIS-HUMAN-LIVING-PRESENCE-N1.md`
+
+One real durable `moonshotai / moonshotai/kimi-k2.6` execution occurred. The
+effective Human review is `CORRECT`, not `ADOPT`. Failures were recovered
+without deleting history or duplicating the execution. Observed cost:
+`USD 0.0192387500 / PROVIDER_REPORTED (KNOWN)`.
+
+Next gate: `DISCOVERY N=1 USING THE EFFECTIVE HUMAN-CORRECTED LIVING PRESENCE`.
+
+`FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
 END OF STATE
