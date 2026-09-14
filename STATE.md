@@ -471,16 +471,64 @@ Preserve:
 
 `R1-R PASS != HUMAN DECISION TO ADOPT HULY AS FINAL OR UNIVERSAL SUBSTRATE`
 
-Current immediate coordination:
+Genesis Human pre-Project record:
 
-`DISCOVERY-CONTEXT-N1 / READBACK-FIRST / MANUAL REFERENCE SLICE`
+`GENESIS-HUMAN-PREPROJECT-RECORD-N1 = PASS / MERGED / CANONICAL / PR #198`
 
-First method:
+Canonical merge:
 
-`existing data + structured filters + existing relations + ordinary text search`
+`49d82aa585fd76052eddaf18b98f743694362e01`
 
-Do not select embeddings, vector infrastructure or a new Living Presence
-ontology without demonstrated property loss.
+Observed Human N=1:
+
+- exact authenticated Marcos Profile/PERSON control resolved;
+- one verbatim PRIVATE append-only ORIGINAL_RECORD was preserved before
+  Project creation;
+- one Human-authorized PRIVATE SOURCE_MATERIAL was preserved with exact
+  content, SHA-256 and provenance;
+- independent database readback confirmed exact round-trip;
+- duplicate session/records: `NO`;
+- Project creation / Dragon Cycle / Commitment / Contribution: `NO`;
+- model calls / paid spend: `0`;
+- Gate 1 CI: `PASS`.
+
+Preserve:
+
+`AUTH USER ≠ PROFILE ≠ PERSON`
+
+`RECORD ≠ IDENTITY`
+
+`SOURCE ≠ TRUTH`
+
+`ORIGINAL_RECORD ≠ INTERPRETATION`
+
+`INTERPRETATION ≠ HUMAN ADOPTION`
+
+`IMPORT ≠ CLAIM`
+
+`IMPORT ≠ PROJECT`
+
+`FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
+Not demonstrated:
+
+`full Marcos history / complete Living Presence / candidate interpretation /
+Human adoption of an interpretation / external utility / campaign validation /
+multi-AI interoperability`
+
+Current immediate coordination within the construction of Living Presence,
+without replacing the D033 sequence:
+
+`GENESIS-HUMAN-CANDIDATE-INTERPRETATION-READBACK-N1`
+
+Purpose:
+
+determine the smallest existing composition by which CZ can read Marcos's
+private pre-Project records and produce an attributed, source-linked,
+Human-correctable candidate interpretation without promoting it to identity,
+truth or Human adoption.
+
+Do not implement this gate yet.
 
 Current Human constraint:
 
