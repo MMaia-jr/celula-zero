@@ -2013,4 +2013,17 @@ Next gate: `DISCOVERY N=1 USING THE EFFECTIVE HUMAN-CORRECTED LIVING PRESENCE`.
 
 `FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
 
+## Founder Session V0 — lived founder N=1
+
+`RETURN → ORIENT → EXPRESS → PRESERVE INTENT = PASS N=1 / WITH NEXT PROPERTY LOSS OBSERVED`
+
+Result Package: `RP-FOUNDER-SESSION-V0.md`.
+
+A latest real private Human Original Record exists. It is a current Human
+intention, not interpretation, adoption, Human Direction or Decision. Canonical
+recorded direction remains distinct from later Human direction.
+
+Next observed property loss: continuous Human–AI inquiry and conversational
+continuity around one real underdetermined intention.
+
 END OF STATE

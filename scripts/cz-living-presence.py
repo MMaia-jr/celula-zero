@@ -21,6 +21,7 @@ assert _spec.loader is not None
 _spec.loader.exec_module(founder)
 
 CONFIRMATION = "AUTORIZO UMA EXECUÇÃO REAL"
+INTENT_CONFIRMATION = "CONFIRMAR INTENÇÃO"
 PRIVATE_ROOT = Path.home() / ".celula-zero"
 RUNTIME_DIR = PRIVATE_ROOT / "runtime"
 EXPORT_DIR = PRIVATE_ROOT / "exports"
@@ -80,6 +81,8 @@ def controlled_human(client: LivingPresenceClient, user: dict) -> dict:
         "profile_name": profile.get("display_name") or actor.get("name") or "Marcos",
         "actor_name": actor.get("name") or profile.get("display_name") or "Marcos",
         "actor_id": str(actor["id"]),
+        "profile_id": str(profile["id"]),
+        "membership_role": str(identity["owner_link"]["role"]),
     }
 
 
@@ -117,6 +120,55 @@ def read_workspace(client: LivingPresenceClient, actor_id: str) -> dict:
         "actors", "id,name,operator_label", kind="eq.AI_AGENT",
         operator_profile_id="eq." + str(client.profile_id), order="created_at.asc",
     )
+    projects = client.select(
+        "projects", "id,title,current_intent,stage,visibility,updated_at,steward_actor_id",
+        order="updated_at.desc", limit="50",
+    )
+    project_memberships = client.select(
+        "project_members", "project_id,actor_id,role,created_at",
+        actor_id="eq." + actor_id, order="created_at.desc", limit="20",
+    )
+    member_project_ids = {str(row["project_id"]) for row in project_memberships}
+    projects = [project for project in projects
+                if str(project["steward_actor_id"]) == actor_id
+                or str(project["id"]) in member_project_ids]
+    needs = client.select(
+        "needs", "id,project_id,state,visibility,current_version,updated_at",
+        owner_actor_id="eq." + actor_id, order="updated_at.desc", limit="20",
+    )
+    need_versions = client.select(
+        "need_versions", "need_id,version,title,statement,created_at",
+        order="created_at.desc", limit="100",
+    )
+    opportunities = client.select(
+        "opportunities", "id,project_id,state,visibility,current_version,updated_at",
+        owner_actor_id="eq." + actor_id, order="updated_at.desc", limit="20",
+    )
+    opportunity_versions = client.select(
+        "opportunity_versions", "opportunity_id,version,title,statement,created_at",
+        order="created_at.desc", limit="100",
+    )
+    company_cycles = client.select(
+        "company_core_cycles",
+        "id,project_id,dragon_cycle_id,need_title,state,result_content,evaluation_verdict,updated_at",
+        owner_actor_id="eq." + actor_id, order="updated_at.desc", limit="20",
+    )
+    cycle_participations = client.select(
+        "cycle_participations", "cycle_id,actor_id,social_role,ended_at,valid_from",
+        actor_id="eq." + actor_id, order="valid_from.desc", limit="50",
+    )
+    dragon_cycles = client.select(
+        "dragon_cycles", "id,project_id,current_phase,state,created_at,closed_at",
+        order="created_at.desc", limit="50",
+    )
+    cycle_records = client.select(
+        "cycle_records", "id,cycle_id,content_class,phase_context,content,provenance,created_at",
+        author_actor_id="eq." + actor_id, order="created_at.desc", limit="20",
+    )
+    artifacts = client.select(
+        "artifacts", "id,project_id,kind,uri,visibility,created_at",
+        created_by_actor_id="eq." + actor_id, order="created_at.desc", limit="10",
+    )
     return {
         "records": records,
         "candidates": candidates,
@@ -124,7 +176,265 @@ def read_workspace(client: LivingPresenceClient, actor_id: str) -> dict:
         "reviews": reviews,
         "executions": executions,
         "ai_agents": ai_agents,
+        "projects": projects, "project_memberships": project_memberships,
+        "needs": needs, "need_versions": need_versions,
+        "opportunities": opportunities, "opportunity_versions": opportunity_versions,
+        "company_cycles": company_cycles, "cycle_participations": cycle_participations,
+        "dragon_cycles": dragon_cycles, "cycle_records": cycle_records,
+        "artifacts": artifacts,
     }
+
+
+def canonical_direction() -> dict:
+    try:
+        revision = founder.run("git", "rev-parse", "origin/main").strip()
+        state_text = founder.run("git", "show", revision + ":STATE.md")
+    except RuntimeError:
+        revision = "UNKNOWN"
+        state_text = (ROOT / "STATE.md").read_text(encoding="utf-8")
+    controls = founder.parse_canonical_state_controls(state_text)
+    if controls["canonical_next_gate"] == "UNKNOWN":
+        match = founder.re.search(r"(?m)^Next gate:\s*`([^`\n]+)`", state_text)
+        if match:
+            controls["canonical_next_gate"] = match.group(1).strip()
+    sequence_match = founder.re.search(
+        r"(?ms)^Current sequence:\s*\n\s*`[^`\n]+`\s*\n\s*`([^`\n]*→[^`\n]*)`",
+        state_text,
+    )
+    result_pointer_match = founder.re.search(
+        r"(?ms)^## Genesis Human / Living Presence[^\n]*\n.*?^Result Package:\s*\n\s*`([^`\n]+)`",
+        state_text,
+    )
+    result_pointer = result_pointer_match.group(1).strip() if result_pointer_match else "UNKNOWN"
+    result = "UNKNOWN"
+    if revision != "UNKNOWN" and result_pointer != "UNKNOWN":
+        try:
+            package_text = founder.run("git", "show", revision + ":" + result_pointer)
+            result_match = founder.re.search(r"(?ms)^## Result\s*\n\s*`([^`\n]+)`", package_text)
+            if result_match:
+                result = result_match.group(1).strip()
+        except RuntimeError:
+            pass
+    return {
+        **controls,
+        "canonical_sequence": sequence_match.group(1).strip() if sequence_match else "UNKNOWN",
+        "recent_result": result,
+        "result_pointer": result_pointer,
+        "source": "STATE.md@" + revision,
+        "currentness": (
+            "LOCALLY KNOWN ORIGIN/MAIN @ " + revision
+            + "; REMOTE FRESHNESS NOT VERIFIED"
+        ),
+    }
+
+
+def _version(rows: list[dict], foreign_key: str, item: dict) -> dict | None:
+    return next((row for row in rows if str(row.get(foreign_key)) == str(item["id"])
+                 and row.get("version") == item.get("current_version")), None)
+
+
+def founder_context(workspace: dict, human: dict, direction: dict) -> dict:
+    """Build a bounded projection. Every item carries its durable source."""
+    effective = living_representation(workspace)
+    identity = [{
+        "text": human["actor_name"], "currentness": "CURRENT AUTHENTICATED IDENTITY",
+        "source": (
+            f"profiles:{human['profile_id']}; actors:{human['actor_id']}; "
+            f"actor_memberships:{human['actor_id']}:{human['profile_id']}:{human['membership_role']}"
+        ),
+    }]
+    identity += [{"text": item["text"], "currentness": "EFFECTIVE HUMAN REVIEW",
+                  "source": "preproject_interpretation_reviews:" + str(item["review_id"])}
+                 for item in effective[:1]]
+    intentions = []
+    for record in reversed(workspace["records"]):
+        if record["record_class"] != "ORIGINAL_RECORD":
+            continue
+        is_session = record.get("provenance", {}).get("capture") == "FOUNDER_SESSION_V0"
+        if not is_session:
+            continue
+        intentions.append({
+            "text": record["content"],
+            "currentness": ("DECLARED CURRENT WHEN RECORDED; NOT REVALIDATED"
+                            if not intentions else "PRESERVED FOUNDER INTENTION; CURRENTNESS UNKNOWN"),
+            "source": "preproject_records:" + str(record["id"]),
+        })
+        if len(intentions) == 5:
+            break
+    member_project_ids = {str(m["project_id"]) for m in workspace["project_memberships"]}
+    related_projects = [p for p in workspace["projects"]
+                        if str(p["steward_actor_id"]) == human["actor_id"]
+                        or str(p["id"]) in member_project_ids]
+    active_projects = []
+    for project in related_projects[:10]:
+        sources = ["projects:" + str(project["id"])]
+        if str(project["steward_actor_id"]) == human["actor_id"]:
+            sources.append(f"projects:{project['id']}:steward_actor_id:{human['actor_id']}")
+        sources += [f"project_members:{membership['project_id']}:{membership['actor_id']}"
+                    for membership in workspace["project_memberships"]
+                    if str(membership["project_id"]) == str(project["id"])]
+        active_projects.append({
+            "text": f"{project['title']} — {project['stage']}",
+            "currentness": ("CURRENT BY PROJECT STAGE" if project["stage"] in {"OPEN", "ACTIVE"}
+                            else "AVAILABLE; CURRENTNESS NOT ASSERTED"),
+            "source": "; ".join(sources),
+        })
+    active_work = [{
+        "text": f"{c['need_title']} — {c['state']}", "currentness": "CURRENT BY OPEN COMPANY CORE STATE",
+        "source": "company_core_cycles:" + str(c["id"]),
+    } for c in workspace["company_cycles"] if c["state"] != "CLOSED"]
+    active_cycle_ids = {str(p["cycle_id"]) for p in workspace["cycle_participations"]
+                        if p.get("ended_at") is None}
+    for cycle in workspace["dragon_cycles"]:
+        if cycle["state"] != "OPEN" or str(cycle["id"]) not in active_cycle_ids:
+            continue
+        participations = [p for p in workspace["cycle_participations"]
+                          if str(p["cycle_id"]) == str(cycle["id"])
+                          and p.get("ended_at") is None]
+        active_work.append({
+            "text": f"Dragon Cycle — {cycle['current_phase']}",
+            "currentness": "CURRENT BY OPEN CYCLE + ACTIVE PARTICIPATION",
+            "source": "; ".join(
+                ["dragon_cycles:" + str(cycle["id"])]
+                + [f"cycle_participations:{p['cycle_id']}:{p['actor_id']}" for p in participations]
+            ),
+        })
+    results = [{
+        "text": c["result_content"], "currentness": "RECORDED RESULT; NOT ASSERTED CURRENT",
+        "source": "company_core_cycles:" + str(c["id"]),
+    } for c in workspace["company_cycles"] if c.get("result_content")]
+    results += [{
+        "text": f"{a['kind']}: {a['uri']}", "currentness": "RECENTLY READ; NOT ASSERTED CURRENT",
+        "source": "artifacts:" + str(a["id"]),
+    } for a in workspace["artifacts"]]
+    open_items = []
+    for need in workspace["needs"]:
+        if need["state"] not in {"DRAFT", "OPEN"}: continue
+        version = _version(workspace["need_versions"], "need_id", need)
+        open_items.append({"text": (version or {}).get("title", "Need sem versão legível") + " — " + need["state"],
+                           "currentness": "CURRENT BY NEED STATE",
+                           "source": ("needs:" + str(need["id"]) +
+                                      ("; need_versions:" + str(need["id"]) + ":" + str(version["version"])
+                                       if version else ""))})
+    for opportunity in workspace["opportunities"]:
+        if opportunity["state"] not in {"DRAFT", "OPEN"}: continue
+        version = _version(workspace["opportunity_versions"], "opportunity_id", opportunity)
+        open_items.append({"text": (version or {}).get("title", "Opportunity sem versão legível") + " — " + opportunity["state"],
+                           "currentness": "CURRENT BY OPPORTUNITY STATE",
+                           "source": ("opportunities:" + str(opportunity["id"]) +
+                                      ("; opportunity_versions:" + str(opportunity["id"]) + ":" + str(version["version"])
+                                       if version else ""))})
+    for record in workspace["cycle_records"]:
+        if record.get("provenance", {}).get("room_kind") == "QUESTION":
+            open_items.append({"text": record["content"], "currentness": "UNRESOLVED STATUS UNKNOWN",
+                               "source": "cycle_records:" + str(record["id"])})
+    recorded_direction = {
+        "text": direction["canonical_next_gate"], "currentness": direction["currentness"],
+        "source": direction["source"],
+    }
+    trajectory = [] if direction.get("canonical_sequence", "UNKNOWN") == "UNKNOWN" else [{
+        "text": direction["canonical_sequence"],
+        "currentness": "CANONICAL RECORDED TRAJECTORY; NOT ASSERTED CURRENT HUMAN DIRECTION",
+        "source": direction["source"],
+    }]
+    recent_canonical = []
+    if (direction.get("recent_result", "UNKNOWN") != "UNKNOWN"
+            and direction.get("result_pointer", "UNKNOWN") != "UNKNOWN"):
+        recent_canonical.append({
+            "text": direction["recent_result"],
+            "currentness": "CANONICAL RECORDED RESULT; RECENCY IS REPOSITORY ORDER, NOT HUMAN CURRENTNESS",
+            "source": direction["result_pointer"] + "@" + direction["source"].split("@", 1)[1],
+        })
+    return {
+        "WHO YOU ARE NOW": identity,
+        "CANONICAL RECORDED DIRECTION": [recorded_direction],
+        "CURRENT INTENTIONS": intentions,
+        "WHAT WE ARE DOING NOW": trajectory,
+        "WHAT HAPPENED RECENTLY": (recent_canonical + results)[:10],
+        "WHAT IS ACTUALLY ACTIVE": (active_projects + active_work)[:12],
+        "WHAT IS OPEN / UNRESOLVED": ([recorded_direction] + open_items)[:12],
+    }
+
+
+def print_founder_context(context: dict, output_fn=print) -> None:
+    output_fn("\nCÉLULA ZERO — FOUNDER SESSION V0")
+    output_fn("CANONICAL RECORDED DIRECTION ≠ CURRENT HUMAN DIRECTION")
+    output_fn("Uma direção humana posterior pode superseder o registro canônico, mas não é representada aqui sem preservação e promoção duráveis.")
+    for heading, items in context.items():
+        output_fn("\n" + heading)
+        if not items:
+            output_fn("[nenhum item durável legível]")
+        for item in items:
+            output_fn(f"- {item['text']}\n  Atualidade: {item['currentness']}\n  Fonte: {item['source']}")
+
+
+def generic_capability_options(workspace: dict) -> list[dict]:
+    options = [
+        ("KEEP AS OPEN QUESTION", "preserva as palavras sem classificação operacional", "preproject_records", "nenhuma mudança", "nenhuma"),
+        ("INVESTIGATE", "a intenção pode pedir apuração antes de compromisso", "interpretação durável / Dragon Cycle", "uma investigação ou interpretação seria aberta", "autorização humana específica; provedor somente se escolhido"),
+        ("LOOK FOR RELEVANT PEOPLE / PROJECTS / OPPORTUNITIES", "capacidade de leitura e descoberta já existe", "Profiles, Projects, Needs e Opportunities", "somente leitura até nova escolha", "confirmação posterior para formar relação ou proposta"),
+        ("NO ACTION YET", "registro original pode permanecer sem consequência", "preproject_records", "nenhuma mudança", "nenhuma"),
+    ]
+    if workspace["projects"]:
+        options += [
+            ("CONNECT TO EXISTING PROJECT", "há Project controlado ou acessível", "Project + Need / Dragon Cycle", "uma ligação operacional explícita seria criada", "escolha do Project e confirmação humana"),
+            ("CREATE NEED", "Needs existentes são Project-scoped", "t1_create_need", "um Need DRAFT seria criado", "Project, texto estruturado e confirmação humana"),
+            ("OPEN A WORK CONTEXT", "Company Core e Dragon Cycle já coordenam trabalho", "company_core_create_cycle / ddr_open_cycle", "um contexto de trabalho seria aberto", "escopo, limites e confirmação humana"),
+        ]
+    if any(n["state"] in {"DRAFT", "OPEN"} for n in workspace["needs"]):
+        options.append(("MAP TO EXISTING NEED", "há Need ainda aberto", "Needs + escolha humana", "o registro seria associado por uma ação explícita futura", "seleção do Need e confirmação humana"))
+    return [{"action": a, "availability_reason": why, "primitive": primitive,
+             "change": change, "authority": authority}
+            for a, why, primitive, change, authority in options]
+
+
+def print_generic_capabilities(options: list[dict], output_fn=print) -> None:
+    output_fn("\nGENERIC CAPABILITY LISTING — NOT INTENT-AWARE")
+    for option in options:
+        output_fn(f"\n{option['action']}\nWHY THIS CAPABILITY IS AVAILABLE: {option['availability_reason']}\nWHAT EXISTING CZ PRIMITIVE IT USES: {option['primitive']}\nWHAT WOULD CHANGE: {option['change']}\nWHAT AUTHORITY/CONFIRMATION WOULD BE REQUIRED: {option['authority']}")
+
+
+def intention_routing_boundary(content: str, context: dict, workspace: dict) -> dict:
+    """Consume the exact intention without pretending deterministic semantic fit."""
+    return {
+        "intention_sha256": hashlib.sha256(content.encode("utf-8")).hexdigest(),
+        "context_sources": sorted({item["source"] for items in context.values() for item in items}),
+        "semantic_relevance": "NOT DETERMINED",
+        "reason": "Free-form semantic relevance is not preserved by deterministic CZ rules.",
+        "required_composition": "existing bounded durable AI interpretation",
+        "authorization_boundary": (
+            "Separate explicit Human authorization selecting the exact intention, purpose, provider/model, "
+            "one-call/output bounds and cost disclosure before enqueue or provider activity."
+        ),
+        "generic_capabilities": generic_capability_options(workspace),
+    }
+
+
+def print_intention_boundary(boundary: dict, output_fn=print) -> None:
+    output_fn("\nINTENT-AWARE ROUTING: NOT YET ESTABLISHED")
+    output_fn("Exact intention digest consumed: " + boundary["intention_sha256"])
+    output_fn("Semantic relevance: " + boundary["semantic_relevance"])
+    output_fn("Why: " + boundary["reason"])
+    output_fn("Required composition: " + boundary["required_composition"])
+    output_fn("Authorization boundary: " + boundary["authorization_boundary"])
+    print_generic_capabilities(boundary["generic_capabilities"], output_fn)
+
+
+def capture_current_intention(client, human, workspace, context, input_fn=input, output_fn=print) -> dict:
+    content = read_multiline("CURRENT INTENTION", input_fn, output_fn)
+    if not content.strip():
+        stop("A intenção original não pode ficar vazia.")
+    output_fn("\nPREVIEW EXATO — AINDA NÃO GRAVADO\nORIGINAL HUMAN WORDS\n" + content)
+    if input_fn("Digite exatamente 'CONFIRMAR INTENÇÃO' para gravar: ") != INTENT_CONFIRMATION:
+        output_fn("Intenção abortada. Nenhuma gravação foi feita.")
+        return {"state": "INTENT_ABORTED"}
+    receipt = client.record_preproject_text(human["actor_id"], "ORIGINAL_RECORD", content, {
+        "capture": "FOUNDER_SESSION_V0", "semantic_status": "UNCLASSIFIED_CURRENT_INTENTION",
+        "boundary": "ORIGINAL HUMAN WORDS != INTERPRETATION != OPERATIONAL CLASSIFICATION != DECISION",
+    })
+    output_fn("Intenção original privada preservada.")
+    print_intention_boundary(intention_routing_boundary(content, context, workspace), output_fn)
+    return {"state": "INTENTION_RECORDED", "record_id": str(receipt["record_id"])}
 
 
 def print_records(records: list[dict], output_fn=print) -> None:
@@ -274,6 +584,7 @@ def living_representation(workspace: dict) -> list[dict]:
             result.append({
                 "text": review.get("representation_text") or candidate["content"],
                 "status": review["disposition"],
+                "review_id": review["id"],
             })
     return result
 
@@ -391,12 +702,32 @@ def run_terminal(*, input_fn=input, output_fn=print, configuration_fn=local_conf
     human = controlled_human(client, user)
     actor_id = human["actor_id"]
 
-    output_fn("\nCÉLULA ZERO — LIVING PRESENCE")
+    output_fn("\nCÉLULA ZERO — FOUNDER SESSION V0")
     output_fn("Reconheço você como " + human["profile_name"] + ".")
     output_fn("Seu acesso, seu perfil e sua Pessoa continuam distintos.")
-    output_fn("Aqui você pode ler, interpretar, revisar e exportar sua presença privada.")
 
     workspace = read_workspace(client, actor_id)
+    context = founder_context(workspace, human, canonical_direction())
+    print_founder_context(context, output_fn)
+    output_fn("\nFOUNDER SESSION — AÇÕES")
+    output_fn("0. Expressar e preservar uma intenção atual")
+    output_fn("1. Ver a listagem genérica de capacidades existentes")
+    output_fn("2. Abrir operações legadas de Living Presence")
+    output_fn("3. Sair sem alterar nada")
+    founder_action = input_fn("Escolha [0]: ").strip() or "0"
+    if founder_action == "0":
+        return capture_current_intention(
+            client, human, workspace, context, input_fn=input_fn, output_fn=output_fn
+        )
+    if founder_action == "1":
+        print_generic_capabilities(generic_capability_options(workspace), output_fn)
+        return {"state": "GENERIC_CAPABILITIES_READ"}
+    if founder_action == "3":
+        return {"state": "EXITED"}
+    if founder_action != "2":
+        stop("Ação Founder desconhecida.")
+
+    output_fn("\nOPERAÇÕES LEGADAS — LIVING PRESENCE")
     interpreters = [
         agent for agent in workspace["ai_agents"]
         if agent.get("operator_label") == "CZ_PREPROJECT_PRIVATE_INTERPRETER"
@@ -406,10 +737,8 @@ def run_terminal(*, input_fn=input, output_fn=print, configuration_fn=local_conf
     agent_id = str(interpreters[0]["id"]) if interpreters else ""
     output_fn("Intérprete privado: " + ("ATIVO" if agent_id else "NÃO ATIVADO"))
     print_records(workspace["records"], output_fn)
-    if not workspace["records"]:
-        return {"state": "NO_RECORDS"}
 
-    output_fn("\nAÇÕES DISPONÍVEIS")
+    output_fn("\nAÇÕES LEGADAS DISPONÍVEIS")
     output_fn("1. Preparar uma interpretação real e limitada")
     output_fn("2. Ver sua Living Presence atual")
     output_fn("3. Exportar e sair")
@@ -473,6 +802,10 @@ def run_terminal(*, input_fn=input, output_fn=print, configuration_fn=local_conf
         return {"state": disposition}
     if action != "1":
         stop("Ação desconhecida.")
+
+    if not workspace["records"]:
+        output_fn("Preserve primeiro suas palavras originais antes de preparar uma interpretação.")
+        return {"state": "ORIGINAL_RECORD_REQUIRED"}
 
     if not agent_id:
         output_fn("Ative explicitamente seu intérprete privado antes de preparar uma execução.")
