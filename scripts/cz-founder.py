@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import difflib
 import getpass
+import html
 import hashlib
 import json
 import os
@@ -11,13 +12,14 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.request
 import urllib.error
 
 from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlencode, urlparse
 
 
 GATEWAY = "https://ai-gateway.vercel.sh/v1"
@@ -28,6 +30,10 @@ CONFIG_FILE = ROOT / "founder-habitable.json"
 SESSION_DIR = ROOT / "founder-sessions"
 SNAPSHOT_DIR = ROOT / "room-snapshots"
 CANONICAL_REPOSITORY = "github.com/mmaia-jr/celula-zero"
+GENESIS_HUMAN_EMAIL = "marcos@celulazero.local"
+GENESIS_DIRECTION = (
+    "decisions/D033-human-adopts-genesis-human-integrated-evolution.md"
+)
 
 
 def stop(message: str) -> None:
@@ -2118,7 +2124,598 @@ def read_message(input_fn=input) -> str | None:
         lines.append(line)
 
 
-def main() -> None:
+def local_supabase_configuration() -> tuple[str, str, str]:
+    """Resolve only the loopback API, public client key and local Mailpit URL."""
+    output = run(
+        "npx", "--yes", "supabase@2.115.0", "status", "-o", "env"
+    )
+    values: dict[str, str] = {}
+    for raw in output.splitlines():
+        if "=" in raw:
+            key, value = raw.split("=", 1)
+            key = key.strip()
+            if key in {"API_URL", "ANON_KEY", "PUBLISHABLE_KEY"}:
+                values[key] = value.strip().strip('"')
+
+    api = values.get("API_URL", "").rstrip("/")
+    public_key = (
+        values.get("ANON_KEY")
+        or values.get("PUBLISHABLE_KEY")
+        or ""
+    )
+    parsed = urlparse(api)
+    if (
+        parsed.scheme not in {"http", "https"}
+        or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}
+    ):
+        stop("GENESIS_LOCAL_SUPABASE_REQUIRED")
+    if not public_key:
+        stop("GENESIS_PUBLIC_CLIENT_KEY_UNAVAILABLE")
+
+    text = Path("supabase/config.toml").read_text(encoding="utf-8")
+    section = re.search(
+        r"(?ms)^\[inbucket\]\s*$([\s\S]*?)(?=^\[|\Z)",
+        text,
+    )
+    port = (
+        re.search(r"(?m)^port\s*=\s*(\d+)\s*$", section.group(1))
+        if section
+        else None
+    )
+    if not port:
+        stop("GENESIS_LOCAL_MAILPIT_UNAVAILABLE")
+    return api, public_key, f"http://127.0.0.1:{int(port.group(1))}"
+
+
+def local_json_request(
+    url: str,
+    *,
+    method: str = "GET",
+    payload: dict | None = None,
+    headers: dict[str, str] | None = None,
+    timeout: int = 10,
+) -> object:
+    body = (
+        None
+        if payload is None
+        else json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    )
+    merged = {"Accept": "application/json", **(headers or {})}
+    if body is not None:
+        merged["Content-Type"] = "application/json"
+    request = urllib.request.Request(
+        url, data=body, headers=merged, method=method
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            raw = response.read()
+            return json.loads(raw or b"{}")
+    except urllib.error.HTTPError as exc:
+        # Never echo response bodies here: Auth failures may contain material
+        # that is inappropriate for terminal logs.
+        exc.read()
+        stop(
+            "GENESIS_LOCAL_API_ERROR:"
+            f"{exc.code}:{urlparse(url).path}"
+        )
+    except urllib.error.URLError:
+        stop("GENESIS_LOCAL_API_UNREACHABLE:" + urlparse(url).path)
+
+
+def authenticate_local_human(
+    api: str,
+    public_key: str,
+    mailpit: str,
+    *,
+    email: str = GENESIS_HUMAN_EMAIL,
+    sleep_fn=time.sleep,
+) -> tuple[str, dict]:
+    """Authenticate an existing local Human through the normal magic link."""
+    local_json_request(
+        api + "/auth/v1/otp",
+        method="POST",
+        payload={"email": email, "create_user": False},
+        headers={"apikey": public_key},
+    )
+
+    magic = ""
+    deadline = time.monotonic() + 20
+    while time.monotonic() < deadline:
+        message = local_json_request(
+            mailpit + "/api/v1/message/latest",
+            timeout=3,
+        )
+        if not isinstance(message, dict):
+            stop("GENESIS_LOCAL_MAIL_INVALID")
+        recipients = message.get("To") or []
+        addressed = any(
+            isinstance(item, dict)
+            and str(item.get("Address", "")).lower() == email.lower()
+            for item in recipients
+        )
+        if addressed:
+            content = (
+                str(message.get("HTML") or "")
+                + "\n"
+                + str(message.get("Text") or "")
+            )
+            found = re.search(
+                r'''href=["']([^"']*/auth/v1/verify[^"']*)["']''',
+                content,
+                re.I,
+            )
+            if not found:
+                found = re.search(
+                    r'''https?://[^\s<>"']*/auth/v1/verify[^\s<>"']*''',
+                    content,
+                    re.I,
+                )
+            if found:
+                magic = html.unescape(found.group(1) if found.lastindex else found.group(0))
+                break
+        sleep_fn(0.5)
+    if not magic:
+        stop("GENESIS_PASSWORDLESS_EMAIL_NOT_OBSERVED")
+
+    expected = urlparse(api)
+    observed = urlparse(magic)
+    if (
+        observed.scheme,
+        observed.hostname,
+        observed.port,
+        observed.path,
+    ) != (
+        expected.scheme,
+        expected.hostname,
+        expected.port,
+        "/auth/v1/verify",
+    ):
+        stop("GENESIS_MAGIC_LINK_ESCAPED_LOCAL_AUTH")
+
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            return None
+
+    location = None
+    opener = urllib.request.build_opener(NoRedirect)
+    try:
+        with opener.open(
+            urllib.request.Request(magic, method="GET"), timeout=10
+        ) as response:
+            location = response.headers.get("Location")
+    except urllib.error.HTTPError as exc:
+        if exc.code in {301, 302, 303, 307, 308}:
+            location = exc.headers.get("Location")
+        else:
+            stop(f"GENESIS_MAGIC_LINK_FAILED:{exc.code}")
+    except urllib.error.URLError:
+        stop("GENESIS_LOCAL_AUTH_UNREACHABLE")
+    if not location:
+        stop("GENESIS_PASSWORDLESS_SESSION_MISSING")
+
+    redirect = urlparse(location)
+    params = {**parse_qs(redirect.query), **parse_qs(redirect.fragment)}
+    token = (params.get("access_token") or [None])[0]
+    if not token:
+        stop("GENESIS_ACCESS_TOKEN_MISSING")
+    user = local_json_request(
+        api + "/auth/v1/user",
+        headers={
+            "apikey": public_key,
+            "Authorization": "Bearer " + token,
+        },
+    )
+    if (
+        not isinstance(user, dict)
+        or not user.get("id")
+        or str(user.get("email", "")).lower() != email.lower()
+    ):
+        stop("GENESIS_AUTHENTICATED_IDENTITY_MISMATCH")
+    return token, user
+
+
+class GenesisLocalClient:
+    def __init__(self, api: str, public_key: str, token: str):
+        self.api = api.rstrip("/")
+        self.headers = {
+            "apikey": public_key,
+            "Authorization": "Bearer " + token,
+        }
+
+    def select(
+        self,
+        table: str,
+        columns: str,
+        **filters: str,
+    ) -> list[dict]:
+        query = urlencode({"select": columns, **filters})
+        value = local_json_request(
+            f"{self.api}/rest/v1/{table}?{query}",
+            headers=self.headers,
+        )
+        if not isinstance(value, list):
+            stop("GENESIS_READBACK_INVALID:" + table)
+        return value
+
+    def record_preproject_text(
+        self,
+        actor_id: str,
+        record_class: str,
+        content: str,
+        provenance: dict,
+    ) -> dict:
+        value = local_json_request(
+            self.api + "/rest/v1/rpc/record_preproject_human_text",
+            method="POST",
+            payload={
+                "p_actor_id": actor_id,
+                "p_record_class": record_class,
+                "p_content": content,
+                "p_provenance": provenance,
+            },
+            headers=self.headers,
+        )
+        if not isinstance(value, dict) or not value.get("record_id"):
+            stop("GENESIS_PREPROJECT_RECORD_RESULT_INVALID")
+        return value
+
+
+def slugify(value: str) -> str:
+    value = value.lower()
+    value = re.sub(r"[^a-z0-9]+", "-", value).strip("-")[:63].rstrip("-")
+    return value or "projeto-marcos"
+
+
+def resolve_genesis_identity(client: GenesisLocalClient, user: dict) -> dict:
+    profile_id = str(user["id"])
+    profiles = client.select(
+        "profiles", "id,display_name,visibility", id="eq." + profile_id
+    )
+    if len(profiles) != 1 or profiles[0].get("id") != profile_id:
+        stop("GENESIS_PROFILE_COUNT_NOT_ONE")
+
+    links = client.select(
+        "actor_memberships",
+        "actor_id,profile_id,role",
+        profile_id="eq." + profile_id,
+        role="in.(OWNER,REPRESENTATIVE)",
+    )
+    persons = []
+    for link in links:
+        actors = client.select(
+            "actors", "id,kind,name", id="eq." + str(link.get("actor_id"))
+        )
+        if len(actors) == 1 and actors[0].get("kind") == "PERSON":
+            persons.append((link, actors[0]))
+    if len(persons) != 1:
+        stop("GENESIS_CONTROLLED_PERSON_COUNT_NOT_ONE")
+    link, actor = persons[0]
+    return {"profile": profiles[0], "actor": actor, "owner_link": link}
+
+
+def resolve_genesis_state(client: GenesisLocalClient, actor_id: str) -> dict:
+    cell_roles = client.select(
+        "role_assignments",
+        "id,cell_id,role_id,scope_type,scope_id,revoked_at",
+        actor_id="eq." + actor_id,
+        scope_type="eq.CELL",
+        revoked_at="is.null",
+    )
+    project_links = client.select(
+        "project_members",
+        "project_id,actor_id,role",
+        actor_id="eq." + actor_id,
+    )
+    stewarded_projects = client.select(
+        "projects",
+        "id,cell_id,title,visibility,steward_actor_id",
+        steward_actor_id="eq." + actor_id,
+    )
+    participations = client.select(
+        "cell_participations",
+        "id,cell_id,actor_id,status",
+        actor_id="eq." + actor_id,
+        status="eq.ACTIVE",
+    )
+    if cell_roles or project_links or stewarded_projects:
+        stop("GENESIS_FIRST_PROJECT_NO_LONGER_APPLICABLE")
+    return {
+        "cell_roles": cell_roles,
+        "project_links": project_links,
+        "stewarded_projects": stewarded_projects,
+        "participations": participations,
+    }
+
+
+def verify_preproject_record(
+    client: GenesisLocalClient,
+    actor_id: str,
+    created: dict,
+    record_class: str,
+    content: str,
+    provenance: dict,
+) -> dict:
+    record_id = str(created.get("record_id") or "")
+    rows = client.select(
+        "preproject_records",
+        "id,owner_actor_id,record_class,content,content_sha256,provenance,visibility,created_at",
+        id="eq." + record_id,
+    )
+    expected_digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
+    if len(rows) != 1:
+        stop("GENESIS_PREPROJECT_READBACK_COUNT_NOT_ONE")
+    row = rows[0]
+    if (
+        row.get("owner_actor_id") != actor_id
+        or row.get("record_class") != record_class
+        or row.get("content") != content
+        or row.get("content_sha256") != expected_digest
+        or row.get("provenance") != provenance
+        or row.get("visibility") != "PRIVATE"
+        or not row.get("created_at")
+    ):
+        stop("GENESIS_PREPROJECT_READBACK_MISMATCH")
+    return row
+
+
+def read_one_human_source(path_text: str) -> dict:
+    path = Path(path_text).expanduser()
+    suffix = path.suffix.lower()
+    if suffix not in {".txt", ".md"}:
+        stop("GENESIS_SOURCE_TYPE_NOT_ALLOWED")
+    try:
+        raw = path.read_bytes()
+        content = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        stop("GENESIS_SOURCE_NOT_UTF8")
+    except OSError:
+        stop("GENESIS_SOURCE_UNREADABLE")
+    if not raw or len(raw) > 65536:
+        stop("GENESIS_SOURCE_SIZE_INVALID")
+    return {
+        "content": content,
+        "provenance": {
+            "supplied_path": path_text,
+            "supplied_filename": path.name,
+            "media_type": (
+                "text/markdown; charset=utf-8"
+                if suffix == ".md"
+                else "text/plain; charset=utf-8"
+            ),
+            "byte_size": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "source_status": "SOURCE_NOT_TRUTH_OR_CURRENT_IDENTITY",
+        },
+    }
+
+
+def ask_project(input_fn=input, output_fn=print) -> dict:
+    fields = [
+        ("title", "Nome do Projeto", 4, 100),
+        ("summary", "Resumo do Projeto", 20, 320),
+        ("original_intent", "Sua intenção original", 20, 4000),
+        ("current_intent", "Sua interpretação atual", 20, 4000),
+        ("intended_result", "Resultado que você quer alcançar", 10, 1000),
+        ("rules_and_limits", "Regras e limites", 10, 2000),
+    ]
+    project: dict[str, object] = {}
+    for key, label, minimum, maximum in fields:
+        value = input_fn(label + ": ").strip()
+        if not minimum <= len(value) <= maximum:
+            stop(f"GENESIS_INPUT_INVALID:{key}")
+        project[key] = value
+    raw_needs = input_fn(
+        "O que este Projeto precisa? (separe itens com ponto e vírgula): "
+    )
+    needs = [item.strip() for item in raw_needs.split(";") if item.strip()]
+    if not 1 <= len(needs) <= 12:
+        stop("GENESIS_INPUT_INVALID:needs")
+    project["needs"] = needs
+
+    output_fn("\nAÇÃO PROPOSTA")
+    output_fn("Projeto: " + str(project["title"]))
+    output_fn("Visibilidade: PRIVADA")
+    output_fn("Regime econômico: VOLUNTÁRIO")
+    output_fn("Estágio inicial: RASCUNHO")
+    output_fn("Consequências:")
+    output_fn("- uma Cell privada será criada;")
+    output_fn("- Marcos receberá CELL_MEMBER sem capacidades;")
+    output_fn("- Marcos será PROJECT_STEWARD somente deste Projeto;")
+    output_fn("- nenhuma participação por convite será criada;")
+    output_fn("- não haverá publicação, IA, contato externo ou gasto.")
+    return project
+
+
+def verify_first_project(
+    client: GenesisLocalClient,
+    identity: dict,
+    created: dict,
+) -> dict:
+    project_id = str(created["project_id"])
+    actor_id = str(identity["actor"]["id"])
+    profile_id = str(identity["profile"]["id"])
+    projects = client.select(
+        "projects",
+        "id,cell_id,title,slug,visibility,steward_actor_id,created_by_profile_id",
+        id="eq." + project_id,
+    )
+    if len(projects) != 1:
+        stop("GENESIS_PROJECT_READBACK_COUNT_NOT_ONE")
+    project = projects[0]
+    if (
+        project.get("visibility") != "PRIVATE"
+        or project.get("steward_actor_id") != actor_id
+        or project.get("created_by_profile_id") != profile_id
+    ):
+        stop("GENESIS_PROJECT_READBACK_MISMATCH")
+    cell_id = str(project.get("cell_id") or "")
+    cells = client.select(
+        "cells", "id,slug,name,current_policy_version_id", id="eq." + cell_id
+    )
+    if len(cells) != 1 or not cells[0].get("current_policy_version_id"):
+        stop("GENESIS_CELL_READBACK_MISMATCH")
+    policies = client.select(
+        "policy_versions",
+        "id,cell_id,version,state,rules,created_by_actor_id",
+        id="eq." + str(cells[0]["current_policy_version_id"]),
+    )
+    if (
+        len(policies) != 1
+        or policies[0].get("cell_id") != cell_id
+        or policies[0].get("state") != "ACTIVE"
+        or policies[0].get("created_by_actor_id") != actor_id
+        or not (policies[0].get("rules") or {}).get("participant_boundary")
+    ):
+        stop("GENESIS_PARTICIPANT_BOUNDARY_POLICY_MISMATCH")
+
+    assignments = client.select(
+        "role_assignments",
+        "id,cell_id,actor_id,role_id,scope_type,scope_id,revoked_at",
+        actor_id="eq." + actor_id,
+        revoked_at="is.null",
+    )
+    role_ids = {str(row.get("role_id")) for row in assignments}
+    definitions = []
+    for role_id in sorted(role_ids):
+        definitions.extend(client.select(
+            "role_definitions", "id,cell_id,code", id="eq." + role_id
+        ))
+    codes = {str(row.get("id")): row.get("code") for row in definitions}
+    cell_members = [
+        row for row in assignments
+        if row.get("cell_id") == cell_id
+        and row.get("scope_type") == "CELL"
+        and row.get("scope_id") == cell_id
+        and codes.get(str(row.get("role_id"))) == "CELL_MEMBER"
+    ]
+    stewards = [
+        row for row in assignments
+        if row.get("cell_id") == cell_id
+        and row.get("scope_type") == "PROJECT"
+        and row.get("scope_id") == project_id
+        and codes.get(str(row.get("role_id"))) == "PROJECT_STEWARD"
+    ]
+    if (
+        len(assignments) != 2
+        or len(cell_members) != 1
+        or len(stewards) != 1
+    ):
+        stop("GENESIS_AUTHORITY_READBACK_MISMATCH")
+    capabilities = client.select(
+        "role_capabilities",
+        "role_id,capability_code",
+        role_id="eq." + str(cell_members[0]["role_id"]),
+    )
+    if capabilities:
+        stop("GENESIS_CELL_MEMBER_HAS_CAPABILITIES")
+    project_members = client.select(
+        "project_members", "project_id,actor_id,role",
+        project_id="eq." + project_id,
+        actor_id="eq." + actor_id,
+        role="eq.PROJECT_STEWARD",
+    )
+    participations = client.select(
+        "cell_participations", "id,cell_id,actor_id,status",
+        cell_id="eq." + cell_id,
+        actor_id="eq." + actor_id,
+    )
+    if len(project_members) != 1 or participations:
+        stop("GENESIS_RELATION_READBACK_MISMATCH")
+    return {"cell": cells[0], "project": project}
+
+
+def run_genesis_terminal(
+    bootstrap: dict,
+    *,
+    input_fn=input,
+    output_fn=print,
+    configuration_fn=local_supabase_configuration,
+    authenticate_fn=authenticate_local_human,
+    client_factory=GenesisLocalClient,
+) -> dict:
+    if bootstrap.get("canonical_human_direction") != GENESIS_DIRECTION:
+        stop("GENESIS_D033_NOT_CANONICAL")
+    api, public_key, mailpit = configuration_fn()
+    token, user = authenticate_fn(api, public_key, mailpit)
+    client = client_factory(api, public_key, token)
+    identity = resolve_genesis_identity(client, user)
+    state = resolve_genesis_state(client, str(identity["actor"]["id"]))
+
+    output_fn("\nCÉLULA ZERO — GENESIS HUMAN")
+    output_fn("Direção atual: D033 — Genesis Human / Integrated Evolution")
+    output_fn("Identidade: " + str(identity["profile"]["display_name"]))
+    output_fn(
+        "I recognize your identity inside CZ, but I do not yet have "
+        "a reconstructed trajectory for you."
+    )
+    answer = input_fn("What do you want to do now?")
+    if not answer or len(answer.encode("utf-8")) > 65536:
+        stop("GENESIS_ORIGINAL_RECORD_CONTENT_INVALID")
+    actor_id = str(identity["actor"]["id"])
+    original_provenance = {
+        "capture": "GENESIS_HUMAN_TERMINAL",
+        "prompt": "What do you want to do now?",
+        "epistemic_status": "HUMAN_ORIGINAL_RECORD_NOT_INTERPRETATION_OR_ADOPTION",
+    }
+    original = client.record_preproject_text(
+        actor_id, "ORIGINAL_RECORD", answer, original_provenance
+    )
+    original_readback = verify_preproject_record(
+        client, actor_id, original, "ORIGINAL_RECORD", answer, original_provenance
+    )
+
+    source_readback = None
+    supplied_path = input_fn(
+        "Optional local UTF-8 .txt/.md source path (leave empty to decline): "
+    )
+    if supplied_path:
+        source = read_one_human_source(supplied_path)
+        metadata = source["provenance"]
+        output_fn("\nSOURCE IMPORT PREVIEW")
+        output_fn("SUPPLIED_PATH=" + supplied_path)
+        output_fn("MEDIA_TYPE=" + str(metadata["media_type"]))
+        output_fn("BYTE_SIZE=" + str(metadata["byte_size"]))
+        output_fn("SHA256=" + str(metadata["sha256"]))
+        output_fn("CLASSIFICATION=SOURCE_MATERIAL")
+        output_fn("VISIBILITY=PRIVATE")
+        output_fn("SOURCE ≠ TRUTH ≠ CURRENT IDENTITY.")
+        confirmation = input_fn("Type exactly IMPORT to confirm: ")
+        if confirmation == "IMPORT":
+            created = client.record_preproject_text(
+                actor_id,
+                "SOURCE_MATERIAL",
+                source["content"],
+                metadata,
+            )
+            source_readback = verify_preproject_record(
+                client,
+                actor_id,
+                created,
+                "SOURCE_MATERIAL",
+                source["content"],
+                metadata,
+            )
+
+    output_fn("\nORIGINAL_RECORD=VERIFIED")
+    output_fn(
+        "SOURCE_MATERIAL=VERIFIED"
+        if source_readback is not None
+        else "SOURCE_MATERIAL=NOT_PROVIDED"
+    )
+    output_fn("VISIBILITY=PRIVATE")
+    output_fn("PROJECT_CREATED=NO")
+    output_fn("MODEL_CALLS=0")
+    output_fn("PAID_SPEND=0")
+    output_fn("STOP")
+    return {
+        "ok": True,
+        "original_record": original_readback,
+        "source_material": source_readback,
+        "state": state,
+    }
+
+
+def run_ai_founder(bootstrap: dict) -> None:
     cfg = config()
 
     model = cfg["model"]
@@ -2138,11 +2735,6 @@ def main() -> None:
     max_tokens = int(
         cfg["max_output_tokens"]
     )
-
-    bootstrap = read_only_bootstrap()
-    print_read_only_bootstrap(bootstrap)
-
-    require_canonical_controls(bootstrap)
 
     base = bootstrap["remote_main_sha"]
     state = current_state(base)
@@ -2181,11 +2773,6 @@ def main() -> None:
         "============================================================"
     )
 
-    if "--check" in sys.argv[1:]:
-        print("MODEL_CALLS=0")
-        print("PAID_SPEND=0")
-        return
-
     key = gateway_key()
 
     initial_credits = credits(key)
@@ -2210,7 +2797,7 @@ def main() -> None:
     args = [
         x
         for x in sys.argv[1:]
-        if x != "--check"
+        if x not in {"--check", "--ai"}
     ]
 
     pending = (
@@ -2534,6 +3121,24 @@ def main() -> None:
 
         if args:
             break
+
+
+def main() -> None:
+    bootstrap = read_only_bootstrap()
+    print_read_only_bootstrap(bootstrap)
+    require_canonical_controls(bootstrap)
+
+    args = sys.argv[1:]
+    if "--check" in args:
+        print("MODEL_CALLS=0")
+        print("PAID_SPEND=0")
+        return
+    if "--ai" in args:
+        run_ai_founder(bootstrap)
+        return
+    if args:
+        stop("GENESIS_UNKNOWN_ARGUMENT")
+    run_genesis_terminal(bootstrap)
 
 
 if __name__ == "__main__":
