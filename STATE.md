@@ -2013,7 +2013,7 @@ Next gate: `DISCOVERY N=1 USING THE EFFECTIVE HUMAN-CORRECTED LIVING PRESENCE`.
 
 `FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
 
-## Gate-1 reset / new Genesis Human lived epoch — current reconciliation
+## Gate-1 reset / Genesis Human lived epoch 2 — current reconciliation
 
 The destructive reset of protected `celula-zero-gate-1` broke physical lived
 state continuity. The old Gate-1 must not be treated as uninterrupted current
@@ -2021,7 +2021,7 @@ lineage.
 
 Human direction is recorded in `decisions/D034-human-adopts-new-genesis-human-lived-epoch-after-gate1-reset.md`:
 
-- a new Genesis Human lived epoch is adopted but **NOT YET INSTANTIATED**;
+- Genesis Human lived epoch 2 is **INSTANTIATED / READBACK PASS LOCAL N=1**;
 - only evidence-supported or explicitly reconstructed state may cross the epoch
   boundary;
 - predecessor rehearsal databases remain historical evidence, not Founder
@@ -2029,15 +2029,29 @@ Human direction is recorded in `decisions/D034-human-adopts-new-genesis-human-li
 - `LIVED_STATE_PORTABILITY` and `DESTRUCTIVE_OPERATION_INTERLOCK` are
   `REQUIRED NOW`.
 
-Recovery Portability V1.2 is `TRUE_ROUNDTRIP_PASS / LOCAL N=1`. It is not
+Identity/Founder exact readback and restart/resume are `PASS LOCAL N=1`.
+Historical Living Presence is available from exact `SOURCE_MATERIAL`.
+Native current CZ readback is `INCONCLUSIVE`; auth is
+`REESTABLISH_REQUIRED`; the native historical AI/review chain is not
+rehydrated.
+
+Post-instantiation logical portability is `PASS LOCAL N=1`. It is not
 production disaster recovery, a general backup guarantee, cross-machine
 portability, adoption or scale.
 
 Habitable Alpha Wave 1 remains paused after the incident. Before resumption:
 
-`local reconciliation + interlock verification → Human promotion decision → new lived epoch instantiation → real Founder readback → Wave 1 resume decision`
+`REESTABLISH CURRENT HUMAN AUTHENTICATION → REAL FOUNDER / NATIVE CURRENT CZ READBACK → HUMAN REVIEW → Wave 1 resume decision`
+
+This next gate is not already authorized.
 
 Preserve:
+
+`NEW EPOCH INSTANTIATED ≠ REAL FOUNDER READBACK PASS`
+
+`DB READBACK ≠ AUTHENTICATED HUMAN EXPERIENCE`
+
+`CURRENT AUTH REESTABLISHED ≠ HISTORICAL CREDENTIAL RECOVERED`
 
 `FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
 
