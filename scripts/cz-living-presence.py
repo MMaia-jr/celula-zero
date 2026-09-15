@@ -349,6 +349,7 @@ def founder_context(workspace: dict, human: dict, direction: dict) -> dict:
         "WHO YOU ARE NOW": identity,
         "CANONICAL RECORDED DIRECTION": [recorded_direction],
         "CURRENT INTENTIONS": intentions,
+        "PRESERVED HISTORICAL CONTEXT": historical_living_presence_context(workspace),
         "WHAT WE ARE DOING NOW": trajectory,
         "WHAT HAPPENED RECENTLY": (recent_canonical + results)[:10],
         "WHAT IS ACTUALLY ACTIVE": (active_projects + active_work)[:12],
@@ -587,6 +588,48 @@ def living_representation(workspace: dict) -> list[dict]:
                 "review_id": review["id"],
             })
     return result
+
+
+def historical_living_presence_context(workspace: dict) -> list[dict]:
+    """Project exact exported Living Presence as preserved, non-current context."""
+    snapshots = []
+    for record in workspace.get("records", []):
+        if record.get("record_class") != "SOURCE_MATERIAL":
+            continue
+        provenance = record.get("provenance")
+        if not isinstance(provenance, dict) or provenance.get("source_class") != "LOCAL_EXPORTED_EXACT":
+            continue
+        try:
+            payload = json.loads(record.get("content", ""))
+            exported_at = payload["exportedAt"]
+            if payload.get("schemaVersion") != "cz.living-presence.v0":
+                continue
+            timestamp_text = str(exported_at)
+            if timestamp_text.endswith("Z"):
+                timestamp_text = timestamp_text[:-1] + "+00:00"
+            timestamp = datetime.fromisoformat(timestamp_text)
+            if timestamp.tzinfo is None or timestamp.utcoffset() is None:
+                continue
+            digest = hashlib.sha256(record["content"].encode("utf-8")).hexdigest()
+            if not record.get("content_sha256") or record["content_sha256"] != digest:
+                continue
+            snapshots.append((timestamp, str(record["id"]), payload, digest))
+        except (KeyError, TypeError, ValueError, json.JSONDecodeError):
+            continue
+    if not snapshots:
+        return []
+    _, record_id, payload, digest = max(snapshots, key=lambda item: (item[0], item[1]))
+    return [
+        {
+            "text": item["text"],
+            "currentness": "PRESERVED HISTORICAL CONTEXT; NOT ASSERTED CURRENT",
+            "source": "preproject_records:" + record_id,
+            "evidence_class": "LOCAL_EXPORTED_EXACT",
+            "source_digest": digest,
+        }
+        for item in payload.get("adoptedRepresentation", [])
+        if isinstance(item, dict) and isinstance(item.get("text"), str)
+    ]
 
 
 def export_presence(workspace: dict, human: dict, output_fn=print) -> Path:

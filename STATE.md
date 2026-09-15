@@ -2031,17 +2031,25 @@ Human direction is recorded in `decisions/D034-human-adopts-new-genesis-human-li
 
 Identity/Founder exact readback and restart/resume are `PASS LOCAL N=1`.
 Historical Living Presence is available from exact `SOURCE_MATERIAL`.
-Native current CZ readback is `INCONCLUSIVE`; auth is
-`REESTABLISH_REQUIRED`; the native historical AI/review chain is not
-rehydrated.
+Genesis Human authenticated return is `PASS LOCAL N=1 WITH NATIVE GAP`.
+Current Auth is `CURRENT / REESTABLISHED`; normal passwordless login is `PASS`;
+Auth → Profile → PERSON → OWNER and Founder authenticated readback are `PASS`.
+Native current Living Presence remains `EMPTY / NOT DEMONSTRATED` while exact
+historical Living Presence is available as `SOURCE_MATERIAL`. The native
+historical candidate/review chain is not rehydrated.
+
+The smallest read-only composition now presents the exact historical export as
+`PRESERVED HISTORICAL CONTEXT; NOT ASSERTED CURRENT`, separately from current
+identity, current intention, native current state and canonical direction.
 
 Post-instantiation logical portability is `PASS LOCAL N=1`. It is not
 production disaster recovery, a general backup guarantee, cross-machine
 portability, adoption or scale.
 
-Habitable Alpha Wave 1 remains paused after the incident. Before resumption:
+Habitable Alpha Wave 1 remains paused after the incident. Historical-LP
+composition is `PASS LOCAL N=1`; the current next gate is:
 
-`REESTABLISH CURRENT HUMAN AUTHENTICATION → REAL FOUNDER / NATIVE CURRENT CZ READBACK → HUMAN REVIEW → Wave 1 resume decision`
+`HUMAN REVIEW OF HISTORICAL-LP CONTEXT COMPOSITION → separate Wave 1 resume decision`
 
 This next gate is not already authorized.
 

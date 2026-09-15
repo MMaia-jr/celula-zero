@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import os
@@ -80,6 +81,88 @@ def workspace(*, completed=False, reviewed=False, active=True):
 
 
 class TerminalGoldenPathTests(unittest.TestCase):
+    def historical_workspace(self):
+        state = workspace()
+        state["records"][0] = {**state["records"][0], "provenance": {"capture": "FOUNDER_SESSION_V0"}}
+        exported = {
+            "schemaVersion": "cz.living-presence.v0",
+            "exportedAt": "2026-09-14T14:20:35.502987+00:00",
+            "adoptedRepresentation": [{"text": "Representação histórica exata.", "status": "CORRECT"}],
+        }
+        content = json.dumps(exported, ensure_ascii=False, separators=(",", ":"))
+        state["records"] = [
+            *state["records"],
+            {"id": "historical-source", "record_class": "SOURCE_MATERIAL", "content": content,
+             "content_sha256": hashlib.sha256(content.encode()).hexdigest(),
+             "provenance": {"source_class": "LOCAL_EXPORTED_EXACT"},
+             "created_at": "2026-09-14T14:20:35Z"},
+        ]
+        return state
+
+    def test_historical_context_is_separate_and_native_presence_stays_empty(self):
+        state = self.historical_workspace()
+        context = cz.founder_context(state, HUMAN, {
+            "canonical_next_gate": "Discovery N=1", "source": "STATE.md@canonical",
+            "currentness": "REMOTE MAIN VERIFIED",
+        })
+        historical = context["PRESERVED HISTORICAL CONTEXT"]
+        self.assertEqual(len(historical), 1)
+        self.assertEqual(historical[0]["currentness"], "PRESERVED HISTORICAL CONTEXT; NOT ASSERTED CURRENT")
+        self.assertEqual(historical[0]["source"], "preproject_records:historical-source")
+        self.assertEqual(historical[0]["evidence_class"], "LOCAL_EXPORTED_EXACT")
+        self.assertEqual(historical[0]["source_digest"], hashlib.sha256(state["records"][1]["content"].encode()).hexdigest())
+        self.assertEqual(cz.living_representation(state), [])
+        self.assertEqual(len(context["CURRENT INTENTIONS"]), 1)
+
+    def test_malformed_historical_material_fails_closed(self):
+        state = workspace()
+        state["records"] = [
+            *state["records"],
+            {"id": "bad-source", "record_class": "SOURCE_MATERIAL", "content": "not-json",
+             "content_sha256": hashlib.sha256(b"not-json").hexdigest(),
+             "provenance": {}, "created_at": "2026-09-14T14:20:35Z"},
+        ]
+        self.assertEqual(cz.historical_living_presence_context(state), [])
+
+    def test_historical_context_requires_exact_digest_and_observed_evidence_class(self):
+        state = self.historical_workspace()
+        state["records"][1]["content_sha256"] = None
+        self.assertEqual(cz.historical_living_presence_context(state), [])
+        state = self.historical_workspace()
+        state["records"][1]["content_sha256"] = "0" * 64
+        self.assertEqual(cz.historical_living_presence_context(state), [])
+        state = self.historical_workspace()
+        state["records"][1]["provenance"] = {"source_class": "DOCUMENTARY_PARTIAL"}
+        self.assertEqual(cz.historical_living_presence_context(state), [])
+
+    def test_historical_context_orders_timezone_aware_instants_not_strings(self):
+        state = self.historical_workspace()
+        later = json.loads(state["records"][1]["content"])
+        later["exportedAt"] = "2026-09-14T11:30:00-04:00"
+        state["records"][1]["content"] = json.dumps(later, ensure_ascii=False, separators=(",", ":"))
+        state["records"][1]["content_sha256"] = hashlib.sha256(state["records"][1]["content"].encode()).hexdigest()
+        earlier = dict(state["records"][1], id="earlier-source")
+        earlier_payload = dict(later, exportedAt="2026-09-14T15:00:00+00:00")
+        earlier["content"] = json.dumps(earlier_payload, ensure_ascii=False, separators=(",", ":"))
+        earlier["content_sha256"] = hashlib.sha256(earlier["content"].encode()).hexdigest()
+        state["records"].append(earlier)
+        result = cz.historical_living_presence_context(state)
+        self.assertEqual(result[0]["source"], "preproject_records:historical-source")
+
+    def test_malformed_or_naive_timestamp_is_excluded(self):
+        state = self.historical_workspace()
+        payload = json.loads(state["records"][1]["content"])
+        payload["exportedAt"] = "not-a-timestamp"
+        state["records"][1]["content"] = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+        state["records"][1]["content_sha256"] = hashlib.sha256(state["records"][1]["content"].encode()).hexdigest()
+        self.assertEqual(cz.historical_living_presence_context(state), [])
+        state = self.historical_workspace()
+        payload = json.loads(state["records"][1]["content"])
+        payload["exportedAt"] = "2026-09-14T14:20:35"
+        state["records"][1]["content"] = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+        state["records"][1]["content_sha256"] = hashlib.sha256(state["records"][1]["content"].encode()).hexdigest()
+        self.assertEqual(cz.historical_living_presence_context(state), [])
+
     def run_case(self, answers, states, *, founder=False):
         prompts = iter(([] if founder else ["2"]) + answers)
         output = []
