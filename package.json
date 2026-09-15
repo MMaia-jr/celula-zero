@@ -26,6 +26,7 @@
     "room:export": "node scripts/cz-room.mjs --export",
     "room:handoff": "node scripts/cz-room.mjs --handoff",
     "test:room": "node --test scripts/cz-room.test.mjs",
-    "test:room:participation-portability": "node --test scripts/cz-room-participation-portability.test.mjs"
+    "test:room:participation-portability": "node --test scripts/cz-room-participation-portability.test.mjs",
+    "test:interlock": "python3 scripts/test_cz_safe_local_db_operation.py"
   }
 }
