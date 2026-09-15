@@ -2047,11 +2047,12 @@ production disaster recovery, a general backup guarantee, cross-machine
 portability, adoption or scale.
 
 Habitable Alpha Wave 1 remains paused after the incident. Historical-LP
-composition is `PASS LOCAL N=1`; the current next gate is:
+composition is `PASS LOCAL N=1` and Human Review is
+`COMPLETED / ACCEPTED BY D036`. The current next gate is:
 
-`HUMAN REVIEW OF HISTORICAL-LP CONTEXT COMPOSITION → separate Wave 1 resume decision`
+`SEPARATE HUMAN DECISION ON WHETHER / HOW / IN WHAT SCOPE TO RESUME WAVE 1`
 
-This next gate is not already authorized.
+`WAVE 1 RESUME IS NOT AUTHORIZED BY D036`.
 
 Preserve:
 
