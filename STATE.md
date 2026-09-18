@@ -2193,6 +2193,53 @@ Preserve:
 
 `HUMAN REVIEW ACCEPTED ≠ GIT PROMOTION AUTHORIZED`
 
+R2 is preserved as the first real repository task executed through the
+canonical Execution Fabric.
+
+### R3 — Genesis Repeated Operation / Cold-Start Discoverability V1
+
+Human Review:
+
+`decisions/D040-human-accepts-r3-genesis-repeated-operation.md`
+
+Work Packet:
+
+`WP-R3-GENESIS-REPEATED-OPERATION-COLD-START-V1.md`
+
+Result Package:
+
+`RP-R3-GENESIS-REPEATED-OPERATION-COLD-START-V1.md`
+
+Result:
+
+`PASS N=1 / LOCAL / BOUNDED / HUMAN REVIEW ACCEPTED`
+
+Observed:
+
+- cold canonical Founder bootstrap: `PASS`;
+- second distinct real task after cold canonical restart: `OBSERVED`;
+- pre-task property loss:
+  `EXISTING CANONICAL CAPABILITY NOT DISCOVERABLE IN CANONICAL OPERATIONS INDEX`;
+- construction class: `MAP EXISTING CAPABILITY`;
+- execution route: `CANONICAL EXECUTION FABRIC`;
+- direct Codex calls outside the fabric: `0`;
+- repository content scope: exactly `docs/OPERATIONS.md`;
+- execution result: `COMPLETED / WITHIN_SCOPE / verified=false / canonical=false`;
+- fresh `README → OPERATIONS → Execution Fabric` candidate readback: `PASS`;
+- Execution Fabric regression: `19/19 PASS`;
+- Kimi / paid-model review: `0 / NO`;
+- commit / push / PR / merge / Remote Supabase / deploy / funds / outreach: `0`.
+
+Preserve:
+
+`SECOND DISTINCT EPISODE OBSERVED ≠ GENERAL RECURRENCE PROVEN`
+
+`DISCOVERABLE ≠ HABITABLE`
+
+`DOCUMENTED ≠ EXECUTED`
+
+`HUMAN REVIEW ACCEPTED ≠ GIT PROMOTION AUTHORIZED`
+
 Current immediate coordination:
 
 `HUMAN DECISION / SELECT NEXT GENESIS READINESS PROPERTY`
