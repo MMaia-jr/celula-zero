@@ -125,6 +125,28 @@ move `HEAD`; it does not grant Git-promotion authority. A documented command or
 Work Packet does not itself authorize execution or Git promotion. Human
 authority remains explicit and contextual.
 
+### Failure / recovery readback
+
+Inspect the structured Execution Fabric result; shell or process exit status
+alone is insufficient to classify task success. `FAILED`, `BLOCKED`, and
+`SCOPE_VIOLATION` must not be treated as `COMPLETED`, `VERIFIED`, or
+`CANONICAL`.
+
+A failed execution may leave an authorized-path candidate in a dirty worktree.
+Before deciding what to do, preserve the Work Packet, result envelope,
+diff/hashes, and scope readback. Do not blindly invoke the V1 fabric again: it
+requires a clean checkout before execution.
+
+Recovery returns to explicit Human disposition. Ordinarily, abandon or preserve
+the partial candidate, or prepare a newly authorized Work Packet from a clean
+base. Continuing partial dirty bytes is not a default V1 path and requires a
+separate Human decision if materially necessary. There is no automatic retry
+and no automatic Git promotion.
+
+`RECOVERY ≠ RETRY`
+
+`RECOVERY ≠ PROMOTION`
+
 Verify:
 
 ```bash
