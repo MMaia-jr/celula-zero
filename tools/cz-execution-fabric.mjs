@@ -6,12 +6,12 @@ import { readFileSync } from "node:fs";
 import { isAbsolute, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-export const CANONICAL_BASE = "8216ebf348b88d67d9f93bf16d64c19c4aa9660a";
 export const PACKET_SCHEMA = "cz.execution-work-packet.v1";
 export const RESULT_SCHEMA = "cz.execution-result.v1";
 export const CODEX_TIMEOUT_MS = 30 * 60 * 1000;
 
 const VALIDATION_EXECUTABLES = new Set(["git", "node", "npm"]);
+const FULL_GIT_SHA = /^[0-9a-f]{40}$/;
 
 function fail(message) {
   throw new Error(message);
@@ -39,7 +39,9 @@ function repoPath(value, name) {
 export function validatePacket(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) fail("packet must be a JSON object");
   if (value.schema !== PACKET_SCHEMA) fail(`unsupported packet schema: ${String(value.schema)}`);
-  if (value.canonical_base !== CANONICAL_BASE) fail(`wrong canonical base: ${String(value.canonical_base)}`);
+  if (!FULL_GIT_SHA.test(value.canonical_base)) {
+    fail("canonical_base must be a full 40-character lowercase hexadecimal Git SHA");
+  }
   if (value.executor !== "CODEX_CLI") fail(`unsupported executor: ${String(value.executor)}`);
   if (typeof value.task !== "string" || !value.task.trim()) fail("task must be a non-empty string");
   if (!Array.isArray(value.allowed_paths) || value.allowed_paths.length === 0) {
@@ -188,11 +190,11 @@ export function executePacket(rawPacket, options = {}) {
   };
 }
 
-export function blockedResult(startTimestamp, endTimestamp = new Date().toISOString()) {
+export function blockedResult(startTimestamp, endTimestamp = new Date().toISOString(), canonicalBase = null) {
   return {
     schema: RESULT_SCHEMA,
     executor: "CODEX_CLI",
-    canonical_base: CANONICAL_BASE,
+    canonical_base: FULL_GIT_SHA.test(canonicalBase) ? canonicalBase : null,
     start_timestamp: startTimestamp,
     end_timestamp: endTimestamp,
     executor_exit_code: null,
@@ -215,13 +217,17 @@ function parseCli(argv) {
 
 export function main(argv = process.argv.slice(2)) {
   const started = new Date().toISOString();
+  let requestedBase = null;
   try {
     const packetPath = parseCli(argv);
     const packet = JSON.parse(readFileSync(packetPath, "utf8"));
+    if (packet && typeof packet === "object" && !Array.isArray(packet) && FULL_GIT_SHA.test(packet.canonical_base)) {
+      requestedBase = packet.canonical_base;
+    }
     process.stdout.write(`${JSON.stringify(executePacket(packet))}\n`);
   } catch (error) {
     process.stderr.write(`EXECUTION_FABRIC_ERROR=${error.message}\n`);
-    process.stdout.write(`${JSON.stringify(blockedResult(started))}\n`);
+    process.stdout.write(`${JSON.stringify(blockedResult(started, new Date().toISOString(), requestedBase))}\n`);
     process.exitCode = 1;
   }
 }

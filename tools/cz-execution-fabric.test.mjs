@@ -1,18 +1,25 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import {
-  CANONICAL_BASE,
   CODEX_TIMEOUT_MS,
   blockedResult,
   executePacket,
   validatePacket,
 } from "./cz-execution-fabric.mjs";
 
+const CURRENT_BASE = "14136021f8a7f9fa14f48cd3cc892208606f4cb3";
+const HISTORICAL_BASE = "8216ebf348b88d67d9f93bf16d64c19c4aa9660a";
+
 function packet(overrides = {}) {
   return {
     schema: "cz.execution-work-packet.v1",
-    canonical_base: CANONICAL_BASE,
+    canonical_base: CURRENT_BASE,
     executor: "CODEX_CLI",
     task: "Create the bounded artifact.",
     allowed_paths: ["tools/result.txt"],
@@ -21,7 +28,7 @@ function packet(overrides = {}) {
   };
 }
 
-function harness({ dirtyBefore = false, endHead = CANONICAL_BASE, changed = "?? tools/result.txt\0", executorStatus = 0, validationStatus = 0 } = {}) {
+function harness({ startHead = CURRENT_BASE, dirtyBefore = false, endHead = startHead, changed = "?? tools/result.txt\0", executorStatus = 0, validationStatus = 0 } = {}) {
   const calls = [];
   let headCalls = 0;
   let statusCalls = 0;
@@ -29,7 +36,7 @@ function harness({ dirtyBefore = false, endHead = CANONICAL_BASE, changed = "?? 
     calls.push({ command, args, options });
     if (command === "git" && args[0] === "rev-parse") {
       headCalls += 1;
-      return { status: 0, stdout: `${headCalls === 1 ? CANONICAL_BASE : endHead}\n`, stderr: "" };
+      return { status: 0, stdout: `${headCalls === 1 ? startHead : endHead}\n`, stderr: "" };
     }
     if (command === "git" && args[0] === "status") {
       statusCalls += 1;
@@ -64,8 +71,33 @@ test("wrong schema is rejected", () => {
   assert.throws(() => validatePacket(packet({ schema: "other" })), /unsupported packet schema/);
 });
 
-test("wrong packet base is rejected", () => {
-  assert.throws(() => validatePacket(packet({ canonical_base: "deadbeef" })), /wrong canonical base/);
+test("malformed and non-full packet bases are rejected", () => {
+  for (const canonical_base of [undefined, null, "deadbeef", "A".repeat(40), "g".repeat(40), `${CURRENT_BASE}0`]) {
+    assert.throws(() => validatePacket(packet({ canonical_base })), /full 40-character lowercase hexadecimal Git SHA/);
+  }
+});
+
+test("an arbitrary full-SHA packet base is accepted when HEAD matches", () => {
+  const arbitraryBase = "0123456789abcdef0123456789abcdef01234567";
+  const fake = harness({ startHead: arbitraryBase });
+  const result = executePacket(packet({ canonical_base: arbitraryBase }), { run: fake.run, cwd: "/repo" });
+  assert.equal(result.final_classification, "COMPLETED");
+  assert.equal(result.canonical_base, arbitraryBase);
+});
+
+test("actual HEAD differing from the packet base blocks before Codex", () => {
+  const fake = harness({ startHead: HISTORICAL_BASE });
+  assert.throws(() => executePacket(packet(), { run: fake.run, cwd: "/repo" }), /HEAD differs from canonical base/);
+  assert.equal(fake.calls.some((call) => call.command === "codex"), false);
+});
+
+test("the historical R1 base has no privileged status", () => {
+  assert.doesNotThrow(() => validatePacket(packet({ canonical_base: HISTORICAL_BASE })));
+  const fake = harness({ startHead: CURRENT_BASE });
+  assert.throws(
+    () => executePacket(packet({ canonical_base: HISTORICAL_BASE }), { run: fake.run, cwd: "/repo" }),
+    /HEAD differs from canonical base/,
+  );
 });
 
 test("unsupported executor is rejected", () => {
@@ -157,4 +189,22 @@ test("unassessed error envelope does not claim promotion was checked", () => {
   assert.equal(result.scope_status, "NOT_ASSESSED");
   assert.equal(result.final_classification, "BLOCKED");
   assert.equal(result.git_promotion_performed, null);
+  assert.equal(result.canonical_base, null);
+});
+
+test("blocked result preserves only a legitimate requested full-SHA base", () => {
+  assert.equal(blockedResult("start", "end", CURRENT_BASE).canonical_base, CURRENT_BASE);
+  assert.equal(blockedResult("start", "end", "deadbeef").canonical_base, null);
+});
+
+test("CLI blocked path preserves a parsed legitimate base without running Codex", () => {
+  const directory = mkdtempSync(join(tmpdir(), "cz-execution-fabric-"));
+  const packetPath = join(directory, "packet.json");
+  writeFileSync(packetPath, JSON.stringify(packet({ task: "" })));
+  const scriptPath = fileURLToPath(new URL("./cz-execution-fabric.mjs", import.meta.url));
+  const result = spawnSync(process.execPath, [scriptPath, "--packet", packetPath], { encoding: "utf8" });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /task must be a non-empty string/);
+  assert.equal(JSON.parse(result.stdout).canonical_base, CURRENT_BASE);
+  assert.doesNotMatch(result.stderr, /codex/i);
 });

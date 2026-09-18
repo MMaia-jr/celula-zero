@@ -59,7 +59,8 @@ Preserve:
 
 Future Readiness remains preserved context. D024 remains the adopted Collective
 Dream and D025 remains preserved reconciled plan lineage. Current sequencing is
-governed by D033 below. D020–D023 remain preserved lineage and bounded history;
+governed by D037 below; D033 remains preserved direction and lineage. D020–D023
+remain preserved lineage and bounded history;
 their earlier "current" wording must not override the newer Human Direction.
 
 Célula Zero não deve esperar a chegada de usuários, comunidade, capital ou
@@ -2150,11 +2151,52 @@ Preserve:
 
 `HUMAN REVIEW ≠ GIT PROMOTION`
 
+R1 is preserved as the previous Genesis Readiness execution-fabric slice.
+
+### R2 — Genesis Experience V1
+
+Human Review:
+
+`decisions/D039-human-accepts-r2-genesis-experience-v1.md`
+
+Work Packet:
+
+`WP-R2-GENESIS-EXPERIENCE-V1.md`
+
+Result Package:
+
+`RP-R2-GENESIS-EXPERIENCE-V1.md`
+
+Result:
+
+`PASS N=1 / LOCAL / BOUNDED / HUMAN REVIEW ACCEPTED`
+
+Observed:
+
+- current-base historical pin loss reproduced before repair;
+- blocked-envelope base-provenance loss reproduced;
+- Execution Fabric portability/provenance repair: `19/19 PASS` under Node 24;
+- one real `STATE.md` maintenance task executed through the repaired fabric;
+- execution result: `COMPLETED / WITHIN_SCOPE / verified=false / canonical=false`;
+- exact Stage 2 repository scope: `STATE.md`;
+- fail-closed byte-oracle STOP preserved and deterministically adjudicated as
+  whitespace-layout-only;
+- integrated local candidate scope: exactly `3` files;
+- Kimi / paid-model review: `0 / NO`;
+- commit / push / PR / merge / Remote Supabase / deploy / funds / outreach: `0`.
+
+Preserve:
+
+`R2 PASS N=1 ≠ COMPLETE GENESIS EXPERIENCE ≠ FOUNDER-LIGHT AUTONOMY`
+
+`EXECUTION COMPLETED ≠ VERIFIED ≠ CANONICAL`
+
+`HUMAN REVIEW ACCEPTED ≠ GIT PROMOTION AUTHORIZED`
+
 Current immediate coordination:
 
-`R2 / GENESIS EXPERIENCE / PREPARE BOUNDED WORK PACKET`
+`HUMAN DECISION / SELECT NEXT GENESIS READINESS PROPERTY`
 
-R2 execution is not authorized by this reconciliation and requires separate
-Human authorization.
+No next-gate execution is authorized by this reconciliation.
 
 END OF STATE
