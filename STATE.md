@@ -2240,6 +2240,68 @@ Preserve:
 
 `HUMAN REVIEW ACCEPTED ≠ GIT PROMOTION AUTHORIZED`
 
+R3 remains the second distinct successful real repository task through the
+canonical Execution Fabric after cold canonical restart.
+
+### R4 — Genesis Execution Failure / Restart / Recovery V1
+
+Human Review:
+
+`decisions/D041-human-accepts-r4-failure-restart-recovery-and-clean-rebuild.md`
+
+Work Packets:
+
+- `WP-R4-GENESIS-EXECUTION-FAILURE-RESTART-RECOVERY-V1.md`;
+- `WP-R4-REBUILD-FROM-CLEAN-BASE-V1.md`.
+
+Result Package:
+
+`RP-R4-GENESIS-EXECUTION-FAILURE-RESTART-RECOVERY-V1.md`
+
+Recovery result:
+
+`PASS N=1 / LOCAL / BOUNDED / HUMAN REVIEW ACCEPTED`
+
+Clean rebuild result:
+
+`PASS N=1 / LOCAL / BOUNDED / HUMAN REVIEW ACCEPTED`
+
+Observed:
+
+- controlled Execution Fabric episode ended `FAILED / WITHIN_SCOPE` while
+  process exit was `0`;
+- the original process ended and a new process reconstructed exact base,
+  Human authorization, Work Packet, result envelope, dirty worktree,
+  changed paths, patch/bytes and non-promotion state;
+- recovery classification:
+  `RECOVERED_FAILED_EXECUTION / PARTIAL_CANDIDATE_PRESERVED`;
+- automatic retry / Codex during recovery / repository writes: `0`;
+- Human disposition: `REBUILD_FROM_CLEAN_BASE`;
+- clean rebuild used a new fresh worktree and canonical Execution Fabric;
+- old failed dirty worktree reused: `NO`;
+- rebuild result: `COMPLETED / WITHIN_SCOPE / verified=false / canonical=false`;
+- changed repository content path: exactly `docs/OPERATIONS.md`;
+- exact reviewed target-byte parity: `PASS`;
+- exact reviewed patch parity: `PASS`;
+- fresh clean readback: `PASS`;
+- Execution Fabric regression: `19/19 PASS`;
+- Kimi / paid-model review: `0 / NO`;
+- commit / push / PR / merge / Remote Supabase / deploy / funds / outreach: `0`.
+
+Preserve:
+
+`PROCESS EXIT 0 ≠ EXECUTION COMPLETED`
+
+`FAILED EXECUTION REMAINS FAILED`
+
+`RECOVERY PASS ≠ ORIGINAL EXECUTION PASS`
+
+`REBUILD PASS ≠ ORIGINAL FAILED EXECUTION BECOMES PASS`
+
+`RECOVERY ≠ RETRY ≠ PROMOTION`
+
+`CONTROLLED FAILURE RECOVERY N=1 ≠ GENERAL RECOVERY`
+
 Current immediate coordination:
 
 `HUMAN DECISION / SELECT NEXT GENESIS READINESS PROPERTY`
