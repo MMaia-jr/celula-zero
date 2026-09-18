@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-13
+Última reconciliação canônica: 2026-09-18
 
 Repositório canônico:
 
@@ -184,7 +184,7 @@ Preserve:
 `VERIFIED_LOCAL N=1 ≠ general autonomy ≠ production readiness`
 
 
-## Current Human Direction — Genesis Human / Integrated Evolution
+## Preserved Human Direction — Genesis Human / Integrated Evolution
 
 `D033 / GENESIS HUMAN + INTEGRATED EVOLUTION / HUMAN DIRECTION`
 
@@ -192,7 +192,7 @@ Human Direction:
 
 `decisions/D033-human-adopts-genesis-human-integrated-evolution.md`
 
-Current sequence:
+D033 sequence preserved:
 
 `GENESIS HUMAN = MARCOS`
 
@@ -208,9 +208,10 @@ Preserve:
 
 `SUPERSEDED ≠ ERASED`
 
-D033 changes current sequencing and integration direction. It does not erase
-D024/D025 history, restart the Cell ontology, replace Company Core, or promote
-manual chat experiments as canonical Result Packages.
+D033 changed sequencing and integration direction at adoption. D037 below now
+governs current sequencing. D033 does not erase D024/D025 history, restart the
+Cell ontology, replace Company Core, or promote manual chat experiments as
+canonical Result Packages.
 
 Adopted Collective Dream remains:
 
@@ -2046,13 +2047,15 @@ Post-instantiation logical portability is `PASS LOCAL N=1`. It is not
 production disaster recovery, a general backup guarantee, cross-machine
 portability, adoption or scale.
 
-Habitable Alpha Wave 1 remains paused after the incident. Historical-LP
-composition is `PASS LOCAL N=1` and Human Review is
-`COMPLETED / ACCEPTED BY D036`. The current next gate is:
+At D036, Habitable Alpha Wave 1 remained paused after the incident.
+Historical-LP composition was `PASS LOCAL N=1` and Human Review was
+`COMPLETED / ACCEPTED BY D036`. The then-current next gate was:
 
 `SEPARATE HUMAN DECISION ON WHETHER / HOW / IN WHAT SCOPE TO RESUME WAVE 1`
 
-`WAVE 1 RESUME IS NOT AUTHORIZED BY D036`.
+D037 later changes present sequencing without resuming historical Wave 1.
+
+`HISTORICAL WAVE 1 = NOT RESUMED BY D037`.
 
 Preserve:
 
@@ -2076,5 +2079,82 @@ recorded direction remains distinct from later Human direction.
 
 Next observed property loss: continuous Human–AI inquiry and conversational
 continuity around one real underdetermined intention.
+
+## Current Human Direction — Genesis Readiness Before External Transfer
+
+`D037 / GENESIS READINESS BEFORE EXTERNAL TRANSFER / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D037-human-adopts-genesis-readiness-before-external-transfer.md`
+
+Current sequencing:
+
+`FAZER PARA TESTAR, NÃO TESTAR PARA FAZER`
+
+`Genesis internal readiness → repeated inhabited operation → Genesis Readiness Review → external transfer test`
+
+D037 changes present sequencing without erasing D033/D024/D025 or valid
+historical capability.
+
+Historical Habitable Alpha Wave 1 is not resumed by D037.
+
+External transfer remains:
+
+`HOLD UNTIL GENESIS READINESS REVIEW + SEPARATE HUMAN AUTHORIZATION`
+
+Preserve:
+
+`INTERNAL READINESS ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
+`NEW CURRENT SEQUENCING ≠ HISTORICAL WAVE 1 RESUME`
+
+### R1 — Genesis Execution Fabric V1
+
+Human Review:
+
+`decisions/D038-human-accepts-r1-genesis-execution-fabric-v1.md`
+
+Result Package:
+
+`RP-R1-GENESIS-EXECUTION-FABRIC-V1.md`
+
+Result:
+
+`PASS N=1 / LOCAL / BOUNDED / HUMAN REVIEW ACCEPTED`
+
+Observed:
+
+- one Human-authorized bounded Work Packet;
+- isolated Codex execution;
+- deterministic validation;
+- independent Kimi review through Vercel AI Gateway;
+- Human/coordinator adjudication of supported and unsupported findings;
+- bounded Codex repair;
+- Node 24 focused regression: `14/14 PASS`;
+- independent Kimi re-review: `PASS / FINDINGS=NONE`;
+- complete three-file implementation patch reconstructed;
+- `2` new files explicitly included;
+- clean-base patch apply: `PASS`;
+- exact file-hash parity: `PASS`;
+- primary Human checkout untouched;
+- Remote Supabase / deploy / outreach / funds: `0`.
+
+Preserve:
+
+`AI REVIEW ≠ TRUTH`
+
+`AI AGREEMENT ≠ HUMAN LEGITIMACY`
+
+`R1 PASS N=1 ≠ COMPLETE FOUNDER-LIGHT OPERATION`
+
+`HUMAN REVIEW ≠ GIT PROMOTION`
+
+Current immediate coordination:
+
+`R2 / GENESIS EXPERIENCE / PREPARE BOUNDED WORK PACKET`
+
+R2 execution is not authorized by this reconciliation and requires separate
+Human authorization.
 
 END OF STATE
