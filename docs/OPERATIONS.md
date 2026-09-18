@@ -34,6 +34,7 @@ Global boundaries:
 | Compose Room + canonical Git state | `node scripts/cz-compose-handoff.mjs` | local files | 5-file composed bundle | manifest hashes; focused response-contract test | no npm alias |
 | Capture external response | `node scripts/cz-compose-handoff.mjs --capture ... < response.md` | local files | response + SHA preserved | SHA + heading validation | no dedicated end-to-end capture test |
 | Validate predecessor before dependent paid call | `python3 scripts/cz-paid-call-fail-closed.py ...` | none from validator itself | reject/accept predecessor contract | `--self-test` | no package alias |
+| Execute an already-authorized bounded Codex Work Packet | `npm run exec:fabric -- --packet /path/to/work-packet.json` | repository-scoped changes and validation commands | `COMPLETED` / `FAILED` / `BLOCKED` / `SCOPE_VIOLATION` | `npm run test:exec:fabric` | executor result grants no verification or Git-promotion authority |
 | Run an already-authorized Move2 Job | `npm run worker:move2` | DB mutation + provider/model cost | `IDLE` / `SUCCEEDED` / `FAILED` / `NEEDS_RECONCILIATION` | worker tests | late-output recovery after ambiguous dispatch remains outside GI1-003 |
 | Prepare first external concierge run | `WP-HA-001-FIRST-EXTERNAL-RUN.md` | real-world/privacy risk | observed run or STOP | packet Result Package criteria | not current immediate sequencing |
 
@@ -101,6 +102,34 @@ python3 scripts/cz-founder-resume.test.py
 
 No additional Founder implementation gap is established by discoverability
 alone.
+
+## 2.1 Bounded Execution Fabric
+
+For an already-authorized bounded Codex Work Packet, use:
+
+```bash
+npm run exec:fabric -- --packet /path/to/work-packet.json
+```
+
+The packet `canonical_base` must be an exact full 40-character lowercase hexadecimal Git SHA.
+Local checkout `HEAD` must equal it, and the checkout must be clean before
+execution. `allowed_paths` defines the exact repository scope. The supported V1
+executor is `CODEX_CLI`. Validation commands are argv arrays and run without
+shell interpolation.
+
+Result classification is limited to `COMPLETED` / `FAILED` / `BLOCKED` /
+`SCOPE_VIOLATION`. `COMPLETED ≠ VERIFIED ≠ CANONICAL`.
+
+`git_promotion_performed=false` records that the observed execution did not
+move `HEAD`; it does not grant Git-promotion authority. A documented command or
+Work Packet does not itself authorize execution or Git promotion. Human
+authority remains explicit and contextual.
+
+Verify:
+
+```bash
+npm run test:exec:fabric
+```
 
 ## 3. Company Core staged headless through Agreement
 
