@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-18
+Última reconciliação canônica: 2026-09-19
 
 Repositório canônico:
 
@@ -2301,6 +2301,67 @@ Preserve:
 `RECOVERY ≠ RETRY ≠ PROMOTION`
 
 `CONTROLLED FAILURE RECOVERY N=1 ≠ GENERAL RECOVERY`
+
+### R5 — Genesis Cross-Tool Composition V1
+
+Human Review:
+
+`decisions/D042-human-accepts-r5-genesis-cross-tool-composition-v1.md`
+
+Result Package:
+
+`RP-R5-GENESIS-CROSS-TOOL-COMPOSITION-V1.md`
+
+Result:
+
+`PASS N=1 / LOCAL / BOUNDED / PROCESS-LEVEL / HUMAN REVIEW ACCEPTED`
+
+Observed:
+
+- initial live-Room route:
+  `BLOCKED N=1 / NO_ELIGIBLE_EXISTING_ROOM`;
+- immutable historical snapshot fallback was composed without rewriting its
+  unknown historical Git base;
+- current composition base remained separate:
+  `93f8c80229f40c2fe65aaa693fd50f8e61f18164`;
+- nine absent snapshot fields remained explicitly
+  `NOT_CAPTURED_IN_SOURCE_SNAPSHOT`;
+- `NOT_CAPTURED ≠ EMPTY` was preserved;
+- five-file process-level input manifest:
+  `ae41e62e7c31f71a16032d5a4ae0cf619b4c6196ea494d174a4bff59f3dfa7c3`;
+- canonical schema / composer changes:
+  `0`;
+- new permanent infrastructure:
+  `0`;
+- Vercel Ling attempts:
+  `INCONCLUSIVE / OUTPUT BEHAVIOR`;
+- fresh Codex turn:
+  `EPHEMERAL / NO PRIOR CHAT / READ-ONLY / COMPLETED`;
+- exact Codex response:
+  `3f9dfce1d602f61a7498f27f9f1f796f6e9b9a81e1fb64966f028f5bd6a360f9`;
+- required response structure:
+  `PASS`;
+- workspace input-byte preservation:
+  `PASS`;
+- semantic Human Review:
+  `PASS / ACCEPTED`;
+- repository / DB / Git promotion during experiment:
+  `0`.
+
+Preserve:
+
+`PROCESS-LEVEL COMPOSE PASS ≠ DIRECT CANONICAL COMPOSER PASS`
+
+`CODEX PASS N=1 ≠ PROVIDER-INDEPENDENT RELIABILITY`
+
+`HASH_BOUND ≠ TRUE`
+
+`LING INCONCLUSIVE ≠ LING UNIVERSALLY INCAPABLE`
+
+`R5 PASS N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
+R5 demonstrated no need for a new schema, composer extension, generic
+orchestrator, or permanent interoperability layer.
 
 Current immediate coordination:
 
