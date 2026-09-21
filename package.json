@@ -23,6 +23,7 @@
     "live": "python3 scripts/cz-single-flight.py living-presence -- python3 scripts/cz-living-presence.py",
     "worker:move2": "python3 scripts/cz-single-flight.py move2-worker -- node scripts/move2-vs1-worker.mjs",
     "room": "node scripts/cz-room.mjs",
+    "room:bootstrap": "node scripts/cz-room-bootstrap.mjs",
     "room:export": "node scripts/cz-room.mjs --export",
     "room:handoff": "node scripts/cz-room.mjs --handoff",
     "exec:fabric": "node tools/cz-execution-fabric.mjs",
