@@ -2363,10 +2363,86 @@ Preserve:
 R5 demonstrated no need for a new schema, composer extension, generic
 orchestrator, or permanent interoperability layer.
 
+### R6 — Genesis Economic Consequence V1
+
+Human Review:
+
+`decisions/D043-human-accepts-r6-genesis-economic-consequence-v1.md`
+
+Result Package:
+
+`RP-R6-GENESIS-ECONOMIC-CONSEQUENCE-V1.md`
+
+Readiness result:
+
+`PASS N=1 / LOCAL / BOUNDED / FAILURE-PATH / REAL ECONOMIC CONSEQUENCE OBSERVED / HUMAN-RECONCILED / HUMAN REVIEW ACCEPTED`
+
+Separate AI execution result:
+
+`FAIL / RECONCILED_CHARGED_NO_OUTPUT`
+
+Observed:
+
+- one Human-authorized real-provider economic attempt through existing Company
+  Core / AI Job / sponsored-budget primitives;
+- exactly one enqueue and one worker invocation;
+- durable dispatch fence crossed before worker process failure;
+- no durable AI output and no provider-time cost record survived;
+- deterministic pure pre-Gateway request/provenance checks:
+  `PASS`;
+- Vercel AI Gateway account-level `total_used` delta:
+  `+USD 0.00006240`;
+- Human attribution boundary:
+  `ACCOUNT-LEVEL OBSERVATION / NOT PROVIDER-VERIFIED PER-CALL`;
+- ambiguous dispatch normalized without redispatch:
+  `NEEDS_RECONCILIATION / DISPATCH_OUTCOME_UNKNOWN`;
+- Human reconciliation:
+  `CHARGE_OBSERVED_NO_OUTPUT / USD 0.00006240`;
+- terminal Job:
+  `FAILED / RECONCILED_CHARGED_NO_OUTPUT`;
+- terminal Reservation:
+  `SETTLED / USD 0.00006240`;
+- sponsored pool settled:
+  `USD 0.00006240`;
+- terminal AI Run:
+  `FAILED / RECONCILED_CHARGED_NO_OUTPUT`;
+- AI Run provider-time cost remains:
+  `UNKNOWN / NULL`;
+- Company Core:
+  `AI_FAILED`;
+- redispatch / retry / second inference:
+  `0`.
+
+Preserve:
+
+`R6 READINESS PASS ≠ AI EXECUTION SUCCESS`
+
+`HUMAN RECONCILIATION JUDGMENT ≠ PROVIDER-VERIFIED PER-CALL ATTRIBUTION`
+
+`RECONCILED ACCOUNTING COST ≠ AI RUN PROVIDER-TIME COST METADATA`
+
+`ACCOUNTING SETTLED ≠ ECONOMIC SUSTAINABILITY`
+
+`R6 PASS N=1 ≠ RECURRENCE ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
+R6 demonstrated no need for a new payment rail, treasury platform, token,
+economic protocol, or provider-specific accounting subsystem.
+
 Current immediate coordination:
 
-`HUMAN DECISION / SELECT NEXT GENESIS READINESS PROPERTY`
+`R7 / GENESIS FULL-CYCLE READBACK V1`
 
-No next-gate execution is authorized by this reconciliation.
+R7 is selected as the next Genesis Readiness slice under the D037 internal
+testing ladder.
+
+Initial posture:
+
+`READBACK → ADOPT / MAP → COMPOSE → EXTEND only if demonstrated property loss`
+
+R7 execution is not authorized by this reconciliation.
+
+External transfer remains:
+
+`HOLD UNTIL GENESIS READINESS REVIEW + SEPARATE HUMAN AUTHORIZATION`
 
 END OF STATE
