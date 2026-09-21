@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-19
+Última reconciliação canônica: 2026-09-21
 
 Repositório canônico:
 
@@ -2428,18 +2428,89 @@ Preserve:
 R6 demonstrated no need for a new payment rail, treasury platform, token,
 economic protocol, or provider-specific accounting subsystem.
 
+### R7 — Genesis Full-Cycle Readback V1
+
+Human Review:
+
+`decisions/D044-human-accepts-r7-genesis-full-cycle-readback-fail.md`
+
+Result Package:
+
+`RP-R7-GENESIS-FULL-CYCLE-READBACK-V1.md`
+
+Accepted result:
+
+`FAIL / LOCAL / READ-ONLY / BOUNDED / NO EXISTING REAL FULL-CYCLE EPISODE EXPLICITLY RECONSTRUCTIBLE / PROVENANCE GAPS OBSERVED`
+
+Observed real Founder root:
+
+`Company Core → DragonCycle → Need = EXPLICIT`
+
+Observed terminal root state:
+
+- Company Core:
+  `AI_FAILED`;
+- Agreement:
+  `DEFINED`;
+- AI Run:
+  `PRESENT / FAILURE-PATH`;
+- Result:
+  `ABSENT`;
+- Evaluation:
+  `ABSENT`;
+- Company Core Consequence:
+  `ABSENT`;
+- DragonCycle:
+  `DREAMING / OPEN`;
+- Human Direction:
+  `ABSENT`;
+- Human Dream / Plan / Do / Celebration records:
+  `0 / 0 / 0 / 0`.
+
+R7 readback stages:
+
+- integrated metabolism episode:
+  `0 / BLOCKED / NO_EXISTING_METABOLISM_EPISODE`;
+- K002 precomposition route:
+  `BLOCKED / FIRST ABSENT EDGE = NEED→OPPORTUNITY`;
+- alternate Dragon/T3 route:
+  `BLOCKED / NO_EXPLICIT_DRAGON_TO_AGENT_EXECUTION_ROUTE`.
+
+Accepted property loss:
+
+`END-TO-END EXPLICIT RECONSTRUCTIBILITY IS ABSENT IN THE CURRENT REAL FOUNDER EPISODE`
+
+Preserve:
+
+`R6 FAILURE-PATH ECONOMIC READINESS PASS ≠ R7 FULL-CYCLE RECONSTRUCTIBILITY PASS`
+
+`R7 FAIL ≠ CÉLULA ZERO FAILURE`
+
+`R7 FAIL ≠ ABSENCE OF EXISTING SCHEMA CAPABILITIES`
+
+`R7 FAIL ≠ R1–R6 INVALIDATED`
+
+`CONTEXT ≠ PROVENANCE`
+
+`RETROACTIVE FILL ≠ HISTORICAL EVIDENCE`
+
+Construction consequence:
+
+`ADOPT / MAP = EXISTING CAPABILITY`
+
+`COMPOSE = NOT RETROACTIVELY AUTHORIZED`
+
+`EXTEND = NOT JUSTIFIED BY R7`
+
+`GENESIS FULL INTERNAL READINESS = NOT DEMONSTRATED`
+
 Current immediate coordination:
 
-`R7 / GENESIS FULL-CYCLE READBACK V1`
+`NO NEXT SLICE SELECTED / HUMAN DECISION REQUIRED`
 
-R7 is selected as the next Genesis Readiness slice under the D037 internal
-testing ladder.
+No R8 is selected.
 
-Initial posture:
-
-`READBACK → ADOPT / MAP → COMPOSE → EXTEND only if demonstrated property loss`
-
-R7 execution is not authorized by this reconciliation.
+No new prospective episode is authorized.
 
 External transfer remains:
 
