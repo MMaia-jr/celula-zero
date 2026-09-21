@@ -2516,4 +2516,73 @@ External transfer remains:
 
 `HOLD UNTIL GENESIS READINESS REVIEW + SEPARATE HUMAN AUTHORIZATION`
 
+### Post-R7 corrective capability — Genesis Autonomous Delivery N=1
+
+Human Review:
+
+`decisions/D045-human-accepts-genesis-autonomous-delivery-n1.md`
+
+Result Package:
+
+`RP-GENESIS-AUTONOMOUS-DELIVERY-N1.md`
+
+Accepted result:
+
+`PASS N=1 / LOCAL / BOUNDED / MULTIAGENT DELIVERY CHAIN OBSERVED / FRESH-OPERATOR ROOM CONTEXT RESOLUTION OBSERVED / HUMAN REVIEW ACCEPTED`
+
+Observed:
+
+- existing Execution Fabric → Codex initial implementation:
+  `COMPLETED / WITHIN_SCOPE`;
+- one independent Kimi K2.6 review:
+  `FINDINGS / 1 PAID CALL / CALCULATED USD 0.0237280`;
+- second paid review:
+  `NO`;
+- one bounded Codex repair:
+  `COMPLETED / WITHIN_SCOPE`;
+- bootstrap / Room / participation-portability tests:
+  `PASS`;
+- real local `room:bootstrap -- --resolve-only`:
+  `EXIT 0 / STDERR EMPTY / JSON READY / 5 OF 5 CONTEXT IDS`;
+- deterministic reconciliation:
+  `READY CONFIRMED AGAIN / TESTS PASS / MODEL CALLS 0 / PAID CALLS 0`;
+- earlier runner `BLOCKED` result:
+  `HARNESS FALSE NEGATIVE / TEXT CLASSIFIER DID NOT RECOGNIZE JSON`;
+- manual copy/paste between Codex and Kimi in the successful resumed chain:
+  `0`;
+- complete four-file product patch:
+  `5d395a5aa40396d6aa49e2a670aebbac22a4924c6f22baa6e0dd222b0175a10c`.
+
+Package-preparation learning:
+
+`ORDINARY GIT DIFF OMITTED UNTRACKED NEW FILES / V1 PACKAGE STOPPED / V2 RECONSTRUCTED COMPLETE CANDIDATE FROM PRESERVED FINAL WORKSPACE BYTES`
+
+Preserve:
+
+`HARNESS FALSE NEGATIVE ≠ PRODUCT FAILURE`
+
+`TRACKED DIFF ARTIFACT ≠ COMPLETE CANDIDATE WHEN UNTRACKED FILES EXIST`
+
+`CONTEXT RESOLUTION PASS N=1 ≠ COMPLETE FRESH-OPERATOR ROOM EXPERIENCE PASS`
+
+`ZERO HUMAN MESSAGE RELAY BETWEEN AGENTS ≠ ONE-HUMAN-COMMAND COMPLETE EXPERIMENT`
+
+`R7 FULL-CYCLE READBACK FAIL ≠ D045 ROOM CONTEXT-RESOLUTION PASS`
+
+Construction consequence:
+
+`ADOPT / MAP / COMPOSE EXISTING CAPABILITY`
+
+`EXTEND = NOT JUSTIFIED`
+
+Genesis full internal readiness is not established by this result alone.
+
+Current immediate coordination:
+
+`NO R8 SELECTED / HUMAN DECISION REQUIRED`
+
+External transfer remains:
+
+`HOLD UNTIL GENESIS READINESS REVIEW + SEPARATE HUMAN AUTHORIZATION`
+
 END OF STATE

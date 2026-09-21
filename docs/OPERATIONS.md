@@ -487,8 +487,18 @@ AI interpretations/syntheses, explicit Human Direction and
 Entrypoint:
 
 ```bash
+npm run room:bootstrap
 npm run room
 ```
+
+For a fresh local operator, `npm run room:bootstrap` performs read-only discovery
+against the expected local Supabase container. It reaches `READY` only when the
+canonical Profile → controlled Human steward → Project → open Dragon Cycle and
+controlled active AI participant relations yield exactly one complete context.
+Zero or multiple contexts stop closed; no ID is guessed. On `READY`, it launches
+the existing Room entrypoint with the five discovered IDs, preserving all Room
+operational checks. `npm run room:bootstrap -- --resolve-only` prints the resolved
+context and performs no database write or product-model call.
 
 Room fails closed unless all five are supplied:
 - `ROOM_PROFILE_ID`
@@ -521,10 +531,9 @@ npm run test:room
 npm run test:room:participation-portability
 ```
 
-Current bootstrap gap:
-`fresh operator → legitimate discovery of all five Room IDs`
-is not yet a supported documented path. Classify `MAP FIRST`; do not remove the
-checks for convenience.
+The bootstrap is local-only and does not create missing relations. If discovery
+stops, establish or disambiguate the legitimate context through existing
+authorized product flows; do not remove checks or guess IDs.
 
 ## 5. Room continuity
 
