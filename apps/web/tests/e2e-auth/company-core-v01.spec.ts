@@ -34,7 +34,7 @@ async function latestMagicLink(request: APIRequestContext) {
 
 async function loginAsPilot(page: import("@playwright/test").Page, request: APIRequestContext) {
   await page.goto("/login?next=/company-core");
-  await expect(page.getByRole("heading", { name: "Entre quando houver uma razão para agir." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Entre na Célula Genesis." })).toBeVisible();
 
   await page.getByLabel("E-mail").fill(pilotEmail);
   await page.getByRole("button", { name: "Continuar por e-mail" }).click();

@@ -35,7 +35,7 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   request,
 }) => {
   await page.goto("/login?next=/projects/new");
-  await expect(page.getByRole("heading", { name: "Entre quando houver uma razão para agir." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Entre na Célula Genesis." })).toBeVisible();
 
   await page.getByLabel("E-mail").fill(pilotEmail);
   await page.getByRole("button", { name: "Continuar por e-mail" }).click();
