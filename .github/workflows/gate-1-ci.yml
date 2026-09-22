@@ -77,7 +77,11 @@ jobs:
         with:
           version: 2.115.0
       - name: Start isolated local stack
-        run: supabase start
+        # Gate 1 needs Postgres, Auth, REST/Kong and Mailpit only. Keep unrelated
+        # services out of this job so their startup health cannot block it.
+        run: >-
+          supabase start
+          --exclude realtime,storage-api,imgproxy,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
       - name: Reset from migrations and seed
         run: supabase db reset --local
       - name: Run pgTAP authorization tests
@@ -98,7 +102,7 @@ jobs:
           {
             printf 'NEXT_PUBLIC_SUPABASE_URL=%s\n' "${API_URL:-http://127.0.0.1:54321}"
             printf 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=%s\n' "$public_key"
-            printf 'NEXT_PUBLIC_SITE_URL=%s\n' "http://127.0.0.1:3000"
+            printf 'NEXT_PUBLIC_SITE_URL=%s\n' "http://127.0.0.1:3100"
             printf 'LOCAL_MAILPIT_URL=%s\n' "${MAILPIT_URL:-${INBUCKET_URL:-http://127.0.0.1:54324}}"
           } >> "$GITHUB_ENV"
       - name: Install Chromium for authenticated local journey

@@ -2,6 +2,49 @@ insert into public.pilot_invites(email, label)
 values ('pilot@celulazero.local', 'Piloto local do Gate 1')
 on conflict (email) do nothing;
 
+-- The authenticated local journey exercises the existing-account-only email
+-- fallback. Seed that auth identity explicitly; the auth-user trigger keeps
+-- Profile, PERSON Actor and pilot membership as separate application records.
+insert into auth.users(
+  instance_id, id, aud, role, email, email_confirmed_at,
+  raw_app_meta_data, raw_user_meta_data, created_at, updated_at,
+  confirmation_token, recovery_token, email_change_token_new, email_change
+) values (
+  '00000000-0000-0000-0000-000000000000',
+  '00000000-0000-4000-8000-000000000010',
+  'authenticated',
+  'authenticated',
+  'pilot@celulazero.local',
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{"name":"Piloto local do Gate 1"}',
+  now(),
+  now(),
+  '',
+  '',
+  '',
+  ''
+)
+on conflict (id) do nothing;
+
+-- GoTrue resolves sign-in methods through auth.identities. The user row above
+-- deliberately has no password, but this email identity makes it eligible for
+-- the local magic-link flow without enabling implicit account creation.
+insert into auth.identities(
+  id, user_id, provider_id, identity_data, provider,
+  last_sign_in_at, created_at, updated_at
+) values (
+  '00000000-0000-4000-8000-000000000010',
+  '00000000-0000-4000-8000-000000000010',
+  '00000000-0000-4000-8000-000000000010',
+  '{"sub":"00000000-0000-4000-8000-000000000010","email":"pilot@celulazero.local","email_verified":true,"phone_verified":false}',
+  'email',
+  now(),
+  now(),
+  now()
+)
+on conflict (provider_id, provider) do nothing;
+
 insert into public.actors(id, kind, name, operator_label) values
   ('00000000-0000-4000-8000-000000000001', 'ORGANIZATION', 'Célula Zero · equipe fundadora', null),
   ('00000000-0000-4000-8000-000000000002', 'SYSTEM', 'Agentes de IA · demonstração', null),
