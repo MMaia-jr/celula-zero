@@ -2,6 +2,24 @@
 
 Operational index for the current repository.
 
+## Genesis cloud candidate configuration (not deployment)
+
+The bounded web candidate uses hosted Supabase public configuration through
+`NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, plus the
+production application origin in `NEXT_PUBLIC_SITE_URL`. These are public
+client coordinates; service-role credentials never belong in the web client.
+
+Google OAuth must be enabled in Supabase and its redirect allowlist must include
+`https://<production-origin>/auth/callback`. The application preserves a safe
+same-origin `next` path and resolves Profile → PERSON through stored relations.
+
+Vercel AI Gateway uses the OpenAI-compatible base URL
+`https://ai-gateway.vercel.sh/v1` and the server-only `AI_GATEWAY_API_KEY`.
+The Genesis surface is intentionally `PREPARED / UNAVAILABLE` for product calls
+until a deployed persistent worker can use the existing durable preproject
+execution path and preserve authorization, budget, output provenance, and cost.
+Configuration alone does not authorize a provider call.
+
 Use this after environment setup when you need to answer:
 
 > Which existing capability should I use, under which preconditions and authority
