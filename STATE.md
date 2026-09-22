@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-21
+Última reconciliação canônica: 2026-09-22
 
 Repositório canônico:
 
@@ -2624,12 +2624,57 @@ Preserve:
 
 `KIMI ADAPTER PREPARED ≠ KIMI PRODUCT RUNTIME EXECUTED`
 
-D046 promotion authority: `BRANCH + COMMIT + PUSH + PR`.
+D046 original promotion authority was:
 
-Still not authorized: `MERGE / DEPLOY / PAID KIMI CALL / WHATSAPP / OUTREACH / OTHER REMOTE WRITES`.
+`BRANCH + COMMIT + PUSH + PR`
 
-Next gate: `OPEN PR → HUMAN REVIEW → SEPARATE MERGE DECISION`.
+That original Decision remains preserved as the authority in force at the time; it is not retroactively rewritten.
 
-If later merged under separate Human authority, the next product gate remains a separately authorized hosted/lived Founder test; no online PASS is inferred from merge alone.
+Post-D046 Human merge authorization:
+
+`D047 / HUMAN AUTHORIZES PR #214 GENESIS CLOUD BOOTSTRAP V3 MERGE`
+
+Canonical promotion result:
+
+`PR #214 = MERGED / CANONICAL / GATE 1 CI PASS`
+
+Observed:
+
+- final PR head:
+  `97d47ae34a7e459ddd72dc9a2d76b0a1da5bbfb9`;
+- Gate 1 CI run:
+  `35768848520 / COMPLETED / SUCCESS`;
+- `Web, domain and portability`:
+  `PASS`;
+- `PostgreSQL, RLS and authenticated journey`:
+  `PASS`;
+- merge commit / canonical `main`:
+  `21d5d77f312371e1be049f87f24eb52b2c4e4798`;
+- merge parents:
+  `2ddfbd6af33522de553b7d65b53b5e4e0732cb9a`
+  +
+  `97d47ae34a7e459ddd72dc9a2d76b0a1da5bbfb9`;
+- deploy:
+  `NO`;
+- Remote Supabase write during merge/promotion:
+  `NO`;
+- paid Kimi product call:
+  `NO`;
+- WhatsApp / outreach:
+  `NO`.
+
+Preserve:
+
+`MERGED / CANONICAL ≠ DEPLOYED ≠ ONLINE LIVED`
+
+`GATE 1 CI PASS ≠ LIVED GOOGLE IDENTITY CONTINUITY PASS`
+
+`KIMI ADAPTER CANONICAL ≠ KIMI PRODUCT RUNTIME EXECUTED`
+
+Current next product gate:
+
+`HOSTED / LIVED FOUNDER TEST = REQUIRES SEPARATE HUMAN AUTHORIZATION`
+
+No deploy, paid Kimi call, Remote Supabase write, WhatsApp or outreach is authorized by this reconciliation.
 
 END OF STATE
