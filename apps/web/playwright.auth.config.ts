@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3100";
+
 export default defineConfig({
   testDir: "./tests/e2e-auth",
   fullyParallel: false,
@@ -12,15 +14,15 @@ export default defineConfig({
   ],
   outputDir: "test-results-auth",
   use: {
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: siteUrl,
     locale: "pt-BR",
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },
   projects: [{ name: "authenticated-chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "npm run dev",
-    url: "http://127.0.0.1:3000",
+    command: "npm run dev -- --hostname 127.0.0.1 --port 3100",
+    url: siteUrl,
     reuseExistingServer: !process.env.CI,
   },
 });

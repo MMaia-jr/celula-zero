@@ -2,7 +2,7 @@ import { expect, test, type APIRequestContext } from "@playwright/test";
 
 const pilotEmail = "pilot@celulazero.local";
 const mailpitUrl = process.env.LOCAL_MAILPIT_URL ?? "http://127.0.0.1:54324";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3100";
 
 interface MailpitMessage {
   HTML?: string;
@@ -35,7 +35,7 @@ test("invited pilot signs in, creates a project and reloads persisted public sta
   request,
 }) => {
   await page.goto("/login?next=/projects/new");
-  await expect(page.getByRole("heading", { name: "Entre quando houver uma razão para agir." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Entre na Célula Genesis." })).toBeVisible();
 
   await page.getByLabel("E-mail").fill(pilotEmail);
   await page.getByRole("button", { name: "Continuar por e-mail" }).click();
