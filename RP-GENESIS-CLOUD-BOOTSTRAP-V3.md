@@ -2,7 +2,7 @@
 
 Status:
 
-`PASS / LOCAL CANDIDATE / DETERMINISTICALLY VALIDATED / SECURITY GATE PASS / HUMAN REVIEW ACCEPTED`
+`PASS / LOCAL CANDIDATE ACCEPTED / DETERMINISTICALLY VALIDATED / SECURITY GATE PASS / GATE 1 CI PASS / MERGED / CANONICAL`
 
 Human Review: `D046 / HUMAN ACCEPTS GENESIS CLOUD BOOTSTRAP V3`
 
@@ -66,8 +66,52 @@ Preserve:
 
 This result does not demonstrate deploy, hosted availability, lived Google continuity, Kimi product-runtime success, recurring online continuity, WhatsApp, external utility, adoption, PMF or scale.
 
-Git promotion authorized by D046: `BRANCH + COMMIT + PUSH + PR`.
+Git promotion originally authorized by D046: `BRANCH + COMMIT + PUSH + PR`.
 
-Not authorized: `MERGE / DEPLOY / PAID KIMI CALL / WHATSAPP / OUTREACH / OTHER REMOTE WRITES`.
+D046 remains preserved as the original Human Review and promotion authority in force at that time.
+
+## Post-merge canonical reconciliation — 2026-09-22
+
+A later separate Human authorization permitted taking PR #214 out of Draft and merging only if the exact accepted conditions remained true.
+
+Pre-merge readback observed:
+
+- PR:
+  `OPEN / DRAFT / CLEAN`;
+- exact head:
+  `97d47ae34a7e459ddd72dc9a2d76b0a1da5bbfb9`;
+- exact base / then-current canonical main:
+  `2ddfbd6af33522de553b7d65b53b5e4e0732cb9a`;
+- Gate 1 CI run:
+  `35768848520 / COMPLETED / SUCCESS`;
+- both Gate 1 jobs:
+  `PASS`.
+
+Observed merge execution:
+
+- PR marked ready for review:
+  `YES`;
+- merge:
+  `SUCCESS`;
+- merge commit:
+  `21d5d77f312371e1be049f87f24eb52b2c4e4798`;
+- canonical `main` readback:
+  `21d5d77f312371e1be049f87f24eb52b2c4e4798`;
+- merge parents:
+  `2ddfbd6af33522de553b7d65b53b5e4e0732cb9a`
+  and
+  `97d47ae34a7e459ddd72dc9a2d76b0a1da5bbfb9`.
+
+No deploy, Remote Supabase write, paid Kimi product call, WhatsApp or outreach occurred as part of this promotion.
+
+Preserve:
+
+`MERGED / CANONICAL ≠ DEPLOYED ≠ ONLINE LIVED`
+
+`CI PASS ≠ LIVED GOOGLE IDENTITY CONTINUITY PASS`
+
+`CANONICAL KIMI ADAPTER ≠ KIMI PRODUCT RUNTIME EXECUTED`
+
+The next product gate remains a separately authorized hosted/lived Founder test.
 
 END
