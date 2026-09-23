@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-22
+Última reconciliação canônica: 2026-09-23
 
 Repositório canônico:
 
@@ -2585,96 +2585,97 @@ External transfer remains:
 
 `HOLD UNTIL GENESIS READINESS REVIEW + SEPARATE HUMAN AUTHORIZATION`
 
-## Post-D045 current operation — Genesis Cloud Bootstrap V3
+## Current Genesis operation — Hosted/Lived Founder N=1
 
-Human Review: `decisions/D046-human-accepts-genesis-cloud-bootstrap-v3.md`
+Strategic envelope:
 
-Result Package: `RP-GENESIS-CLOUD-BOOTSTRAP-V3.md`
+`D037 / GENESIS READINESS BEFORE EXTERNAL TRANSFER`
 
-Accepted result:
+Genesis Cloud Bootstrap V3 remains canonical lineage:
 
-`PASS / LOCAL CANDIDATE / DETERMINISTICALLY VALIDATED / SECURITY GATE PASS / HUMAN REVIEW ACCEPTED`
+- Human Review:
+  `decisions/D046-human-accepts-genesis-cloud-bootstrap-v3.md`;
+- merge authority:
+  `decisions/D047-human-authorizes-pr214-genesis-cloud-bootstrap-v3-merge.md`;
+- Result Package:
+  `RP-GENESIS-CLOUD-BOOTSTRAP-V3.md`.
 
-Observed:
+Hosted/lived Founder Human Review:
 
-- accepted product patch: `b3c5df13e6d2fd793389d41a44e3846d024dcc59c2f6f41aa020231764b3ed6e`;
-- `npm run check = PASS`;
-- production build `PASS / Next.js 16.3.5`;
-- `npm audit total 0`;
-- canonical GitHub readback exact-SHA-bound;
-- Profile→PERSON ambiguity fails closed;
-- private-record read failure is not represented as empty history;
-- Google-first identity path: `PREPARED / NOT LIVED`;
-- Kimi product runtime: `NOT EXECUTED / INTENTIONALLY UNAVAILABLE`;
-- deploy / WhatsApp / outreach: `NO`.
+`decisions/D048-human-accepts-genesis-hosted-lived-founder-n1.md`
 
-Remote Supabase operational reconciliation:
+Result Package:
 
-- prior separately authorized remote upgrade: `EXECUTED`;
-- canonical migrations: `49 / 49 APPLIED`;
-- existing Founder auth/Profile/PERSON relation: `PRESERVED`;
-- earlier `Remote Supabase remains unchanged` is superseded for the operational present while preserved as historical state;
-- remote schema currency does not establish production readiness.
+`RP-GENESIS-HOSTED-LIVED-FOUNDER-N1.md`
 
-Preserve:
+Accepted hosted result:
 
-`REMOTE APPLIED ≠ DEPLOYED ≠ ONLINE LIVED`
-
-`LOCAL CANDIDATE PASS ≠ GOOGLE IDENTITY CONTINUITY PASS`
-
-`KIMI ADAPTER PREPARED ≠ KIMI PRODUCT RUNTIME EXECUTED`
-
-D046 original promotion authority was:
-
-`BRANCH + COMMIT + PUSH + PR`
-
-That original Decision remains preserved as the authority in force at the time; it is not retroactively rewritten.
-
-Post-D046 Human merge authorization:
-
-`D047 / HUMAN AUTHORIZES PR #214 GENESIS CLOUD BOOTSTRAP V3 MERGE`
-
-Canonical promotion result:
-
-`PR #214 = MERGED / CANONICAL / GATE 1 CI PASS`
+`PASS N=1 / ONLINE / EMAIL-AUTH / EXISTING IDENTITY CONTINUITY / PROFILE→PERSON PRESERVED / CANONICAL READBACK OBSERVED / HUMAN REVIEW ACCEPTED`
 
 Observed:
 
-- final PR head:
-  `97d47ae34a7e459ddd72dc9a2d76b0a1da5bbfb9`;
-- Gate 1 CI run:
-  `35768848520 / COMPLETED / SUCCESS`;
-- `Web, domain and portability`:
+- existing-account email auth preserved the existing Founder identity relation;
+- automatic user creation remained disabled;
+- hosted Genesis resolved the existing Profile to exactly one existing PERSON;
+- hosted canonical readback observed current `main`;
+- Google OAuth remained `DISABLED / NOT REQUIRED FOR THIS N=1`;
+- one transient `IDENTITY_UNAVAILABLE` observation occurred before the successful email/session path; exact cause was not established;
+- Kimi product runtime remained `NOT EXECUTED / INTENTIONALLY UNAVAILABLE`.
+
+First hosted Original Record write/readback:
+
+`PASS FOR ONLINE WRITE + DURABLE READBACK / DUPLICATE WRITE OBSERVED`
+
+Observed duplicate:
+
+- one lived action produced two identical durable `ORIGINAL_RECORD` rows;
+- same existing PERSON;
+- exact trigger:
+  `NOT PROVEN`.
+
+Duplicate-write repair:
+
+- exact product scope:
+  `apps/web/components/genesis-console.tsx`;
+- PR:
+  `#216`;
+- Gate 1 CI:
   `PASS`;
-- `PostgreSQL, RLS and authenticated journey`:
-  `PASS`;
-- merge commit / canonical `main`:
-  `21d5d77f312371e1be049f87f24eb52b2c4e4798`;
-- merge parents:
-  `2ddfbd6af33522de553b7d65b53b5e4e0732cb9a`
-  +
-  `97d47ae34a7e459ddd72dc9a2d76b0a1da5bbfb9`;
-- deploy:
-  `NO`;
-- Remote Supabase write during merge/promotion:
-  `NO`;
-- paid Kimi product call:
-  `NO`;
-- WhatsApp / outreach:
-  `NO`.
+- merge commit / canonical `main` before this documentation package:
+  `7622786674482fb1751f9fb4024ceebc226999f8`;
+- repair boundary:
+  `CLIENT SUBMISSION GUARD ≠ TRANSPORT/SERVER-SIDE IDEMPOTENCY`.
+
+Same-project hosted redeploy:
+
+`PASS`
+
+Accepted lived adversarial duplicate-write retest:
+
+`PASS N=1 / ONLINE / LIVED / SAME-PERSON / SINGLE DURABLE WRITE / HUMAN REVIEW ACCEPTED`
+
+Independent Remote Supabase read-only verification:
+
+`EXACTLY 1 ROW FOR THE RETEST CONTENT`
 
 Preserve:
 
-`MERGED / CANONICAL ≠ DEPLOYED ≠ ONLINE LIVED`
+`ORIGINAL_RECORD ≠ HUMAN DIRECTION`
 
-`GATE 1 CI PASS ≠ LIVED GOOGLE IDENTITY CONTINUITY PASS`
+`DUPLICATE OBSERVED ≠ ROOT CAUSE PROVEN`
 
-`KIMI ADAPTER CANONICAL ≠ KIMI PRODUCT RUNTIME EXECUTED`
+`PASS N=1 ≠ RECURRING CONTINUITY`
 
-Current next product gate:
+`HOSTED FOUNDER N=1 ≠ EXTERNAL USER UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
 
-`HOSTED / LIVED FOUNDER TEST = REQUIRES SEPARATE HUMAN AUTHORIZATION`
+Current immediate gate:
 
-No deploy, paid Kimi call, Remote Supabase write, WhatsApp or outreach is authorized by this reconciliation.
+`HUMAN DECISION: ENTER GENESIS READINESS REVIEW OR RUN ANOTHER BOUNDED INTERNAL LIVED EPISODE`
+
+This accepted N=1 does not itself establish Genesis internal readiness.
+
+External transfer remains:
+
+`HOLD UNTIL GENESIS READINESS REVIEW + SEPARATE HUMAN AUTHORIZATION`
 
 END OF STATE
