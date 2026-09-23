@@ -53,13 +53,53 @@ Preserve:
 
 `THIRD-PARTY MATERIAL ≠ RELICENSED`
 
+## Current Human Direction — Lived Capacity Episodes
+
+`D049 / LIVED CAPACITY EPISODES AS CRITICAL-PATH DRIVER / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D049-human-adopts-lived-capacity-episodes-as-critical-path-driver.md`
+
+Adopted:
+
+`LIVED CAPACITY EPISODES AS CRITICAL-PATH DRIVER`
+
+D037 remains:
+
+`GENESIS READINESS ENVELOPE / PRESERVED`
+
+Current sequencing discipline:
+
+`REAL FOUNDER LIVED-CAPACITY EPISODE → COMPOSE EXISTING CAPABILITY → OBSERVE CONSEQUENCE / CAPACITY DELTA / PROPERTY LOSS → ADOPT / MAP / COMPOSE → EXTEND only when concrete property loss requires it → CONTINUE OR HUMAN REVIEW`
+
+Construction tie-breaker:
+
+`ADOPT → MAP → COMPOSE → EXTEND`
+
+For `EXTEND / MISSING`, name the exact observed property or real possibility
+lost without the new construction. Without concrete property loss, do not build.
+
+Preserve:
+
+`TECHNICAL PASS ≠ HUMAN CAPACITY GAIN`
+
+`FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
+`D049 CURRENT DRIVER ≠ D037 ERASED`
+
+External transfer remains:
+
+`HOLD`
+
 ## Preserved umbrella context — Future Readiness
 
 `FUTURE READINESS / HUMAN DIRECTION / PRESERVED UMBRELLA CONTEXT 2026-09-04`
 
 Future Readiness remains preserved context. D024 remains the adopted Collective
-Dream and D025 remains preserved reconciled plan lineage. Current sequencing is
-governed by D037 below; D033 remains preserved direction and lineage. D020–D023
+Dream and D025 remains preserved reconciled plan lineage. D037 remains the preserved Genesis Readiness envelope. Current critical-path
+sequencing is governed by D049 / LIVED CAPACITY EPISODES AS CRITICAL-PATH
+DRIVER below; D033 remains preserved direction and lineage. D020–D023
 remain preserved lineage and bounded history;
 their earlier "current" wording must not override the newer Human Direction.
 
@@ -209,8 +249,9 @@ Preserve:
 
 `SUPERSEDED ≠ ERASED`
 
-D033 changed sequencing and integration direction at adoption. D037 below now
-governs current sequencing. D033 does not erase D024/D025 history, restart the
+D033 changed sequencing and integration direction at adoption. D049 below now governs the current critical-path driver. D037 remains the
+Genesis Readiness envelope around founder habitation and before external
+transfer. D033 does not erase D024/D025 history, restart the
 Cell ontology, replace Company Core, or promote manual chat experiments as
 canonical Result Packages.
 
@@ -416,11 +457,16 @@ Preserved base plan:
 
 Current target:
 
-make Marcos inhabit Célula Zero as the Genesis Human through existing
-capabilities first, so the system can increase or fail to increase his
-observable capacity before external transfer testing.
+make Marcos inhabit Célula Zero as the Genesis Human through real lived-capacity
+episodes, composing existing capabilities first, so the system can increase or
+fail to increase his observable capacity and expose exact property loss before
+external transfer testing.
 
-Current social-to-core metabolism:
+Current critical-path driver:
+
+`REAL FOUNDER LIVED-CAPACITY EPISODE → COMPOSE EXISTING CAPABILITY → OBSERVE CONSEQUENCE / CAPACITY DELTA / PROPERTY LOSS → ADOPT / MAP / COMPOSE → EXTEND only when concrete property loss requires it → CONTINUE OR HUMAN REVIEW`
+
+Current social-to-core metabolism remains available for composition:
 
 `Living Presence → Discovery → Relation → Space / Project → Existing CZ Operating Core → Result / Learning → updated trajectory`
 
@@ -434,7 +480,13 @@ Preserved metabolism:
 
 Current construction discipline:
 
-`ADOPT / MAP → COMPOSE → EXTEND → BUILD FROM ZERO only when necessary`
+`READBACK → ADOPT / MAP → COMPOSE → EXTEND → BUILD FROM ZERO only when necessary`
+
+Tie-breaker:
+
+`ADOPT → MAP → COMPOSE → EXTEND`
+
+`EXTEND / MISSING` requires explicit observed property loss.
 
 Current Huly substrate authority result:
 
@@ -518,19 +570,24 @@ Not demonstrated:
 Human adoption of an interpretation / external utility / campaign validation /
 multi-AI interoperability`
 
-Current immediate coordination within the construction of Living Presence,
-without replacing the D033 sequence:
+Preserved candidate capability available for composition:
 
-`GENESIS-HUMAN-CANDIDATE-INTERPRETATION-READBACK-N1`
+`GENESIS-HUMAN-CANDIDATE-INTERPRETATION-READBACK-N1 = PRESERVED CANDIDATE / NOT AUTOMATIC CURRENT GATE`
 
-Purpose:
+Purpose preserved:
 
 determine the smallest existing composition by which CZ can read Marcos's
 private pre-Project records and produce an attributed, source-linked,
 Human-correctable candidate interpretation without promoting it to identity,
 truth or Human adoption.
 
-Do not implement this gate yet.
+Candidate Interpretation may support `PERCEIVE / DISCOVER` in a selected lived
+episode, but it is not the lived metabolism as a whole and is not automatically
+the next implementation slice.
+
+Preserve:
+
+`CANDIDATE INTERPRETATION ≠ DISCOVERY AS A WHOLE`
 
 Current Human constraint:
 
@@ -910,11 +967,11 @@ Current Human constraint:
 
 `NO EXTERNAL CONTACT / OUTREACH NOW`
 
-Current next internal gate:
+Preserved Discovery candidate:
 
-`D033 / DISCOVERY-CONTEXT-N1 / LIVING PRESENCE + CURRENT INTENT + CONTEXT + USER CONTROLS`
+`D033 / DISCOVERY-CONTEXT-N1 / LIVING PRESENCE + CURRENT INTENT + CONTEXT + USER CONTROLS = PRESERVED / COMPOSE WHEN REQUIRED BY LIVED EPISODE`
 
-Question:
+Its question remains:
 
 > What is the smallest representation sufficient to discover relevant
 > candidates among structures that already exist and explain why they appeared?
@@ -923,18 +980,65 @@ Start with existing data, structured filters, existing relations and ordinary
 text search. Only demonstrated semantic property loss may justify embeddings or
 vector infrastructure.
 
+Current next gate:
+
+`K03 / SELECT FIRST FOUNDER LIVED-CAPACITY EPISODE`
+
+Question:
+
+> What real Founder Dream, Need, concern, decision, opportunity or blockage
+> should be carried through existing CZ capabilities first, where the value of
+> resolving it is independent of testing Célula Zero?
+
+Selection criteria:
+
+- real value independent of the test;
+- bounded enough to complete or fail visibly;
+- no external outreach;
+- capable of producing consequence / Human Decision / observable capacity delta;
+- no new construction required merely to start.
+
+Strong candidate from the Outside-In Inquiry:
+
+`“I am not seeing enough benefit/advance from what CZ is doing.”`
+
+Status:
+
+`CANDIDATE / NOT YET SELECTED BY HUMAN DIRECTION`
+
+After selection:
+
+`K04 / DEFINE FALSIFIERS → K05 / EXISTING-CAPABILITY REUSE MAP`
+
+For the first Founder lived-capacity episode, prefer one bounded composition
+attempt and at most one bounded repair of an observed property loss before an
+early Human Review.
+
+Human Review dispositions:
+
+`CONTINUE / REVISE / RETURN TO READINESS COMPONENT / CHANGE EPISODE / STOP`
+
+Do not rerun the same test without repaired property loss, new evidence or a
+new uncertainty.
+
 T12 first-slice visibility enforcement remains canonical. Its residual privacy
 work is preserved but is not the current sequencing gate merely because it was
 previously next.
 
 T19 remains pending and must not be simulated as Human evidence. The later
-external-person episode remains the transfer / external-utility gate. Further
-technical construction should follow observed property loss rather than
-automatic Wave selection.
+external-person episode remains the transfer / external-utility gate.
+
+Current Human constraint:
+
+`EXTERNAL CONTACT / OUTREACH = HOLD`
+
+`ALLUS TRANSFER / PRESENTATION = HOLD`
+
+`NEW IMPLEMENTATION = NOT AUTHORIZED BY D049`
 
 No Wave4, new implementation, Remote Supabase write, external
-enrollment/outreach, Safe creation, testnet/mainnet transaction or real-fund
-movement is authorized by this STATE reconciliation.
+enrollment/outreach, Safe creation, testnet/mainnet transaction, paid model
+call or real-fund movement is authorized by this STATE reconciliation.
 
 ## Preserved historical Human Direction — D021 / Internal Operability
 
