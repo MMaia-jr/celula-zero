@@ -980,43 +980,73 @@ Start with existing data, structured filters, existing relations and ordinary
 text search. Only demonstrated semantic property loss may justify embeddings or
 vector infrastructure.
 
-Current next gate:
+Current selected Founder lived-capacity episode:
 
-`K03 / SELECT FIRST FOUNDER LIVED-CAPACITY EPISODE`
+`D050 / K03 / FOUNDER ONLINE HABITABLE MVP ASSEMBLY / HUMAN-SELECTED`
 
-Question:
+Human Direction:
 
-> What real Founder Dream, Need, concern, decision, opportunity or blockage
-> should be carried through existing CZ capabilities first, where the value of
-> resolving it is independent of testing Célula Zero?
+`decisions/D050-human-selects-founder-online-habitable-mvp-assembly.md`
 
-Selection criteria:
+Human-selected target:
 
-- real value independent of the test;
-- bounded enough to complete or fail visibly;
-- no external outreach;
-- capable of producing consequence / Human Decision / observable capacity delta;
-- no new construction required merely to start.
+> create an online habitable experience where Marcos can work for real in
+> Célula Zero, prioritizing existing CZ capability and mature existing
+> technology, with no new infrastructure absent observed property loss.
 
-Strong candidate from the Outside-In Inquiry:
+Target transformation:
 
-`“I am not seeing enough benefit/advance from what CZ is doing.”`
+`FRAGMENTED CAPABILITIES + FOUNDER AS MANUAL BUS`
 
-Status:
+→
 
-`CANDIDATE / NOT YET SELECTED BY HUMAN DIRECTION`
+`COHERENT ONLINE FOUNDER WORKSPACE + REUSABLE LIVED EPISODE`
 
-After selection:
+Prepared Work Packet:
 
-`K04 / DEFINE FALSIFIERS → K05 / EXISTING-CAPABILITY REUSE MAP`
+`WP-K03-FOUNDER-ONLINE-MVP-ASSEMBLY-V1.md`
+
+Packet status:
+
+`PREPARED / BOUNDED / NOT EXECUTED / EXECUTION NOT AUTHORIZED`
+
+Construction rule:
+
+`ADOPT → MAP → COMPOSE → EXTEND`
+
+`EXTEND / MISSING` requires concrete observed property loss.
+
+Existing mature technologies must be evaluated before custom construction.
+
+Preserve:
+
+`NOT DISCOVERED YET ≠ MISSING`
+
+`MATURE TECHNOLOGY ≠ AUTOMATIC ADOPTION`
+
+`BOUNDED TECHNICAL PASS ≠ PRODUCT HABITABILITY`
+
+Current next Human gate:
+
+`HUMAN EXECUTION DECISION FOR WP-K03-FOUNDER-ONLINE-MVP-ASSEMBLY-V1`
+
+Possible Human dispositions:
+
+`AUTHORIZE EXECUTION / REVISE / HOLD / STOP`
+
+Execution remains:
+
+`HOLD UNTIL EXPLICIT HUMAN AUTHORIZATION`
+
+If execution is later authorized, Stage 0 must perform:
+
+`CANONICAL READBACK → EXISTING CAPABILITY MAP → TECHNOLOGY ADOPTION MAP → ONE PRIMARY FOUNDER JOURNEY → PROPERTY-LOSS LEDGER`
+
+before repository writes.
 
 For the first Founder lived-capacity episode, prefer one bounded composition
 attempt and at most one bounded repair of an observed property loss before an
 early Human Review.
-
-Human Review dispositions:
-
-`CONTINUE / REVISE / RETURN TO READINESS COMPONENT / CHANGE EPISODE / STOP`
 
 Do not rerun the same test without repaired property loss, new evidence or a
 new uncertainty.
@@ -1034,9 +1064,15 @@ Current Human constraint:
 
 `ALLUS TRANSFER / PRESENTATION = HOLD`
 
-`NEW IMPLEMENTATION = NOT AUTHORIZED BY D049`
+`K03 FOUNDER MVP ≠ EXTERNAL TRANSFER`
 
-No Wave4, new implementation, Remote Supabase write, external
+`WP-K03 = PREPARED / CANONICAL DOCUMENTATION / NOT EXECUTED`
+
+`CODEX EXECUTION = HOLD / REQUIRES EXPLICIT HUMAN AUTHORIZATION`
+
+`IMPLEMENTATION = HOLD`
+
+No new implementation, Remote Supabase write, deployment, external
 enrollment/outreach, Safe creation, testnet/mainnet transaction, paid model
 call or real-fund movement is authorized by this STATE reconciliation.
 
@@ -1044,8 +1080,9 @@ call or real-fund movement is authorized by this STATE reconciliation.
 
 Any “current” wording inside this preserved D021/GI1 block describes the
 canonical state as of 2026-09-07 and is superseded for present sequencing by
-D033. D024/D025 remain preserved Dream/Plan lineage. Historical results and
-evidence remain valid as bounded results.
+newer Human Directions. D049 governs the current critical-path driver and D050
+selects the first lived-capacity episode. D024/D025 remain preserved Dream/Plan
+lineage. Historical results and evidence remain valid as bounded results.
 
 `D021 / INTERNAL OPERABILITY BEFORE EXTERNAL DOING / HUMAN DIRECTION`
 
