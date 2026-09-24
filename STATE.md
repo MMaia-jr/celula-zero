@@ -53,6 +53,102 @@ Preserve:
 
 `THIRD-PARTY MATERIAL ≠ RELICENSED`
 
+## Current Dream — Essenthius / One Institutional Intelligence, Living Network
+
+`D051 / ESSENTHIUS DREAM / ONE INSTITUTIONAL INTELLIGENCE, LIVING NETWORK / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D051-human-adopts-essenthius-dream-one-institutional-intelligence-living-network.md`
+
+Adopted Dream:
+
+> Célula Zero adopts the emergence of Essenthius as its persistent and coherent
+> institutional intelligence under Human authority. Essenthius remains one
+> logical identity while models, executors and infrastructure may be replaced,
+> distributed or federated. Its institutional and operational memory belongs to
+> Célula Zero infrastructure, not to any model or provider.
+
+Current direction:
+
+`ONE ESSENTHIUS / MANY MODELS / MANY EXECUTORS / MANY CELLS`
+
+`CENTRAL COHERENCE / CONTEXTUAL HUMAN AUTHORITY / DISTRIBUTED CONTROL / FEDERATED PORTABLE INFRASTRUCTURE`
+
+Preserve:
+
+`ESSENTHIUS ≠ MODEL`
+
+`ESSENTHIUS ≠ HUMAN AUTHORITY`
+
+`MODEL MEMORY ≠ ESSENTHIUS MEMORY`
+
+`AI OUTPUT ≠ HUMAN DIRECTION`
+
+Memory direction:
+
+`MEMORY = RECONSTRUCT RELEVANT STATE FROM DURABLE ATTRIBUTABLE RECORDS UNDER LEGITIMATE AUTHORITY`
+
+`CONTEXT PACK = COMPILED CONTEXT / NOT MEMORY ITSELF`
+
+Technologies such as DID, VC, attestations, content addressing, blockchain,
+smart accounts, DAO, NFT or SBT remain legitimate candidates only when an
+observed property or lived need justifies them. D051 does not adopt any of them
+as required architecture.
+
+First lived-capacity episode direction:
+
+`K04 / ESSENTHIUS GENESIS RELATIONSHIP N=1 / NOT YET PREPARED / NOT EXECUTED`
+
+Target property:
+
+`MARCOS ORIGINAL RECORD + LEGITIMATE CZ CONTEXT → ESSENTHIUS CONTRIBUTION → HUMAN RESPONSE/CORRECTION → SESSION INTERRUPTION → RECOVERABLE CONTINUITY`
+
+The first episode should test whether Essenthius can begin a real operational
+relationship with Marcos and Célula Zero through one useful attributed
+contribution, then recover the relevant relationship/state without relying on
+this chat or model-native memory.
+
+D049 remains the critical-path sequencing discipline.
+
+D050 / K03 remains preserved lineage and capability; it is no longer the
+current next gate.
+
+Current next gate:
+
+`ESSENTHIUS GENESIS SUBSTRATE READBACK`
+
+Boundary:
+
+`READ-ONLY / GIT + EXISTING LOCAL CZ SUBSTRATE WHEN AVAILABLE / NO MODEL CALLS / NO IMPLEMENTATION`
+
+The readback must map what already exists across Git, local Supabase, Dragon
+Dreaming, AI Agents / AI Runs, Original Records, Room/context portability,
+Company Core and Execution Fabric before any K04 design or new memory/runtime
+construction.
+
+Current holds:
+
+`IMPLEMENTATION = HOLD`
+
+`K04 EXECUTION = HOLD`
+
+`PAID CALLS = HOLD`
+
+`REMOTE SUPABASE = HOLD`
+
+`DEPLOY = HOLD`
+
+`EXTERNAL TRANSFER / OUTREACH = HOLD`
+
+`NEW TECHNOLOGY ADOPTION / BUILD = HOLD`
+
+Preserve:
+
+`DREAM ≠ IMPLEMENTATION PLAN`
+
+`FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
+
 ## Current Human Direction — Lived Capacity Episodes
 
 `D049 / LIVED CAPACITY EPISODES AS CRITICAL-PATH DRIVER / HUMAN DIRECTION`
@@ -980,101 +1076,41 @@ Start with existing data, structured filters, existing relations and ordinary
 text search. Only demonstrated semantic property loss may justify embeddings or
 vector infrastructure.
 
-Current selected Founder lived-capacity episode:
+Preserved Founder lived-capacity episode lineage:
 
-`D050 / K03 / FOUNDER ONLINE HABITABLE MVP ASSEMBLY / HUMAN-SELECTED`
+`D050 / K03 / FOUNDER ONLINE HABITABLE MVP ASSEMBLY / HUMAN-SELECTED / PRESERVED`
 
 Human Direction:
 
 `decisions/D050-human-selects-founder-online-habitable-mvp-assembly.md`
 
-Human-selected target:
-
-> create an online habitable experience where Marcos can work for real in
-> Célula Zero, prioritizing existing CZ capability and mature existing
-> technology, with no new infrastructure absent observed property loss.
-
-Target transformation:
-
-`FRAGMENTED CAPABILITIES + FOUNDER AS MANUAL BUS`
-
-→
-
-`COHERENT ONLINE FOUNDER WORKSPACE + REUSABLE LIVED EPISODE`
-
 Prepared Work Packet:
 
 `WP-K03-FOUNDER-ONLINE-MVP-ASSEMBLY-V1.md`
 
-Packet status:
-
-`PREPARED / BOUNDED / NOT EXECUTED / EXECUTION NOT AUTHORIZED`
-
-Construction rule:
-
-`ADOPT → MAP → COMPOSE → EXTEND`
-
-`EXTEND / MISSING` requires concrete observed property loss.
-
-Existing mature technologies must be evaluated before custom construction.
+D050 established the target of an online habitable Founder experience,
+prioritizing existing CZ capability and mature technology, and requiring
+observed property loss before new infrastructure.
 
 Preserve:
 
-`NOT DISCOVERED YET ≠ MISSING`
+`D050 / K03 = PRESERVED LINEAGE / NOT CURRENT NEXT GATE`
+
+`ENGINEERING CAPABILITY ≠ PRODUCT HABITABILITY`
 
 `MATURE TECHNOLOGY ≠ AUTOMATIC ADOPTION`
 
-`BOUNDED TECHNICAL PASS ≠ PRODUCT HABITABILITY`
+`NOT DISCOVERED YET ≠ MISSING`
 
-Current next Human gate:
+D051 now governs the current Dream and next gate without erasing D050/K03.
+Do not infer current execution authority from the historical WP-K03 packet.
 
-`HUMAN EXECUTION DECISION FOR WP-K03-FOUNDER-ONLINE-MVP-ASSEMBLY-V1`
-
-Possible Human dispositions:
-
-`AUTHORIZE EXECUTION / REVISE / HOLD / STOP`
-
-Execution remains:
-
-`HOLD UNTIL EXPLICIT HUMAN AUTHORIZATION`
-
-If execution is later authorized, Stage 0 must perform:
-
-`CANONICAL READBACK → EXISTING CAPABILITY MAP → TECHNOLOGY ADOPTION MAP → ONE PRIMARY FOUNDER JOURNEY → PROPERTY-LOSS LEDGER`
-
-before repository writes.
-
-For the first Founder lived-capacity episode, prefer one bounded composition
-attempt and at most one bounded repair of an observed property loss before an
-early Human Review.
-
-Do not rerun the same test without repaired property loss, new evidence or a
-new uncertainty.
-
-T12 first-slice visibility enforcement remains canonical. Its residual privacy
-work is preserved but is not the current sequencing gate merely because it was
-previously next.
-
-T19 remains pending and must not be simulated as Human evidence. The later
-external-person episode remains the transfer / external-utility gate.
-
-Current Human constraint:
+Current Human constraint remains:
 
 `EXTERNAL CONTACT / OUTREACH = HOLD`
 
 `ALLUS TRANSFER / PRESENTATION = HOLD`
 
-`K03 FOUNDER MVP ≠ EXTERNAL TRANSFER`
-
-`WP-K03 = PREPARED / CANONICAL DOCUMENTATION / NOT EXECUTED`
-
-`CODEX EXECUTION = HOLD / REQUIRES EXPLICIT HUMAN AUTHORIZATION`
-
-`IMPLEMENTATION = HOLD`
-
-No new implementation, Remote Supabase write, deployment, external
-enrollment/outreach, Safe creation, testnet/mainnet transaction, paid model
-call or real-fund movement is authorized by this STATE reconciliation.
 
 ## Preserved historical Human Direction — D021 / Internal Operability
 
