@@ -98,7 +98,19 @@ as required architecture.
 
 First lived-capacity episode direction:
 
-`K04 / ESSENTHIUS GENESIS RELATIONSHIP N=1 / NOT YET PREPARED / NOT EXECUTED`
+`K04 / ESSENTHIUS GENESIS RELATIONSHIP N=1 / LOCAL LIVED EXPERIENCE OBSERVED / LOCAL IMPLEMENTATION NOT PROMOTED TO GIT`
+
+Subsequent lived state / not yet canonicalized:
+
+K04 had a local lived experience after the canonical snapshot. Its local
+implementation was not promoted to Git; the previous worktree was abandoned
+as `LOST / NOT RECOVERY TARGET`.
+
+Preserve:
+
+`LOCAL LIVED EXPERIENCE ≠ CANONICAL IMPLEMENTATION STATE`
+
+`D051 CANONICAL ≠ ESSENTHIUS IMPLEMENTED`
 
 Target property:
 
@@ -114,18 +126,56 @@ D049 remains the critical-path sequencing discipline.
 D050 / K03 remains preserved lineage and capability; it is no longer the
 current next gate.
 
+Current operational observations — Human-reported:
+
+Loss of the Mac exposed a concrete operational dependency on laptop/terminal.
+Existing-capability composition observed:
+
+`IPHONE → CHATGPT REMOTE → CODEX → CODESPACE → CELULA-ZERO → READBACK`
+
+`READ-ONLY N=1 = PASS`
+
+`BOUNDED WRITE N=1 = PASS`
+
+The separate bounded, reversible write via Remote created and switched to a
+branch without changing project content or promoting implementation.
+
+`MOBILE RECOVERY WITHOUT WORK N=1 = PASS`
+
+After the Codespace stopped, Marcos resumed it from the iPhone, opened Codex
+and restored Remote without ChatGPT Work or a paid API.
+
+The Codespaces default timeout was set to 120 minutes as operational
+configuration only, not new architecture.
+
+Preserve:
+
+`MANUAL MOBILE RECOVERY ≠ AUTO-RECOVERY`
+
+`MOBILE RECOVERY PASS ≠ PERSISTENT HOST AVAILABILITY`
+
+`CODEX REMOTE / CODESPACE = EXECUTION SUBSTRATE ≠ ESSENTHIUS`
+
 Current next gate:
 
-`ESSENTHIUS GENESIS SUBSTRATE READBACK`
+`MARCOS MOBILE INPUT → EXISTING CLOUD EXECUTOR → BOUNDED STATE RECONCILIATION → HUMAN REVIEW → EXPLICIT PROMOTION`
 
-Boundary:
+This operational gate replaces the prior substrate-readback gate as the current
+sequencing step while preserving D051 as current Human Direction.
 
-`READ-ONLY / GIT + EXISTING LOCAL CZ SUBSTRATE WHEN AVAILABLE / NO MODEL CALLS / NO IMPLEMENTATION`
+Scope is limited to reconciliation of the current operational state using the
+existing cloud executor.
 
-The readback must map what already exists across Git, local Supabase, Dragon
-Dreaming, AI Agents / AI Runs, Original Records, Room/context portability,
-Company Core and Execution Fabric before any K04 design or new memory/runtime
-construction.
+`STATE RECONCILIATION ≠ PRODUCT IMPLEMENTATION`
+
+Application, commit, push, PR and merge remain separate promotion steps under
+explicit Human authorization.
+
+No new infrastructure is selected.
+
+After this reconciliation, return to the larger D051 objective:
+
+`NORMAL HUMAN ENTRY → RELEVANT CONTEXT → ESSENTHIUS CONTRIBUTION/ACTION → HUMAN CORRECTION/DECISION → DURABLE CONTINUITY`
 
 Current holds:
 
