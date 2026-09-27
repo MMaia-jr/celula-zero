@@ -15,6 +15,7 @@ import {
   getCompanyCoreCycle,
   listSponsoredBudgetPools,
 } from "@/lib/data/company-core";
+import { getCompanyCoreContinuation } from "@/lib/domain/company-core-continuation";
 import { getLocale } from "@/lib/i18n/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -47,7 +48,8 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
     cycle.aiRunId ? getAiRunOutput(id) : Promise.resolve(null),
     cycle.aiRunId ? getAiJobOperationalStatus(cycle.aiRunId) : Promise.resolve(null),
   ]);
-  const sponsoredPools = cycle.state === "AGREEMENT_DEFINED" ? await listSponsoredBudgetPools(cycle.cellId) : [];
+  const continuation = getCompanyCoreContinuation(cycle.state, aiJob?.state);
+  const sponsoredPools = continuation.action === "AUTHORIZE_WORK" ? await listSponsoredBudgetPools(cycle.cellId) : [];
 
   const stateLabel: Record<string, string> = {
     NEED_CREATED: en ? "Need created" : "Need criada",
@@ -62,18 +64,34 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
     CLOSED: en ? "Closed" : "Fechado",
   };
 
-  const nextStepLabel: Record<string, string> = {
-    NEED_CREATED: en ? "Define agreement" : "Definir acordo",
-    AGREEMENT_DEFINED: en ? "Authorize AI work" : "Autorizar trabalho de IA",
-    WORK_AUTHORIZED: en ? "AI is running…" : "IA está executando…",
-    AI_RUNNING: en ? "Check AI Job status" : "Verificar estado do Job de IA",
-    AI_COMPLETED: en ? "Record result" : "Registrar resultado",
-    AI_FAILED: en ? "Record result (AI failed)" : "Registrar resultado (IA falhou)",
-    RESULT_RECORDED: en ? "Record evaluation" : "Registrar avaliação",
-    EVALUATION_RECORDED: en ? "Record consequence" : "Registrar consequência",
-    CONSEQUENCE_RECORDED: en ? "Cycle complete" : "Ciclo completo",
-    CLOSED: en ? "Cycle closed" : "Ciclo fechado",
-  };
+  const nextStepLabel = (() => {
+    switch (continuation.action) {
+      case "UNRECOGNIZED_STATE":
+        return continuation.observedState;
+      case "DEFINE_AGREEMENT":
+        return en ? "Define agreement" : "Definir acordo";
+      case "AUTHORIZE_WORK":
+        return en ? "Authorize AI work" : "Autorizar trabalho de IA";
+      case "WAIT_FOR_EXECUTION":
+        return continuation.phase === "AUTHORIZED"
+          ? (en ? "AI is running…" : "IA está executando…")
+          : (en ? "Check AI Job status" : "Verificar estado do Job de IA");
+      case "RECONCILE_EXECUTION":
+        return en ? "Check AI Job status" : "Verificar estado do Job de IA";
+      case "RECORD_RESULT":
+        return continuation.failurePath
+          ? (en ? "Record result (AI failed)" : "Registrar resultado (IA falhou)")
+          : (en ? "Record result" : "Registrar resultado");
+      case "RECORD_EVALUATION":
+        return en ? "Record evaluation" : "Registrar avaliação";
+      case "RECORD_CONSEQUENCE":
+        return en ? "Record consequence" : "Registrar consequência";
+      case "COMPLETE":
+        return continuation.closed
+          ? (en ? "Cycle closed" : "Ciclo fechado")
+          : (en ? "Cycle complete" : "Ciclo completo");
+    }
+  })();
 
   return (
     <main className="section-shell">
@@ -201,9 +219,9 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
 
       {/* Next action form */}
       <section className="content-block side-block">
-        <p className="mini-label">NEXT ACTION · {nextStepLabel[cycle.state] ?? cycle.state}</p>
+        <p className="mini-label">NEXT ACTION · {nextStepLabel}</p>
 
-        {cycle.state === "NEED_CREATED" ? (
+        {continuation.action === "DEFINE_AGREEMENT" ? (
           <form className="project-form" action={defineAgreementAction}>
             <input type="hidden" name="cycleId" value={cycle.id} />
             <input type="hidden" name="commandId" value={randomUUID()} />
@@ -248,7 +266,7 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
           </form>
         ) : null}
 
-        {cycle.state === "AGREEMENT_DEFINED" ? (
+        {continuation.action === "AUTHORIZE_WORK" ? (
           <form className="project-form" action={authorizeWorkAction}>
             <input type="hidden" name="cycleId" value={cycle.id} />
             <input type="hidden" name="commandId" value={randomUUID()} />
@@ -289,7 +307,7 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
           </form>
         ) : null}
 
-        {cycle.state === "AI_COMPLETED" || cycle.state === "AI_FAILED" ? (
+        {continuation.action === "RECORD_RESULT" ? (
           <form className="project-form" action={recordResultAction}>
             <input type="hidden" name="cycleId" value={cycle.id} />
             <input type="hidden" name="commandId" value={randomUUID()} />
@@ -319,7 +337,7 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
           </form>
         ) : null}
 
-        {cycle.state === "RESULT_RECORDED" ? (
+        {continuation.action === "RECORD_EVALUATION" ? (
           <form className="project-form" action={recordEvaluationAction}>
             <input type="hidden" name="cycleId" value={cycle.id} />
             <input type="hidden" name="commandId" value={randomUUID()} />
@@ -346,7 +364,7 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
           </form>
         ) : null}
 
-        {cycle.state === "EVALUATION_RECORDED" ? (
+        {continuation.action === "RECORD_CONSEQUENCE" ? (
           <form className="project-form" action={recordConsequenceAction}>
             <input type="hidden" name="cycleId" value={cycle.id} />
             <input type="hidden" name="commandId" value={randomUUID()} />
@@ -386,7 +404,7 @@ export default async function CompanyCoreDetailPage({ params }: CompanyCoreDetai
           </form>
         ) : null}
 
-        {cycle.state === "CONSEQUENCE_RECORDED" || cycle.state === "CLOSED" ? (
+        {continuation.action === "COMPLETE" ? (
           <p>{en ? "This cycle is complete." : "Este ciclo está completo."}</p>
         ) : null}
       </section>

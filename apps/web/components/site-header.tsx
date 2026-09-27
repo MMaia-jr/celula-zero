@@ -13,6 +13,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <span className="brand-name">célula<span>zero</span></span>
         </Link>
         <nav aria-label={en ? "Main navigation" : "Navegação principal"}>
+          <Link href="/operate">{en ? "Operate" : "Operar"}</Link>
           <Link href="/people">{en ? "People" : "Pessoas"}</Link>
           <Link href="/projects">{en ? "Projects" : "Projetos"}</Link>
           <Link href="/cells">Cells</Link>

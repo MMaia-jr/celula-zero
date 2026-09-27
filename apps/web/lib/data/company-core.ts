@@ -1,16 +1,7 @@
+import type { CompanyCoreState } from "@/lib/domain/company-core-continuation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export type CompanyCoreState =
-  | "NEED_CREATED"
-  | "AGREEMENT_DEFINED"
-  | "WORK_AUTHORIZED"
-  | "AI_RUNNING"
-  | "AI_COMPLETED"
-  | "AI_FAILED"
-  | "RESULT_RECORDED"
-  | "EVALUATION_RECORDED"
-  | "CONSEQUENCE_RECORDED"
-  | "CLOSED";
+export type { CompanyCoreState } from "@/lib/domain/company-core-continuation";
 
 export interface CompanyCoreCycle {
   id: string;
