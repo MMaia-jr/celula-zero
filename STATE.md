@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-23
+Última reconciliação canônica: 2026-09-28
 
 Repositório canônico:
 
@@ -156,26 +156,58 @@ Preserve:
 
 `CODEX REMOTE / CODESPACE = EXECUTION SUBSTRATE ≠ ESSENTHIUS`
 
+### Current lived operation — world-first composition
+
+Current Human Direction advances beyond the 2026-09-26 mobile/cloud reconciliation:
+
+`CURRENT HUMAN DIRECTION ≠ PREVIOUS CANONICAL NEXT GATE`
+
+Operational composition now in use:
+
+`LINEAR OPERATIONAL HABITAT + GITHUB CANONICAL STATE/PROVENANCE + CHATGPT-ASSISTED STATE RECONSTRUCTION + ESSENTHIUS DIRECTION + REPLACEABLE EXECUTORS`
+
+Preserve:
+
+`CZ COHERENCE ≠ CZ OWNS EVERY COMPONENT`
+
+`EXTERNAL CAPABILITY ≠ EXTERNAL AUTHORITY`
+
+`CAPABILITY EXISTS ≠ INTEGRATED ≠ HUMAN CAN USE IT`
+
+The founder should first use mature existing capabilities in lived operation and observe concrete CZ-specific property loss before extending or building.
+
+Observed Huly composition result:
+
+`HULY SELF-HOST LOCAL / THIS MAC = INCONCLUSIVE / NOT HABITABLE FOR THIS SLICE`
+
+The local self-host attempt encountered severe Docker resource contention, Redpanda OOM, Cockroach instability and eventual Docker-control unresponsiveness. This does not reject Huly generally and does not justify Huly-core modification or replacement infrastructure.
+
+Current stops:
+
+- custom `/operate` workspace path: STOP;
+- custom auth/identity repair: STOP;
+- new horizontal workspace/project/chat/file infrastructure: STOP;
+- Huly-local repair for this slice: STOP.
+
 Current next gate:
 
-`MARCOS MOBILE INPUT → EXISTING CLOUD EXECUTOR → BOUNDED STATE RECONCILIATION → HUMAN REVIEW → EXPLICIT PROMOTION`
+`NORMAL HUMAN INPUT → RECONSTRUCT RELEVANT STATE FROM DURABLE CONNECTED RECORDS → PERFORM ONE REAL CZ WORK EPISODE → HUMAN DECISION/CONSEQUENCE → DURABLE CONTINUATION → RETURN`
 
-This operational gate replaces the prior substrate-readback gate as the current
-sequencing step while preserving D051 as current Human Direction.
+Current operational surface:
 
-Scope is limited to reconciliation of the current operational state using the
-existing cloud executor.
+`MAI-45 / CURRENT CONTINUITY — habitar CZ usando o mundo existente`
 
-`STATE RECONCILIATION ≠ PRODUCT IMPLEMENTATION`
+DoD for this lived episode:
 
-Application, commit, push, PR and merge remain separate promotion steps under
-explicit Human authorization.
+Marcos can resume and advance real Célula Zero work without reconstructing branch, deployment, Supabase, executor, subsystem or technical history manually; a later return recovers the relevant continuation from durable attributable records.
 
-No new infrastructure is selected.
+Preserve:
 
-After this reconciliation, return to the larger D051 objective:
+`LINEAR OPERATIONAL SURFACE ≠ GITHUB CANONICAL STATE`
 
-`NORMAL HUMAN ENTRY → RELEVANT CONTEXT → ESSENTHIUS CONTRIBUTION/ACTION → HUMAN CORRECTION/DECISION → DURABLE CONTINUITY`
+`ONE SUCCESSFUL READBACK ≠ AUTOMATIC INSTITUTIONAL MEMORY`
+
+`FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
 
 Current holds:
 
