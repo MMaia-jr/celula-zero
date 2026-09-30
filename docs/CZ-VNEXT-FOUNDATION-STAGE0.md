@@ -50,24 +50,36 @@ writes, production infrastructure or implementation promotion.
 The observed property required is local durable Foundation state across process restarts,
 with no remote credentials, Docker repairs or external effects. Node 24 node:sqlite
 provides that storage without a new service or dependency. It is a local adapter behind
-CZ Storage, not the selected online/production backend. Single writer transactions,
+the app-local `FoundationStore`, not a platform storage architecture or selected
+online/production backend. Single writer transactions,
 server session tokens, request idempotency and original/projection writes share the
 local persistence boundary. Direct database/operator tampering is outside this bound.
 
 ## Dependency graph
 
-apps/cz-web (composition / HTTP / fresh UX)
+apps/cz-web (composition / HTTP / fresh UX / FoundationStore)
 -> identity
 -> presence -> identity + records
 -> cells -> identity
 -> authority -> cells + identity
 -> records -> identity
--> local SQLite adapter -> platform-contract
+-> local SQLite adapter -> app-local FoundationStore
 platform-huly -> platform-contract (candidate and explicit gaps only)
 
 No domain-to-provider dependency or cross-module SQL. Unneeded architecture modules are
-not empty package scaffolds. UI, event display and sanitized operational error handling
+not empty package scaffolds. The provider-capability `PlatformContract` does not define
+whole-state persistence. UI, event display and sanitized operational error handling
 remain app-local until there is a second consumer.
+
+## Deployment provenance
+
+`MANUAL_DEPLOY = NO`
+`VERCEL_AUTOMATION = OBSERVED ON DRAFT PR HEAD`
+`PREVIEW_DEPLOYMENT_EFFECT = INCONCLUSIVE / NOT INDEPENDENTLY VERIFIED`
+
+GitHub reported a successful Vercel status on the Draft PR head. This records observed
+automation/status only; preview contents and deployment effect were not independently
+verified. No production deployment is claimed.
 
 ## Huly classification
 

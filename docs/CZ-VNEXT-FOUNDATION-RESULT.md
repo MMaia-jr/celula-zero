@@ -1,6 +1,14 @@
 # CZ vNext Foundation V1 — Result Package
 
-Status: `IMPLEMENTED LOCALLY / TESTED / PROMOTED TO DRAFT PR / NOT MERGED / NOT DEPLOYED`
+Status: `IMPLEMENTED LOCALLY / TESTED / PROMOTED TO DRAFT PR / NOT MERGED`
+
+`MANUAL_DEPLOY = NO`
+`VERCEL_AUTOMATION = OBSERVED ON DRAFT PR HEAD`
+`PREVIEW_DEPLOYMENT_EFFECT = INCONCLUSIVE / NOT INDEPENDENTLY VERIFIED`
+
+GitHub reported a successful Vercel status on the Draft PR head. This establishes
+observed automation/status, not the preview's contents or deployment effect, which were
+not independently verified. No production deployment is claimed.
 
 ## Promotion and implementation bases
 
@@ -24,7 +32,7 @@ D053 and the accompanying LICENSING.md allowlist reconcile MPL-2.0 coverage for 
 - Editable profile; user-reported Experiences; explicit unverified external profile references.
 - Durable Original Records separately attributed from Experience/Profile projections.
 - Same-Cell role authorization for purpose edits; revocation and ambiguous identity fail closed.
-- Local SQLite storage through a CZ Storage contract; atomic serialized writes and HTTP request idempotency; hashed, revocable, expiring local sessions; same-origin write checks; no remote credentials.
+- Local SQLite storage through an app-local `FoundationStore`; atomic serialized writes and HTTP request idempotency; hashed, revocable, expiring local sessions; same-origin write checks; no remote credentials. The provider-capability `PlatformContract` does not define persistence.
 - JSON snapshot export for authorized local context.
 - A provider-neutral Platform Contract and Huly classification stub. Unsupported platform functions fail with `PROPERTY_GAP`; no successful Huly persistence is simulated.
 - Discover, live identity, outside research, AI, collaboration, background jobs and external storage are clearly not connected.

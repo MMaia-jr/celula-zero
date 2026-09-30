@@ -7,10 +7,6 @@ export interface Session {
 export interface IdentitySubstrate {
   resolve(token: string): Promise<Session | null>;
 }
-export interface Storage<T> {
-  read(): T;
-  transact<R>(change: (state: T) => { state: T; result: R }): R;
-}
 export interface Realtime {
   subscribe(
     scope: string,
@@ -67,9 +63,8 @@ export class PropertyGapError extends Error {
     this.name = "PropertyGapError";
   }
 }
-export interface PlatformContract<T> {
+export interface PlatformContract {
   name: string;
-  storage: Storage<T>;
   identity?: IdentitySubstrate;
   realtime?: Realtime;
   documents?: Documents;

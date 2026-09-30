@@ -18,7 +18,12 @@ import {
   type Mandate,
   type Delegation,
 } from "@cz/authority";
-import { appendRecord } from "@cz/records";
+import {
+  appendRecord,
+  PROVENANCE_ORIGINS,
+  type InstitutionalRecord,
+  type Provenance,
+} from "@cz/records";
 import { resolvePerson, type PersonId } from "@cz/identity";
 import { requireHulyCapability } from "@cz/platform-huly";
 const now = "2026-09-30T12:00:00.000Z",
@@ -31,6 +36,35 @@ const experience = {
   occurredOn: "2026-09-29",
 } as const;
 describe("Institutional boundaries", () => {
+  it("keeps provenance origin separate from Evidence and Verification records", () => {
+    const origins: readonly Provenance["origin"][] = PROVENANCE_ORIGINS;
+    expect(origins).toEqual([
+      "user_reported",
+      "source_observed",
+      "ai_inferred",
+    ]);
+
+    const base = seed().records[0]!;
+    const evidence: InstitutionalRecord = {
+      ...base,
+      id: "evidence-record",
+      kind: "Evidence",
+      claimId: "claim-record",
+      sourceId: base.id,
+      rationale: "Source supports the claim.",
+    };
+    const verification: InstitutionalRecord = {
+      ...base,
+      id: "verification-record",
+      kind: "Verification",
+      claimId: "claim-record",
+      evidenceIds: [evidence.id],
+      method: "human review",
+      outcome: "supported",
+    };
+    expect(evidence.kind).toBe("Evidence");
+    expect(verification.kind).toBe("Verification");
+  });
   it("separates provider credential, Person, Profile and Cell", () => {
     const s = seed();
     expect(

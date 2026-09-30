@@ -4,13 +4,12 @@ export type VisibilityPolicy =
   | { scope: "private"; ownerId: PersonId }
   | { scope: "cell"; cellId: string }
   | { scope: "public" };
-export type Origin =
-  | "user_reported"
-  | "source_observed"
-  | "ai_inferred"
-  | "human_confirmed"
-  | "evidenced"
-  | "verified";
+export const PROVENANCE_ORIGINS = [
+  "user_reported",
+  "source_observed",
+  "ai_inferred",
+] as const;
+export type Origin = (typeof PROVENANCE_ORIGINS)[number];
 export interface Provenance {
   origin: Origin;
   actorId: string;

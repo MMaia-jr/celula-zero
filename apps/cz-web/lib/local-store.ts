@@ -3,9 +3,9 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdirSync, chmodSync } from "node:fs";
 import { dirname } from "node:path";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
-import type { Storage } from "@cz/platform-contract";
 import { seedFoundation, type Foundation } from "./foundation";
-export class LocalStore implements Storage<Foundation> {
+import type { FoundationStore } from "./foundation-store";
+export class LocalStore implements FoundationStore {
   readonly db: DatabaseSync;
   constructor(path: string) {
     if (path !== ":memory:")
