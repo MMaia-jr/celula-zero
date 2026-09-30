@@ -100,35 +100,54 @@ Canonical architecture:
 
 `CZ-VNEXT-ARCHITECTURE-BLUEPRINT-V0.2.md`
 
-Canonical executable Work Packet:
+Canonical completed Foundation Work Packet:
 
 `WP-CZ-VNEXT-FOUNDATION-V1.md`
 
+Foundation V1:
+
+`PASS / IMPLEMENTED / TESTED / ARCHITECTURALLY REVIEWED / MERGED / CANONICAL`
+
+- PR #225 merged through `ae88780505576cfc8a0866aae8dc4cd20e19cf18`;
+- D053 is canonical through that merge;
+- post-repair validation: 23 Vitest tests and 4/4 Playwright desktop/mobile journeys;
+- automated Vercel status/deployment was observed on the merged PR head;
+- Huly remains unconnected with explicit `PROPERTY_GAP`s;
+- SQLite remains a Foundation-local adapter, not production storage architecture.
+
+Foundation V1 does not itself prove online habitability or human acceptance.
+
 Current next gate:
 
-`WP-CZ-VNEXT-FOUNDATION-V1 → STAGE 0 / REUSE MAP → LOCAL FOUNDATION → TESTS → HUMAN REVIEW BEFORE IMPLEMENTATION PROMOTION / DEPLOY`
+`CZ vNext — INTERNAL ONLINE HABITAT V1`
 
-Foundation execution:
+DoD:
 
-`HUMAN AUTHORIZED / ISOLATED BRANCH / NOT YET EXECUTED`
+`NORMAL ONLINE URL → REAL AUTH → AUTH ACCOUNT→PROFILE→PERSON → DURABLE REMOTE STATE → NORMAL HUMAN ACTION → CLOSE → RETURN ON ANOTHER DEVICE → CONTINUITY`
+
+Executable Work Packet:
+`WP-CZ-VNEXT-INTERNAL-ONLINE-HABITAT-V1.md`
 
 Current authorization boundary:
 
-- implementation within the Foundation WP: AUTHORIZED;
-- isolated branch/workspace: AUTHORIZED;
-- local verification: AUTHORIZED;
-- production deploy: HOLD;
-- Remote Supabase writes: HOLD;
-- production credentials/secrets: HOLD;
+- real authentication for Internal Online Habitat: AUTHORIZED;
+- remote durable storage and required additive migrations within the Habitat WP: AUTHORIZED;
+- isolated implementation branch, local/remote verification and preview/internal deploy required for Human use: AUTHORIZED;
+- production deploy: only if necessary for the authorized internal experience, and explicitly reported;
+- implementation merge: HOLD pending new Human Review;
+- production secrets must remain in deployment infrastructure and out of source;
 - paid calls: HOLD unless separately authorized;
 - external transfer/outreach: HOLD;
-- implementation merge: HOLD pending later Human Review.
+- Huly core fork/patch: HOLD;
+- Essenthius/economy expansion: HOLD.
 
 Preserve:
 
-`HUMAN DIRECTION ≠ IMPLEMENTED`
+`FOUNDATION PASS ≠ ONLINE HABITABILITY ≠ HUMAN ACCEPTANCE`
 
-`IMPLEMENTED ≠ DEPLOYED ≠ USED ≠ HUMAN-ACCEPTED ≠ MERGED`
+`REMOTE STORAGE ≠ HUMAN ACCEPTANCE`
+
+`IMPLEMENTATION MERGE = HOLD PENDING NEW HUMAN REVIEW`
 
 ## Current repository licensing boundary
 

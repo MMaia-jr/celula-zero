@@ -1,21 +1,23 @@
 # CZ vNext Foundation V1 — Result Package
 
-Status: `IMPLEMENTED LOCALLY / TESTED / PROMOTED TO DRAFT PR / NOT MERGED`
+Status: `PASS / IMPLEMENTED / TESTED / ARCHITECTURALLY REVIEWED / MERGED / CANONICAL`
 
 `MANUAL_DEPLOY = NO`
-`VERCEL_AUTOMATION = OBSERVED ON DRAFT PR HEAD`
-`PREVIEW_DEPLOYMENT_EFFECT = INCONCLUSIVE / NOT INDEPENDENTLY VERIFIED`
+`VERCEL_AUTOMATION = OBSERVED ON MERGED PR HEAD`
+`AUTOMATED VERCEL STATUS/DEPLOYMENT = SUCCESS OBSERVED`
 
-GitHub reported a successful Vercel status on the Draft PR head. This establishes
-observed automation/status, not the preview's contents or deployment effect, which were
-not independently verified. No production deployment is claimed.
+GitHub reported a successful Vercel status on the PR head, and that head was merged.
+This records observed automated Vercel success; it does not claim that Foundation V1
+itself is an online Habitat or establish human habitability or acceptance. No manual
+deployment was performed as part of the Foundation implementation.
 
 ## Promotion and implementation bases
 
 - Canonical documentation PR: #224, merged 2026-09-30.
-- Merge commit and main HEAD: `f431552511c82d611d0a99c46587f3016c68e986`.
+- Merge commit and canonical main HEAD: `ae88780505576cfc8a0866aae8dc4cd20e19cf18` (PR #225).
 - Implementation branch/worktree: `build/cz-vnext-foundation-v1-20260930` at `/private/tmp/cz-vnext-foundation-20260930`.
-- No implementation commit, push, PR or merge had occurred when this Result Package was prepared. The authorized Draft PR will carry this report. No deploy, remote DB write, paid call or production credential was used.
+- Repair commit `0723aaabf5801399f6bea84c86246dd4aca475d2` is included in PR #225 and the canonical merge. The original Foundation implementation commits and chronology are preserved in Git history.
+- Foundation V1 used no Remote Supabase writes, paid calls or production credentials. Its successful Vercel automation/status does not establish an online Habitat.
 
 ## Stage 0
 
@@ -23,7 +25,7 @@ Reuse and dependency map: [`CZ-VNEXT-FOUNDATION-STAGE0.md`](CZ-VNEXT-FOUNDATION-
 
 In brief: existing Next/React, strict TypeScript, npm workspace and test tools are reused; CZ identity, authority and provenance semantics are adapted into provider-independent domain packages; historical Company Core, Room, Task Capsule, Execution Fabric and schemas remain reference/capability library; old product UI and Huly UI are not imported. Huly has no SDK or live service in this slice. Its candidate adapter reports explicit `PROPERTY_GAP`s. No Huly core modification or fork.
 
-D053 and the accompanying LICENSING.md allowlist reconcile MPL-2.0 coverage for the CZ-authored Foundation software. That licensing Decision is a candidate in the Draft PR and is not canonical until merge. Documentation, generated `next-env.d.ts`, third-party material and unrelated package paths remain outside this extension.
+D053 and the accompanying LICENSING.md allowlist canonically reconcile MPL-2.0 coverage for the explicitly listed CZ-authored Foundation software through PR #225. Documentation, generated `next-env.d.ts`, third-party material and unrelated package paths remain outside this extension.
 
 ## Foundation delivered
 
@@ -43,7 +45,7 @@ The local “Enter as Marcos” button loads only the explicitly authorized deve
 
 Executed with Node `v24.19.0` and npm 11:
 
-- `npm run check:vnext` — PASS: ESLint, TypeScript strict check, 22 Vitest tests and optimized Next.js production build.
+- `npm run check:vnext` — PASS after the bounded repair: ESLint, TypeScript strict check, 23 Vitest tests and optimized Next.js production build.
 - `npm run test:vnext:e2e` — PASS: 4 Playwright runs across desktop and iPhone-sized mobile. Full enter → intention → profile → Experience → reload → Cell update → JSON export → logout → return journey, plus anonymous write, foreign Origin and spoofed-record rejection. No page errors; no mobile horizontal overflow.
 - `git diff --check` — PASS.
 - Browser visual review — useful Home renders in desktop and 390px mobile viewport; no Next error overlay.
@@ -52,6 +54,8 @@ These checks establish a local product foundation path and tested invariants. Th
 
 ## Next gate
 
-`HUMAN REVIEW OF LOCAL FOUNDATION DIFF → DECIDE REVISE / ACCEPT / STOP`
+`CZ vNext — INTERNAL ONLINE HABITAT V1`
 
-Until a separate promotion direction, implementation stays isolated and unpromoted.
+Foundation V1 is a tested local foundation. It does not itself provide the real online
+authentication, remote durable state, cross-device continuity or normal online human
+experience defined by the next gate.
