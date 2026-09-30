@@ -47,7 +47,50 @@ appropriate comment.
 Existing files do not need to be mass-edited solely to add SPDX headers in
 Phase 1.
 
-## 2. Third-party material inside a covered path
+## 2. CZ-authored vNext Foundation software — D053 candidate scope
+
+This section records the Human Direction in
+`decisions/D053-human-extends-phase1-mpl-scope-to-cz-vnext-software.md`.
+In the current implementation branch it is a candidate canonicalization for
+Draft PR review. It is not canonical until merged. If accepted and merged, the
+D032 MPL-2.0 software scope is extended only to the following CZ-authored
+Foundation V1 source and executable configuration files:
+
+- `apps/cz-web/app/**/*.ts`
+- `apps/cz-web/app/**/*.tsx`
+- `apps/cz-web/app/**/*.css`
+- `apps/cz-web/components/**/*.tsx`
+- `apps/cz-web/e2e/**/*.ts`
+- `apps/cz-web/tests/**/*.ts`
+- `apps/cz-web/lib/**/*.ts`
+- `apps/cz-web/eslint.config.mjs`
+- `apps/cz-web/next.config.ts`
+- `apps/cz-web/playwright.config.ts`
+- `apps/cz-web/vitest.config.ts`
+- `apps/cz-web/package.json`
+- `apps/cz-web/tsconfig.json`
+- `packages/identity/package.json` and `packages/identity/src/**/*.ts`
+- `packages/presence/package.json` and `packages/presence/src/**/*.ts`
+- `packages/cells/package.json` and `packages/cells/src/**/*.ts`
+- `packages/authority/package.json` and `packages/authority/src/**/*.ts`
+- `packages/records/package.json` and `packages/records/src/**/*.ts`
+- `packages/platform-contract/package.json` and `packages/platform-contract/src/**/*.ts`
+- `packages/platform-huly/package.json` and `packages/platform-huly/src/**/*.ts`
+
+This is an explicit allowlist of the software introduced for this Foundation,
+not a grant for `packages/**` or `apps/cz-web/**` generally. The app README,
+Stage 0 and Result Package, generated `next-env.d.ts`, and all other Markdown,
+decisions, Work Packets, Result Packages, provenance, identity/marks and Cell
+content remain outside this extension. Existing Phase-1 paths continue under
+the original D032 scope.
+
+Only CZ-authored material for which the contributor has the relevant rights is
+covered. Third-party code, generated third-party material, dependencies,
+notices and licenses keep their applicable terms. A path or SPDX notice does
+not relicense third-party material, transfer ownership, or determine rights in
+content merely because the content is stored beside software.
+
+## 3. Third-party material inside a covered path
 
 Path scope does not override a separate applicable rights notice.
 
@@ -62,7 +105,7 @@ Dependencies named by `package.json`, `package-lock.json` or other manifests
 are **not** relicensed under MPL-2.0 merely because the manifest or lockfile is
 in the Phase-1 scope.
 
-## 3. Outside the Phase-1 MPL scope
+## 4. Outside the Phase-1 MPL scope
 
 Unless a file or class receives a separate explicit license, D032 does not
 place the following under MPL-2.0:
@@ -94,7 +137,7 @@ When uncertain whether material is in the MPL software scope, do **not** infer
 coverage from public availability. Check this map, the file's own notices,
 `RIGHTS.md`, provenance and the relevant rights authority.
 
-## 4. Documentation and other content
+## 5. Documentation and other content
 
 General project documentation, research, decisions and provenance records do
 not become MPL-2.0 material merely because they describe, test or accompany
@@ -103,10 +146,10 @@ MPL-covered software.
 A later Human Direction may choose a documentation/content license for a
 specific class. Until then, `RIGHTS.md` and any file-specific terms govern.
 
-## 5. Contributions
+## 6. Contributions
 
-An intentional contribution to the Phase-1 MPL software scope must be provided
-by someone with sufficient authority to offer that contribution under
+An intentional contribution to any explicitly covered MPL software scope must be
+provided by someone with sufficient authority to offer that contribution under
 MPL-2.0.
 
 Submission does not transfer ownership by itself.
@@ -117,7 +160,7 @@ relicensing permission.
 
 See `CONTRIBUTING.md`.
 
-## 6. Future changes
+## 7. Future changes
 
 A future licensing decision may apply to future versions or other content
 classes only to the extent the project has the necessary rights.
