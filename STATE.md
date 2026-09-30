@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-28
+Última reconciliação canônica: 2026-09-30
 
 Repositório canônico:
 
@@ -17,14 +17,14 @@ Preserve:
 
 `SUPERSEDED ≠ ERASED`
 
-## Current operational core
+## Preserved operational core — superseded as mandatory foundation by D052
 
 `AI-NATIVE COMPANY CORE`
 
 `COMPANY CORE v0.1 = PASS / MERGED / CANONICAL / INTERNAL REAL COMPANY USE N=1`
 
-Company Core continua sendo o core operacional atual até uma decisão humana
-explícita de substituição.
+D052 supersedes Company Core as the mandatory implementation foundation.
+Its accepted results remain canonical lineage and optional reusable capability.
 
 Preservar o core e sua lineage não congela implementação, schema, modelos,
 providers, prompts, runners, storage ou tooling.
@@ -32,6 +32,103 @@ providers, prompts, runners, storage ou tooling.
 Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
+
+## Current Human Direction — CZ vNext / Modular Online Institution
+
+`D052 / CZ vNEXT / MODULAR ONLINE INSTITUTION / HUMAN DIRECTION`
+
+Human Direction:
+
+`decisions/D052-human-adopts-cz-vnext-modular-online-institution.md`
+
+Current build direction:
+
+`BUILD CZ vNEXT`
+
+Target:
+
+`ONE COHERENT ONLINE HUMAN EXPERIENCE`
+
+`+ MODULAR INTERNAL ARCHITECTURE`
+
+`+ CZ-IN-CZ`
+
+`+ WORLD CAPABILITY COMPOSITION`
+
+`+ SELF-OPERATION`
+
+`+ SELF-DEVELOPMENT`
+
+`+ SELF-GOVERNANCE`
+
+Experience rules:
+
+`ARCHITECTURE IS MODULAR ≠ EXPERIENCE IS MODULAR`
+
+`INTERNAL SYSTEM COMPLEXITY ↑ → PERCEIVED HUMAN COMPLEXITY ↓ → HUMAN CAPACITY ↑`
+
+Current product modules:
+
+1. Identity, Presence & Experience;
+2. Cells, Relations & Authority;
+3. Records, Knowledge & Provenance;
+4. Work & Consequence;
+5. Connections & Capabilities;
+6. Essenthius & Institutional Memory;
+7. Governance;
+8. Development & Operations;
+9. Economy & Contextual Trust;
+10. Portability & Federation.
+
+Platform direction:
+
+`HULY CORE / PLATFORM COLLECTIVE = SUBSTRATE CANDIDATE`
+
+`CZ DOMAIN ≠ HULY DOMAIN`
+
+`CZ EXPERIENCE ≠ HULY PRODUCT UI`
+
+Historical CZ frontend paths, Company Core and prior experimental capabilities remain
+preserved lineage and optional capability sources; they are not mandatory vNext product
+foundations unless explicitly reused by a vNext module.
+
+Initial construction tranche:
+
+`FRESH CZ EXPERIENCE SHELL + IDENTITY / PRESENCE / EXPERIENCE + CELLS / RELATIONS / AUTHORITY + PLATFORM CONTRACT + HULY ADAPTER CANDIDATE + MINIMUM RECORDS / PROVENANCE`
+
+Canonical architecture:
+
+`CZ-VNEXT-ARCHITECTURE-BLUEPRINT-V0.2.md`
+
+Canonical executable Work Packet:
+
+`WP-CZ-VNEXT-FOUNDATION-V1.md`
+
+Current next gate:
+
+`WP-CZ-VNEXT-FOUNDATION-V1 → STAGE 0 / REUSE MAP → LOCAL FOUNDATION → TESTS → HUMAN REVIEW BEFORE IMPLEMENTATION PROMOTION / DEPLOY`
+
+Foundation execution:
+
+`HUMAN AUTHORIZED / ISOLATED BRANCH / NOT YET EXECUTED`
+
+Current authorization boundary:
+
+- implementation within the Foundation WP: AUTHORIZED;
+- isolated branch/workspace: AUTHORIZED;
+- local verification: AUTHORIZED;
+- production deploy: HOLD;
+- Remote Supabase writes: HOLD;
+- production credentials/secrets: HOLD;
+- paid calls: HOLD unless separately authorized;
+- external transfer/outreach: HOLD;
+- implementation merge: HOLD pending later Human Review.
+
+Preserve:
+
+`HUMAN DIRECTION ≠ IMPLEMENTED`
+
+`IMPLEMENTED ≠ DEPLOYED ≠ USED ≠ HUMAN-ACCEPTED ≠ MERGED`
 
 ## Current repository licensing boundary
 
@@ -121,7 +218,7 @@ relationship with Marcos and Célula Zero through one useful attributed
 contribution, then recover the relevant relationship/state without relying on
 this chat or model-native memory.
 
-D049 remains the critical-path sequencing discipline.
+D049 remains preserved learning; D052 governs the current construction tranche.
 
 D050 / K03 remains preserved lineage and capability; it is no longer the
 current next gate.
@@ -156,13 +253,16 @@ Preserve:
 
 `CODEX REMOTE / CODESPACE = EXECUTION SUBSTRATE ≠ ESSENTHIUS`
 
-### Current lived operation — world-first composition
+### Preserved lived operation — world-first composition (before D052)
 
-Current Human Direction advances beyond the 2026-09-26 mobile/cloud reconciliation:
+This section preserves the 2026-09-28 operational observation. D052 above governs
+the current build direction and next gate; these observations are not erased.
+
+At that time, Human Direction advanced beyond the 2026-09-26 mobile/cloud reconciliation:
 
 `CURRENT HUMAN DIRECTION ≠ PREVIOUS CANONICAL NEXT GATE`
 
-Operational composition now in use:
+Operational composition observed at that time:
 
 `LINEAR OPERATIONAL HABITAT + GITHUB CANONICAL STATE/PROVENANCE + CHATGPT-ASSISTED STATE RECONSTRUCTION + ESSENTHIUS DIRECTION + REPLACEABLE EXECUTORS`
 
@@ -182,18 +282,18 @@ Observed Huly composition result:
 
 The local self-host attempt encountered severe Docker resource contention, Redpanda OOM, Cockroach instability and eventual Docker-control unresponsiveness. This does not reject Huly generally and does not justify Huly-core modification or replacement infrastructure.
 
-Current stops:
+Stops recorded for that slice:
 
 - custom `/operate` workspace path: STOP;
 - custom auth/identity repair: STOP;
 - new horizontal workspace/project/chat/file infrastructure: STOP;
 - Huly-local repair for this slice: STOP.
 
-Current next gate:
+Previous next gate (superseded by D052):
 
 `NORMAL HUMAN INPUT → RECONSTRUCT RELEVANT STATE FROM DURABLE CONNECTED RECORDS → PERFORM ONE REAL CZ WORK EPISODE → HUMAN DECISION/CONSEQUENCE → DURABLE CONTINUATION → RETURN`
 
-Current operational surface:
+Previous operational surface:
 
 `MAI-45 / CURRENT CONTINUITY — habitar CZ usando o mundo existente`
 
@@ -211,7 +311,7 @@ Preserve:
 
 Current holds:
 
-`IMPLEMENTATION = HOLD`
+`IMPLEMENTATION = AUTHORIZED ONLY WITHIN WP-CZ-VNEXT-FOUNDATION-V1`
 
 `K04 EXECUTION = HOLD`
 
@@ -223,7 +323,7 @@ Current holds:
 
 `EXTERNAL TRANSFER / OUTREACH = HOLD`
 
-`NEW TECHNOLOGY ADOPTION / BUILD = HOLD`
+`NEW TECHNOLOGY ADOPTION / BUILD = GOVERNED BY D052 + WP SCOPE`
 
 Preserve:
 
@@ -231,7 +331,7 @@ Preserve:
 
 `FOUNDER N=1 ≠ EXTERNAL UTILITY ≠ ADOPTION ≠ PMF ≠ SCALE`
 
-## Current Human Direction — Lived Capacity Episodes
+## Preserved Human Direction — Lived Capacity Episodes (D052 governs current construction)
 
 `D049 / LIVED CAPACITY EPISODES AS CRITICAL-PATH DRIVER / HUMAN DIRECTION`
 
