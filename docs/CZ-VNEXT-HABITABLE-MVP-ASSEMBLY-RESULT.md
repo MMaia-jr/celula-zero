@@ -53,7 +53,7 @@ existing authority path.
 ## Schema
 
 The additive migration is
-`supabase/migrations/20260930192026_cz_vnext_habitable_mvp_conversation.sql`.
+`supabase/migrations/20260930193553_cz_vnext_habitable_mvp_conversation.sql`.
 It adds two normalized tables, ownership RLS and server-checked RPCs for opening
 the founder's continuing thread, appending attributable messages and explicitly
 editing the authenticated owner's Profile. It adds no generic state/conversation
