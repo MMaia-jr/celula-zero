@@ -70,11 +70,26 @@ branch did not attempt unrelated cleanup.
 - `npm run test:vnext:e2e`: 4/4 PASS on desktop/mobile, exercising the preserved
   local Foundation fixture journey and anonymous-write/CSRF boundaries. This is
   not an online-auth/chat journey and does not prove Human habitability.
-- The model provider, Vercel OIDC availability, deployed streaming, remote
-  conversation persistence and cross-browser continuation remain to be checked
-  on the isolated Preview. No model call/cost has been observed yet.
+- GitHub CI: web/domain/portability PASS; PostgreSQL migration reset, pgTAP
+  authorization tests and authenticated local Habitat journey PASS.
+- Dedicated Vercel deployment `dpl_A7aNhPAAXyRYhdiAEWq94MJ5Gpqj` is Ready as a
+  Preview. Vercel's branch alias is
+  `https://cz-vnext-internal-online-habitat-v-git-8ae53e-marcosmaiajr-8127.vercel.app`.
+  The alias was read back from Vercel and served `/login`; the root route
+  redirected an unauthenticated request to `/login`. Vercel SSO protection is
+  still enabled.
+- Preview environment metadata includes `CZ_HABITAT_MODE`, `CZ_FOUNDER_EMAIL`,
+  `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; values
+  were not printed. `NEXT_PUBLIC_SITE_URL` is not set, so the callback URL uses
+  Vercel's branch URL. The current branch alias is stable for this branch.
+- No authenticated request was made from this session. The Supabase magic-link
+  completion, Auth Account → Profile → PERSON on this new branch, Gateway OIDC,
+  actual model streaming/cost, remote chat writes and cross-browser continuation
+  remain for Marcos's normal use. No model call/cost has been observed yet.
 - `DEPLOYMENT PASS ≠ HUMAN HABITABILITY PASS`.
 - `HUMAN HABITABILITY ≠ HUMAN ACCEPTANCE`.
+- `PREVIEW READY = READY FOR HUMAN USE`; it does not mean the online journey was
+  independently authenticated or accepted.
 
 ## Promotion boundary
 
