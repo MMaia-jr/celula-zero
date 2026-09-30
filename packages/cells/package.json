@@ -1,0 +1,12 @@
+{
+  "name": "@cz/cells",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@cz/identity": "0.1.0"
+  }
+}
