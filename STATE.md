@@ -33,119 +33,60 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Current Human Direction — CZ vNext / Modular Online Institution
+## Current Human Direction — CZ vNext / Habitable MVP
 
-`D052 / CZ vNEXT / MODULAR ONLINE INSTITUTION / HUMAN DIRECTION`
+`D055 / CZ vNEXT HABITABLE MVP / HUMAN DIRECTION`
 
-Human Direction:
+Human Direction: `decisions/D055-human-adopts-cz-vnext-habitable-mvp-assembly.md`
 
-`decisions/D052-human-adopts-cz-vnext-modular-online-institution.md`
+The coherent target is a conversation-first CZ experience that authenticates
+Marcos, progressively learns only missing context, enters the Célula Zero Cell,
+reconstructs attributable state, supports useful work through mature capabilities,
+and continues across sessions. Conversation, AI interpretation, proposal and
+human decision remain distinct.
 
-Current build direction:
+`KNOWN EXPERIENCE → REUSE MAP → COMPOSE MATURE CAPABILITIES → IMPLEMENT CONTINUOUSLY → REGRESSION → INTEGRATION → COHERENT MVP → HUMAN USE`
 
-`BUILD CZ vNEXT`
+Foundation V1 remains `PASS / MERGED / CANONICAL` through PR #225 and
+`ae88780505576cfc8a0866aae8dc4cd20e19cf18`.
 
-Target:
+Internal Online Habitat V1, PR #227:
 
-`ONE COHERENT ONLINE HUMAN EXPERIENCE`
+`PARTIAL / REUSABLE IMPLEMENTATION / AUTH+REMOTE STATE PASS / HUMAN HABITABILITY NOT ACCEPTED / NOT MERGED`
 
-`+ MODULAR INTERNAL ARCHITECTURE`
-
-`+ CZ-IN-CZ`
-
-`+ WORLD CAPABILITY COMPOSITION`
-
-`+ SELF-OPERATION`
-
-`+ SELF-DEVELOPMENT`
-
-`+ SELF-GOVERNANCE`
-
-Experience rules:
-
-`ARCHITECTURE IS MODULAR ≠ EXPERIENCE IS MODULAR`
-
-`INTERNAL SYSTEM COMPLEXITY ↑ → PERCEIVED HUMAN COMPLEXITY ↓ → HUMAN CAPACITY ↑`
-
-Current product modules:
-
-1. Identity, Presence & Experience;
-2. Cells, Relations & Authority;
-3. Records, Knowledge & Provenance;
-4. Work & Consequence;
-5. Connections & Capabilities;
-6. Essenthius & Institutional Memory;
-7. Governance;
-8. Development & Operations;
-9. Economy & Contextual Trust;
-10. Portability & Federation.
-
-Platform direction:
-
-`HULY CORE / PLATFORM COLLECTIVE = SUBSTRATE CANDIDATE`
-
-`CZ DOMAIN ≠ HULY DOMAIN`
-
-`CZ EXPERIENCE ≠ HULY PRODUCT UI`
-
-Historical CZ frontend paths, Company Core and prior experimental capabilities remain
-preserved lineage and optional capability sources; they are not mandatory vNext product
-foundations unless explicitly reused by a vNext module.
-
-Initial construction tranche:
-
-`FRESH CZ EXPERIENCE SHELL + IDENTITY / PRESENCE / EXPERIENCE + CELLS / RELATIONS / AUTHORITY + PLATFORM CONTRACT + HULY ADAPTER CANDIDATE + MINIMUM RECORDS / PROVENANCE`
-
-Canonical architecture:
-
-`CZ-VNEXT-ARCHITECTURE-BLUEPRINT-V0.2.md`
-
-Canonical completed Foundation Work Packet:
-
-`WP-CZ-VNEXT-FOUNDATION-V1.md`
-
-Foundation V1:
-
-`PASS / IMPLEMENTED / TESTED / ARCHITECTURALLY REVIEWED / MERGED / CANONICAL`
-
-- PR #225 merged through `ae88780505576cfc8a0866aae8dc4cd20e19cf18`;
-- D053 is canonical through that merge;
-- post-repair validation: 23 Vitest tests and 4/4 Playwright desktop/mobile journeys;
-- automated Vercel status/deployment was observed on the merged PR head;
-- Huly remains unconnected with explicit `PROPERTY_GAP`s;
-- SQLite remains a Foundation-local adapter, not production storage architecture.
-
-Foundation V1 does not itself prove online habitability or human acceptance.
+Observed human use reached online entry, founder authentication, Account →
+Profile → PERSON reconstruction, Célula Zero relation visibility and private
+Original Record persistence. Conversation, progressive onboarding, living
+Profile, a habitable Cell, useful Discover and coherent continuity remain
+product gaps. PR #227 is preserved as reusable lineage, not merged.
 
 Current next gate:
 
-`CZ vNext — INTERNAL ONLINE HABITAT V1`
+`CZ vNext — HABITABLE MVP`
 
-DoD:
+Executable Work Packet: `WP-CZ-VNEXT-HABITABLE-MVP-ASSEMBLY.md`
 
-`NORMAL ONLINE URL → REAL AUTH → AUTH ACCOUNT→PROFILE→PERSON → DURABLE REMOTE STATE → NORMAL HUMAN ACTION → CLOSE → RETURN ON ANOTHER DEVICE → CONTINUITY`
-
-Executable Work Packet:
-`WP-CZ-VNEXT-INTERNAL-ONLINE-HABITAT-V1.md`
-
-Current authorization boundary:
-
-- real authentication for Internal Online Habitat: AUTHORIZED;
-- remote durable storage and required additive migrations within the Habitat WP: AUTHORIZED;
-- isolated implementation branch, local/remote verification and preview/internal deploy required for Human use: AUTHORIZED;
-- production deploy: only if necessary for the authorized internal experience, and explicitly reported;
-- implementation merge: HOLD pending new Human Review;
-- production secrets must remain in deployment infrastructure and out of source;
-- paid calls: HOLD unless separately authorized;
-- external transfer/outreach: HOLD;
-- Huly core fork/patch: HOLD;
-- Essenthius/economy expansion: HOLD.
+Implementation uses isolated branch `build/cz-vnext-habitable-mvp-assembly-20260930`,
+incorporates the single reusable PR #227 commit, and remains unmerged pending
+Human Review. Mature documented capability is adopted/composed; CZ-owned code
+is limited to concrete institutional properties that existing capability does
+not preserve.
 
 Preserve:
 
-`FOUNDATION PASS ≠ ONLINE HABITABILITY ≠ HUMAN ACCEPTANCE`
+`PR #227 PARTIAL ≠ FAILURE`
 
-`REMOTE STORAGE ≠ HUMAN ACCEPTANCE`
+`TECHNICAL PASS ≠ PRODUCT EXPERIENCE`
+
+`MATURE OSS DOCUMENTATION ≠ NEED FOR CZ CAPABILITY PROOF`
+
+`CONVERSATION MESSAGE ≠ ORIGINAL RECORD`
+
+`AI RESPONSE ≠ INTERPRETATION ADOPTED`
+
+`AI PROPOSAL ≠ HUMAN DECISION`
+
+`DEPLOYMENT PASS ≠ HUMAN HABITABILITY PASS`
 
 `IMPLEMENTATION MERGE = HOLD PENDING NEW HUMAN REVIEW`
 
