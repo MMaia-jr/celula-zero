@@ -24,7 +24,9 @@
     "@cz/authority": "0.1.0",
     "@cz/records": "0.1.0",
     "@cz/platform-contract": "0.1.0",
-    "@cz/platform-huly": "0.1.0"
+    "@cz/platform-huly": "0.1.0",
+    "@supabase/ssr": "0.12.4",
+    "@supabase/supabase-js": "2.112.3"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",
