@@ -1,0 +1,39 @@
+{
+  "name": "@cz/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "CZ_LOCAL_FOUNDATION=1 next dev --hostname 127.0.0.1 --port 3088",
+    "build": "next build --webpack",
+    "start": "CZ_LOCAL_FOUNDATION=1 next start --hostname 127.0.0.1 --port 3088",
+    "lint": "cd ../.. && eslint --config apps/cz-web/eslint.config.mjs apps/cz-web packages --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3",
+    "@cz/identity": "0.1.0",
+    "@cz/presence": "0.1.0",
+    "@cz/cells": "0.1.0",
+    "@cz/authority": "0.1.0",
+    "@cz/records": "0.1.0",
+    "@cz/platform-contract": "0.1.0",
+    "@cz/platform-huly": "0.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@types/node": "26.2.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.5",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  }
+}

@@ -7,7 +7,9 @@
     "npm": ">=11"
   },
   "workspaces": [
-    "apps/web"
+    "apps/web",
+    "apps/cz-web",
+    "packages/*"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=@celula-zero/web",
@@ -30,6 +32,10 @@
     "test:exec:fabric": "node --test tools/cz-execution-fabric.test.mjs",
     "test:room": "node --test scripts/cz-room.test.mjs",
     "test:room:participation-portability": "node --test scripts/cz-room-participation-portability.test.mjs",
-    "test:interlock": "python3 scripts/test_cz_safe_local_db_operation.py"
+    "test:interlock": "python3 scripts/test_cz_safe_local_db_operation.py",
+    "dev:vnext": "npm run dev --workspace=@cz/web",
+    "build:vnext": "npm run build --workspace=@cz/web",
+    "check:vnext": "npm run check --workspace=@cz/web",
+    "test:vnext:e2e": "npm run test:e2e --workspace=@cz/web"
   }
 }
