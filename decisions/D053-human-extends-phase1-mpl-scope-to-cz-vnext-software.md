@@ -8,9 +8,13 @@ Class:
 
 `DECISION / HUMAN DIRECTION`
 
-Status in this branch:
+Status:
 
-`HUMAN DIRECTION / CANDIDATE CANONICALIZATION IN DRAFT PR / NOT CANONICAL`
+`CANONICAL / MERGED THROUGH PR #225`
+
+Canonicalized by merge commit `ae88780505576cfc8a0866aae8dc4cd20e19cf18` on
+2026-09-30. The historical authorization and boundaries below record what was
+authorized at that time and remain part of the Decision's provenance.
 
 Canonical base:
 
@@ -48,7 +52,7 @@ MPL coverage extends only to material CZ authors have the right to license. SPDX
 
 ## Canonicalization boundary
 
-This Decision records Human Direction in a Draft PR. It becomes canonical only if separately reviewed and merged through repository governance.
+This Decision was canonicalized through repository governance by merging PR #225. Its original Human Direction authorized the bounded licensing reconciliation, commit, push and Draft PR; it initially excluded merge and deploy. The later merge authorization was separately given on 2026-09-30. This canonicalization does not broaden the MPL scope stated above.
 
 Authorized for this exact implementation branch:
 
