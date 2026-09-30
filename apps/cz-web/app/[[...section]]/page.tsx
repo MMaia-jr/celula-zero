@@ -7,7 +7,10 @@ import { isFounderCredential } from "../../lib/founder-credential";
 import { getHabitatContext } from "../../lib/habitat-context";
 import { allowsLocalFixture } from "../../lib/runtime-mode";
 import { habitatClient } from "../../lib/supabase";
+import type { ChatMessage } from "../../lib/chat";
 export const dynamic = "force-dynamic";
+
+type GithubIssue = { number: number; title: string; html_url: string; state: string; updated_at: string };
 
 export default async function Page({
   params,
@@ -18,7 +21,7 @@ export default async function Page({
   const selected = section?.[0] ?? "home";
   if (
     (section?.length ?? 0) > 1 ||
-    !["home", "cells", "discover", "activity", "you"].includes(selected)
+    !["home", "cells", "activity", "you"].includes(selected)
   )
     notFound();
   if (process.env.CZ_HABITAT_MODE === "online") {
@@ -48,7 +51,25 @@ export default async function Page({
         </main>
       );
     }
-    return <OnlineHabitat section={selected} initial={context} />;
+    let threadId: string | null = null;
+    let messages: ChatMessage[] = [];
+    if (selected !== "discover") {
+      const thread = await client.rpc("cz_vnext_ensure_mvp_thread");
+      if (!thread.error && typeof thread.data === "string") {
+        threadId = thread.data;
+        const history = await client.from("cz_vnext_messages").select("message")
+          .eq("thread_id", threadId).order("created_at", { ascending: true }).limit(60);
+        if (!history.error) messages = (history.data ?? []).map((row) => row.message as ChatMessage);
+      }
+    }
+    let workItems: GithubIssue[] = [];
+    if (selected === "cells") {
+      try {
+        const response = await fetch("https://api.github.com/repos/MMaia-jr/celula-zero/issues?state=open&per_page=8", { headers: { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }, next: { revalidate: 60 }, signal: AbortSignal.timeout(5000) });
+        if (response.ok) workItems = (await response.json() as Array<GithubIssue & { pull_request?: unknown }>).filter((item) => !item.pull_request).slice(0, 6);
+      } catch { /* The Cell still works if public GitHub is unavailable. */ }
+    }
+    return <OnlineHabitat section={selected} initial={context} threadId={threadId} initialMessages={messages} workItems={workItems} />;
   }
   if (
     allowsLocalFixture(

@@ -705,3 +705,65 @@ pre {
     margin-left: 8px;
   }
 }
+
+.conversation {
+  margin: 30px 0 14px;
+  border: 1px solid #cbd3c5;
+  border-radius: 16px;
+  background: var(--white);
+  overflow: hidden;
+}
+.conversation-viewport {
+  height: min(54vh, 570px);
+  min-height: 350px;
+  overflow-y: auto;
+  padding: 24px clamp(18px, 5vw, 54px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.conversation-welcome {
+  align-self: center;
+  max-width: 620px;
+  margin: auto;
+  padding: 28px 0;
+}
+.conversation-welcome h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.25;
+  margin: 20px 0 8px;
+}
+.conversation-welcome p { color: var(--muted); }
+.suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.suggestion {
+  border: 1px solid var(--line);
+  background: #f8f8f3;
+  border-radius: 30px;
+  padding: 10px 14px;
+  color: var(--green);
+  font-size: .82rem;
+}
+.chat-message { max-width: 84%; padding: 14px 17px; border-radius: 12px; background: #f1f3eb; }
+.chat-message:has([data-message-role="user"]) { align-self: flex-end; background: #e6ecdc; }
+.chat-message-label { color: var(--muted); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+.chat-message p { white-space: pre-wrap; margin: 7px 0 0; }
+.chat-composer { border-top: 1px solid var(--line); padding: 14px 18px; }
+.chat-composer textarea { border: 0; resize: vertical; min-height: 54px; padding: 10px 4px; background: transparent; }
+.chat-composer-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.chat-composer-footer small { font-size: .68rem; }
+.chat-composer .primary { padding: 10px 15px; border-radius: 7px; }
+.record-action { margin: 16px 0 32px; }
+.record-action summary { cursor: pointer; font-size: .82rem; color: var(--green); }
+.profile-form { max-width: 620px; margin: 24px 0 40px; }
+.activity-thread { border-top: 1px solid var(--line); }
+.activity-message { border-bottom: 1px solid var(--line); padding: 16px 0; }
+.activity-message small { font-size: .65rem; letter-spacing: .08em; }
+.activity-message p { white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 680px) {
+  .conversation { margin-inline: -4px; }
+  .conversation-viewport { min-height: 330px; height: 50vh; padding: 18px 14px; }
+  .chat-message { max-width: 94%; }
+  .chat-composer { padding: 12px; }
+  .chat-composer-footer { align-items: flex-end; }
+  .chat-composer-footer small { max-width: 54%; }
+}
