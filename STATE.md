@@ -1,6 +1,6 @@
 # Estado operacional atual
 
-Última reconciliação canônica: 2026-09-30
+Última reconciliação canônica: 2026-10-01
 
 Repositório canônico:
 
@@ -33,62 +33,63 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Current Human Direction — CZ vNext / Habitable MVP
+## Current Human Direction — CZ vNext / World-Composed Institutional Experience
 
-`D055 / CZ vNEXT HABITABLE MVP / HUMAN DIRECTION`
+`D056 / WORLD-COMPOSED INSTITUTIONAL EXPERIENCE / HUMAN DIRECTION`
 
-Human Direction: `decisions/D055-human-adopts-cz-vnext-habitable-mvp-assembly.md`
+Human Direction: `decisions/D056-human-adopts-cz-vnext-world-composed-institutional-experience.md`
 
-The coherent target is a conversation-first CZ experience that authenticates
-Marcos, progressively learns only missing context, enters the Célula Zero Cell,
-reconstructs attributable state, supports useful work through mature capabilities,
-and continues across sessions. Conversation, AI interpretation, proposal and
-human decision remain distinct.
+D056 supersedes only the D052/D055 default that the whole product experience
+should be a newly built, CZ-owned visual surface. The human experience may be
+composed across mature product surfaces and CZ-owned institutional semantics.
+No workspace, community or social product is selected by D056.
 
-`KNOWN EXPERIENCE → REUSE MAP → COMPOSE MATURE CAPABILITIES → IMPLEMENT CONTINUOUSLY → REGRESSION → INTEGRATION → COHERENT MVP → HUMAN USE`
+`CZ EXPERIENCE ≠ CUSTOM CZ UI`
 
-Foundation V1 remains `PASS / MERGED / CANONICAL` through PR #225 and
-`ae88780505576cfc8a0866aae8dc4cd20e19cf18`.
+`MATURE PRODUCT SURFACE MAY BE PART OF CZ EXPERIENCE`
 
-Internal Online Habitat V1, PR #227:
+`EMBED / WRAP / MAP / COMPOSE BEFORE REBUILD`
 
-`PARTIAL / REUSABLE IMPLEMENTATION / AUTH+REMOTE STATE PASS / HUMAN HABITABILITY NOT ACCEPTED / NOT MERGED`
+`ONE HUMAN EXPERIENCE ≠ ONE SOFTWARE SYSTEM`
 
-Observed human use reached online entry, founder authentication, Account →
-Profile → PERSON reconstruction, Célula Zero relation visibility and private
-Original Record persistence. Conversation, progressive onboarding, living
-Profile, a habitable Cell, useful Discover and coherent continuity remain
-product gaps. PR #227 is preserved as reusable lineage, not merged.
+`CZ COHERENCE ≠ CZ OWNS EVERY COMPONENT`
+
+Preserve from D052/D055: Person/Profile/Cell/Authority distinctions, provenance,
+continuity, modularity, replaceable external capabilities, Essenthius,
+progressive disclosure, lower human cognitive load, and CZ operating, developing
+and governing CZ inside CZ.
+
+PR #227 remains partial preserved implementation lineage. PR #229, head
+`9dc5f116da190a86a59b48fb6916b2cbc56a4f16`, is:
+
+`PRESERVED INTEGRATED CANDIDATE / TECHNICAL SUBSTRATE REUSABLE / PRODUCT COMPOSITION REJECTED / DO NOT CONTINUE HORIZONTAL UI BUILD`
+
+Do not close or merge PR #229. Its Auth, identity mapping, persistence, records,
+chat and code may be selectively reused only after Composition Selection; its
+custom horizontal UI is not the default product direction.
 
 Current next gate:
 
-`CZ vNext — HABITABLE MVP`
+`CZ vNext — COMPOSITION SELECTION`
 
-Executable Work Packet: `WP-CZ-VNEXT-HABITABLE-MVP-ASSEMBLY.md`
+Work Packet: `WP-CZ-VNEXT-COMPOSITION-SELECTION.md`
 
-Implementation uses isolated branch `build/cz-vnext-habitable-mvp-assembly-20260930`,
-incorporates the single reusable PR #227 commit, and remains unmerged pending
-Human Review. Mature documented capability is adopted/composed; CZ-owned code
-is limited to concrete institutional properties that existing capability does
-not preserve.
+Status: `PREPARED / EXECUTION REQUIRES SEPARATE HUMAN AUTHORIZATION`.
+The selection will compare the smallest mature composition for Marcos to enter
+CZ, inhabit Célula Zero, dream/plan/do/celebrate, operate/develop/govern CZ,
+route capabilities through Essenthius and return to durable consequences.
 
 Preserve:
 
-`PR #227 PARTIAL ≠ FAILURE`
+`D056 CANONICAL ≠ COMPOSITION SELECTED`
 
-`TECHNICAL PASS ≠ PRODUCT EXPERIENCE`
+`COMPOSITION SELECTED ≠ INTEGRATED`
 
-`MATURE OSS DOCUMENTATION ≠ NEED FOR CZ CAPABILITY PROOF`
+`INTEGRATED ≠ HUMAN CAN USE IT`
 
-`CONVERSATION MESSAGE ≠ ORIGINAL RECORD`
+`PRODUCT IMPLEMENTATION = HOLD PENDING COMPOSITION SELECTION + NEW HUMAN AUTHORIZATION`
 
-`AI RESPONSE ≠ INTERPRETATION ADOPTED`
-
-`AI PROPOSAL ≠ HUMAN DECISION`
-
-`DEPLOYMENT PASS ≠ HUMAN HABITABILITY PASS`
-
-`IMPLEMENTATION MERGE = HOLD PENDING NEW HUMAN REVIEW`
+`ESSENTHIUS = COHERENT INSTITUTIONAL INTELLIGENCE OVER MANY MODELS / EXECUTORS / CAPABILITIES`
 
 ## Current repository licensing boundary
 
