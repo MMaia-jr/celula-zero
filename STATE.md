@@ -33,63 +33,55 @@ Missão preservada:
 
 `intenção → aprendizagem → produção → evidência → avaliação → capacidade → confiança contextual → oportunidade`
 
-## Current Human Direction — CZ vNext / World-Composed Institutional Experience
+## Current Human Direction — D057 / Plane Composition N=1
 
-`D056 / WORLD-COMPOSED INSTITUTIONAL EXPERIENCE / HUMAN DIRECTION`
+`D057 / HUMAN ACCEPTS COMPOSITION SELECTION / HUMAN DIRECTION`
 
-Human Direction: `decisions/D056-human-adopts-cz-vnext-world-composed-institutional-experience.md`
+Human Direction: `decisions/D057-human-accepts-composition-selection-plane-composition-n1.md`
 
-D056 supersedes only the D052/D055 default that the whole product experience
-should be a newly built, CZ-owned visual surface. The human experience may be
-composed across mature product surfaces and CZ-owned institutional semantics.
-No workspace, community or social product is selected by D056.
+`COMPOSITION_SELECTION = HUMAN-ACCEPTED`
 
-`CZ EXPERIENCE ≠ CUSTOM CZ UI`
+Selected candidate:
 
-`MATURE PRODUCT SURFACE MAY BE PART OF CZ EXPERIENCE`
+`CZ INSTITUTIONAL CORE + PLANE AS VISIBLE OPERATIONAL WORKSPACE + ASSISTANT-UI / AI SDK AS ESSENTHIUS SURFACE + PLANE MCP + CZ INSTITUTIONAL TOOLS AS CAPABILITY LAYER + CODEX APP-SERVER AS DEVELOPMENT EXECUTOR + GITHUB AS CANONICAL SOFTWARE / STATE + SUPABASE AS INSTITUTIONAL SUBSTRATE`
 
-`EMBED / WRAP / MAP / COMPOSE BEFORE REBUILD`
+`LINEAR = PRESERVE DURING TRANSITION`
 
-`ONE HUMAN EXPERIENCE ≠ ONE SOFTWARE SYSTEM`
+`HULY = ALTERNATIVE IF PLANE FAILS HABITABILITY`
 
-`CZ COHERENCE ≠ CZ OWNS EVERY COMPONENT`
-
-Preserve from D052/D055: Person/Profile/Cell/Authority distinctions, provenance,
-continuity, modularity, replaceable external capabilities, Essenthius,
-progressive disclosure, lower human cognitive load, and CZ operating, developing
-and governing CZ inside CZ.
-
-PR #227 remains partial preserved implementation lineage. PR #229, head
-`9dc5f116da190a86a59b48fb6916b2cbc56a4f16`, is:
-
-`PRESERVED INTEGRATED CANDIDATE / TECHNICAL SUBSTRATE REUSABLE / PRODUCT COMPOSITION REJECTED / DO NOT CONTINUE HORIZONTAL UI BUILD`
-
-Do not close or merge PR #229. Its Auth, identity mapping, persistence, records,
-chat and code may be selectively reused only after Composition Selection; its
-custom horizontal UI is not the default product direction.
-
-Current next gate:
-
-`CZ vNext — COMPOSITION SELECTION`
-
-Work Packet: `WP-CZ-VNEXT-COMPOSITION-SELECTION.md`
-
-Status: `PREPARED / EXECUTION REQUIRES SEPARATE HUMAN AUTHORIZATION`.
-The selection will compare the smallest mature composition for Marcos to enter
-CZ, inhabit Célula Zero, dream/plan/do/celebrate, operate/develop/govern CZ,
-route capabilities through Essenthius and return to durable consequences.
+`HUMHUB = HOLD UNTIL CONCRETE SOCIAL / PROFILE PROPERTY LOSS`
 
 Preserve:
 
-`D056 CANONICAL ≠ COMPOSITION SELECTED`
+`SELECTED CANDIDATE ≠ FINAL PLATFORM ADOPTION`
 
 `COMPOSITION SELECTED ≠ INTEGRATED`
 
-`INTEGRATED ≠ HUMAN CAN USE IT`
+`INTEGRATED ≠ HABITABLE`
 
-`PRODUCT IMPLEMENTATION = HOLD PENDING COMPOSITION SELECTION + NEW HUMAN AUTHORIZATION`
+`HABITABLE N=1 ≠ EXTERNAL UTILITY`
 
-`ESSENTHIUS = COHERENT INSTITUTIONAL INTELLIGENCE OVER MANY MODELS / EXECUTORS / CAPABILITIES`
+Composition N=1 Work Packet: `WP-CZ-VNEXT-PLANE-COMPOSITION-N1.md`
+
+Status: `PREPARED / EXECUTION REQUIRES SEPARATE HUMAN AUTHORIZATION`.
+
+PR #229 remains exactly:
+
+`OPEN / DRAFT / UNMERGED / SELECTIVE TECHNICAL REUSE ONLY`
+
+Do not alter or merge PR #229. Its technical substrate may be selectively
+reused; do not continue a large custom horizontal UI build.
+
+No Plane Teamspaces or Initiatives, Linear migration, Huly deployment, HumHub,
+secrets or product implementation are authorized by this direction.
+
+Current next gate:
+
+`CZ vNext — PLANE COMPOSITION N=1`
+
+`PRODUCT IMPLEMENTATION = HOLD`
+
+`SLICE EXECUTION = REQUIRES SEPARATE HUMAN AUTHORIZATION`
 
 ## Current repository licensing boundary
 
