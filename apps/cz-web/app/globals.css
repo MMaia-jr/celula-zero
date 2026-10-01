@@ -259,7 +259,29 @@ small,
 .login-form {
   display: grid;
   gap: 14px;
-  margin-top: 26px;
+  margin-top: 22px;
+}
+.google-primary {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 28px;
+}
+.login-fallback {
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.login-fallback summary {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.login-fallback p {
+  margin: 14px 0 0;
+  line-height: 1.5;
+}
+.login-fallback .login-form {
+  margin-top: 12px;
 }
 .login-form input {
   border: 1px solid var(--line);

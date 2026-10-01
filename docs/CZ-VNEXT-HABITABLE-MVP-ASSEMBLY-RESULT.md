@@ -2,6 +2,8 @@
 
 Date: `2026-09-30`
 
+OAuth follow-up: `2026-10-01`
+
 ## Canonical and implementation lineage
 
 - D055 is canonical through documentation PR #228, merged as
@@ -65,9 +67,10 @@ branch did not attempt unrelated cleanup.
 
 ## Verification so far
 
-- `npm run check:vnext`: PASS — lint, TypeScript, 28 Vitest tests and optimized
-  production build.
-- `npm run test:vnext:e2e`: 4/4 PASS on desktop/mobile, exercising the preserved
+- `npm run check:vnext`: PASS — lint, TypeScript, 30 Vitest tests and optimized
+  production build after the Google login update.
+- `npm run test:vnext:e2e`: 6/6 PASS on desktop/mobile, including Google as the
+  normal login action and the collapsed email-link fallback, plus the preserved
   local Foundation fixture journey and anonymous-write/CSRF boundaries. This is
   not an online-auth/chat journey and does not prove Human habitability.
 - GitHub CI: web/domain/portability PASS; PostgreSQL migration reset, pgTAP
@@ -82,8 +85,8 @@ branch did not attempt unrelated cleanup.
   `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; values
   were not printed. `NEXT_PUBLIC_SITE_URL` is not set, so the callback URL uses
   Vercel's branch URL. The current branch alias is stable for this branch.
-- No authenticated request was made from this session. The Supabase magic-link
-  completion, Auth Account → Profile → PERSON on this new branch, Gateway OIDC,
+- The first Google sign-in on this branch has not yet been completed. The
+  Auth Account → Profile → PERSON post-login readback, Gateway OIDC,
   actual model streaming/cost, remote chat writes and cross-browser continuation
   remain for Marcos's normal use. No model call/cost has been observed yet.
 - `DEPLOYMENT PASS ≠ HUMAN HABITABILITY PASS`.
@@ -97,3 +100,22 @@ The implementation branch, Preview and Draft PR are authorized for review.
 Implementation merge is not authorized. PR #227 remains open as preserved
 partial implementation lineage. No external outreach, Economy, Essenthius
 expansion, Huly integration or production deployment is claimed here.
+
+## 2026-10-01 — Google OAuth primary login
+
+- Supabase Auth is read back as `external.google=true` and `disable_signup=true`
+  for the authorized project `pvhbrpnclxjqnkdijkfi`.
+- The login page now uses Supabase `signInWithOAuth({ provider: "google" })` as
+  its primary action. The existing SSR/PKCE `/auth/callback` and
+  `exchangeCodeForSession` remain; the server-side founder allowlist is still
+  checked after exchange. The email link remains a collapsed fallback and
+  retains `shouldCreateUser: false`.
+- The server passes the configured founder email only as a Google `login_hint`;
+  source contains no founder address. Google identity is not treated as the
+  Auth Account, Profile, or PERSON. Supabase automatic identity linking uses a
+  matching verified email ([identity linking](https://supabase.com/docs/guides/auth/auth-identity-linking));
+  the app does not create or map those records from a Google identity.
+- The normal-use E2E verifies the visible Google primary action and that the
+  manual-email fallback stays collapsed by default. It does not complete Google
+  consent or a founder session. Post-login identity/count readback remains
+  pending Marcos's first sign-in through the Preview.

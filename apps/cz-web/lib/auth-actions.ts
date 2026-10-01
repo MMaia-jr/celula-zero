@@ -5,6 +5,27 @@ import { z } from "zod";
 import { habitatClient, habitatSiteUrl } from "./supabase";
 import { isFounderCredential } from "./founder-credential";
 
+export async function startFounderGoogleOAuth() {
+  const allowlisted = process.env.CZ_FOUNDER_EMAIL?.trim();
+  if (!allowlisted) redirect("/login?result=unavailable");
+
+  const client = await habitatClient();
+  if (!client) redirect("/login?result=unavailable");
+
+  const { data, error } = await client.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: new URL("/auth/callback", habitatSiteUrl()).toString(),
+      queryParams: {
+        login_hint: allowlisted,
+        prompt: "select_account",
+      },
+    },
+  });
+  if (error || !data.url) redirect("/login?result=unavailable");
+  redirect(data.url);
+}
+
 export async function requestFounderLink(formData: FormData) {
   const email = z.string().trim().email().safeParse(formData.get("email"));
   const allowlisted = process.env.CZ_FOUNDER_EMAIL?.trim();
