@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { ZodError } from "zod";
 import { LocalStore } from "./local-store";
 import { actorFor, applyCommand, projection } from "./foundation";
+import { allowsLocalFixture } from "./runtime-mode";
 let store: LocalStore | undefined;
 const cookie = "cz_foundation_session";
 function database() {
@@ -13,12 +14,7 @@ function database() {
   ));
 }
 function allowed(request: NextRequest): boolean {
-  const host = request.headers.get("host");
-  return (
-    process.env.CZ_LOCAL_FOUNDATION === "1" &&
-    !!host &&
-    /^(127\.0\.0\.1|localhost):[0-9]+$/.test(host)
-  );
+  return allowsLocalFixture(process.env.CZ_LOCAL_FOUNDATION, request.headers.get("host"));
 }
 export async function handle(request: NextRequest) {
   if (!allowed(request))
