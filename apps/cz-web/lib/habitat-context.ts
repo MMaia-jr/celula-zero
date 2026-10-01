@@ -8,11 +8,22 @@ export type HabitatRecord = {
   record_kind: "OriginalRecord";
   purpose: "intention";
 };
+export type HabitatWorkItem = {
+  id: string;
+  title: string;
+  description: string;
+  status: "open" | "in_progress" | "done";
+  source: "human_confirmed_conversation";
+  created_at: string;
+  updated_at: string;
+  completed_at: string | null;
+};
 export type HabitatContext = {
-  profile: { id: string; display_name: string; handle: string | null; bio: string | null };
+  profile: { id: string; display_name: string; handle: string | null; bio: string | null; visibility?: string; created_at?: string; updated_at?: string };
   person: { id: string; name: string };
-  cell: { id: string; slug: string; name: string };
+  cell: { id: string; slug: string; name: string; relation?: string };
   records: HabitatRecord[];
+  workItems: HabitatWorkItem[];
 };
 
 export async function getHabitatContext(client: SupabaseClient): Promise<HabitatContext> {
@@ -22,7 +33,8 @@ export async function getHabitatContext(client: SupabaseClient): Promise<Habitat
   const context = data as HabitatContext;
   if (
     !context.profile?.id || !context.person?.id || !context.person?.name ||
-    !context.cell?.id || context.cell.slug !== "cell-zero" || !Array.isArray(context.records)
+    !context.cell?.id || context.cell.slug !== "cell-zero" || !Array.isArray(context.records) ||
+    !Array.isArray(context.workItems)
   ) throw new Error("HABITAT_CONTEXT_UNRESOLVED");
   return context;
 }

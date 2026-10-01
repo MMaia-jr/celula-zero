@@ -8,6 +8,7 @@ import { getHabitatContext } from "../../lib/habitat-context";
 import { allowsLocalFixture } from "../../lib/runtime-mode";
 import { habitatClient } from "../../lib/supabase";
 import type { ChatMessage } from "../../lib/chat";
+import { readCanonicalCellDirection } from "../../lib/canonical-state";
 export const dynamic = "force-dynamic";
 
 type GithubIssue = { number: number; title: string; html_url: string; state: string; updated_at: string };
@@ -63,13 +64,15 @@ export default async function Page({
       }
     }
     let workItems: GithubIssue[] = [];
+    let canonicalDirection: string | null = null;
     if (selected === "cells") {
+      canonicalDirection = await readCanonicalCellDirection();
       try {
         const response = await fetch("https://api.github.com/repos/MMaia-jr/celula-zero/issues?state=open&per_page=8", { headers: { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }, next: { revalidate: 60 }, signal: AbortSignal.timeout(5000) });
         if (response.ok) workItems = (await response.json() as Array<GithubIssue & { pull_request?: unknown }>).filter((item) => !item.pull_request).slice(0, 6);
       } catch { /* The Cell still works if public GitHub is unavailable. */ }
     }
-    return <OnlineHabitat section={selected} initial={context} threadId={threadId} initialMessages={messages} workItems={workItems} />;
+    return <OnlineHabitat section={selected} initial={context} threadId={threadId} initialMessages={messages} workItems={workItems} canonicalDirection={canonicalDirection} />;
   }
   if (
     allowsLocalFixture(

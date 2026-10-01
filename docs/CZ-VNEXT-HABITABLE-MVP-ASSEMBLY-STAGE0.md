@@ -29,8 +29,8 @@ are recorded in the Result Package.
 | Existing Original Records | REUSE | Reuse the append-only `cz_vnext_original_records` semantics and checked RPC for confirmed material records. Do not treat ordinary chat messages as Original Records. |
 | Existing preproject/cycle records | REFERENCE ONLY | Keep their specific semantics; do not use as generic chat, onboarding or work storage. |
 | Threads and messages | EXTEND | Read-only schema inspection found no compatible normalized thread/message tables. Without them, attributed conversation cannot survive reload/provider change while remaining distinct from institutional records. Added normalized `cz_vnext_threads` and `cz_vnext_messages` scoped to Profile, Person, and Cell, with human/model provenance and token/response metadata. |
-| Progressive onboarding state | EXTEND only if required by actual UI | No compatible resumable onboarding projection exists. If first-entry guidance cannot be reconstructed from existing Profile/relations and thread state, add a minimal per-Person/per-Cell state row; ask only unresolved prompts. |
-| Work projection | MAP / COMPOSE first | Read canonical public GitHub CZ state through a read-only adapter. No Huly endpoint is connected. Add only a small Cell-linked Work projection if GitHub does not represent the in-product human work/continuation needed for the MVP. |
+| Progressive onboarding state | REUSE / DERIVE | No separate onboarding table is needed for this MVP. Derive what remains useful from authenticated Profile, Cell relation and the continuing thread; ask the first useful question in the conversation and resume from that thread. |
+| Work projection | EXTEND | GitHub remains canonical for repository issues/state, but is read-only and cannot preserve a small CZ conversation-originated Cell task, its status/consequence, and its return/resume in this UI. Existing Projects, Commitments, Contributions, Agent Tasks and related governed records have different semantics; repurposing them would distort their meaning. Add only a normalized Cell/Profile/PERSON-linked work item with simple status and source-message lineage. |
 | Current canonical CZ state | COMPOSE | Server-side read of canonical `STATE.md` from the public repository, with bounded cached/fail-closed behavior; keep source URL/commit attribution. Never let model output replace canonical state. |
 | AI SDK | ADOPT | Pinned `ai@7.0.124` (Apache-2.0), `@ai-sdk/react@4.0.127` (Apache-2.0), `@ai-sdk/gateway@4.0.102` (Apache-2.0). AI SDK v7 drives streaming/tool calls; selected low-cost model `google/gemini-2.5-flash-lite` behind the Gateway adapter. |
 | assistant-ui | ADOPT / COMPOSE | Pinned `@assistant-ui/react@0.15.22` and `@assistant-ui/ai-sdk@0.0.8`, MIT. Runtime and thread/composer/message primitives power the conversational Home; CZ-owned normalized persistence stays in Supabase, not Assistant Cloud. |
@@ -81,17 +81,26 @@ service, work platform, universal event store or model provider fleet is justifi
 
 ## Implementation readback
 
-The applied additive migration creates the two normalized conversation tables,
+The first additive migration creates the two normalized conversation tables,
 owner-read RLS, server-checked thread/message RPCs and an explicitly human-driven
-Profile update RPC. No whole-state or whole-conversation blob, vector database,
-Work table, Huly service, or AI-provider secret was added. Supabase readback
-confirmed RLS and owner policies on both tables; only authenticated users receive
-table SELECT, while writes flow through identity-derived RPCs. Supabase's project
-wide advisor reported existing unrelated security/performance findings; no
-cleanup outside this Habitat scope was attempted.
+Profile update RPC. The assembly follow-up adds only `cz_vnext_work_items`,
+because the specific conversation → durable attributable work → return/resume
+property is absent from compatible existing tables and read-only GitHub. Authenticated
+users can read only their own projection; direct writes are revoked, and an RPC
+derives the authenticated Profile, exactly one PERSON, Cell membership, current
+thread and latest human source message before writing. The Habitat context RPC
+returns recent work and Original Records for this authorized identity/Cell.
+No separate onboarding state, whole-state/conversation blob, vector database,
+Huly service, or AI-provider secret is added. The new migration's remote application
+and policy readback are recorded in the Result Package. Supabase's project-wide
+advisor has unrelated existing findings; no cleanup outside this Habitat scope
+was attempted.
 
 The integrated branch now includes streaming Home, normalized chat history,
-read-only context/records/canonical STATE/GitHub work tools, an explicit Original
-Record form, a user-edited Profile surface, a Cell context with canonical open
-GitHub issues, and an Activity view separating chat from Original Records. The
-automated local E2E still covers the preserved fixture path, not real online auth.
+context/records/canonical STATE/GitHub tools, conversation-based progressive
+entry without a separate onboarding wizard, a Cell work and continuity surface,
+an attributable Work projection, inline explicit confirmation for proposed
+Work/Original Record/Profile changes, a living Profile view grounded in stored
+records, and Activity composed from material records, work and conversations.
+The automated local E2E still does not exercise a real online Google session or
+model call.

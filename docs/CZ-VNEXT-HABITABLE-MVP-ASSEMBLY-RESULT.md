@@ -41,11 +41,27 @@ OAuth follow-up: `2026-10-01`
   tools do not mutate institutional state. Marcos explicitly saves an Original
   Record in the dedicated form or edits his Profile in You.
 - Cell shows Marcos's existing membership, current CZ direction and read-only
-  open GitHub issues. Activity separates chat from Original Records. Empty
-  Discover navigation is removed.
+  open GitHub issues alongside in-product work, relevant records and a direct
+  conversation continuation entry. Activity composes material chat references,
+  Original Records, Work changes and Profile changes from existing sources;
+  empty Discover navigation is removed.
 - The founder allowlist remains server-side configuration. Email, Auth Account,
   Profile and PERSON remain distinct. No client-provided actor or authority ID
   is trusted.
+- Progressive entry derives known identity, Profile and Cell relation, then
+  asks only the first useful unresolved question in the existing conversation;
+  it does not add a separate onboarding state machine/table.
+- AI action tools return proposals without writing. assistant-ui renders those
+  proposals inline; an explicit human confirmation calls a same-origin server
+  action, where Auth, PERSON and Cell authority are resolved again. The durable
+  result is returned into the same thread. Conversation messages remain distinct
+  from Original Records and Profile projections.
+- A small normalized Work projection is the only new domain table in this follow-up.
+  It preserves `conversation → durable attributable work → return/resume`, which
+  the read-only GitHub adapter and existing governed Project/Commitment/Contribution/
+  Agent Task tables do not represent without semantic distortion. It is scoped to
+  Profile/PERSON/Cell/thread/source-message lineage, has owner-read RLS, revoked
+  direct writes and an authority-resolving RPC. No project-management system is added.
 
 The existing `decision_records` / `domain_decisions` require specific governed
 targets and authority semantics. A conversation proposal is not sufficient to
@@ -54,25 +70,32 @@ existing authority path.
 
 ## Schema
 
-The additive migration is
+The conversation migration is
 `supabase/migrations/20260930193553_cz_vnext_habitable_mvp_conversation.sql`.
-It adds two normalized tables, ownership RLS and server-checked RPCs for opening
-the founder's continuing thread, appending attributable messages and explicitly
-editing the authenticated owner's Profile. It adds no generic state/conversation
-JSON blob, vector DB, Work table, or public signup. It was applied only to the
-already authorized Supabase project `pvhbrpnclxjqnkdijkfi`; remote readback
-confirmed constraints, RLS, owner-read policies and authenticated-only writes.
-Project-wide advisor output included unrelated pre-existing findings; this
-branch did not attempt unrelated cleanup.
+The Work follow-up migration is
+`supabase/migrations/20261001101048_cz_vnext_habitable_mvp_work.sql`. It adds the
+single normalized Work table, owner-read RLS and an RPC that resolves authenticated
+identity, Cell membership and source lineage server-side; it also extends the
+context RPC with relevant recent Work. The first migration was applied only to
+the already authorized project `pvhbrpnclxjqnkdijkfi`; its schema/policy readback
+confirmed constraints, RLS and owner-read policies. The Work follow-up was also
+applied to that authorized project. Readback confirmed the normalized columns and
+foreign keys, `relrowsecurity=true`, one authenticated owner-read policy, and
+SECURITY DEFINER RPCs executable by authenticated users but not `anon`. Direct
+table writes remain revoked. Neither migration creates a whole-state blob, vector
+DB, public signup or production storage abstraction. Project-wide advisor output
+includes unrelated existing findings; this branch does not attempt unrelated
+cleanup.
 
 ## Verification so far
 
-- `npm run check:vnext`: PASS — lint, TypeScript, 30 Vitest tests and optimized
-  production build after the Google login update.
+- `npm run check:vnext`: PASS — lint, TypeScript, 32 Vitest tests and optimized
+  production build after the Habitable MVP assembly changes.
 - `npm run test:vnext:e2e`: 6/6 PASS on desktop/mobile, including Google as the
-  normal login action and the collapsed email-link fallback, plus the preserved
-  local Foundation fixture journey and anonymous-write/CSRF boundaries. This is
-  not an online-auth/chat journey and does not prove Human habitability.
+  normal login action and the collapsed email-link fallback, preserved local
+  Foundation fixture journeys, and anonymous-write/CSRF boundaries. This does
+  not complete a real online Google auth, model/tool confirmation or cross-session
+  conversation/Work journey and does not prove Human habitability.
 - GitHub CI: web/domain/portability PASS; PostgreSQL migration reset, pgTAP
   authorization tests and authenticated local Habitat journey PASS.
 - Dedicated Vercel deployment `dpl_A7aNhPAAXyRYhdiAEWq94MJ5Gpqj` is Ready as a
@@ -87,8 +110,9 @@ branch did not attempt unrelated cleanup.
   Vercel's branch URL. The current branch alias is stable for this branch.
 - The first Google sign-in on this branch has not yet been completed. The
   Auth Account → Profile → PERSON post-login readback, Gateway OIDC,
-  actual model streaming/cost, remote chat writes and cross-browser continuation
-  remain for Marcos's normal use. No model call/cost has been observed yet.
+  actual model streaming/cost, remote chat/Work writes and cross-browser
+  continuation remain unverified on this branch. No model call/cost has been
+  observed in this assembly run.
 - `DEPLOYMENT PASS ≠ HUMAN HABITABILITY PASS`.
 - `HUMAN HABITABILITY ≠ HUMAN ACCEPTANCE`.
 - `PREVIEW READY = READY FOR HUMAN USE`; it does not mean the online journey was

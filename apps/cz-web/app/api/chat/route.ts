@@ -7,6 +7,7 @@ import { z } from "zod";
 import { compileInstitutionalContext, extractPlainText, lastUserMessage, type ChatMessage } from "../../../lib/chat";
 import { getHabitatContext } from "../../../lib/habitat-context";
 import { isFounderCredential } from "../../../lib/founder-credential";
+import { readCanonicalCellDirection } from "../../../lib/canonical-state";
 import { habitatClient } from "../../../lib/supabase";
 
 export const runtime = "nodejs";
@@ -43,6 +44,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const context = await getHabitatContext(client);
+    const canonicalDirection = await readCanonicalCellDirection();
     const { data: rows, error: readError } = await client.from("cz_vnext_messages")
       .select("message,role,created_at").eq("thread_id", threadId)
       .order("created_at", { ascending: true }).limit(60);
@@ -52,7 +54,7 @@ export async function POST(request: NextRequest) {
     const model = gateway("google/gemini-2.5-flash-lite");
     const result = streamText({
       model,
-      system: compileInstitutionalContext(context, recentText),
+      system: compileInstitutionalContext(context, recentText, canonicalDirection ?? undefined),
       messages: await convertToModelMessages(messages as never),
       maxOutputTokens: 700,
       tools: {
@@ -69,24 +71,38 @@ export async function POST(request: NextRequest) {
           })),
         }),
         list_cell_work: tool({
-          description: "Consulte issues abertas públicas do repositório Célula Zero como trabalho relacionado; não altere o GitHub.",
+          description: "Liste trabalho CZ em andamento nesta Cell e issues canônicas públicas do GitHub como referência. Não altere o GitHub.",
           inputSchema: zodSchema(z.object({})),
           execute: async () => {
             const response = await fetch("https://api.github.com/repos/MMaia-jr/celula-zero/issues?state=open&per_page=8", { headers: { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }, cache: "no-store", signal: AbortSignal.timeout(5000) });
-            if (!response.ok) return { available: false, source: "https://github.com/MMaia-jr/celula-zero/issues" };
+            if (!response.ok) return { available: true, workItems: context.workItems, externalSourceAvailable: false, source: "https://github.com/MMaia-jr/celula-zero/issues" };
             const items = await response.json() as Array<{ number: number; title: string; html_url: string; updated_at: string; pull_request?: unknown }>;
-            return { available: true, source: "https://github.com/MMaia-jr/celula-zero/issues", items: items.filter((item) => !item.pull_request).slice(0, 6) };
+            return { available: true, workItems: context.workItems, externalSourceAvailable: true, source: "https://github.com/MMaia-jr/celula-zero/issues", items: items.filter((item) => !item.pull_request).slice(0, 6) };
+          },
+        }),
+        propose_work: tool({
+          description: "Proponha criar um item simples de trabalho da Célula Zero quando Marcos quiser levar uma intenção ou próximo passo adiante. Isso apenas apresenta uma proposta no chat; só o clique de confirmação humano chama o servidor para persistir.",
+          inputSchema: zodSchema(z.object({ title: z.string().trim().min(1).max(160), description: z.string().max(2000).default(""), status: z.enum(["open", "in_progress"]).default("open") })),
+          execute: async (proposal, { toolCallId }) => ({ ...proposal, proposalId: toolCallId, kind: "create_work", saved: false }),
+        }),
+        propose_work_update: tool({
+          description: "Proponha mudar o estado de um item de trabalho existente (aberto, em andamento ou concluído). Leia o item desta Cell antes. O servidor apenas grava após confirmação explícita no chat.",
+          inputSchema: zodSchema(z.object({ workId: z.string().uuid(), status: z.enum(["open", "in_progress", "done"]) })),
+          execute: async (proposal, { toolCallId }) => {
+            const { data, error } = await client.from("cz_vnext_work_items").select("id,title,description,status,updated_at").eq("id", proposal.workId).maybeSingle();
+            if (error || !data) return { proposalId: toolCallId, kind: "update_work", available: false };
+            return { proposalId: toolCallId, kind: "update_work", available: true, current: data, status: proposal.status, saved: false };
           },
         }),
         propose_original_record: tool({
-          description: "Prepare uma proposta de relato a partir do que Marcos disse. Esta ferramenta não salva nada; explique que o humano ainda precisa confirmar no painel de registro.",
+          description: "Prepare uma proposta de Original Record a partir de uma declaração explícita de Marcos. Isso não salva automaticamente. Mostre o conteúdo e peça confirmação no próprio cartão da conversa.",
           inputSchema: zodSchema(z.object({ content: z.string().trim().min(1).max(2000) })),
-          execute: async ({ content }) => ({ kind: "OriginalRecord proposal", content, saved: false, requiresHumanConfirmation: true }),
+          execute: async ({ content }, { toolCallId }) => ({ kind: "original_record", content, proposalId: toolCallId, saved: false }),
         }),
         propose_profile_update: tool({
-          description: "Prepare uma proposta para o Profile. Esta ferramenta não altera o perfil; Marcos precisa editar e confirmar explicitamente no espaço Você.",
-          inputSchema: zodSchema(z.object({ displayName: z.string().trim().min(1).max(80).optional(), bio: z.string().max(1000).optional() })),
-          execute: async (proposal) => ({ kind: "Profile proposal", proposal, saved: false, requiresHumanConfirmation: true }),
+          description: "Prepare uma atualização opcional do Profile com base no que Marcos explicitamente declarou. Não inferir capacidades nem transformar experiência em evidência. Mostre as mudanças e solicite confirmação no cartão do chat.",
+          inputSchema: zodSchema(z.object({ displayName: z.string().trim().min(1).max(80), bio: z.string().max(800) })),
+          execute: async (proposal, { toolCallId }) => ({ kind: "profile_update", ...proposal, proposalId: toolCallId, saved: false }),
         }),
         read_canonical_cz_state: tool({
           description: "Leia o estado canônico público atual da Célula Zero no GitHub.",
