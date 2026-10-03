@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "CZ_LOCAL_FOUNDATION=1 next dev --hostname 127.0.0.1 --port 3088",
+    "dev": "CZ_LOCAL_FOUNDATION=1 CZ_HULY_ACCOUNTS_URL=http://127.0.0.1:8087/_accounts CZ_FOUNDATION_DB=\"${CZ_FOUNDATION_DB:-.data/foundation.sqlite}\" next dev --hostname 127.0.0.1 --port 3088",
     "build": "next build --webpack",
-    "start": "CZ_LOCAL_FOUNDATION=1 next start --hostname 127.0.0.1 --port 3088",
+    "start": "CZ_LOCAL_FOUNDATION=1 CZ_HULY_ACCOUNTS_URL=http://127.0.0.1:8087/_accounts CZ_FOUNDATION_DB=\"${CZ_FOUNDATION_DB:-.data/foundation.sqlite}\" next start --hostname 127.0.0.1 --port 3088",
     "lint": "cd ../.. && eslint --config apps/cz-web/eslint.config.mjs apps/cz-web packages --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

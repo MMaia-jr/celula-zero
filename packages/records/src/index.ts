@@ -33,12 +33,30 @@ export type InstitutionalRecord = BaseRecord &
           | "profile"
           | "external_identity"
           | "intention"
-          | "cell";
+          | "human_speech"
+          | "cell"
+          | "work_create"
+          | "work_complete"
+          | "work_consequence"
+          | "learning"
+          | "next_possibility"
+          | "agreement"
+          | "action_authorization"
+          | "human_decision"
+          | "evidence_attachment"
+          | "economic_status"
+          | "governance_mandate"
+          | "bootstrap_authorization"
+          | "source_observation"
+          | "capability_candidate"
+          | "meeting_opened";
       }
     | {
         kind: "Interpretation";
         content: string;
-        sourceId: string;
+        /** Exactly one source pointer: an institutional record or a durable conversation message. */
+        sourceId?: string;
+        sourceMessageId?: string;
         generatorId: string;
       }
     | { kind: "Claim"; content: string; sourceIds: string[] }
@@ -50,7 +68,7 @@ export type InstitutionalRecord = BaseRecord &
         method: string;
         outcome: "supported" | "unsupported" | "inconclusive";
       }
-    | { kind: "Decision"; content: string; authorityId: string }
+    | { kind: "Decision"; content: string; sourceId: string; authorityId: string }
   );
 export function appendRecord(
   records: readonly InstitutionalRecord[],
@@ -58,10 +76,11 @@ export function appendRecord(
 ): InstitutionalRecord[] {
   if (records.some((r) => r.id === record.id))
     throw new Error("RECORD_IMMUTABLE");
-  if (
-    record.kind === "Interpretation" &&
-    !records.some((r) => r.id === record.sourceId)
-  )
-    throw new Error("SOURCE_MISSING");
+  if (record.kind === "Interpretation") {
+    if ((record.sourceId === undefined) === (record.sourceMessageId === undefined)) throw new Error("INTERPRETATION_SOURCE_INVALID");
+    if (record.sourceId !== undefined && !records.some((r) => r.id === record.sourceId)) throw new Error("SOURCE_MISSING");
+  }
+  if (record.kind === "Decision" && !records.some((r) => r.id === record.sourceId && r.kind === "OriginalRecord"))
+    throw new Error("DECISION_ORIGINAL_SOURCE_REQUIRED");
   return [...records, structuredClone(record)];
 }

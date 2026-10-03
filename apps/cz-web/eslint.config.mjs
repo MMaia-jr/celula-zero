@@ -8,6 +8,7 @@ export default defineConfig([
   { settings: { next: { rootDir: "apps/cz-web/" } } },
   globalIgnores([
     "**/.next/**",
+    "**/.next-v2-validation/**",
     "**/test-results/**",
     "**/playwright-report/**",
     "**/next-env.d.ts",
