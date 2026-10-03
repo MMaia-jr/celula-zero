@@ -5,6 +5,8 @@ export type { VisibilityPolicy } from "@cz/records";
 export interface Profile {
   id: string;
   personId: PersonId;
+  /** Human-editable presentation label; the institutional Person name remains distinct. */
+  displayName?: string;
   headline: string;
   bio: string;
   visibility: VisibilityPolicy;

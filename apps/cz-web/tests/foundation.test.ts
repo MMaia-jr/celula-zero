@@ -6,10 +6,16 @@ import { join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import {
   seedFoundation,
+  emptyFoundation,
+  bootstrapFoundation,
   applyCommand,
   projection,
   commandSchema,
   actorFor,
+  beginIntelligenceTurn,
+  expireStaleIntelligenceTurns,
+  failIntelligenceTurn,
+  retryIntelligenceTurn,
 } from "../lib/foundation";
 import { LocalStore } from "../lib/local-store";
 import {
@@ -36,6 +42,35 @@ const experience = {
   occurredOn: "2026-09-29",
 } as const;
 describe("Institutional boundaries", () => {
+  it("recovers an interrupted interpretation without converting its durable conversation message into a record", () => {
+    const initial = seed();
+    const actor = initial.person.id;
+    const pending = beginIntelligenceTurn(initial, actor, "Quero continuar", "request-key-123456", randomUUID, now).state;
+    const turn = pending.intelligenceTurns![0]!;
+    const message = pending.conversationMessages?.find((item) => item.id === turn.humanMessageId);
+
+    expect(expireStaleIntelligenceTurns(pending, "2026-09-30T12:02:59.999Z")).toBe(pending);
+    const recovered = expireStaleIntelligenceTurns(pending, "2026-09-30T12:03:00.000Z");
+    expect(recovered.intelligenceTurns![0]).toMatchObject({ status: "unavailable", failureCode: "INTELLIGENCE_PROCESS_INTERRUPTED" });
+    expect(recovered.conversationMessages).toContainEqual(message);
+    expect(recovered.records.some((record) => record.kind === "OriginalRecord" && record.content === "Quero continuar")).toBe(false);
+    expect(recovered.actionRequests ?? []).toHaveLength(0);
+    expect(expireStaleIntelligenceTurns(recovered, "2026-09-30T12:04:00.000Z")).toBe(recovered);
+  });
+
+  it("retries an unavailable interpretation from its durable message without duplicating the message", () => {
+    const initial = seed();
+    const actor = initial.person.id;
+    const begun = beginIntelligenceTurn(initial, actor, "Onde estamos?", "retry-key-1234567", randomUUID, now);
+    const failed = failIntelligenceTurn(begun.state, actor, begun.turn.id, "CODEX_CLI_TIMEOUT");
+    const retrying = retryIntelligenceTurn(failed, actor, begun.turn.id);
+    expect(retrying.intelligenceTurns).toHaveLength(1);
+    expect(retrying.intelligenceTurns![0]).toMatchObject({ id: begun.turn.id, status: "interpreting", failureCode: null });
+    expect(retrying.conversationMessages).toHaveLength(1);
+    expect(retrying.conversationMessages![0]!.body).toBe("Onde estamos?");
+    expect(() => retryIntelligenceTurn(retrying, actor, begun.turn.id)).toThrow("INTELLIGENCE_TURN_ALREADY_RUNNING");
+  });
+
   it("keeps provenance origin separate from Evidence and Verification records", () => {
     const origins: readonly Provenance["origin"][] = PROVENANCE_ORIGINS;
     expect(origins).toEqual([
@@ -76,6 +111,23 @@ describe("Institutional boundaries", () => {
     );
     expect(s.relations.map((r) => r.kind)).toEqual(["founder", "steward"]);
   });
+  it("creates the local N=1 bootstrap once from an authenticated Huly subject", () => {
+    const first = bootstrapFoundation(emptyFoundation(), "account-uuid", randomUUID, now);
+    expect(first.person.name).toBe("Marcos");
+    expect(first.credentials).toHaveLength(1);
+    expect(first.credentials[0]).toMatchObject({ provider: "huly", subject: "account-uuid", personId: first.person.id, status: "active" });
+    expect(first.cell.name).toBe("Célula Zero");
+    expect(first.relations.map((relation) => relation.kind)).toEqual(["founder", "steward"]);
+    expect(first.memberships[0]?.personId).toBe(first.person.id);
+    expect(first.authorities[0]?.permissions).toEqual(["cell.read", "cell.update"]);
+    expect(first.records.filter((record) => record.kind === "OriginalRecord").map((record) => record.purpose)).toEqual(["bootstrap_authorization", "source_observation"]);
+    const retry = bootstrapFoundation(first, "account-uuid", randomUUID, "2026-10-01T12:00:00.000Z");
+    expect(retry).toBe(first);
+    expect(retry.credentials).toHaveLength(1);
+    expect(retry.records).toHaveLength(2);
+    expect(() => bootstrapFoundation(first, "different-account", randomUUID, now)).toThrow("CZ_FOUNDATION_NOT_EMPTY");
+    expect(() => bootstrapFoundation({ ...first, credentials: [...first.credentials, { ...first.credentials[0]!, id: randomUUID() }] }, "account-uuid", randomUUID, now)).toThrow("CZ_IDENTITY_AMBIGUOUS");
+  });
   it("fails ambiguous and revoked identity resolution", () => {
     const s = seed();
     expect(() =>
@@ -84,7 +136,7 @@ describe("Institutional boundaries", () => {
         "local-foundation",
         "founder-fixture",
       ),
-    ).toThrow("IDENTITY_UNRESOLVED");
+    ).toThrow("CZ_IDENTITY_AMBIGUOUS");
     s.credentials[0]!.status = "revoked";
     expect(() => actorFor(s, "local-foundation", "founder-fixture")).toThrow();
   });
@@ -107,6 +159,30 @@ describe("Institutional boundaries", () => {
       scope: "private",
       ownerId: s.person.id,
     });
+  });
+  it("records a Human Decision separately from its OriginalRecord and resolves its authority server-side", () => {
+    const s = seed();
+    const withHumanSource = applyCommand(s, s.person.id, { type: "intention", content: "Quero preservar a continuidade local da Célula." }, randomUUID(), randomUUID, now);
+    const supporting = withHumanSource.records.find((record) => record.kind === "OriginalRecord" && record.purpose === "intention")!;
+    const command = { type: "decision", question: "Como continuar o Habitat local?", alternatives: ["Continuar localmente", "Pausar"], selectedAlternative: "Continuar localmente", supportingRecordIds: [supporting.id], mandateChange: "Manter o escopo local, sem promoção.", statement: "Continuar o Habitat local com revisão de contexto.", rationale: "A sessão deve continuar a partir de registros atribuíveis." } as const;
+    const key = randomUUID();
+    const decided = applyCommand(withHumanSource, s.person.id, command, key, randomUUID, now);
+    const source = decided.records.find((record) => record.kind === "OriginalRecord" && record.purpose === "human_decision");
+    expect(source).toBeDefined();
+    if (!source || source.kind !== "OriginalRecord") throw new Error("Human decision source record missing");
+    const decision = decided.records.find((record) => record.kind === "Decision" && record.sourceId === source.id);
+    expect(decision).toMatchObject({ kind: "Decision", authorityId: s.authorities[0]?.id, authorId: s.person.id });
+    expect(JSON.parse(source.content)).toMatchObject({ statement: command.statement, rationale: command.rationale });
+    expect(JSON.parse(source.content)).toMatchObject({ question: command.question, alternatives: command.alternatives, selectedAlternative: command.selectedAlternative, supportingRecordIds: command.supportingRecordIds, mandateChange: command.mandateChange });
+    if (!decision || decision.kind !== "Decision") throw new Error("Decision record missing");
+    expect(JSON.parse(decision.content)).toMatchObject({ decisionContext: "FOUNDER_N1_NOT_CONSENSUS", supportingRecordIds: command.supportingRecordIds });
+    expect(decided.records.some((record) => record.kind === "OriginalRecord" && record.purpose === "governance_mandate" && record.content.includes("RECORDED_ONLY_NO_AUTHORITY_CHANGE"))).toBe(true);
+    expect(() => commandSchema.parse({ ...command, selectedAlternative: "Inventada" })).toThrow();
+    expect(() => applyCommand(s, s.person.id, { ...command, supportingRecordIds: ["not-a-record"] }, randomUUID(), randomUUID, now)).toThrow("GOVERNANCE_SUPPORTING_RECORD_UNAVAILABLE");
+    expect(applyCommand(decided, s.person.id, command, key, randomUUID, now)).toBe(decided);
+    expect(() => commandSchema.parse({ ...command, authorityId: "client-spoof" })).toThrow();
+    const ambiguous = { ...withHumanSource, authorities: [...withHumanSource.authorities, { ...withHumanSource.authorities[0]!, id: "second-authority" }] };
+    expect(() => applyCommand(ambiguous, s.person.id, command, randomUUID(), randomUUID, now)).toThrow("CZ_AUTHORITY_AMBIGUOUS");
   });
   it("does not accept spoofed authorship or epistemic promotion", () => {
     expect(() =>
@@ -185,6 +261,43 @@ describe("Institutional boundaries", () => {
     expect(b.profile.headline).toBe("Segundo");
     expect(b.records[1]).toEqual(a.records[1]);
     expect(b.records).toHaveLength(3);
+  });
+  it("keeps a human-confirmed Cell work item durable and records its consequence separately", () => {
+    const s = seed();
+    const active = applyCommand(
+      s,
+      s.person.id,
+      { type: "work_create", title: "Preparar a próxima conversa", context: "Retomar a continuidade da Célula e decidir o próximo passo." },
+      randomUUID(),
+      randomUUID,
+      now,
+    );
+    expect(active.workItems).toHaveLength(1);
+    const work = active.workItems![0]!;
+    expect(work).toMatchObject({ cellId: s.cell.id, responsiblePersonId: s.person.id, status: "active" });
+    expect(active.records.at(-1)).toMatchObject({ kind: "OriginalRecord", purpose: "work_create", authorId: s.person.id });
+    expect(projection(active, s.person.id).workItems).toEqual([work]);
+
+    const completed = applyCommand(
+      active,
+      s.person.id,
+      { type: "work_complete", workItemId: work.id, result: "A próxima conversa ficou preparada.", learning: "Registrar resultado ajuda a continuar sem reconstruir o contexto.", gratitude: "A clareza do contexto ajudou.", unresolvedTension: "Ainda falta uma segunda perspectiva.", nextPossibility: "Convidar alguém para revisar quando houver autoridade e relação legítimas." },
+      randomUUID(),
+      randomUUID,
+      "2026-10-01T20:00:00.000Z",
+    );
+    expect(completed.workItems?.[0]).toMatchObject({ status: "complete", completedAt: "2026-10-01T20:00:00.000Z" });
+    const consequence = completed.records.find((record) => record.kind === "OriginalRecord" && record.purpose === "work_consequence");
+    expect(consequence?.kind).toBe("OriginalRecord");
+    if (consequence?.kind === "OriginalRecord") {
+      expect(consequence.content).toContain(work.title);
+      expect(consequence.content).toContain("A próxima conversa ficou preparada.");
+      expect(consequence.content).toContain("Registrar resultado ajuda");
+      expect(consequence.content).toContain("A clareza do contexto ajudou.");
+    }
+    expect(completed.records.some((record) => record.kind === "OriginalRecord" && record.purpose === "learning" && record.content.includes("segunda perspectiva"))).toBe(true);
+    expect(completed.records.some((record) => record.kind === "OriginalRecord" && record.purpose === "next_possibility" && record.content.includes("revisar"))).toBe(true);
+    expect(() => applyCommand(s, other, { type: "work_create", title: "Outro", context: "Sem autoridade" }, randomUUID(), randomUUID, now)).toThrow("FORBIDDEN");
   });
   it("cannot overwrite an OriginalRecord or invent interpretation source", () => {
     const s = seed();
@@ -295,17 +408,29 @@ describe("Institutional boundaries", () => {
   });
 });
 describe("Durable local adapter", () => {
-  it("survives close/reopen, seed is stable, session revocation persists", () => {
+  it("starts empty, bootstraps only after confirmation, and resumes the same Person", () => {
     const dir = mkdtempSync(join(tmpdir(), "cz-foundation-test-")),
       path = join(dir, "state.sqlite");
     try {
       let db = new LocalStore(path);
-      const initial = db.read(),
-        token = db.createSession();
+      expect(db.read().person).toBeUndefined();
+      const token = db.createSession("huly", "account-uuid");
+      const bootstrapped = db.transact((state) => ({
+        state: bootstrapFoundation(state, "account-uuid", randomUUID, now),
+        result: null,
+      }));
+      expect(bootstrapped).toBeNull();
+      const initial = db.read();
+      const personId = initial.person?.id;
+      expect(initial.credentials).toHaveLength(1);
+      expect(initial.records.filter((record) => record.kind === "OriginalRecord").map((record) => record.purpose)).toEqual([
+        "bootstrap_authorization",
+        "source_observation",
+      ]);
       db.transact((s) => ({
         state: applyCommand(
-          s,
-          s.person.id,
+          s as import("../lib/foundation").Foundation,
+          s.person!.id,
           experience,
           randomUUID(),
           randomUUID,
@@ -315,12 +440,20 @@ describe("Durable local adapter", () => {
       }));
       db.close();
       db = new LocalStore(path);
-      expect(db.read().person.id).toBe(initial.person.id);
+      expect(db.read().person?.id).toBe(personId);
       expect(db.read().experiences).toHaveLength(1);
-      expect(db.session(token)).toBe(true);
+      expect(db.sessionIdentity(token)).toEqual({ provider: "huly", subject: "account-uuid" });
+      db.db.prepare("UPDATE sessions SET expires=? WHERE provider=? AND subject=?").run(Date.now() - 1, "huly", "account-uuid");
+      expect(db.sessionIdentity(token)).toBeNull();
+      const renewedToken = db.createSession("huly", "account-uuid");
+      expect(db.sessionIdentity(renewedToken)).toEqual({ provider: "huly", subject: "account-uuid" });
       db.revoke(token);
-      expect(db.session(token)).toBe(false);
-      expect(db.session("forged")).toBe(false);
+      expect(db.sessionIdentity(token)).toBeNull();
+      expect(db.sessionIdentity("forged")).toBeNull();
+      db.close();
+      db = new LocalStore(path);
+      expect(db.read().person?.id).toBe(personId);
+      expect(db.sessionIdentity(renewedToken)).toEqual({ provider: "huly", subject: "account-uuid" });
       db.close();
     } finally {
       rmSync(dir, { recursive: true, force: true });
@@ -329,12 +462,16 @@ describe("Durable local adapter", () => {
   it("rolls back rejected operations including their original record", () => {
     const db = new LocalStore(":memory:");
     try {
-      const before = db.read();
+      db.transact((s) => ({
+        state: bootstrapFoundation(s, "account-uuid", randomUUID, now),
+        result: null,
+      }));
+      const initialized = db.read();
       expect(() =>
         db.transact((s) => {
           applyCommand(
-            s,
-            s.person.id,
+            s as import("../lib/foundation").Foundation,
+            s.person!.id,
             experience,
             randomUUID(),
             randomUUID,
@@ -343,7 +480,7 @@ describe("Durable local adapter", () => {
           throw new Error("cancel");
         }),
       ).toThrow();
-      expect(db.read()).toEqual(before);
+      expect(db.read()).toEqual(initialized);
     } finally {
       db.close();
     }
@@ -355,14 +492,15 @@ describe("Durable local adapter", () => {
       b = new LocalStore(path),
       key = randomUUID();
     try {
+      a.transact((s) => ({ state: bootstrapFoundation(s, "account-uuid", randomUUID, now), result: null }));
       a.transact((s) => ({
-        state: applyCommand(s, s.person.id, experience, key, randomUUID, now),
+        state: applyCommand(s as import("../lib/foundation").Foundation, s.person!.id, experience, key, randomUUID, now),
         result: null,
       }));
       b.transact((s) => ({
         state: applyCommand(
-          s,
-          s.person.id,
+          s as import("../lib/foundation").Foundation,
+          s.person!.id,
           { type: "intention", content: "Continuar amanhã" },
           randomUUID(),
           randomUUID,
@@ -371,11 +509,11 @@ describe("Durable local adapter", () => {
         result: null,
       }));
       a.transact((s) => ({
-        state: applyCommand(s, s.person.id, experience, key, randomUUID, now),
+        state: applyCommand(s as import("../lib/foundation").Foundation, s.person!.id, experience, key, randomUUID, now),
         result: null,
       }));
       expect(b.read().experiences).toHaveLength(1);
-      expect(b.read().records).toHaveLength(3);
+      expect(b.read().records).toHaveLength(4);
     } finally {
       a.close();
       b.close();

@@ -25,18 +25,10 @@ export function resolvePerson(
   provider: string,
   subject: string,
 ): PersonId {
-  const ids = [
-    ...new Set(
-      credentials
-        .filter(
-          (c) =>
-            c.provider === provider &&
-            c.subject === subject &&
-            c.status === "active",
-        )
-        .map((c) => c.personId),
-    ),
-  ];
-  if (ids.length !== 1 || !ids[0]) throw new Error("IDENTITY_UNRESOLVED");
-  return ids[0];
+  const active = credentials.filter(
+    (c) => c.provider === provider && c.subject === subject && c.status === "active",
+  );
+  if (active.length > 1) throw new Error("CZ_IDENTITY_AMBIGUOUS");
+  if (active.length !== 1 || !active[0]?.personId) throw new Error("IDENTITY_UNRESOLVED");
+  return active[0].personId;
 }

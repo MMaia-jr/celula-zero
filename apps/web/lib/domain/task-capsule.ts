@@ -3,7 +3,7 @@ import type {
   WorkbenchActor,
   WorkbenchCommitment,
   WorkbenchProject,
-} from "@/lib/data/workbench";
+} from "./workbench-types";
 
 export const TASK_CAPSULE_SCHEMA = "cz.task-capsule.v1" as const;
 export const RESULT_PACKAGE_SCHEMA = "cz.result-package.v1" as const;

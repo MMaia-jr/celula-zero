@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import type { NextConfig } from "next";
 const config: NextConfig = {
+  distDir: process.env.CZ_NEXT_DIST_DIR ?? ".next",
   poweredByHeader: false,
   transpilePackages: [
     "@cz/identity",
