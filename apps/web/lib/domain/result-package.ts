@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RESULT_PACKAGE_SCHEMA } from "@/lib/domain/task-capsule";
+import { RESULT_PACKAGE_SCHEMA } from "./task-capsule";
 
 const artifactSchema = z
   .object({
