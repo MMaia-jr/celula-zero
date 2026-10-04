@@ -2,6 +2,7 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import type { FoundationState } from "./foundation";
+import { parseConnectionFabricState } from "@cz/connection-fabric";
 
 export const recoveryEnvelopeSchema = z.object({
   schema: z.literal("cz.foundation.recovery.v1"),
@@ -53,7 +54,13 @@ export function parseRecoveryState(
   if (current.person && (current.person.id !== person.id || current.cell?.id !== cell.id)) throw new Error("RECOVERY_IDENTITY_CONFLICT");
   if (!current.person && current.cell) throw new Error("RECOVERY_CURRENT_STATE_INCONSISTENT");
   if (current.person && digestRecoveryValue(current) !== digestRecoveryValue(state)) throw new Error("RECOVERY_HISTORY_CONFLICT");
-  return state as unknown as FoundationState;
+  let connectionFabric;
+  try { connectionFabric = parseConnectionFabricState(state); }
+  catch (error) {
+    if (error instanceof Error && /^(CONNECTION_|GRANT_|EXTERNAL_RESOURCE_|CAPABILITY_BINDING_)/.test(error.message)) throw new Error("RECOVERY_CONNECTION_FABRIC_INVALID");
+    throw error;
+  }
+  return { ...state, ...connectionFabric } as unknown as FoundationState;
 }
 
 export function recoverySummary(state: FoundationState) {

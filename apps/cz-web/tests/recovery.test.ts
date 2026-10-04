@@ -39,6 +39,14 @@ describe("local Foundation recovery", () => {
     expect(() => parseRecoveryState(envelope, { provider: "huly", subject: "huly-account" }, current)).toThrow("RECOVERY_HISTORY_CONFLICT");
   });
 
+  it("rejects a recovery snapshot whose external grant references a different connection", () => {
+    const state = bootstrapFoundation(emptyFoundation(), "huly-account", randomUUID, "2026-10-01T00:00:00.000Z");
+    state.connections = [{ id: "github-connection", owner: { kind: "PERSON", id: state.person.id }, provider: "github", status: "PENDING_AUTHORIZATION", createdAt: "2026-10-01T00:00:00.000Z" }];
+    state.authorizationGrants = [{ id: "grant", connectionId: "missing-connection", grantedByPersonId: state.person.id, scopes: [], consentRecordId: state.records[0]!.id, grantedAt: "2026-10-01T00:00:00.000Z" }];
+    const invalid = recoveryEnvelopeSchema.parse({ schema: "cz.foundation.recovery.v1", exportedAt: "2026-10-02T00:00:00.000Z", state });
+    expect(() => parseRecoveryState(invalid, { provider: "huly", subject: "huly-account" }, emptyFoundation())).toThrow("RECOVERY_CONNECTION_FABRIC_INVALID");
+  });
+
   it("backs up the live SQLite state and keeps the snapshot readable", async () => {
     const directory = mkdtempSync(join(tmpdir(), "cz-recovery-backup-")); directories.push(directory);
     const original = join(directory, "foundation.sqlite"), backup = join(directory, "recovery.sqlite");

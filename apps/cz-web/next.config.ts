@@ -9,6 +9,7 @@ const config: NextConfig = {
     "@cz/cells",
     "@cz/authority",
     "@cz/records",
+    "@cz/connection-fabric",
     "@cz/platform-contract",
     "@cz/platform-huly",
   ],

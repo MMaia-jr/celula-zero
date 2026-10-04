@@ -30,6 +30,9 @@ import { authenticateHuly } from "./huly-auth";
 import { compileInstitutionalContext } from "./essenthius/context";
 import { codexCliAuthenticated, discoverHabitatCapabilities, discoverHabitatConnections, discoverHabitatResources, projectCurrentCapabilities } from "./essenthius/capabilities";
 import { readActiveDirection } from "./essenthius/active-direction";
+import { projectConnectedWorld } from "./essenthius/connected-world";
+import { parseConnectionFabricState } from "@cz/connection-fabric";
+import { canonicalSourceExcerpts } from "./essenthius/canonical-sources";
 import { CodexCliAdapter, codexPromptMetrics } from "./essenthius/codex-cli";
 import { OllamaLocalAdapter } from "./essenthius/ollama-local";
 import { selectModelProvider, type ModelPreference } from "./essenthius/model-preference";
@@ -102,37 +105,14 @@ function repositoryStateReadback() {
   const status = git(["status", "--porcelain=v1", "--untracked-files=normal"]);
   return { localHead, canonicalHead, workingTreeDirty: status.length > 0, changedPathCount: status ? status.split("\n").length : 0 };
 }
-function canonicalSourceExcerpts(head: string) {
-  const read = (path: string) => execFileSync("git", ["show", `${head}:${path}`], {
-    cwd: process.cwd(), encoding: "utf8", timeout: 2500, maxBuffer: 128_000,
-  });
-  const section = (text: string, heading: string, max: number) => {
-    const start = text.indexOf(heading);
-    if (start < 0) return "Canonical section was not found in this commit.";
-    const following = text.indexOf("\n## ", start + heading.length);
-    return text.slice(start, following < 0 ? start + max : Math.min(following, start + max)).trim();
-  };
-  try {
-    const state = read("STATE.md");
-    const decision = read("decisions/D059-human-adopts-cz-on-huly-substrate-direction.md");
-    const packet = read("WP-CZ-VNEXT-CZ-ON-HULY-SUBSTRATE-N1.md");
-    return [
-      { path: "STATE.md", artifactKind: "CANONICAL STATE READBACK", excerpt: section(state, "## Current Human Direction — D059", 1500) },
-      { path: "decisions/D059-human-adopts-cz-on-huly-substrate-direction.md", artifactKind: "DECISION / HUMAN DIRECTION SOURCE", excerpt: section(decision, "## Human Direction", 1200) },
-      { path: "WP-CZ-VNEXT-CZ-ON-HULY-SUBSTRATE-N1.md", artifactKind: "WORK PACKET SOURCE", excerpt: packet.slice(0, 1000).trim() },
-    ];
-  } catch {
-    return [{ path: "STATE.md", artifactKind: "CANONICAL SOURCE READBACK UNAVAILABLE", excerpt: "Canonical artifacts could not be read from the current checkout HEAD; do not infer their content." }];
-  }
-}
-async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>["view"]>) {
+async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>["view"]>, state: FoundationState) {
   const repositoryState = repositoryStateReadback();
   const head = repositoryState.localHead;
   const capabilities = await discoverHabitatCapabilities(view.experiences.map((experience) => ({ id: experience.id, title: experience.title, provenance: experience.provenance.origin })));
   const codex = capabilities.find((capability) => capability.id === "executor:codex-cli");
   const model = capabilities.find((capability) => capability.id === "provider:ollama-local");
   const codexAuthenticated = codex?.provenanceStatus.startsWith("CLI_AUTH_READBACK") ?? false;
-  const currentCapabilities = projectCurrentCapabilities({
+  const institutionalCapabilities = projectCurrentCapabilities({
     codexAuthenticated,
     localModelInstalled: model?.provenanceStatus.startsWith("MODEL_PRESENT") ?? false,
     hulyConfigured: Boolean(process.env.CZ_HULY_ACCOUNTS_URL),
@@ -146,6 +126,19 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     hasCompletedWork: (view.workItems ?? []).some((work) => work.status === "complete"),
     hasEligibleExecutionAgreement: (view.projects ?? []).some((project) => project.commitments.some((commitment) => view.agreements?.some((agreement) => agreement.commitmentId === commitment.id))),
   });
+  const externalProviders = projectConnectedWorld(parseConnectionFabricState(state));
+  const externalCapabilities = externalProviders.flatMap((provider) => provider.capabilities.map((capability) => ({
+    id: `external:${capability.id}`,
+    label: `${provider.label}: ${capability.label}`,
+    enables: capability.reason,
+    readWrite: capability.access === "READ" ? "READ_ONLY" as const : capability.access === "DRAFT" ? "DRAFT_ONLY" as const : "WRITE_AFTER_HUMAN_CONFIRMATION" as const,
+    authorityRequired: capability.authorityRequired,
+    costUsageClass: "Custo externo desconhecido até existir conexão e leitura de condições do provedor.",
+    availability: capability.availability,
+    reason: `${provider.status === "NOT_CONNECTED" ? "Conta real não conectada. " : ""}${capability.reason} Adaptador sandbox serve somente para testes contratuais e não representa uma conta real.`,
+    actionEntrypoint: null,
+  })));
+  const currentCapabilities = [...institutionalCapabilities, ...externalCapabilities];
   const connections = discoverHabitatConnections({
     ollamaAvailable: model?.availability !== "UNAVAILABLE",
     selectedModelAvailable: model?.provenanceStatus.startsWith("MODEL_PRESENT") ?? false,
@@ -160,7 +153,7 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     head,
     projects: view.projects ?? [],
   });
-  return { head, canonicalHead: repositoryState.canonicalHead, repositoryState, capabilities, currentCapabilities, connections, resources, activeDirection: readActiveDirection() };
+  return { head, canonicalHead: repositoryState.canonicalHead, repositoryState, capabilities, currentCapabilities, externalProviders, connections, resources, activeDirection: readActiveDirection() };
 }
 function setSessionCookie(response: NextResponse, token: string) {
   response.cookies.set(cookie, token, {
@@ -203,7 +196,7 @@ export async function handle(request: NextRequest) {
       const result = currentView(state, principal);
       if (request.nextUrl.searchParams.get("capabilities") === "1") {
         if (!result.view) return NextResponse.json({ capabilities: [], authenticated: true, bootstrapRequired: true });
-        return NextResponse.json({ ...(await capabilitiesFor(result.view)), authenticated: true });
+        return NextResponse.json({ ...(await capabilitiesFor(result.view, state)), authenticated: true });
       }
       const executionId = request.nextUrl.searchParams.get("execution-delta") ?? request.nextUrl.searchParams.get("execution-result");
       if (executionId) {
@@ -621,7 +614,7 @@ export async function handle(request: NextRequest) {
         const state = db.read();
         if (!hasInstitutionalState(state)) throw new Error("IDENTITY_UNRESOLVED");
         const current = projection(state, actor);
-        const available = await capabilitiesFor(current);
+        const available = await capabilitiesFor(current, state);
         const context = compileInstitutionalContext(
           state,
           actor,

@@ -23,6 +23,7 @@
     "@cz/cells": "0.1.0",
     "@cz/authority": "0.1.0",
     "@cz/records": "0.1.0",
+    "@cz/connection-fabric": "0.1.0",
     "@cz/platform-contract": "0.1.0",
     "@cz/platform-huly": "0.1.0"
   },

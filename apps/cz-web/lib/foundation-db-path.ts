@@ -27,6 +27,8 @@ function hasInstitutionalState(path: string): boolean {
       "externalIdentities", "receipts", "records", "workItems", "intelligenceTurns",
       "actionRequests", "actionExecutions", "projects", "capabilities",
       "capabilityCandidates", "executionJobs", "agreements",
+      "connections", "authorizationGrants", "externalAccounts", "externalResources",
+      "credentialReferences", "capabilityBindings",
     ].some((key) => Array.isArray(state[key]) && (state[key] as unknown[]).length > 0);
     return Boolean(state.person || state.profile || state.cell || hasArrayEntries);
   } finally {

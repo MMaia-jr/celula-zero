@@ -96,9 +96,9 @@ describe("Essenthius composition boundaries", () => {
   it("loads the operator-maintained campaign projection as local, never canonical direction", () => {
     const direction = readActiveDirection();
     expect(direction?.status).toBe("CURRENT_HUMAN_DIRECTION_LOCAL_NOT_CANONICAL");
-    expect(direction?.campaign).toContain("Genesis Habitat Build Campaign");
+    expect(direction?.campaign).toContain("Genesis Operating Habitat Alpha");
     expect(direction?.implementationProgress.length).toBeGreaterThan(0);
-    expect(direction?.source).toContain("not a canonical Git artifact");
+    expect(direction?.source).toContain("D060");
   });
 
   it("reports concrete product capabilities separately from personal capability candidates", () => {

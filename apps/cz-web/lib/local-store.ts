@@ -4,6 +4,7 @@ import { mkdirSync, chmodSync } from "node:fs";
 import { dirname } from "node:path";
 import { createHash, randomBytes } from "node:crypto";
 import { emptyFoundation, type FoundationState } from "./foundation";
+import { parseConnectionFabricState } from "@cz/connection-fabric";
 import type { FoundationStore } from "./foundation-store";
 export class LocalStore implements FoundationStore {
   readonly db: DatabaseSync;
@@ -29,7 +30,7 @@ export class LocalStore implements FoundationStore {
     const state = JSON.parse(row.body) as FoundationState;
     if (state.schema !== "cz.foundation.v1")
       throw new Error("UNSUPPORTED_STATE_VERSION");
-    return state;
+    return { ...state, ...parseConnectionFabricState(state) };
   }
   transact<R>(
     change: (state: FoundationState) => { state: FoundationState; result: R },

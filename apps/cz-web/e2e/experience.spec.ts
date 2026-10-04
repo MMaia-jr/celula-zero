@@ -31,7 +31,7 @@ test("the living CZ surface carries a real text meeting across navigation", asyn
   await expect(returningHome).toBeVisible();
   await expect(experience.getByRole("heading", { name: /(?:Olá|Que bom que voltou), Marcos\./ })).toBeVisible();
   const directionCard = experience.getByRole("region", { name: "Direção humana atual" });
-  await expect(directionCard).toContainText("CZ Genesis Habitat Build Campaign V1");
+  await expect(directionCard).toContainText("D060 Genesis Operating Habitat Alpha");
   await expect(directionCard).toContainText("LOCAL / NÃO CANÔNICA");
   await page.screenshot({ path: `/tmp/cz-experience-v2-${test.info().project.name}.png`, fullPage: true });
   await expect(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Conversas" })).toBeVisible();
@@ -165,6 +165,13 @@ test("the living CZ surface carries a real text meeting across navigation", asyn
   await expect(experience.locator(".capability-catalog").getByText(/outras capacidades/i)).toBeVisible();
   await expect(experience.getByLabel("O que você está buscando?")).toBeVisible();
   await expect(experience.getByText("CAPACIDADE ·", { exact: false })).toHaveCount(0);
+  const connectedWorld = experience.getByRole("region", { name: "Serviços que podem participar" });
+  await expect(connectedWorld.getByRole("heading", { name: "Conexões da Célula" })).toBeVisible();
+  await expect(connectedWorld.getByText("GitHub", { exact: true })).toBeVisible();
+  await expect(connectedWorld.getByText("Linear", { exact: true })).toBeVisible();
+  await expect(connectedWorld.getByText("Google", { exact: true })).toBeVisible();
+  await expect(connectedWorld.getByText("Ainda não conectado", { exact: true })).toHaveCount(3);
+  await expect(connectedWorld).not.toContainText("private-keychain-locator");
 
   await activate(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Atividade" }));
   await expect(experience.getByRole("heading", { name: "Um encontro começou" }).first()).toBeVisible();

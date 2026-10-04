@@ -1473,3 +1473,18 @@ main#content { max-width: 1480px; padding: 28px 32px 42px; }
 }
 .companion-dock { margin-top: 18px; padding: 15px 18px; border: 1px solid var(--line); border-radius: 15px; background: #eeefe8; }
 .companion-dock .companion-composer { margin-top: 10px; }
+.connected-world-summary { margin: 20px 0; }
+.connected-world-summary > p { max-width: 72ch; color: var(--muted); }
+.connected-world-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 10px; margin-top: 14px; }
+.connected-provider { min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: rgb(255 255 255 / 55%); }
+.connected-provider > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px; cursor: pointer; list-style-position: inside; }
+.connected-provider > summary span { color: var(--muted); font-size: .78rem; text-align: right; }
+.connected-provider > p, .connected-provider > details { margin: 0 13px 12px; }
+.connected-provider > details { border-top: 1px solid var(--line); padding-top: 10px; }
+.connected-capability { border-top: 1px solid var(--line); padding: 10px 0; }
+.connected-capability p { margin: 5px 0; color: var(--muted); font-size: .82rem; }
+@media (max-width: 760px) {
+  .connected-world-summary { padding: 15px 13px; }
+  .connected-world-list { grid-template-columns: 1fr; }
+  .connected-provider > summary { align-items: flex-start; }
+}

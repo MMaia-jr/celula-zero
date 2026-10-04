@@ -16,6 +16,7 @@ import type { IntelligenceResult } from "./essenthius/port";
 import type { WorkbenchProject } from "../../web/lib/domain/workbench-types";
 import type { ResultPackage } from "../../web/lib/domain/result-package";
 import type { ModelPreference } from "./essenthius/model-preference";
+import type { ConnectionFabricState } from "@cz/connection-fabric";
 export interface Foundation {
   schema: "cz.foundation.v1";
   person: Person;
@@ -48,6 +49,13 @@ export interface Foundation {
   meetings?: FoundationMeeting[];
   /** Operational preference only; it never changes the Essenthius identity or thread history. */
   threadModelPreferences?: Record<string, ModelPreference>;
+  /** Provider access metadata only. Credential values never belong in Foundation state. */
+  connections?: ConnectionFabricState["connections"];
+  authorizationGrants?: ConnectionFabricState["authorizationGrants"];
+  externalAccounts?: ConnectionFabricState["externalAccounts"];
+  externalResources?: ConnectionFabricState["externalResources"];
+  credentialReferences?: ConnectionFabricState["credentialReferences"];
+  capabilityBindings?: ConnectionFabricState["capabilityBindings"];
 }
 export interface FoundationMeeting {
   id: string;
@@ -337,6 +345,12 @@ export function emptyFoundation(): FoundationState {
     capabilityCandidates: [],
     executionJobs: [],
     agreements: [],
+    connections: [],
+    authorizationGrants: [],
+    externalAccounts: [],
+    externalResources: [],
+    credentialReferences: [],
+    capabilityBindings: [],
     meetings: [],
   };
 }
@@ -356,7 +370,13 @@ export function isEmptyFoundation(state: FoundationState): boolean {
     (state.capabilities ?? []).length === 0 &&
     (state.capabilityCandidates ?? []).length === 0 &&
     (state.executionJobs ?? []).length === 0 &&
-    (state.agreements ?? []).length === 0;
+    (state.agreements ?? []).length === 0 &&
+    (state.connections ?? []).length === 0 &&
+    (state.authorizationGrants ?? []).length === 0 &&
+    (state.externalAccounts ?? []).length === 0 &&
+    (state.externalResources ?? []).length === 0 &&
+    (state.credentialReferences ?? []).length === 0 &&
+    (state.capabilityBindings ?? []).length === 0;
 }
 
 export function bootstrapFoundation(
