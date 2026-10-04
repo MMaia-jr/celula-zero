@@ -116,6 +116,22 @@ export interface RegisteredCapability {
   sandboxAvailable: boolean;
 }
 
+/** A connection's explicit grant pointer is the current consent boundary.
+ * Older or separately retained grants are history until the connection is
+ * deliberately rebound to one of them.
+ */
+export function activeAuthorizationGrant(
+  connection: Connection,
+  grants: readonly AuthorizationGrant[],
+  now: string,
+): AuthorizationGrant | undefined {
+  if (!connection.authorizationGrantId) return undefined;
+  return grants.find((grant) => grant.id === connection.authorizationGrantId
+    && grant.connectionId === connection.id
+    && !grant.revokedAt
+    && (!grant.expiresAt || grant.expiresAt > now));
+}
+
 export const providerCapabilityCatalog: readonly CapabilityDefinition[] = [
   { id: "github:repository.read", provider: "github", resourceType: "REPOSITORY", action: "read_repository", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura GitHub para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "GitHub API read contract; sandbox tests are explicitly non-live." },
   { id: "github:issue.read", provider: "github", resourceType: "ISSUE", action: "read_issue", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura GitHub para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "GitHub API read contract; sandbox tests are explicitly non-live." },
@@ -145,7 +161,7 @@ export function registerCapabilities(input: {
     const connections = input.connections.filter((item) => item.provider === definition.provider && item.status === "CONNECTED");
     if (!connections.length) return { definition, availability: "NOT_CONFIGURED", reason: "Nenhuma conexão real deste provedor foi autorizada.", connectionId: null, bindingId: null, sandboxAvailable: true };
     const evaluations = connections.map((connection) => {
-      const grant = input.grants.find((item) => item.connectionId === connection.id && !item.revokedAt && (!item.expiresAt || item.expiresAt > now));
+      const grant = activeAuthorizationGrant(connection, input.grants, now);
       const credential = connection.credentialReferenceId && input.credentialReferences.find((item) => item.id === connection.credentialReferenceId && item.status === "AVAILABLE");
       const binding = input.bindings.find((item) => item.connectionId === connection.id && item.capabilityDefinitionId === definition.id && Boolean(item.enabledAt) && item.enabledAt! <= now && !item.disabledAt);
       const hasScope = grant && (grant.scopes.includes("*") || grant.scopes.includes(`${definition.provider}:${definition.action}`));
@@ -226,7 +242,11 @@ export function parseConnectionFabricState(input: unknown): ConnectionFabricStat
       : visibility?.scope === "cell" && (connection.owner.kind !== "CELL" || visibility.cellId === connection.owner.id);
     if (!consentScopeMatches) throw new Error("GRANT_CONSENT_VISIBILITY_INVALID");
   }
-  for (const resource of state.externalResources) if (accounts.get(resource.accountId)?.provider !== resource.provider) throw new Error("EXTERNAL_RESOURCE_ACCOUNT_REFERENCE_INVALID");
+  for (const resource of state.externalResources) {
+    const account = accounts.get(resource.accountId);
+    if (account?.provider !== resource.provider) throw new Error("EXTERNAL_RESOURCE_ACCOUNT_REFERENCE_INVALID");
+    if (account.source !== resource.source) throw new Error("EXTERNAL_RESOURCE_SOURCE_MISMATCH");
+  }
   for (const binding of state.capabilityBindings) {
     const connection = connections.get(binding.connectionId);
     if (!connection) throw new Error("CAPABILITY_BINDING_CONNECTION_REFERENCE_INVALID");
@@ -235,6 +255,7 @@ export function parseConnectionFabricState(input: unknown): ConnectionFabricStat
     if (binding.externalResourceId) {
       const resource = resources.get(binding.externalResourceId);
       if (!resource || resource.provider !== connection.provider || resource.accountId !== connection.externalAccountId) throw new Error("CAPABILITY_BINDING_RESOURCE_REFERENCE_INVALID");
+      if (resource.resourceType !== definition.resourceType) throw new Error("CAPABILITY_BINDING_RESOURCE_TYPE_INVALID");
     }
   }
   return state;
@@ -280,7 +301,7 @@ export async function readBoundExternalResource(input: {
   const connection = input.state.connections.find((item) => item.id === input.connectionId && item.provider === definition.provider && item.status === "CONNECTED");
   if (!connection) return { status: "DENIED", reason: "CONNECTION_NOT_ACTIVE" };
   const now = input.now ?? new Date().toISOString();
-  const grant = input.state.authorizationGrants.find((item) => item.connectionId === connection.id && !item.revokedAt && (!item.expiresAt || item.expiresAt > now));
+  const grant = activeAuthorizationGrant(connection, input.state.authorizationGrants, now);
   if (!grant) return { status: "DENIED", reason: "GRANT_NOT_ACTIVE" };
   if (!grant.scopes.includes("*") && !grant.scopes.includes(`${definition.provider}:${definition.action}`)) return { status: "DENIED", reason: "SCOPE_NOT_GRANTED" };
   const credential = connection.credentialReferenceId && input.state.credentialReferences.find((item) => item.id === connection.credentialReferenceId && item.provider === connection.provider && item.status === "AVAILABLE");
@@ -289,10 +310,14 @@ export async function readBoundExternalResource(input: {
   if (!binding) return { status: "DENIED", reason: "RESOURCE_BINDING_NOT_ACTIVE" };
   const registeredResource = input.state.externalResources.find((item) => item.id === input.resourceId && item.provider === connection.provider && item.accountId === connection.externalAccountId);
   if (!registeredResource) return { status: "DENIED", reason: "RESOURCE_NOT_IN_CONNECTED_ACCOUNT" };
+  const account = input.state.externalAccounts.find((item) => item.id === connection.externalAccountId && item.provider === connection.provider);
+  if (!account || account.source !== registeredResource.source) return { status: "DENIED", reason: "RESOURCE_SOURCE_MISMATCH" };
+  if ((input.adapter.mode === "SANDBOX") !== (registeredResource.source === "SANDBOX_FIXTURE")) return { status: "DENIED", reason: "ADAPTER_MODE_SOURCE_MISMATCH" };
   if (input.adapter.provider !== connection.provider) return { status: "DENIED", reason: "ADAPTER_PROVIDER_MISMATCH" };
   const resource = await input.adapter.readResource(input.resourceId);
   if (!resource) return { status: "NOT_FOUND", mode: input.adapter.mode };
   if (resource.id !== registeredResource.id || resource.provider !== connection.provider || resource.accountId !== connection.externalAccountId) return { status: "DENIED", reason: "ADAPTER_RESOURCE_SCOPE_MISMATCH" };
+  if (resource.resourceType !== definition.resourceType || resource.source !== registeredResource.source) return { status: "DENIED", reason: "ADAPTER_RESOURCE_TYPE_OR_SOURCE_MISMATCH" };
   return {
     status: "READ",
     mode: input.adapter.mode,

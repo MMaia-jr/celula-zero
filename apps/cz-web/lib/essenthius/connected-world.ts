@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-import { providerCapabilityCatalog, registerCapabilities, type CapabilityAvailability, type ConnectionFabricState, type ExternalProvider } from "@cz/connection-fabric";
+import { activeAuthorizationGrant, providerCapabilityCatalog, registerCapabilities, type CapabilityAvailability, type ConnectionFabricState, type ExternalProvider } from "@cz/connection-fabric";
 
 const providerPresentation: Record<ExternalProvider, { label: string; purpose: string }> = {
   github: { label: "GitHub", purpose: "Repositórios, issues e pull requests de software." },
@@ -102,7 +102,7 @@ export function projectAuthorizedExternalResources(input: {
     if (!connection) return [];
     const credential = input.state.credentialReferences.find((item) => item.id === connection.credentialReferenceId && item.provider === connection.provider && item.status === "AVAILABLE");
     if (!credential) return [];
-    const grant = input.state.authorizationGrants.find((item) => item.connectionId === connection.id && !item.revokedAt && (!item.expiresAt || item.expiresAt > now));
+    const grant = activeAuthorizationGrant(connection, input.state.authorizationGrants, now);
     if (!grant) return [];
     const grantorAuthorized = grant.grantedByPersonId === input.personId && (connection.owner.kind === "PERSON" || input.canManageConnections);
     if (!grantorAuthorized) return [];
@@ -158,7 +158,7 @@ export function projectConnectedWorld(state: ConnectionFabricState, now = new Da
       if (item.status !== "CONNECTED" || !item.externalAccountId || !item.credentialReferenceId) return false;
       const account = state.externalAccounts.find((candidate) => candidate.id === item.externalAccountId && candidate.provider === provider && candidate.source === "PROVIDER_READBACK");
       const credential = state.credentialReferences.find((candidate) => candidate.id === item.credentialReferenceId && candidate.provider === provider && candidate.status === "AVAILABLE");
-      const grant = state.authorizationGrants.find((candidate) => candidate.connectionId === item.id && !candidate.revokedAt && (!candidate.expiresAt || candidate.expiresAt > now));
+      const grant = activeAuthorizationGrant(item, state.authorizationGrants, now);
       return Boolean(account && credential && grant);
     });
     const hasSandboxConnection = connections.some((item) => item.status === "CONNECTED" && state.externalAccounts.some((account) => account.id === item.externalAccountId && account.provider === provider && account.source === "SANDBOX_FIXTURE"));

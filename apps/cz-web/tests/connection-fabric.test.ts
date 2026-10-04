@@ -139,6 +139,36 @@ describe("Connection Fabric contracts", () => {
     const observedAdapter = { ...fixtureAdapter, async readResource(id: string) { providerTouched = true; return fixtureAdapter.readResource(id); } };
     await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => false, now })).resolves.toEqual({ status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" });
     expect(providerTouched).toBe(false);
+    const liveModeForFixture = { ...fixtureAdapter, mode: "LIVE" as const, async readResource(id: string) { providerTouched = true; return fixtureAdapter.readResource(id); } };
+    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: liveModeForFixture, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "ADAPTER_MODE_SOURCE_MISMATCH" });
+    expect(providerTouched).toBe(false);
+  });
+
+  it("does not revive a revoked current grant by falling back to an older active grant", async () => {
+    const connection = connectionSchema.parse({ id: "connection-1", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "CONNECTED", externalAccountId: account.id, authorizationGrantId: "grant-revoked", credentialReferenceId: "credential-1", createdAt: now });
+    const adapter = createSandboxReadAdapter("github", { account, resources: [resource] });
+    let providerTouched = false;
+    const observedAdapter = { ...adapter, async readResource(id: string) { providerTouched = true; return adapter.readResource(id); } };
+    const state = parseConnectionFabricState({
+      connections: [connection],
+      authorizationGrants: [
+        { id: "grant-revoked", connectionId: connection.id, grantedByPersonId: "person-1", scopes: ["github:read_repository"], consentRecordId: "consent-revoked", grantedAt: now, revokedAt: "2026-10-04T11:30:00.000Z" },
+        { id: "grant-older-active", connectionId: connection.id, grantedByPersonId: "person-1", scopes: ["*"], consentRecordId: "consent-active", grantedAt: now },
+      ],
+      records: [
+        { id: "consent-revoked", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person-1", visibility: { scope: "private", ownerId: "person-1" } },
+        { id: "consent-active", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person-1", visibility: { scope: "private", ownerId: "person-1" } },
+      ],
+      credentialReferences: [{ id: "credential-1", provider: "github", store: "OS_KEYCHAIN", locator: "cz/github/account-fixture", status: "AVAILABLE", createdAt: now }],
+      externalAccounts: [account],
+      externalResources: [resource],
+      capabilityBindings: [{ id: "binding-1", connectionId: connection.id, capabilityDefinitionId: "github:repository.read", externalResourceId: resource.id, enabledAt: now }],
+    });
+    expect(registerCapabilities({ connections: state.connections, grants: state.authorizationGrants, bindings: state.capabilityBindings, credentialReferences: state.credentialReferences, liveCapabilityIds: ["github:repository.read"], now }).find((item) => item.definition.id === "github:repository.read"))
+      .toMatchObject({ availability: "CONFIGURED_BUT_UNAVAILABLE", reason: "Grant ausente, expirado ou revogado." });
+    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => true, now }))
+      .resolves.toEqual({ status: "DENIED", reason: "GRANT_NOT_ACTIVE" });
+    expect(providerTouched).toBe(false);
   });
 
   it("validates contract entries independently", () => {
@@ -151,6 +181,17 @@ describe("Connection Fabric contracts", () => {
     expect(() => parseConnectionFabricState({ authorizationGrants: [{ id: "grant", connectionId: "missing", grantedByPersonId: "person", scopes: [], consentRecordId: "record", grantedAt: now }] })).toThrow("GRANT_CONNECTION_REFERENCE_INVALID");
     const connection = { id: "connection", owner: { kind: "PERSON", id: "person" }, provider: "github", status: "PENDING_AUTHORIZATION", createdAt: now };
     expect(() => parseConnectionFabricState({ connections: [connection], authorizationGrants: [{ id: "grant", connectionId: "connection", grantedByPersonId: "person", scopes: ["*"], consentRecordId: "missing-consent", grantedAt: now }], records: [] })).toThrow("GRANT_CONSENT_RECORD_INVALID");
+    const readState = {
+      connections: [{ ...connection, status: "CONNECTED", externalAccountId: account.id, authorizationGrantId: "grant", credentialReferenceId: "credential-1" }],
+      authorizationGrants: [{ id: "grant", connectionId: "connection", grantedByPersonId: "person", scopes: ["*"], consentRecordId: "consent", grantedAt: now }],
+      records: [{ id: "consent", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person", visibility: { scope: "private", ownerId: "person" } }],
+      externalAccounts: [account],
+      externalResources: [resource],
+      credentialReferences: [{ id: "credential-1", provider: "github", store: "OS_KEYCHAIN", locator: "cz/github/person", status: "AVAILABLE", createdAt: now }],
+      capabilityBindings: [{ id: "binding", connectionId: "connection", capabilityDefinitionId: "github:issue.read", externalResourceId: resource.id, enabledAt: now }],
+    };
+    expect(() => parseConnectionFabricState(readState)).toThrow("CAPABILITY_BINDING_RESOURCE_TYPE_INVALID");
+    expect(() => parseConnectionFabricState({ ...readState, capabilityBindings: [{ id: "binding", connectionId: "connection", capabilityDefinitionId: "github:repository.read", externalResourceId: resource.id, enabledAt: now }], externalResources: [{ ...resource, source: "PROVIDER_READBACK" }] })).toThrow("EXTERNAL_RESOURCE_SOURCE_MISMATCH");
     expect(() => parseConnectionFabricState({ connections: [{ id: "duplicate", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "PENDING_AUTHORIZATION", createdAt: now }, { id: "duplicate", owner: { kind: "PERSON", id: "person-1" }, provider: "linear", status: "PENDING_AUTHORIZATION", createdAt: now }] })).toThrow("CONNECTION_FABRIC_DUPLICATE_ID");
   });
 
