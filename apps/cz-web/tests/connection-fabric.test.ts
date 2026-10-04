@@ -65,6 +65,12 @@ describe("Connection Fabric contracts", () => {
     expect(() => credentialReferenceSchema.parse({ id: "credential-1", provider: "github", store: "OS_KEYCHAIN", locator: "ghp_not-a-real-token", status: "AVAILABLE", createdAt: now })).toThrow();
   });
 
+  it("rejects active or insecure external resource links", () => {
+    expect(externalResourceSchema.safeParse({ ...resource, url: "javascript:alert(1)" }).success).toBe(false);
+    expect(externalResourceSchema.safeParse({ ...resource, url: "http://github.com/fixture/example" }).success).toBe(false);
+    expect(externalResourceSchema.safeParse({ ...resource, url: "https://github.com/fixture/example" }).success).toBe(true);
+  });
+
   it("provides a deterministic read-only sandbox adapter without presenting fixture data as live", async () => {
     const adapter = createSandboxReadAdapter("github", { account, resources: [resource] });
     expect(adapter.mode).toBe("SANDBOX");

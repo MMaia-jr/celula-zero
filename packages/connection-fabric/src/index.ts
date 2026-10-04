@@ -51,7 +51,9 @@ export const externalResourceSchema = z.object({
   ]),
   externalId: z.string().trim().min(1).max(240),
   label: z.string().trim().min(1).max(240),
-  url: z.string().url().max(2048).optional(),
+  url: z.string().url().max(2048).refine((value) => {
+    try { return new URL(value).protocol === "https:"; } catch { return false; }
+  }, "External resource links must use HTTPS.").optional(),
   source: z.enum(["PROVIDER_READBACK", "SANDBOX_FIXTURE"]),
   observedAt: z.iso.datetime(),
 }).strict();
