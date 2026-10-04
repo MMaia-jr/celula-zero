@@ -140,17 +140,19 @@ describe("Connection Fabric contracts", () => {
       externalResources: [resource],
       capabilityBindings: [{ id: "binding-1", connectionId: connection.id, capabilityDefinitionId: "github:repository.read", externalResourceId: resource.id, enabledAt: now }],
     });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toMatchObject({ status: "READ", mode: "SANDBOX", provenance: { source: "SANDBOX_FIXTURE", authorizationGrantId: "grant-1", bindingId: "binding-1" } });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:issue.create", resourceId: resource.id, adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "CAPABILITY_NOT_READ_ONLY" });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: "other-resource", adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "RESOURCE_BINDING_NOT_ACTIVE" });
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toMatchObject({ status: "READ", mode: "SANDBOX", provenance: { source: "SANDBOX_FIXTURE", authorizationGrantId: "grant-1", bindingId: "binding-1" } });
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: "github:issue.create", resourceId: resource.id, adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "CAPABILITY_NOT_READ_ONLY" });
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: "github:repository.read", resourceId: "other-resource", adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "RESOURCE_BINDING_NOT_ACTIVE" });
     const wrongAdapter = createSandboxReadAdapter("linear", { account: { ...account, provider: "linear" }, resources: [] });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: wrongAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "ADAPTER_PROVIDER_MISMATCH" });
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: wrongAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "ADAPTER_PROVIDER_MISMATCH" });
     let providerTouched = false;
     const observedAdapter = { ...fixtureAdapter, async readResource(id: string) { providerTouched = true; return fixtureAdapter.readResource(id); } };
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => false, now })).resolves.toEqual({ status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" });
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => false, now })).resolves.toEqual({ status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" });
+    expect(providerTouched).toBe(false);
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-2", connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "CONNECTION_OWNER_MISMATCH" });
     expect(providerTouched).toBe(false);
     const liveModeForFixture = { ...fixtureAdapter, mode: "LIVE" as const, async readResource(id: string) { providerTouched = true; return fixtureAdapter.readResource(id); } };
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: liveModeForFixture, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "ADAPTER_MODE_SOURCE_MISMATCH" });
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: liveModeForFixture, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "ADAPTER_MODE_SOURCE_MISMATCH" });
     expect(providerTouched).toBe(false);
   });
 
@@ -176,7 +178,7 @@ describe("Connection Fabric contracts", () => {
     });
     expect(registerCapabilities({ connections: state.connections, grants: state.authorizationGrants, bindings: state.capabilityBindings, credentialReferences: state.credentialReferences, liveCapabilityIds: ["github:repository.read"], now }).find((item) => item.definition.id === "github:repository.read"))
       .toMatchObject({ availability: "CONFIGURED_BUT_UNAVAILABLE", reason: "Grant ausente, expirado ou revogado." });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => true, now }))
+    await expect(readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => true, now }))
       .resolves.toEqual({ status: "DENIED", reason: "GRANT_NOT_ACTIVE" });
     expect(providerTouched).toBe(false);
   });
@@ -201,6 +203,7 @@ describe("Connection Fabric contracts", () => {
       capabilityBindings: [{ id: "binding", connectionId: "connection", capabilityDefinitionId: "github:issue.read", externalResourceId: resource.id, enabledAt: now }],
     };
     expect(() => parseConnectionFabricState(readState)).toThrow("CAPABILITY_BINDING_RESOURCE_TYPE_INVALID");
+    expect(() => parseConnectionFabricState({ ...readState, capabilityBindings: [{ id: "binding", connectionId: "connection", capabilityDefinitionId: "github:issue.create", externalResourceId: resource.id, enabledAt: now }] })).not.toThrow();
     expect(() => parseConnectionFabricState({ ...readState, capabilityBindings: [{ id: "binding", connectionId: "connection", capabilityDefinitionId: "github:repository.read", externalResourceId: resource.id, enabledAt: now }], externalResources: [{ ...resource, source: "PROVIDER_READBACK" }] })).toThrow("EXTERNAL_RESOURCE_SOURCE_MISMATCH");
     expect(() => parseConnectionFabricState({ connections: [{ id: "duplicate", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "PENDING_AUTHORIZATION", createdAt: now }, { id: "duplicate", owner: { kind: "PERSON", id: "person-1" }, provider: "linear", status: "PENDING_AUTHORIZATION", createdAt: now }] })).toThrow("CONNECTION_FABRIC_DUPLICATE_ID");
   });

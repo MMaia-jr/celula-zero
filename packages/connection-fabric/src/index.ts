@@ -289,19 +289,21 @@ export type AuthorizedReadResult =
 /** A read requires both server-resolved CZ authority and a provider grant scoped to this resource. */
 export async function readBoundExternalResource(input: {
   state: ConnectionFabricState;
+  actorPersonId: string;
   connectionId: string;
   capabilityId: string;
   resourceId: string;
   adapter: ProviderReadAdapter;
-  /** Must resolve the authenticated Person's CZ authority server-side; never derive it from client fields. */
-  authorizeInstitutionalRead: () => boolean | Promise<boolean>;
+  /** Must resolve actor membership/authority for the connection owner server-side; never derive it from client fields. */
+  authorizeInstitutionalRead: (context: { actorPersonId: string; owner: Connection["owner"] }) => boolean | Promise<boolean>;
   now?: string;
 }): Promise<AuthorizedReadResult> {
   const definition = providerCapabilityCatalog.find((item) => item.id === input.capabilityId);
   if (!definition || definition.access !== "READ") return { status: "DENIED", reason: "CAPABILITY_NOT_READ_ONLY" };
-  if (!await input.authorizeInstitutionalRead()) return { status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" };
   const connection = input.state.connections.find((item) => item.id === input.connectionId && item.provider === definition.provider && item.status === "CONNECTED");
   if (!connection) return { status: "DENIED", reason: "CONNECTION_NOT_ACTIVE" };
+  if (connection.owner.kind === "PERSON" && connection.owner.id !== input.actorPersonId) return { status: "DENIED", reason: "CONNECTION_OWNER_MISMATCH" };
+  if (!await input.authorizeInstitutionalRead({ actorPersonId: input.actorPersonId, owner: connection.owner })) return { status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" };
   const now = input.now ?? new Date().toISOString();
   const grant = activeAuthorizationGrant(connection, input.state.authorizationGrants, now);
   if (!grant) return { status: "DENIED", reason: "GRANT_NOT_ACTIVE" };
