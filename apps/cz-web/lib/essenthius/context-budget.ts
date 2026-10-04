@@ -2,15 +2,30 @@
 import type { IntelligenceContext } from "./port";
 
 export const MAX_CONTEXT_CHARS = 9_000;
+const priorityCapabilityIds = [
+  "essenthius:codex-interpretation",
+  "executor:codex-cli",
+  "essenthius:model-control",
+  "provider:ollama-local",
+  "provider:kimi",
+  "cz:read-current-state",
+  "cz:locate-work",
+  "cz:create-work",
+  "cz:experience-draft",
+  "cz:profile-assist",
+  "cz:meeting",
+];
 
 export function boundedInstitutionalContext(context: IntelligenceContext): string {
   const sourceCapabilities = context.currentCapabilities ?? context.capabilities;
+  const priority = new Map(priorityCapabilityIds.map((id, index) => [id, index]));
   const prioritizedCapabilities = [
-    ...sourceCapabilities.filter((item) => item.availability === "AVAILABLE" || item.availability === "AVAILABLE_WITH_HUMAN_CONFIRMATION"),
-    ...sourceCapabilities.filter((item) => item.availability !== "AVAILABLE" && item.availability !== "AVAILABLE_WITH_HUMAN_CONFIRMATION"),
+    ...sourceCapabilities.filter((item) => priority.has(item.id)).sort((a, b) => priority.get(a.id)! - priority.get(b.id)!),
+    ...sourceCapabilities.filter((item) => !priority.has(item.id) && (item.availability === "AVAILABLE" || item.availability === "AVAILABLE_WITH_HUMAN_CONFIRMATION")),
+    ...sourceCapabilities.filter((item) => !priority.has(item.id) && item.availability !== "AVAILABLE" && item.availability !== "AVAILABLE_WITH_HUMAN_CONFIRMATION"),
   ].slice(0, 12);
   const currentCapabilities = prioritizedCapabilities.map((item) => "label" in item
-    ? { id: item.id, label: item.label.slice(0, 72), enables: item.enables.slice(0, 90), availability: item.availability, reason: item.reason.slice(0, 90), actionEntrypoint: item.actionEntrypoint }
+    ? { id: item.id, label: item.label.slice(0, 72), enables: item.enables.slice(0, 90), provider: item.provider.slice(0, 48), resource: item.resource.slice(0, 48), latency: item.latency, risk: item.risk, reversibility: item.reversibility, approvalPolicy: item.approvalPolicy, provenance: item.provenance.slice(0, 72), availability: item.availability, reason: item.reason.slice(0, 90), actionEntrypoint: item.actionEntrypoint }
     : { id: item.id, label: item.name.slice(0, 72), enables: item.effect.slice(0, 90), availability: item.availability, reason: item.conditions.slice(0, 1).join("; ").slice(0, 90), actionEntrypoint: null });
   const payload = {
     surface: context.currentSurface,

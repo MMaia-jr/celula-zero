@@ -22,7 +22,7 @@ export function compileInstitutionalContext(
   const short = (value: string, max: number) => value.length > max ? `${value.slice(0, max - 1).trimEnd()}…` : value;
   const view = projection(state, actorId as Foundation["person"]["id"]);
   const capabilityProjection = currentCapabilities.length
-    ? currentCapabilities.map(({ id, label, enables, availability, reason }) => ({ id, name: label, effect: enables, availability, conditions: [reason] }))
+    ? currentCapabilities.map(({ id, label, enables, availability, reason, provider, resource, risk, approvalPolicy }) => ({ id, name: label, effect: `${enables} Provider: ${provider}. Recurso: ${resource}. Risco: ${risk}. Aprovação: ${approvalPolicy}.`, availability, conditions: [reason] }))
     : capabilities;
   if (!view.cell || view.person.id !== actorId) throw new Error("CZ_CONTEXT_AUTHORITY_UNRESOLVED");
   const membership = state.memberships.filter((item) => item.personId === actorId && item.cellId === view.cell!.id && item.status === "active");

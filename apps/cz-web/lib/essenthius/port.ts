@@ -55,6 +55,13 @@ export interface IntelligenceContext {
     id: string;
     label: string;
     enables: string;
+    provider: string;
+    resource: string;
+    latency: string;
+    risk: string;
+    reversibility: string;
+    approvalPolicy: string;
+    provenance: string;
     readWrite: "READ_ONLY" | "DRAFT_ONLY" | "DIRECT_HUMAN_WRITE" | "WRITE_AFTER_HUMAN_CONFIRMATION";
     authorityRequired: string;
     costUsageClass: string;

@@ -134,6 +134,8 @@ describe("Essenthius composition boundaries", () => {
     expect(bounded.length).toBeLessThanOrEqual(9_000);
     expect(parsed.activeDirection).toBeDefined();
     expect(parsed.currentCapabilities).toBeDefined();
+    expect(JSON.stringify(parsed.currentCapabilities)).toContain("Codex CLI via InstitutionalIntelligencePort");
+    expect(JSON.stringify(parsed.currentCapabilities)).toContain("SESSION_READ");
     expect(parsed.authority).toEqual(["cell.read"]);
     expect(parsed).not.toHaveProperty("capabilityCandidates");
   });
