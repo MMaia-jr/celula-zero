@@ -134,7 +134,8 @@ export function registerCapabilities(input: {
   grants: readonly AuthorizationGrant[];
   bindings: readonly CapabilityBinding[];
   credentialReferences: readonly CredentialReference[];
-  liveAdapters?: readonly ExternalProvider[];
+  /** Exact actions implemented by this runtime. A provider read adapter must not imply write support. */
+  liveCapabilityIds?: readonly string[];
   now?: string;
 }): RegisteredCapability[] {
   const now = input.now ?? new Date().toISOString();
@@ -151,7 +152,7 @@ export function registerCapabilities(input: {
     });
     // A usable secondary account must not be hidden by an earlier stale connection.
     const usable = evaluations.find((item) => !item.reason && item.binding);
-    if (usable && !input.liveAdapters?.includes(definition.provider)) return {
+    if (usable && !input.liveCapabilityIds?.includes(definition.id)) return {
       definition,
       availability: "CONFIGURED_BUT_UNAVAILABLE",
       reason: "Conexão, credencial, grant e binding existem, mas não há adapter live instalado neste runtime.",

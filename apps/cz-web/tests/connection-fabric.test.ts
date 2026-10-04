@@ -32,7 +32,7 @@ describe("Connection Fabric contracts", () => {
     const grant = { id: "grant-1", connectionId: connection.id, grantedByPersonId: "person-1", scopes: ["github:read_repository"], consentRecordId: "consent-1", grantedAt: now };
     const credential = credentialReferenceSchema.parse({ id: "credential-1", provider: "github", store: "OS_KEYCHAIN", locator: "cz/github/person-1", status: "AVAILABLE", createdAt: now });
     const binding = capabilityBindingSchema.parse({ id: "binding-1", connectionId: connection.id, capabilityDefinitionId: definition.id, externalResourceId: "resource-1", enabledAt: now });
-    const read = registerCapabilities({ connections: [connection], grants: [grant], bindings: [binding], credentialReferences: [credential], liveAdapters: ["github"], now }).find((item) => item.definition.id === definition.id)!;
+    const read = registerCapabilities({ connections: [connection], grants: [grant], bindings: [binding], credentialReferences: [credential], liveCapabilityIds: ["github:repository.read"], now }).find((item) => item.definition.id === definition.id)!;
     expect(read).toMatchObject({ availability: "AVAILABLE", connectionId: connection.id, bindingId: binding.id });
 
     const writeDefinition = providerCapabilityCatalog.find((item) => item.id === "github:issue.create")!;
@@ -40,8 +40,10 @@ describe("Connection Fabric contracts", () => {
     const withoutWriteGrant = registerCapabilities({ connections: [connection], grants: [grant], bindings: [writeBinding], credentialReferences: [credential], now }).find((item) => item.definition.id === writeDefinition.id)!;
     expect(withoutWriteGrant.availability).toBe("CONFIGURED_BUT_UNAVAILABLE");
 
-    const withWriteGrant = registerCapabilities({ connections: [connection], grants: [{ ...grant, scopes: [...grant.scopes, "github:create_issue"] }], bindings: [writeBinding], credentialReferences: [credential], liveAdapters: ["github"], now }).find((item) => item.definition.id === writeDefinition.id)!;
-    expect(withWriteGrant.availability).toBe("AVAILABLE_WITH_HUMAN_CONFIRMATION");
+    const withWriteGrantButReadAdapterOnly = registerCapabilities({ connections: [connection], grants: [{ ...grant, scopes: [...grant.scopes, "github:create_issue"] }], bindings: [writeBinding], credentialReferences: [credential], liveCapabilityIds: ["github:repository.read"], now }).find((item) => item.definition.id === writeDefinition.id)!;
+    expect(withWriteGrantButReadAdapterOnly.availability).toBe("CONFIGURED_BUT_UNAVAILABLE");
+    const withWriteGrantAndExactAdapter = registerCapabilities({ connections: [connection], grants: [{ ...grant, scopes: [...grant.scopes, "github:create_issue"] }], bindings: [writeBinding], credentialReferences: [credential], liveCapabilityIds: ["github:issue.create"], now }).find((item) => item.definition.id === writeDefinition.id)!;
+    expect(withWriteGrantAndExactAdapter.availability).toBe("AVAILABLE_WITH_HUMAN_CONFIRMATION");
   });
 
   it("fails closed for expired grants, revoked credentials and mismatched bindings", () => {
@@ -91,7 +93,7 @@ describe("Connection Fabric contracts", () => {
         { id: "credential-1", provider: "github", store: "OS_KEYCHAIN", locator: "cz/github/old", status: "AVAILABLE", createdAt: now },
         { id: "credential-2", provider: "github", store: "OS_KEYCHAIN", locator: "cz/github/current", status: "AVAILABLE", createdAt: now },
       ],
-      liveAdapters: ["github"],
+      liveCapabilityIds: ["github:repository.read"],
       now,
     }).find((item) => item.definition.id === definition)!;
     expect(result).toMatchObject({ availability: "AVAILABLE", connectionId: "usable", bindingId: "binding-2" });
