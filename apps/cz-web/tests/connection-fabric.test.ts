@@ -71,6 +71,16 @@ describe("Connection Fabric contracts", () => {
     expect(externalResourceSchema.safeParse({ ...resource, url: "https://github.com/fixture/example" }).success).toBe(true);
   });
 
+  it("binds create capabilities to their destination containers, not the object they will create", () => {
+    expect(providerCapabilityCatalog.find((item) => item.id === "github:issue.create")?.targetResourceTypes).toEqual(["REPOSITORY"]);
+    expect(providerCapabilityCatalog.find((item) => item.id === "github:pull_request.open")?.targetResourceTypes).toEqual(["REPOSITORY"]);
+    expect(providerCapabilityCatalog.find((item) => item.id === "linear:issue.create")?.targetResourceTypes).toEqual(["LINEAR_TEAM"]);
+    expect(providerCapabilityCatalog.find((item) => item.id === "google:calendar.event.create")?.targetResourceTypes).toEqual(["GOOGLE_CALENDAR"]);
+    const googleAccount = externalAccountSchema.parse({ ...account, id: "google-calendar-account", provider: "google" });
+    const calendar = externalResourceSchema.parse({ id: "calendar", provider: "google", accountId: googleAccount.id, resourceType: "GOOGLE_CALENDAR", externalId: "primary", label: "Primary calendar fixture", source: "SANDBOX_FIXTURE", observedAt: now });
+    expect(createSandboxReadAdapter("google", { account: googleAccount, resources: [calendar] }).mode).toBe("SANDBOX");
+  });
+
   it("provides a deterministic read-only sandbox adapter without presenting fixture data as live", async () => {
     const adapter = createSandboxReadAdapter("github", { account, resources: [resource] });
     expect(adapter.mode).toBe("SANDBOX");

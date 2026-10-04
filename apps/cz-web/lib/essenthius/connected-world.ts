@@ -48,7 +48,7 @@ export interface ConnectedWorldCapability {
   label: string;
   enables: string;
   provider: ExternalProvider;
-  resourceType: string;
+  targetResourceTypes: string[];
   access: "READ" | "DRAFT" | "WRITE";
   latency: "INTERACTIVE" | "BACKGROUND" | "VARIABLE";
   availability: CapabilityAvailability;
@@ -109,7 +109,7 @@ export function projectAuthorizedExternalResources(input: {
     const readBinding = input.state.capabilityBindings.find((binding) => {
       if (binding.connectionId !== connection.id || binding.externalResourceId !== resource.id || !binding.enabledAt || binding.enabledAt > now || binding.disabledAt) return false;
       const definition = providerCapabilityCatalog.find((item) => item.id === binding.capabilityDefinitionId);
-      return Boolean(definition && definition.provider === resource.provider && definition.resourceType === resource.resourceType && definition.access === "READ" && (grant.scopes.includes("*") || grant.scopes.includes(`${definition.provider}:${definition.action}`)));
+      return Boolean(definition && definition.provider === resource.provider && definition.targetResourceTypes.includes(resource.resourceType) && definition.access === "READ" && (grant.scopes.includes("*") || grant.scopes.includes(`${definition.provider}:${definition.action}`)));
     });
     if (!readBinding) return [];
     return [{
@@ -141,7 +141,7 @@ export function projectConnectedWorld(state: ConnectionFabricState, now = new Da
       label: capabilityLabel(definition.id),
       enables: capabilityEnables(definition.id),
       provider,
-      resourceType: definition.resourceType,
+      targetResourceTypes: [...definition.targetResourceTypes],
       access: definition.access,
       latency: definition.latencyClass,
       availability,

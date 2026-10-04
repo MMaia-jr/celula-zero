@@ -47,7 +47,7 @@ export const externalResourceSchema = z.object({
   accountId: z.string().trim().min(1).max(160),
   resourceType: z.enum([
     "REPOSITORY", "ISSUE", "PULL_REQUEST", "LINEAR_TEAM", "LINEAR_PROJECT",
-    "LINEAR_ISSUE", "GMAIL_THREAD", "DRIVE_FILE", "CALENDAR_EVENT",
+    "LINEAR_ISSUE", "GMAIL_THREAD", "DRIVE_FILE", "GOOGLE_CALENDAR", "CALENDAR_EVENT",
   ]),
   externalId: z.string().trim().min(1).max(240),
   label: z.string().trim().min(1).max(240),
@@ -77,6 +77,8 @@ export const capabilityDefinitionSchema = z.object({
   id: z.string().trim().min(1).max(160),
   provider: externalProviderSchema,
   resourceType: externalResourceSchema.shape.resourceType,
+  /** Provider-side objects that must be explicitly bound before this action can run. */
+  targetResourceTypes: z.array(externalResourceSchema.shape.resourceType).min(1).max(3),
   action: z.string().trim().min(1).max(120),
   access: z.enum(["READ", "DRAFT", "WRITE"]),
   costClass: z.enum(["LOCAL_ONLY", "ACCOUNT_QUOTA", "EXTERNAL_BILLING_UNKNOWN", "NO_COST_EXPECTED"]),
@@ -133,18 +135,18 @@ export function activeAuthorizationGrant(
 }
 
 export const providerCapabilityCatalog: readonly CapabilityDefinition[] = [
-  { id: "github:repository.read", provider: "github", resourceType: "REPOSITORY", action: "read_repository", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura GitHub para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "GitHub API read contract; sandbox tests are explicitly non-live." },
-  { id: "github:issue.read", provider: "github", resourceType: "ISSUE", action: "read_issue", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura GitHub para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "GitHub API read contract; sandbox tests are explicitly non-live." },
-  { id: "github:issue.create", provider: "github", resourceType: "ISSUE", action: "create_issue", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: false, authorityRequirement: "Grant de escrita e confirmação humana do conteúdo e destino.", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "GitHub API write contract; no live credential is configured." },
-  { id: "github:pull_request.open", provider: "github", resourceType: "PULL_REQUEST", action: "open_pull_request", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "HIGH", reversible: false, authorityRequirement: "Grant de escrita e confirmação humana explícita.", approvalPolicy: "HIGH_RISK_CONFIRMATION", provenance: "GitHub API write contract; merge and deployment remain separate authorities." },
-  { id: "linear:team.read", provider: "linear", resourceType: "LINEAR_TEAM", action: "read_team", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura Linear para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Linear API read contract; sandbox tests are explicitly non-live." },
-  { id: "linear:issue.read", provider: "linear", resourceType: "LINEAR_ISSUE", action: "read_issue", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura Linear para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Linear API read contract; sandbox tests are explicitly non-live." },
-  { id: "linear:issue.create", provider: "linear", resourceType: "LINEAR_ISSUE", action: "create_issue", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: false, authorityRequirement: "Grant de escrita e confirmação humana do conteúdo e destino.", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Linear API write contract; no live credential is configured." },
-  { id: "google:gmail.thread.read", provider: "google", resourceType: "GMAIL_THREAD", action: "read_thread", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Somente threads cobertas por grant Gmail de leitura.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Google Gmail API contract; sandbox tests are explicitly non-live." },
-  { id: "google:gmail.draft", provider: "google", resourceType: "GMAIL_THREAD", action: "create_draft", access: "DRAFT", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Grant Gmail de composição; enviar ainda exige confirmação.", approvalPolicy: "DRAFT_ONLY", provenance: "Google Gmail draft contract; draft is not a sent message or agreement." },
-  { id: "google:drive.file.read", provider: "google", resourceType: "DRIVE_FILE", action: "read_file", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Somente arquivos cobertos por grant Drive de leitura.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Google Drive API contract; sandbox tests are explicitly non-live." },
-  { id: "google:calendar.event.read", provider: "google", resourceType: "CALENDAR_EVENT", action: "read_event", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Somente eventos cobertos por grant Calendar de leitura.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Google Calendar API contract; sandbox tests are explicitly non-live." },
-  { id: "google:calendar.event.create", provider: "google", resourceType: "CALENDAR_EVENT", action: "create_event", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Grant Calendar de escrita e confirmação humana do convite.", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Google Calendar API write contract; no live credential is configured." },
+  { id: "github:repository.read", provider: "github", resourceType: "REPOSITORY", targetResourceTypes: ["REPOSITORY"], action: "read_repository", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura GitHub para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "GitHub API read contract; sandbox tests are explicitly non-live." },
+  { id: "github:issue.read", provider: "github", resourceType: "ISSUE", targetResourceTypes: ["ISSUE"], action: "read_issue", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura GitHub para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "GitHub API read contract; sandbox tests are explicitly non-live." },
+  { id: "github:issue.create", provider: "github", resourceType: "ISSUE", targetResourceTypes: ["REPOSITORY"], action: "create_issue", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: false, authorityRequirement: "Grant de escrita e confirmação humana do conteúdo e destino.", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "GitHub API write contract; no live credential is configured." },
+  { id: "github:pull_request.open", provider: "github", resourceType: "PULL_REQUEST", targetResourceTypes: ["REPOSITORY"], action: "open_pull_request", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "HIGH", reversible: false, authorityRequirement: "Grant de escrita e confirmação humana explícita.", approvalPolicy: "HIGH_RISK_CONFIRMATION", provenance: "GitHub API write contract; merge and deployment remain separate authorities." },
+  { id: "linear:team.read", provider: "linear", resourceType: "LINEAR_TEAM", targetResourceTypes: ["LINEAR_TEAM"], action: "read_team", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura Linear para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Linear API read contract; sandbox tests are explicitly non-live." },
+  { id: "linear:issue.read", provider: "linear", resourceType: "LINEAR_ISSUE", targetResourceTypes: ["LINEAR_ISSUE"], action: "read_issue", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Ativo somente com grant de leitura Linear para esta conexão.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Linear API read contract; sandbox tests are explicitly non-live." },
+  { id: "linear:issue.create", provider: "linear", resourceType: "LINEAR_ISSUE", targetResourceTypes: ["LINEAR_TEAM"], action: "create_issue", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: false, authorityRequirement: "Grant de escrita e confirmação humana do conteúdo e destino.", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Linear API write contract; no live credential is configured." },
+  { id: "google:gmail.thread.read", provider: "google", resourceType: "GMAIL_THREAD", targetResourceTypes: ["GMAIL_THREAD"], action: "read_thread", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Somente threads cobertas por grant Gmail de leitura.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Google Gmail API contract; sandbox tests are explicitly non-live." },
+  { id: "google:gmail.draft", provider: "google", resourceType: "GMAIL_THREAD", targetResourceTypes: ["GMAIL_THREAD"], action: "create_draft", access: "DRAFT", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "LOW", reversible: true, authorityRequirement: "Grant Gmail de composição; enviar ainda exige confirmação.", approvalPolicy: "DRAFT_ONLY", provenance: "Google Gmail draft contract; draft is not a sent message or agreement." },
+  { id: "google:drive.file.read", provider: "google", resourceType: "DRIVE_FILE", targetResourceTypes: ["DRIVE_FILE"], action: "read_file", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Somente arquivos cobertos por grant Drive de leitura.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Google Drive API read contract; sandbox tests are explicitly non-live." },
+  { id: "google:calendar.event.read", provider: "google", resourceType: "CALENDAR_EVENT", targetResourceTypes: ["CALENDAR_EVENT"], action: "read_event", access: "READ", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Somente eventos cobertos por grant Calendar de leitura.", approvalPolicy: "READ_WITHIN_GRANTED_SCOPE", provenance: "Google Calendar API contract; sandbox tests are explicitly non-live." },
+  { id: "google:calendar.event.create", provider: "google", resourceType: "CALENDAR_EVENT", targetResourceTypes: ["GOOGLE_CALENDAR"], action: "create_event", access: "WRITE", costClass: "EXTERNAL_BILLING_UNKNOWN", latencyClass: "INTERACTIVE", risk: "MODERATE", reversible: true, authorityRequirement: "Grant Calendar de escrita e confirmação humana do convite.", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Google Calendar API write contract; no live credential is configured." },
 ] as const;
 
 export function registerCapabilities(input: {
@@ -255,7 +257,7 @@ export function parseConnectionFabricState(input: unknown): ConnectionFabricStat
     if (binding.externalResourceId) {
       const resource = resources.get(binding.externalResourceId);
       if (!resource || resource.provider !== connection.provider || resource.accountId !== connection.externalAccountId) throw new Error("CAPABILITY_BINDING_RESOURCE_REFERENCE_INVALID");
-      if (resource.resourceType !== definition.resourceType) throw new Error("CAPABILITY_BINDING_RESOURCE_TYPE_INVALID");
+      if (!definition.targetResourceTypes.includes(resource.resourceType)) throw new Error("CAPABILITY_BINDING_RESOURCE_TYPE_INVALID");
     }
   }
   return state;
@@ -276,7 +278,7 @@ export interface ProviderReadAdapter {
 export const providerResourceTypes: Readonly<Record<ExternalProvider, readonly ExternalResource["resourceType"][]>> = {
   github: ["REPOSITORY", "ISSUE", "PULL_REQUEST"],
   linear: ["LINEAR_TEAM", "LINEAR_PROJECT", "LINEAR_ISSUE"],
-  google: ["GMAIL_THREAD", "DRIVE_FILE", "CALENDAR_EVENT"],
+  google: ["GMAIL_THREAD", "DRIVE_FILE", "GOOGLE_CALENDAR", "CALENDAR_EVENT"],
 };
 
 export type AuthorizedReadResult =
@@ -317,7 +319,7 @@ export async function readBoundExternalResource(input: {
   const resource = await input.adapter.readResource(input.resourceId);
   if (!resource) return { status: "NOT_FOUND", mode: input.adapter.mode };
   if (resource.id !== registeredResource.id || resource.provider !== connection.provider || resource.accountId !== connection.externalAccountId) return { status: "DENIED", reason: "ADAPTER_RESOURCE_SCOPE_MISMATCH" };
-  if (resource.resourceType !== definition.resourceType || resource.source !== registeredResource.source) return { status: "DENIED", reason: "ADAPTER_RESOURCE_TYPE_OR_SOURCE_MISMATCH" };
+  if (!definition.targetResourceTypes.includes(resource.resourceType) || resource.source !== registeredResource.source) return { status: "DENIED", reason: "ADAPTER_RESOURCE_TYPE_OR_SOURCE_MISMATCH" };
   return {
     status: "READ",
     mode: input.adapter.mode,

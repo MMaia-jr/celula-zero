@@ -30,7 +30,7 @@ describe("Connected World readback", () => {
     expect(providers.every((provider) => provider.status === "NOT_CONNECTED" && !provider.liveUseAvailable)).toBe(true);
     expect(providers.every((provider) => provider.sandboxStatus === "CONTRACT_TESTS_ONLY_NOT_A_REAL_CONNECTION")).toBe(true);
     expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.availability === "NOT_CONFIGURED" && capability.costStatus === "UNKNOWN")).toBe(true);
-    expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.provider && capability.resourceType && capability.latency && capability.risk && capability.approvalPolicy && capability.provenance)).toBe(true);
+    expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.provider && capability.targetResourceTypes.length > 0 && capability.latency && capability.risk && capability.approvalPolicy && capability.provenance)).toBe(true);
   });
 
   it("keeps configured records distinct from executable live adapters and omits private references", () => {

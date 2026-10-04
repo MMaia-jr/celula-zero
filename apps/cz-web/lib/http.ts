@@ -133,7 +133,7 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     label: `${provider.label}: ${capability.label}`,
     enables: capability.enables,
     provider: provider.label,
-    resource: capability.resourceType,
+    resource: capability.targetResourceTypes.join(" / "),
     latency: capability.latency,
     risk: capability.risk,
     reversibility: capability.reversible ? "YES" as const : "NO" as const,
