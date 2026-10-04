@@ -30,6 +30,13 @@ export const localStoreSchemaVersion = migrations.at(-1)!.version;
 
 function migrate(db: DatabaseSync) {
   db.exec("CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, name TEXT NOT NULL, applied_at TEXT NOT NULL)");
+  const applied = db.prepare("SELECT version,name FROM schema_migrations ORDER BY version").all() as Array<{ version: number; name: string }>;
+  if (applied.some(({ version }) => version > localStoreSchemaVersion)) throw new Error("LOCAL_STORE_SCHEMA_VERSION_NEWER_THAN_RUNTIME");
+  for (const [index, migration] of migrations.entries()) {
+    const row = applied[index];
+    if (row && (row.version !== migration.version || row.name !== migration.name)) throw new Error("LOCAL_STORE_MIGRATION_HISTORY_CONFLICT");
+  }
+  if (applied.length > migrations.length) throw new Error("LOCAL_STORE_MIGRATION_HISTORY_CONFLICT");
   for (const migration of migrations) {
     const prior = db.prepare("SELECT name FROM schema_migrations WHERE version=?").get(migration.version) as { name: string } | undefined;
     if (prior) {
@@ -59,10 +66,15 @@ export class LocalStore implements FoundationStore {
     this.db.exec(
       "PRAGMA busy_timeout=5000; PRAGMA journal_mode=DELETE;",
     );
-    migrate(this.db);
-    this.db
-      .prepare("INSERT OR IGNORE INTO state(id,body) VALUES(1,?)")
-      .run(JSON.stringify(emptyFoundation()));
+    try {
+      migrate(this.db);
+      this.db
+        .prepare("INSERT OR IGNORE INTO state(id,body) VALUES(1,?)")
+        .run(JSON.stringify(emptyFoundation()));
+    } catch (error) {
+      this.db.close();
+      throw error;
+    }
   }
   read(): FoundationState {
     const row = this.db.prepare("SELECT body FROM state WHERE id=1").get() as {

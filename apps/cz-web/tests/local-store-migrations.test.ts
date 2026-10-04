@@ -57,4 +57,20 @@ describe("versioned local Foundation migrations", () => {
       second.close();
     }
   });
+
+  it("fails closed when the database records a schema newer than this runtime", () => {
+    const directory = mkdtempSync(join(tmpdir(), "cz-local-migration-future-"));
+    directories.push(directory);
+    const path = join(directory, "future.sqlite");
+    const current = new LocalStore(path);
+    current.db.prepare("INSERT INTO schema_migrations(version,name,applied_at) VALUES(?,?,?)").run(99, "future_migration", new Date().toISOString());
+    current.close();
+    expect(() => new LocalStore(path)).toThrow("LOCAL_STORE_SCHEMA_VERSION_NEWER_THAN_RUNTIME");
+    const readback = new DatabaseSync(path, { readOnly: true });
+    try {
+      expect(readback.prepare("SELECT version,name FROM schema_migrations WHERE version=99").get()).toEqual({ version: 99, name: "future_migration" });
+    } finally {
+      readback.close();
+    }
+  });
 });
