@@ -55,4 +55,32 @@ describe("Connected World readback", () => {
     expect(serialized).not.toContain("private-subject");
     expect(serialized).not.toContain("secret-internal-connection-id");
   });
+
+  it("shows attention when a nominally connected account has an expired grant or revoked credential", () => {
+    const state = {
+      connections: [{ id: "connection-1", owner: { kind: "PERSON" as const, id: "person-1" }, provider: "linear" as const, status: "CONNECTED" as const, externalAccountId: "account-1", authorizationGrantId: "grant-1", credentialReferenceId: "credential-1", createdAt: now }],
+      authorizationGrants: [{ id: "grant-1", connectionId: "connection-1", grantedByPersonId: "person-1", scopes: ["linear:read_team"], consentRecordId: "consent-1", grantedAt: now, expiresAt: "2026-10-03T12:00:00.000Z" }],
+      externalAccounts: [{ id: "account-1", provider: "linear" as const, externalSubject: "subject-1", displayLabel: "Team account", observedAt: now, source: "PROVIDER_READBACK" as const }],
+      externalResources: [],
+      credentialReferences: [{ id: "credential-1", provider: "linear" as const, store: "OS_KEYCHAIN" as const, locator: "cz/linear/account", status: "REVOKED" as const, createdAt: now }],
+      capabilityBindings: [],
+    };
+    const linear = projectConnectedWorld(state, now).find((provider) => provider.provider === "linear")!;
+    expect(linear.status).toBe("NEEDS_ATTENTION");
+    expect(linear.liveUseAvailable).toBe(false);
+  });
+
+  it("never labels a sandbox fixture as a real connected account", () => {
+    const state = {
+      connections: [{ id: "sandbox", owner: { kind: "PERSON" as const, id: "person-1" }, provider: "github" as const, status: "CONNECTED" as const, externalAccountId: "fixture-account", authorizationGrantId: "grant-1", createdAt: now }],
+      authorizationGrants: [{ id: "grant-1", connectionId: "sandbox", grantedByPersonId: "person-1", scopes: ["*"], consentRecordId: "consent-1", grantedAt: now }],
+      externalAccounts: [{ id: "fixture-account", provider: "github" as const, externalSubject: "fixture", displayLabel: "Fixture", observedAt: now, source: "SANDBOX_FIXTURE" as const }],
+      externalResources: [],
+      credentialReferences: [],
+      capabilityBindings: [],
+    };
+    const github = projectConnectedWorld(state, now).find((provider) => provider.provider === "github")!;
+    expect(github.status).toBe("SANDBOX_ONLY");
+    expect(github.liveUseAvailable).toBe(false);
+  });
 });

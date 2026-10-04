@@ -65,7 +65,7 @@ export interface ConnectedProvider {
   provider: ExternalProvider;
   label: string;
   purpose: string;
-  status: "NOT_CONNECTED" | "CONNECTED" | "NEEDS_ATTENTION";
+  status: "NOT_CONNECTED" | "CONNECTED" | "NEEDS_ATTENTION" | "SANDBOX_ONLY";
   liveUseAvailable: boolean;
   sandboxStatus: "CONTRACT_TESTS_ONLY_NOT_A_REAL_CONNECTION";
   capabilities: ConnectedWorldCapability[];
@@ -125,12 +125,13 @@ export function projectAuthorizedExternalResources(input: {
 }
 
 /** Projects real connection state. It deliberately omits account IDs, binding IDs and credential locators. */
-export function projectConnectedWorld(state: ConnectionFabricState): ConnectedProvider[] {
+export function projectConnectedWorld(state: ConnectionFabricState, now = new Date().toISOString()): ConnectedProvider[] {
   const registry = registerCapabilities({
     connections: state.connections,
     grants: state.authorizationGrants,
     bindings: state.capabilityBindings,
     credentialReferences: state.credentialReferences,
+    now,
   });
   return (Object.keys(providerPresentation) as ExternalProvider[]).map((provider) => {
     const connections = state.connections.filter((item) => item.provider === provider);
@@ -153,8 +154,15 @@ export function projectConnectedWorld(state: ConnectionFabricState): ConnectedPr
       reason,
     }));
     const liveUseAvailable = capabilities.some((capability) => capability.availability === "AVAILABLE" || capability.availability === "AVAILABLE_WITH_HUMAN_CONFIRMATION");
-    const connected = connections.some((item) => item.status === "CONNECTED");
-    const status = !connections.length ? "NOT_CONNECTED" : connected ? "CONNECTED" : "NEEDS_ATTENTION";
+    const connected = connections.some((item) => {
+      if (item.status !== "CONNECTED" || !item.externalAccountId || !item.credentialReferenceId) return false;
+      const account = state.externalAccounts.find((candidate) => candidate.id === item.externalAccountId && candidate.provider === provider && candidate.source === "PROVIDER_READBACK");
+      const credential = state.credentialReferences.find((candidate) => candidate.id === item.credentialReferenceId && candidate.provider === provider && candidate.status === "AVAILABLE");
+      const grant = state.authorizationGrants.find((candidate) => candidate.connectionId === item.id && !candidate.revokedAt && (!candidate.expiresAt || candidate.expiresAt > now));
+      return Boolean(account && credential && grant);
+    });
+    const hasSandboxConnection = connections.some((item) => item.status === "CONNECTED" && state.externalAccounts.some((account) => account.id === item.externalAccountId && account.provider === provider && account.source === "SANDBOX_FIXTURE"));
+    const status = !connections.length ? "NOT_CONNECTED" : connected ? "CONNECTED" : hasSandboxConnection ? "SANDBOX_ONLY" : "NEEDS_ATTENTION";
     return { provider, ...providerPresentation[provider], status, liveUseAvailable, sandboxStatus: "CONTRACT_TESTS_ONLY_NOT_A_REAL_CONNECTION", capabilities };
   });
 }
