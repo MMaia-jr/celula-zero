@@ -5,7 +5,9 @@ import {
   capabilityDefinitionSchema,
   connectionSchema,
   createSandboxReadAdapter,
+  createSandboxWriteAdapter,
   credentialReferenceSchema,
+  externalActionDigest,
   externalAccountSchema,
   externalResourceSchema,
   providerCapabilityCatalog,
@@ -111,6 +113,41 @@ describe("Connection Fabric contracts", () => {
       const adapter = createSandboxReadAdapter(definition.provider, { account: providerAccount, resources: [providerResource] });
       const result = await readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: definition.id, resourceId: providerResource.id, adapter, authorizeInstitutionalRead: ({ actorPersonId, owner }) => actorPersonId === "person-1" && owner.kind === "PERSON" && owner.id === actorPersonId, now });
       expect(result).toMatchObject({ status: "READ", mode: "SANDBOX", capabilityId: definition.id, provenance: { provider: definition.provider, source: "SANDBOX_FIXTURE" } });
+    });
+  }
+
+  for (const definition of providerCapabilityCatalog.filter((item) => item.access !== "READ")) {
+    it(`requires explicit authorization and safely exercises ${definition.id} only against a fixture`, async () => {
+      const providerAccount = externalAccountSchema.parse({ id: `write-account-${definition.provider}`, provider: definition.provider, externalSubject: "fixture-subject", displayLabel: `${definition.provider} fixture`, observedAt: now, source: "SANDBOX_FIXTURE" });
+      const target = externalResourceSchema.parse({ id: `write-target-${definition.id}`, provider: definition.provider, accountId: providerAccount.id, resourceType: definition.targetResourceTypes[0], externalId: "fixture-target", label: "Authorized target fixture", source: "SANDBOX_FIXTURE", observedAt: now });
+      const connection = connectionSchema.parse({ id: `write-connection-${definition.provider}`, owner: { kind: "PERSON", id: "person-1" }, provider: definition.provider, status: "CONNECTED", externalAccountId: providerAccount.id, authorizationGrantId: "write-grant", credentialReferenceId: "write-credential", createdAt: now });
+      const state = parseConnectionFabricState({
+        connections: [connection],
+        authorizationGrants: [{ id: "write-grant", connectionId: connection.id, grantedByPersonId: "person-1", scopes: [`${definition.provider}:${definition.action}`], consentRecordId: "write-consent", grantedAt: now }],
+        records: [{ id: "write-consent", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person-1", visibility: { scope: "private", ownerId: "person-1" } }],
+        externalAccounts: [providerAccount], externalResources: [target],
+        credentialReferences: [{ id: "write-credential", provider: definition.provider, store: "OS_KEYCHAIN", locator: `fixture/${definition.provider}`, status: "AVAILABLE", createdAt: now }],
+        capabilityBindings: [{ id: `write-binding-${definition.id}`, connectionId: connection.id, capabilityDefinitionId: definition.id, externalResourceId: target.id, enabledAt: now }],
+      });
+      const adapter = createSandboxWriteAdapter({ provider: definition.provider, state, now: () => now, authorizeInstitutionalWrite: ({ actorPersonId, owner }) => actorPersonId === "person-1" && owner.kind === "PERSON" && owner.id === actorPersonId });
+      const unsigned = { connectionId: connection.id, capabilityId: definition.id, targetResourceId: target.id, actorPersonId: "person-1", requestKey: `request-${definition.id}`, confirmationLevel: definition.approvalPolicy === "HIGH_RISK_CONFIRMATION" ? "HIGH_RISK" as const : "STANDARD" as const, payload: { title: `Fixture ${definition.action}`, body: "Contract test only; no provider request is made." }, confirmedAt: now };
+      const request = { ...unsigned, confirmationDigest: externalActionDigest(unsigned) };
+      await expect(adapter.execute({ ...request, confirmationDigest: "0".repeat(64) })).resolves.toEqual({ status: "DENIED", reason: "HUMAN_CONFIRMATION_MISMATCH" });
+      await expect(adapter.execute({ ...request, confirmedAt: "2026-10-04T11:54:59.999Z" })).resolves.toEqual({ status: "DENIED", reason: "HUMAN_CONFIRMATION_EXPIRED" });
+      if (definition.approvalPolicy === "HIGH_RISK_CONFIRMATION") {
+        await expect(adapter.execute({ ...request, confirmationLevel: "STANDARD" })).resolves.toEqual({ status: "DENIED", reason: "HIGH_RISK_CONFIRMATION_REQUIRED" });
+      }
+      const deniedAdapter = createSandboxWriteAdapter({ provider: definition.provider, state, now: () => now, authorizeInstitutionalWrite: () => false });
+      await expect(deniedAdapter.execute(request)).resolves.toEqual({ status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" });
+      const result = await adapter.execute(request);
+      expect(result).toMatchObject({ status: "EXECUTED", mode: "SANDBOX", capabilityId: definition.id, result: { provider: definition.provider, source: "SANDBOX_FIXTURE", label: request.payload.title }, provenance: { source: "SANDBOX_FIXTURE", authorizationGrantId: "write-grant", bindingId: `write-binding-${definition.id}` } });
+      await expect(adapter.execute(request)).resolves.toEqual(result);
+      await expect(adapter.execute({ ...request, requestKey: `${request.requestKey}-replay` })).resolves.toEqual({ status: "DENIED", reason: "HUMAN_CONFIRMATION_MISMATCH" });
+      await expect(adapter.execute({ ...request, payload: { ...request.payload, title: "Altered after confirmation" } })).resolves.toEqual({ status: "DENIED", reason: "HUMAN_CONFIRMATION_MISMATCH" });
+      const alteredPayload = { ...request, payload: { ...request.payload, title: "Different approved intent" } };
+      await expect(adapter.execute({ ...alteredPayload, confirmationDigest: externalActionDigest(alteredPayload) })).resolves.toEqual({ status: "CONFLICT", reason: "REQUEST_KEY_CONFLICT" });
+      state.authorizationGrants[0]!.revokedAt = now;
+      await expect(adapter.execute(request)).resolves.toEqual({ status: "DENIED", reason: "GRANT_NOT_ACTIVE" });
     });
   }
 

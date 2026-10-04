@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
+import { createHash } from "node:crypto";
 import { z } from "zod";
 
 export const externalProviderSchema = z.enum(["github", "linear", "google"]);
@@ -273,6 +274,98 @@ export interface ProviderReadAdapter {
   readonly mode: "SANDBOX" | "LIVE";
   listResources(): Promise<ExternalResource[]>;
   readResource(id: string): Promise<ExternalResource | null>;
+}
+
+export interface ProviderWriteRequest {
+  connectionId: string;
+  capabilityId: string;
+  targetResourceId: string;
+  actorPersonId: string;
+  requestKey: string;
+  confirmationLevel: "STANDARD" | "HIGH_RISK";
+  payload: { title: string; body: string };
+  /** Digest shown to and confirmed by the Human in the normal CZ authorization surface. */
+  confirmationDigest: string;
+  confirmedAt: string;
+}
+
+export type SandboxWriteResult =
+  | { status: "DENIED"; reason: string }
+  | { status: "CONFLICT"; reason: "REQUEST_KEY_CONFLICT" }
+  | { status: "EXECUTED"; mode: "SANDBOX"; capabilityId: string; result: ExternalResource; provenance: { source: "SANDBOX_FIXTURE"; authorizationGrantId: string; bindingId: string; requestDigest: string; confirmedAt: string } };
+
+export function externalActionDigest(request: Pick<ProviderWriteRequest, "connectionId" | "capabilityId" | "targetResourceId" | "actorPersonId" | "requestKey" | "confirmationLevel" | "payload" | "confirmedAt">): string {
+  return createHash("sha256").update(JSON.stringify({
+    connectionId: request.connectionId,
+    capabilityId: request.capabilityId,
+    targetResourceId: request.targetResourceId,
+    actorPersonId: request.actorPersonId,
+    requestKey: request.requestKey,
+    confirmationLevel: request.confirmationLevel,
+    payload: request.payload,
+    confirmedAt: request.confirmedAt,
+  })).digest("hex");
+}
+
+export interface ProviderWriteAdapter {
+  readonly provider: ExternalProvider;
+  readonly mode: "SANDBOX";
+  execute(request: ProviderWriteRequest): Promise<SandboxWriteResult>;
+}
+
+/**
+ * Contract-faithful write adapter for isolated tests. It cannot make network calls,
+ * write institutional state, or represent a live provider result.
+ */
+export function createSandboxWriteAdapter(input: {
+  provider: ExternalProvider;
+  state: ConnectionFabricState;
+  now?: () => string;
+  authorizeInstitutionalWrite: (context: { actorPersonId: string; owner: Connection["owner"] }) => boolean | Promise<boolean>;
+}): ProviderWriteAdapter {
+  const completed = new Map<string, { digest: string; result: SandboxWriteResult }>();
+  return {
+    provider: input.provider,
+    mode: "SANDBOX",
+    async execute(request) {
+      const definition = providerCapabilityCatalog.find((item) => item.id === request.capabilityId);
+      if (!definition || definition.provider !== input.provider || definition.access === "READ") return { status: "DENIED", reason: "CAPABILITY_NOT_WRITABLE" };
+      if (!request.requestKey.trim() || request.requestKey.length > 160 || !request.payload.title.trim() || request.payload.title.length > 240 || request.payload.body.length > 4000) return { status: "DENIED", reason: "REQUEST_INVALID" };
+      if (definition.approvalPolicy === "HIGH_RISK_CONFIRMATION" && request.confirmationLevel !== "HIGH_RISK") return { status: "DENIED", reason: "HIGH_RISK_CONFIRMATION_REQUIRED" };
+      const now = input.now?.() ?? new Date().toISOString();
+      const confirmationTime = Date.parse(request.confirmedAt);
+      const serverTime = Date.parse(now);
+      if (!Number.isFinite(confirmationTime) || !Number.isFinite(serverTime) || Math.abs(serverTime - confirmationTime) > 5 * 60_000) return { status: "DENIED", reason: "HUMAN_CONFIRMATION_EXPIRED" };
+      const digest = externalActionDigest(request);
+      if (request.confirmationDigest !== digest) return { status: "DENIED", reason: "HUMAN_CONFIRMATION_MISMATCH" };
+      const connection = input.state.connections.find((item) => item.id === request.connectionId && item.provider === input.provider && item.status === "CONNECTED");
+      if (!connection) return { status: "DENIED", reason: "CONNECTION_NOT_ACTIVE" };
+      if (connection.owner.kind === "PERSON" && connection.owner.id !== request.actorPersonId) return { status: "DENIED", reason: "CONNECTION_OWNER_MISMATCH" };
+      if (!await input.authorizeInstitutionalWrite({ actorPersonId: request.actorPersonId, owner: connection.owner })) return { status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" };
+      const grant = activeAuthorizationGrant(connection, input.state.authorizationGrants, now);
+      if (!grant) return { status: "DENIED", reason: "GRANT_NOT_ACTIVE" };
+      if (!grant.scopes.includes("*") && !grant.scopes.includes(`${definition.provider}:${definition.action}`)) return { status: "DENIED", reason: "SCOPE_NOT_GRANTED" };
+      const credential = connection.credentialReferenceId && input.state.credentialReferences.find((item) => item.id === connection.credentialReferenceId && item.provider === input.provider && item.status === "AVAILABLE");
+      if (!credential) return { status: "DENIED", reason: "CREDENTIAL_REFERENCE_UNAVAILABLE" };
+      const binding = input.state.capabilityBindings.find((item) => item.connectionId === connection.id && item.capabilityDefinitionId === definition.id && item.externalResourceId === request.targetResourceId && Boolean(item.enabledAt) && item.enabledAt! <= now && !item.disabledAt);
+      if (!binding) return { status: "DENIED", reason: "TARGET_BINDING_NOT_ACTIVE" };
+      const target = input.state.externalResources.find((item) => item.id === request.targetResourceId && item.provider === input.provider && item.accountId === connection.externalAccountId);
+      const account = input.state.externalAccounts.find((item) => item.id === connection.externalAccountId && item.provider === input.provider);
+      if (!target || !account || target.source !== "SANDBOX_FIXTURE" || account.source !== "SANDBOX_FIXTURE") return { status: "DENIED", reason: "SANDBOX_FIXTURE_REQUIRED" };
+      if (!definition.targetResourceTypes.includes(target.resourceType)) return { status: "DENIED", reason: "TARGET_RESOURCE_TYPE_MISMATCH" };
+      if (definition.approvalPolicy === "READ_WITHIN_GRANTED_SCOPE") return { status: "DENIED", reason: "APPROVAL_POLICY_INVALID" };
+      const prior = completed.get(request.requestKey);
+      if (prior) return prior.digest === digest ? prior.result : { status: "CONFLICT", reason: "REQUEST_KEY_CONFLICT" };
+      const resultDigest = createHash("sha256").update(`${request.requestKey}\u0000${digest}`).digest("hex");
+      const result: SandboxWriteResult = {
+        status: "EXECUTED", mode: "SANDBOX", capabilityId: definition.id,
+        result: externalResourceSchema.parse({ id: `sandbox-result-${resultDigest.slice(0, 24)}`, provider: input.provider, accountId: account.id, resourceType: definition.resourceType, externalId: `fixture-${resultDigest.slice(0, 24)}`, label: request.payload.title.trim(), url: target.url, source: "SANDBOX_FIXTURE", observedAt: request.confirmedAt }),
+        provenance: { source: "SANDBOX_FIXTURE", authorizationGrantId: grant.id, bindingId: binding.id, requestDigest: digest, confirmedAt: request.confirmedAt },
+      };
+      completed.set(request.requestKey, { digest, result });
+      return result;
+    },
+  };
 }
 
 export const providerResourceTypes: Readonly<Record<ExternalProvider, readonly ExternalResource["resourceType"][]>> = {

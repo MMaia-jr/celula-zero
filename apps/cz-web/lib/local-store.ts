@@ -6,6 +6,49 @@ import { createHash, randomBytes } from "node:crypto";
 import { emptyFoundation, type FoundationState } from "./foundation";
 import { parseConnectionFabricState } from "@cz/connection-fabric";
 import type { FoundationStore } from "./foundation-store";
+
+const migrations = [
+  {
+    version: 1,
+    name: "local_state_and_sessions",
+    apply(db: DatabaseSync) {
+      db.exec("CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY CHECK(id=1), body TEXT NOT NULL); CREATE TABLE IF NOT EXISTS sessions (hash TEXT PRIMARY KEY, expires INTEGER NOT NULL);");
+    },
+  },
+  {
+    version: 2,
+    name: "session_identity_subject",
+    apply(db: DatabaseSync) {
+      const columns = db.prepare("PRAGMA table_info(sessions)").all() as Array<{ name: string }>;
+      if (!columns.some(({ name }) => name === "provider")) db.exec("ALTER TABLE sessions ADD COLUMN provider TEXT");
+      if (!columns.some(({ name }) => name === "subject")) db.exec("ALTER TABLE sessions ADD COLUMN subject TEXT");
+    },
+  },
+] as const;
+
+export const localStoreSchemaVersion = migrations.at(-1)!.version;
+
+function migrate(db: DatabaseSync) {
+  db.exec("CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, name TEXT NOT NULL, applied_at TEXT NOT NULL)");
+  for (const migration of migrations) {
+    const prior = db.prepare("SELECT name FROM schema_migrations WHERE version=?").get(migration.version) as { name: string } | undefined;
+    if (prior) {
+      if (prior.name !== migration.name) throw new Error("LOCAL_STORE_MIGRATION_HISTORY_CONFLICT");
+      continue;
+    }
+    db.exec("BEGIN IMMEDIATE");
+    try {
+      migration.apply(db);
+      db.prepare("INSERT INTO schema_migrations(version,name,applied_at) VALUES(?,?,?)")
+        .run(migration.version, migration.name, new Date().toISOString());
+      db.exec("COMMIT");
+    } catch (error) {
+      db.exec("ROLLBACK");
+      throw error;
+    }
+  }
+}
+
 export class LocalStore implements FoundationStore {
   readonly db: DatabaseSync;
   constructor(path: string) {
@@ -14,11 +57,9 @@ export class LocalStore implements FoundationStore {
     this.db = new DatabaseSync(path);
     if (path !== ":memory:") chmodSync(path, 0o600);
     this.db.exec(
-      "PRAGMA busy_timeout=5000; PRAGMA journal_mode=DELETE; CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY CHECK(id=1), body TEXT NOT NULL); CREATE TABLE IF NOT EXISTS sessions (hash TEXT PRIMARY KEY, expires INTEGER NOT NULL, provider TEXT, subject TEXT);",
+      "PRAGMA busy_timeout=5000; PRAGMA journal_mode=DELETE;",
     );
-    const sessionColumns = this.db.prepare("PRAGMA table_info(sessions)").all() as Array<{ name: string }>;
-    if (!sessionColumns.some(({ name }) => name === "provider")) this.db.exec("ALTER TABLE sessions ADD COLUMN provider TEXT");
-    if (!sessionColumns.some(({ name }) => name === "subject")) this.db.exec("ALTER TABLE sessions ADD COLUMN subject TEXT");
+    migrate(this.db);
     this.db
       .prepare("INSERT OR IGNORE INTO state(id,body) VALUES(1,?)")
       .run(JSON.stringify(emptyFoundation()));
