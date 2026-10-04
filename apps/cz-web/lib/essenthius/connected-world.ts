@@ -71,6 +71,59 @@ export interface ConnectedProvider {
   capabilities: ConnectedWorldCapability[];
 }
 
+export interface AuthorizedExternalResourceProjection {
+  id: string;
+  kind: "EXTERNAL_RESOURCE";
+  source: string;
+  availability: "SANDBOX_ONLY" | "PROVIDER_READBACK";
+  provenance: string;
+}
+
+/** Exposes only cached resource metadata whose active provider grant and resource-specific read binding remain valid.
+ * Caller must resolve CZ cell.read and cell.update in the authenticated server context.
+ * This is a projection of a prior read, never a live provider fetch.
+ */
+export function projectAuthorizedExternalResources(input: {
+  state: ConnectionFabricState;
+  personId: string;
+  cellId: string;
+  canReadCell: boolean;
+  canManageConnections: boolean;
+  now?: string;
+}): AuthorizedExternalResourceProjection[] {
+  if (!input.canReadCell) return [];
+  const now = input.now ?? new Date().toISOString();
+  const connections = new Map(input.state.connections
+    .filter((connection) => connection.status === "CONNECTED" && connection.externalAccountId && connection.credentialReferenceId)
+    .filter((connection) => connection.owner.kind === "PERSON" ? connection.owner.id === input.personId : connection.owner.kind === "CELL" && connection.owner.id === input.cellId)
+    .map((connection) => [connection.id, connection]));
+  return input.state.externalResources.flatMap((resource) => {
+    const connection = [...connections.values()].find((item) => item.provider === resource.provider && item.externalAccountId === resource.accountId);
+    if (!connection) return [];
+    const credential = input.state.credentialReferences.find((item) => item.id === connection.credentialReferenceId && item.provider === connection.provider && item.status === "AVAILABLE");
+    if (!credential) return [];
+    const grant = input.state.authorizationGrants.find((item) => item.connectionId === connection.id && !item.revokedAt && (!item.expiresAt || item.expiresAt > now));
+    if (!grant) return [];
+    const grantorAuthorized = grant.grantedByPersonId === input.personId && (connection.owner.kind === "PERSON" || input.canManageConnections);
+    if (!grantorAuthorized) return [];
+    const readBinding = input.state.capabilityBindings.find((binding) => {
+      if (binding.connectionId !== connection.id || binding.externalResourceId !== resource.id || !binding.enabledAt || binding.enabledAt > now || binding.disabledAt) return false;
+      const definition = providerCapabilityCatalog.find((item) => item.id === binding.capabilityDefinitionId);
+      return Boolean(definition && definition.provider === resource.provider && definition.resourceType === resource.resourceType && definition.access === "READ" && (grant.scopes.includes("*") || grant.scopes.includes(`${definition.provider}:${definition.action}`)));
+    });
+    if (!readBinding) return [];
+    return [{
+      id: `external-resource:${resource.id}`,
+      kind: "EXTERNAL_RESOURCE" as const,
+      source: `${providerPresentation[resource.provider].label} · ${resource.label}`,
+      availability: resource.source === "SANDBOX_FIXTURE" ? "SANDBOX_ONLY" as const : "PROVIDER_READBACK" as const,
+      provenance: resource.source === "SANDBOX_FIXTURE"
+        ? "Fixture contratual isolada; não contém leitura de conta externa real."
+        : `Metadado observado do provedor em ${resource.observedAt}; é uma leitura armazenada, não uma atualização ao vivo.`,
+    }];
+  });
+}
+
 /** Projects real connection state. It deliberately omits account IDs, binding IDs and credential locators. */
 export function projectConnectedWorld(state: ConnectionFabricState): ConnectedProvider[] {
   const registry = registerCapabilities({

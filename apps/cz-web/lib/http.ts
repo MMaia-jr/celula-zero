@@ -30,7 +30,7 @@ import { authenticateHuly } from "./huly-auth";
 import { compileInstitutionalContext } from "./essenthius/context";
 import { codexCliAuthenticated, discoverHabitatCapabilities, discoverHabitatConnections, discoverHabitatResources, projectCurrentCapabilities, type CurrentCapability } from "./essenthius/capabilities";
 import { readActiveDirection } from "./essenthius/active-direction";
-import { projectConnectedWorld } from "./essenthius/connected-world";
+import { projectAuthorizedExternalResources, projectConnectedWorld } from "./essenthius/connected-world";
 import { parseConnectionFabricState } from "@cz/connection-fabric";
 import { canonicalSourceExcerpts } from "./essenthius/canonical-sources";
 import { CodexCliAdapter, codexPromptMetrics } from "./essenthius/codex-cli";
@@ -126,7 +126,8 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     hasCompletedWork: (view.workItems ?? []).some((work) => work.status === "complete"),
     hasEligibleExecutionAgreement: (view.projects ?? []).some((project) => project.commitments.some((commitment) => view.agreements?.some((agreement) => agreement.commitmentId === commitment.id))),
   });
-  const externalProviders = projectConnectedWorld(parseConnectionFabricState(state));
+  const connectionState = parseConnectionFabricState(state);
+  const externalProviders = projectConnectedWorld(connectionState);
   const externalCapabilities = externalProviders.flatMap((provider) => provider.capabilities.map((capability) => ({
     id: `external:${capability.id}`,
     label: `${provider.label}: ${capability.label}`,
@@ -152,7 +153,7 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     ollamaInteractive: model?.availability === "LOCAL_ONLY",
     codexAuthenticated,
   });
-  const resources = discoverHabitatResources({
+  const localResources = discoverHabitatResources({
     personId: view.person.id,
     cellId: view.cell?.id ?? "unresolved",
     openWorkIds: (view.workItems ?? []).filter((work) => work.status === "active").map((work) => work.id),
@@ -160,6 +161,14 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     head,
     projects: view.projects ?? [],
   });
+  const externalResources = projectAuthorizedExternalResources({
+    state: connectionState,
+    personId: view.person.id,
+    cellId: view.cell?.id ?? "unresolved",
+    canReadCell: Boolean(view.cell && canAct(view.person.id, view.cell.id, "cell.read", state.memberships, state.authorities)),
+    canManageConnections: Boolean(view.cell && canAct(view.person.id, view.cell.id, "cell.update", state.memberships, state.authorities)),
+  });
+  const resources = [...localResources, ...externalResources];
   return { head, canonicalHead: repositoryState.canonicalHead, repositoryState, capabilities, currentCapabilities, externalProviders, connections, resources, activeDirection: readActiveDirection() };
 }
 function setSessionCookie(response: NextResponse, token: string) {
