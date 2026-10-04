@@ -172,6 +172,13 @@ test("the living CZ surface carries a real text meeting across navigation", asyn
   await expect(connectedWorld.getByText("Google", { exact: true })).toBeVisible();
   await expect(connectedWorld.getByText("Ainda não conectado", { exact: true })).toHaveCount(3);
   await expect(connectedWorld).not.toContainText("private-keychain-locator");
+  const githubConnection = connectedWorld.locator(".connected-provider").filter({ hasText: "GitHub" });
+  await githubConnection.locator(":scope > summary").click();
+  await githubConnection.getByText("Ver acessos, autoridade e limites", { exact: true }).click();
+  await expect(githubConnection).toContainText("Estado: Ainda não conectada");
+  await expect(githubConnection).toContainText("Destino exigido: repository");
+  await expect(githubConnection).toContainText("Classe de custo/uso: external billing unknown");
+  await expect(githubConnection).not.toContainText("not configured");
 
   await activate(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Atividade" }));
   await expect(experience.getByRole("heading", { name: "Um encontro começou" }).first()).toBeVisible();
