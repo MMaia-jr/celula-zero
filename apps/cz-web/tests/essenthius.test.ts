@@ -244,6 +244,8 @@ describe("Essenthius composition boundaries", () => {
     if (sourceRecord?.kind === "OriginalRecord") expect(sourceRecord.content).toContain(messageId);
     expect(() => applyCommand(begun.state, base.person.id, { type: "experience", title: "Fórum", description: "Relato", occurredOn: "2026-09-20", sourceMessageId: "not-this-person-message" }, randomUUID(), randomUUID, now)).toThrow("EXPERIENCE_SOURCE_UNAVAILABLE");
     expect(accepted.records.some((record) => record.kind === "Decision")).toBe(false);
+    const undated = applyCommand(begun.state, base.person.id, { type: "experience", title: "Fórum de Agroecologia", description: "Quero registrar minha experiência com o Fórum.", occurredOn: null, sourceMessageId: messageId }, randomUUID(), randomUUID, now);
+    expect(undated.experiences.at(-1)).toMatchObject({ title: "Fórum de Agroecologia", occurredOn: null, provenance: { origin: "user_reported", actorId: base.person.id } });
   });
 
   it("uses a loopback-only local Ollama adapter, validates structured interpretation and filters invented capability IDs", async () => {
@@ -272,8 +274,9 @@ describe("Essenthius composition boundaries", () => {
       expect(args[0]).toContain("no máximo 6 IDs");
       expect(args[0]).toContain("relevantContext (no máximo 6 itens)");
       expect(args[0]).toContain("conditions (no máximo 6 itens)");
+      expect(args[0]).toContain("continuationProposal");
       return {
-        text: JSON.stringify({ ...result.interpretation, availableCapabilities: ["cz:local-work", "invented:write"], openTarget: { kind: "work", id: "invented-id" } }),
+        text: JSON.stringify({ ...result.interpretation, continuationProposal: { possibility: "Uma possibilidade exploratória.", question: "O que você quer tornar possível?" }, availableCapabilities: ["cz:local-work", "invented:write"], openTarget: { kind: "work", id: "invented-id" } }),
         threadId: "thread-codex-1", inputTokens: 12000, outputTokens: 90,
       };
     });
@@ -295,6 +298,7 @@ describe("Essenthius composition boundaries", () => {
     expect(response).toMatchObject({ provider: "CODEX_CLI_CHATGPT", requestId: "thread-codex-1", inputTokens: 12000, outputTokens: 90 });
     expect(response.interpretation.availableCapabilities).toEqual(["cz:local-work"]);
     expect(response.interpretation.openTarget).toBeUndefined();
+    expect(response.interpretation.continuationProposal?.possibility).toBe("Uma possibilidade exploratória.");
     expect(response.contextDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(response.contextCharacters).toBeLessThanOrEqual(14_000);
     expect(response.promptCharacters).toBeDefined();

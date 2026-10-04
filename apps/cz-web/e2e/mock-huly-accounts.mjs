@@ -27,6 +27,7 @@ const server = createServer((request, response) => {
       const prompt = parsed.messages?.[0]?.content ?? "";
       const originalMarker = "\n\nMENSAGEM ORIGINAL DO MARCOS=";
       const originalHumanText = prompt.includes(originalMarker) ? prompt.split(originalMarker).at(-1) : "";
+      const forumExperienceRequest = originalHumanText.includes("Fórum de Agroecologia");
       const interpretation = {
         whatIUnderstand: "Marcos quer tornar algo possível e continuar a partir do contexto da Célula.",
         relevantContext: ["O input humano será preservado como Original Record.", "A Célula e sua autoridade foram resolvidas da sessão autenticada."],
@@ -37,8 +38,8 @@ const server = createServer((request, response) => {
         authorityRequired: "cell.update, resolvida no servidor",
         why: "O trabalho local pode continuar após logout e retorno.",
         nextAction: "Revisar a proposta antes de confirmar.",
-        workProposal: { title: "Retomar o trabalho da Célula", context: "Continuar a partir da intenção original e decidir o próximo passo." },
-        ...(originalHumanText.includes("XII Fórum de Agroecologia") ? { experienceProposal: { title: "XII Fórum de Agroecologia", description: "Ajudei a organizar e operar o XII Fórum de Agroecologia.", occurredOn: null, uncertainty: "O relato não informa a data nem outros detalhes; revise antes de registrar." } } : {}),
+        workProposal: forumExperienceRequest ? null : { title: "Retomar o trabalho da Célula", context: "Continuar a partir da intenção original e decidir o próximo passo." },
+        ...(originalHumanText.includes("Fórum de Agroecologia") ? { experienceProposal: { title: "XII Fórum de Agroecologia", description: "Você quer registrar sua experiência com o XII Fórum de Agroecologia.", occurredOn: null, uncertainty: "O relato não informa data nem papel específico; revise sem acrescentar fatos." }, continuationProposal: { possibility: "Essa experiência pode ajudar a reconhecer que formas de organização e contribuição você gostaria de levar a um próximo trabalho.", question: "O que você gostaria de tornar possível agora a partir dela?" } } : {}),
         ...(originalHumanText.includes("reunir Essenthius") ? { meetingProposal: { title: "Conversar com Essenthius", purpose: "Pensar junto sobre o próximo passo do Habitat." } } : {}),
       };
       response.writeHead(200, { "content-type": "application/json" }).end(JSON.stringify({ done: true, prompt_eval_count: 120, eval_count: 85, message: { content: JSON.stringify(interpretation) } }));

@@ -228,7 +228,7 @@ export const commandSchema = z.discriminatedUnion("type", [
       type: z.literal("experience"),
       title: line,
       description: text,
-      occurredOn: z.iso.date(),
+      occurredOn: z.iso.date().nullable(),
       sourceMessageId: line.optional(),
     })
     .strict(),

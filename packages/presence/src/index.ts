@@ -17,7 +17,8 @@ export interface Experience {
   personId: PersonId;
   title: string;
   description: string;
-  occurredOn: string;
+  /** Null when the Human's attributable source does not establish a date. */
+  occurredOn: string | null;
   provenance: Provenance;
   visibility: VisibilityPolicy;
   sourceRecordId: string;

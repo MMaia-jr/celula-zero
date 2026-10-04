@@ -100,6 +100,10 @@ describe("Institutional boundaries", () => {
     expect(evidence.kind).toBe("Evidence");
     expect(verification.kind).toBe("Verification");
   });
+  it("allows a Human-confirmed reported experience to preserve an unknown date as null", () => {
+    expect(commandSchema.parse({ ...experience, occurredOn: null })).toMatchObject({ type: "experience", occurredOn: null });
+    expect(() => commandSchema.parse({ ...experience, occurredOn: "not-a-date" })).toThrow();
+  });
   it("separates provider credential, Person, Profile and Cell", () => {
     const s = seed();
     expect(

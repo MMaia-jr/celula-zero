@@ -1264,11 +1264,23 @@ main#content { max-width: 1480px; padding: 28px 32px 42px; }
 .dialogue-essenthius p { margin: 5px 0; line-height: 1.58; white-space: pre-wrap; }
 .dialogue-essenthius details, .context-explain { color: #66736d; font-size: .84rem; }
 .dialogue-essenthius details summary, .context-rail details summary { cursor: pointer; color: #397464; }
+.continuation-proposal { margin: 14px 0; padding: 14px 16px; border: 1px solid rgb(88 131 111 / 24%); border-radius: 14px; background: linear-gradient(115deg, rgb(226 238 224 / 74%), rgb(247 243 231 / 76%)); }
+.continuation-proposal small { display: block; color: #567267; font-size: .69rem; letter-spacing: .04em; }
+.continuation-proposal p { margin: 8px 0; }
 .next-suggestion { color: #426f62; }
 .depth-link { margin-top: 10px; font-size: .78rem; }
 .companion-composer { margin-top: 18px; border: 1px solid rgb(48 115 94 / 21%); background: #fffefa; border-radius: 14px; padding: 12px 14px 10px; box-shadow: 0 4px 18px rgb(31 72 58 / 5%); }
 .companion-composer textarea { border: 0; background: transparent; min-height: 48px; max-height: 180px; padding: 7px 2px; font-size: .98rem; color: #27332f; resize: vertical; }
 .companion-composer textarea::placeholder { color: #88938e; }
+.conversation-boundary-note { display: block; color: #78837f; font-size: .72rem; }
+.direction-witness { margin: 18px 0 22px; padding: 16px 18px; border: 1px solid rgb(94 122 108 / 20%); border-left: 3px solid #8caa87; border-radius: 12px; background: linear-gradient(110deg, rgb(244 248 240 / 85%), rgb(255 254 250 / 92%)); color: #44534a; }
+.direction-witness > div > small { color: #657b69; font-size: .65rem; letter-spacing: .09em; }
+.direction-witness h2 { margin: 5px 0 7px; color: #283c31; font-family: var(--font-sans); font-size: 1rem; font-weight: 650; }
+.direction-witness p, .direction-witness li { font-size: .82rem; line-height: 1.55; }
+.direction-witness ul { margin: 10px 0; padding-left: 18px; }
+.direction-witness details { border-top: 1px solid rgb(94 122 108 / 14%); padding-top: 9px; }
+.direction-witness summary { color: #52695a; cursor: pointer; font-size: .75rem; }
+.direction-witness details p, .direction-witness details li { overflow-wrap: anywhere; }
 .companion-composer-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .companion-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; min-width: 0; }
 .companion-controls > label { color: #78837f; font-size: .73rem; }
@@ -1308,10 +1320,21 @@ main#content { max-width: 1480px; padding: 28px 32px 42px; }
 .surface-title h2 { font: 400 1.24rem Georgia, serif; margin: 4px 0; }
 .surface-title span, .surface-title a { font-size: .76rem; color: #71807a; }
 .living-item { display: flex; gap: 13px; align-items: center; padding: 14px 2px; border-bottom: 1px solid rgb(30 43 39 / 7%); }
+.living-work .living-item { flex-wrap: wrap; }
+.living-work .work-completion-form { margin: 8px 0 12px 24px; }
 .living-item > div { flex: 1; min-width: 0; }
 .living-item strong { font-size: .9rem; font-weight: 600; }
 .living-item p { margin: 3px 0; color: #58645e; font-size: .84rem; }
 .living-item small { font-size: .7rem; color: #7c8782; }
+.growth-section { margin-top: 12px; }
+.growth-item { display: grid; gap: 10px; padding: 14px 2px; border-bottom: 1px solid rgb(30 43 39 / 7%); }
+.growth-item > div:first-child { min-width: 0; }
+.growth-item strong { font-size: .9rem; font-weight: 600; }
+.growth-item p { margin: 4px 0; color: #58645e; font-size: .84rem; }
+.growth-item details, .growth-candidate { padding: 12px; border: 1px solid var(--line, #d7d7d2); border-radius: 12px; background: var(--surface, #fff); }
+.growth-item details form, .growth-candidate form { display: grid; gap: 8px; margin-top: 10px; }
+.growth-item small, .growth-candidate small { color: #7c8782; font-size: .75rem; }
+.growth-item input { width: 100%; }
 .item-mark, .possibility-icon, .feed-marker { width: 31px; height: 31px; flex: 0 0 auto; border-radius: 50%; display: grid; place-items: center; color: #447c6b; background: #edf2eb; }
 .project-mark { color: #796e9d; background: #f0eef6; }
 .soft-invitation { padding: 20px; background: #f5f4ed; border-radius: 13px; color: #626f69; }

@@ -14,6 +14,7 @@ export const intelligenceInterpretationSchema = z.object({
   workProposal: z.object({ title: z.string().trim().min(1).max(160), context: z.string().trim().min(1).max(2000) }).strict().nullable(),
   openTarget: z.object({ kind: z.enum(["work", "project", "opportunity", "meeting", "experience"]), id: z.string().trim().min(1).max(160) }).strict().optional(),
   experienceProposal: z.object({ title: z.string().trim().min(1).max(160), description: z.string().trim().min(1).max(2000), occurredOn: z.iso.date().nullable(), uncertainty: z.string().trim().min(1).max(500) }).strict().optional(),
+  continuationProposal: z.object({ possibility: z.string().trim().min(1).max(700), question: z.string().trim().min(1).max(300) }).strict().optional(),
   meetingProposal: z.object({ title: z.string().trim().min(3).max(120), purpose: z.string().trim().min(8).max(1200) }).strict().optional(),
 }).strict();
 

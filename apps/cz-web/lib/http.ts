@@ -160,7 +160,7 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     head,
     projects: view.projects ?? [],
   });
-  return { head, canonicalHead: repositoryState.canonicalHead, repositoryState, capabilities, currentCapabilities, connections, resources };
+  return { head, canonicalHead: repositoryState.canonicalHead, repositoryState, capabilities, currentCapabilities, connections, resources, activeDirection: readActiveDirection() };
 }
 function setSessionCookie(response: NextResponse, token: string) {
   response.cookies.set(cookie, token, {
@@ -343,8 +343,8 @@ export async function handle(request: NextRequest) {
     }
 
     if (data.action === "experience_accept") {
-      const parsed = z.object({ action: z.literal("experience_accept"), turnId: z.string().min(1).max(160), title: z.string().trim().min(1).max(160), description: z.string().trim().min(1).max(2000), occurredOn: z.iso.date() }).strict().safeParse(data);
-      if (!parsed.success) return NextResponse.json({ error: "Revise o título, o relato e a data antes de incluir esta experiência." }, { status: 400 });
+      const parsed = z.object({ action: z.literal("experience_accept"), turnId: z.string().min(1).max(160), title: z.string().trim().min(1).max(160), description: z.string().trim().min(1).max(2000), occurredOn: z.iso.date().nullable() }).strict().safeParse(data);
+      if (!parsed.success) return NextResponse.json({ error: "Revise o título e o relato antes de incluir esta experiência." }, { status: 400 });
       const actor = currentActor(db.read(), principal);
       const view = db.transact((state) => {
         if (!hasInstitutionalState(state) || actor !== state.person.id || !state.cell || !canAct(actor, state.cell.id, "cell.update", state.memberships, state.authorities)) throw new Error("FORBIDDEN");
@@ -670,7 +670,9 @@ export async function handle(request: NextRequest) {
         console.info("CZ_ESSENTHIUS_TURN_COMPLETED", JSON.stringify({ turnId: created.turn.id, requestId: created.turn.requestKey, provider, exitCode: 0, durationMs: Date.now() - inferenceStartedAt, interpretationPersisted: true, httpStatus: 200 }));
         return NextResponse.json({ view, turnId: created.turn.id, turnStatus: "interpreted", authenticated: true });
       } catch (error) {
-        const failureCode = error instanceof Error && /^(OLLAMA_|CODEX_CLI_|CZ_CONTEXT_|CZ_ESSENTHIUS_)/.test(error.message) ? error.message : "INTELLIGENCE_PROVIDER_UNAVAILABLE";
+        const failureCode = error instanceof Error && /^(OLLAMA_|CODEX_CLI_|CZ_CONTEXT_|CZ_ESSENTHIUS_)/.test(error.message)
+          ? error.message
+          : error instanceof z.ZodError ? "INTELLIGENCE_OUTPUT_INVALID" : "INTELLIGENCE_PROVIDER_UNAVAILABLE";
         const view = db.transact((state) => {
           if (!hasInstitutionalState(state)) throw new Error("IDENTITY_UNRESOLVED");
           const next = failIntelligenceTurn(state, actor, created.turn.id, failureCode, {
@@ -681,7 +683,7 @@ export async function handle(request: NextRequest) {
           });
           return { state: next, result: projection(next, actor) };
         });
-        console.warn("CZ_ESSENTHIUS_TURN_FAILED", JSON.stringify({ turnId: created.turn.id, requestId: created.turn.requestKey, provider: selectedProvider, providerExecuted, exitCode: null, durationMs: Date.now() - inferenceStartedAt, failureCode, interpretationPersisted: false, httpStatus: 200 }));
+        console.warn("CZ_ESSENTHIUS_TURN_FAILED", JSON.stringify({ turnId: created.turn.id, requestId: created.turn.requestKey, provider: selectedProvider, providerExecuted, exitCode: null, durationMs: Date.now() - inferenceStartedAt, failureCode, errorClass: error instanceof Error ? error.name : typeof error, interpretationPersisted: false, httpStatus: 200 }));
         return NextResponse.json({ view, turnId: created.turn.id, turnStatus: "unavailable", error: "Sua fala ficou registrada, mas a capacidade de interpretação selecionada não respondeu. Nenhuma proposta ou ação foi criada." });
       }
     }

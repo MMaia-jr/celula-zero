@@ -30,6 +30,9 @@ test("the living CZ surface carries a real text meeting across navigation", asyn
   };
   await expect(returningHome).toBeVisible();
   await expect(experience.getByRole("heading", { name: /(?:Olá|Que bom que voltou), Marcos\./ })).toBeVisible();
+  const directionCard = experience.getByRole("region", { name: "Direção humana atual" });
+  await expect(directionCard).toContainText("CZ Genesis Habitat Build Campaign V1");
+  await expect(directionCard).toContainText("LOCAL / NÃO CANÔNICA");
   await page.screenshot({ path: `/tmp/cz-experience-v2-${test.info().project.name}.png`, fullPage: true });
   await expect(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Conversas" })).toBeVisible();
   if (test.info().project.name === "mobile") {
@@ -42,6 +45,8 @@ test("the living CZ surface carries a real text meeting across navigation", asyn
   }
   await expect(experience.locator(".companion-presence strong").filter({ hasText: "Essenthius" })).toBeVisible();
   await expect(experience.getByLabel("Converse com Essenthius")).toBeVisible();
+  await expect(experience.getByText(/Mensagens continuam como conversa/)).toBeVisible();
+  await expect(experience.getByText(/Sua fala fica como Original Record/)).toHaveCount(0);
   if (test.info().project.name === "mobile") await expect(experience.getByRole("button", { name: /Contexto vivo/ })).toBeVisible();
   const runMarker = `${test.info().project.name}-${Date.now()}`;
   const continuationMessage = `Quero continuar pensando no que importa agora (${runMarker}).`;
@@ -54,18 +59,35 @@ test("the living CZ surface carries a real text meeting across navigation", asyn
   await activate(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Início" }));
   await expect(experience.locator(".dialogue-human p").filter({ hasText: continuationMessage }).first()).toBeVisible();
   await expect(experience.getByLabel("Conversa com Essenthius").getByText("Quero entender o contexto e escolher uma próxima ação.", { exact: true })).toHaveCount(0);
-  const forumMessage = `Ajudei a organizar e operar o XII Fórum de Agroecologia (${runMarker}).`;
+  const beforeForumState = await page.evaluate(async () => (await (await fetch("/api/foundation")).json()).view);
+  const forumMessage = `Quero registrar minha experiência com o XII Fórum de Agroecologia e ver o que isso pode tornar possível agora. (${runMarker})`;
+  const forumTurnResponse = page.waitForResponse((response) => response.url().endsWith("/api/foundation") && response.request().method() === "POST" && response.request().postData()?.includes('"action":"turn"') === true);
   await experience.getByLabel("Converse com Essenthius").fill(forumMessage);
   await experience.getByRole("button", { name: "Enviar mensagem" }).click();
+  const forumTurnResult = await forumTurnResponse;
+  const forumTurnBody = await forumTurnResult.json();
   const forumTurn = experience.getByRole("article").filter({ hasText: forumMessage });
+  const createdTurn = forumTurnBody.view.intelligenceTurns.find((turn: { id: string }) => turn.id === forumTurnBody.turnId);
+  const sourceMessageId = forumTurnBody.view.conversationMessages.find((message: { id: string; body: string }) => message.id === createdTurn.humanMessageId).id;
+  const experienceRecordFromThisMessage = forumTurnBody.view.records.filter((record: { kind: string; purpose?: string; content?: string }) => record.kind === "OriginalRecord" && record.purpose === "experience" && JSON.parse(record.content ?? "{}").sourceMessageId === sourceMessageId);
+  expect(experienceRecordFromThisMessage).toHaveLength(0);
+  expect(forumTurnBody.view.records.filter((record: { kind: string }) => record.kind === "Decision")).toHaveLength(beforeForumState.records.filter((record: { kind: string }) => record.kind === "Decision").length);
+  expect(forumTurnBody.view.workItems).toHaveLength(beforeForumState.workItems.length);
   const experienceDraft = forumTurn.getByText("Uma experiência para revisar", { exact: true });
   await expect(experienceDraft).toBeVisible({ timeout: 10_000 });
+  await expect(forumTurn.getByRole("complementary", { name: "Possibilidade para explorar" })).toContainText(/ainda não é compromisso/i);
   const experienceForm = forumTurn.locator("form.experience-draft");
-  await experienceForm.getByLabel("Quando aconteceu? Confirme a data para registrar").fill("2024-08-12");
+  expect(await experienceForm.getByLabel("Quando aconteceu? (opcional)").getAttribute("required")).toBeNull();
+  const acceptExperienceResponse = page.waitForResponse((response) => response.url().endsWith("/api/foundation") && response.request().method() === "POST" && response.request().postData()?.includes("experience_accept") === true);
   await experienceForm.getByRole("button", { name: "Confirmar e incluir em Você" }).click();
+  const acceptedExperience = await acceptExperienceResponse;
+  const acceptedExperienceBody = await acceptedExperience.json();
+  expect(acceptedExperienceBody.view.experiences.find((item: { title: string }) => item.title === "XII Fórum de Agroecologia")?.occurredOn).toBeNull();
   await expect(page.getByRole("status").filter({ hasText: "Experiência registrada a partir da sua mensagem" })).toBeVisible();
   await activate(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Você" }));
   await expect(experience.getByText("XII Fórum de Agroecologia", { exact: true }).first()).toBeVisible();
+  await activate(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Atividade" }));
+  await expect(experience.locator(".feed-event").filter({ hasText: "XII Fórum de Agroecologia" }).first()).toBeVisible();
   await activate(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Início" }));
   const meetingProposalMessage = `Quero reunir Essenthius para pensar o próximo passo (${runMarker}).`;
   await experience.getByLabel("Conversa com Essenthius").getByLabel("Converse com Essenthius").fill(meetingProposalMessage);
