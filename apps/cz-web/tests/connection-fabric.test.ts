@@ -94,6 +94,26 @@ describe("Connection Fabric contracts", () => {
     expect(() => createSandboxReadAdapter("google", { account: googleAccount, resources: [wrongType] })).toThrow("SANDBOX_FIXTURE_RESOURCE_TYPE_MISMATCH");
   });
 
+  for (const definition of providerCapabilityCatalog.filter((item) => item.access === "READ")) {
+    it(`runs ${definition.id} through its authorized fixture contract without a live provider`, async () => {
+      const providerAccount = externalAccountSchema.parse({ id: `fixture-${definition.provider}`, provider: definition.provider, externalSubject: "fixture-subject", displayLabel: `${definition.provider} fixture`, observedAt: now, source: "SANDBOX_FIXTURE" });
+      const providerResource = externalResourceSchema.parse({ id: `resource-${definition.id}`, provider: definition.provider, accountId: providerAccount.id, resourceType: definition.targetResourceTypes[0], externalId: "fixture-resource", label: "Authorized fixture resource", source: "SANDBOX_FIXTURE", observedAt: now });
+      const connection = connectionSchema.parse({ id: `connection-${definition.provider}`, owner: { kind: "PERSON", id: "person-1" }, provider: definition.provider, status: "CONNECTED", externalAccountId: providerAccount.id, authorizationGrantId: `grant-${definition.provider}`, credentialReferenceId: `credential-${definition.provider}`, createdAt: now });
+      const state = parseConnectionFabricState({
+        connections: [connection],
+        authorizationGrants: [{ id: connection.authorizationGrantId, connectionId: connection.id, grantedByPersonId: "person-1", scopes: [`${definition.provider}:${definition.action}`], consentRecordId: `consent-${definition.provider}`, grantedAt: now }],
+        records: [{ id: `consent-${definition.provider}`, kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person-1", visibility: { scope: "private", ownerId: "person-1" } }],
+        externalAccounts: [providerAccount],
+        externalResources: [providerResource],
+        credentialReferences: [{ id: `credential-${definition.provider}`, provider: definition.provider, store: "OS_KEYCHAIN", locator: `fixture/${definition.provider}`, status: "AVAILABLE", createdAt: now }],
+        capabilityBindings: [{ id: `binding-${definition.id}`, connectionId: connection.id, capabilityDefinitionId: definition.id, externalResourceId: providerResource.id, enabledAt: now }],
+      });
+      const adapter = createSandboxReadAdapter(definition.provider, { account: providerAccount, resources: [providerResource] });
+      const result = await readBoundExternalResource({ state, actorPersonId: "person-1", connectionId: connection.id, capabilityId: definition.id, resourceId: providerResource.id, adapter, authorizeInstitutionalRead: ({ actorPersonId, owner }) => actorPersonId === "person-1" && owner.kind === "PERSON" && owner.id === actorPersonId, now });
+      expect(result).toMatchObject({ status: "READ", mode: "SANDBOX", capabilityId: definition.id, provenance: { provider: definition.provider, source: "SANDBOX_FIXTURE" } });
+    });
+  }
+
   it("does not let an earlier stale connection hide a second fully authorized connection", () => {
     const first = connectionSchema.parse({ id: "stale", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "CONNECTED", externalAccountId: "account-1", authorizationGrantId: "expired", credentialReferenceId: "credential-1", createdAt: now });
     const second = connectionSchema.parse({ id: "usable", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "CONNECTED", externalAccountId: "account-2", authorizationGrantId: "active", credentialReferenceId: "credential-2", createdAt: now });
