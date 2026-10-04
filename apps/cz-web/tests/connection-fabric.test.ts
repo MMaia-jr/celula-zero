@@ -112,7 +112,7 @@ describe("Connection Fabric contracts", () => {
     expect(capability.reason).toContain("não há adapter live instalado");
   });
 
-  it("requires read scope, credential, exact resource binding and CZ-side authority separation before a provider read", async () => {
+  it("requires server-resolved CZ authority plus read scope, credential and exact resource binding before a provider read", async () => {
     const connection = connectionSchema.parse({ id: "connection-1", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "CONNECTED", externalAccountId: account.id, authorizationGrantId: "grant-1", credentialReferenceId: "credential-1", createdAt: now });
     const fixtureAdapter = createSandboxReadAdapter("github", { account, resources: [resource] });
     const state = parseConnectionFabricState({
@@ -124,11 +124,15 @@ describe("Connection Fabric contracts", () => {
       externalResources: [resource],
       capabilityBindings: [{ id: "binding-1", connectionId: connection.id, capabilityDefinitionId: "github:repository.read", externalResourceId: resource.id, enabledAt: now }],
     });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: fixtureAdapter, now })).resolves.toMatchObject({ status: "READ", mode: "SANDBOX", provenance: { source: "SANDBOX_FIXTURE", authorizationGrantId: "grant-1", bindingId: "binding-1" } });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:issue.create", resourceId: resource.id, adapter: fixtureAdapter, now })).resolves.toEqual({ status: "DENIED", reason: "CAPABILITY_NOT_READ_ONLY" });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: "other-resource", adapter: fixtureAdapter, now })).resolves.toEqual({ status: "DENIED", reason: "RESOURCE_BINDING_NOT_ACTIVE" });
+    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toMatchObject({ status: "READ", mode: "SANDBOX", provenance: { source: "SANDBOX_FIXTURE", authorizationGrantId: "grant-1", bindingId: "binding-1" } });
+    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:issue.create", resourceId: resource.id, adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "CAPABILITY_NOT_READ_ONLY" });
+    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: "other-resource", adapter: fixtureAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "RESOURCE_BINDING_NOT_ACTIVE" });
     const wrongAdapter = createSandboxReadAdapter("linear", { account: { ...account, provider: "linear" }, resources: [] });
-    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: wrongAdapter, now })).resolves.toEqual({ status: "DENIED", reason: "ADAPTER_PROVIDER_MISMATCH" });
+    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: wrongAdapter, authorizeInstitutionalRead: () => true, now })).resolves.toEqual({ status: "DENIED", reason: "ADAPTER_PROVIDER_MISMATCH" });
+    let providerTouched = false;
+    const observedAdapter = { ...fixtureAdapter, async readResource(id: string) { providerTouched = true; return fixtureAdapter.readResource(id); } };
+    await expect(readBoundExternalResource({ state, connectionId: connection.id, capabilityId: "github:repository.read", resourceId: resource.id, adapter: observedAdapter, authorizeInstitutionalRead: () => false, now })).resolves.toEqual({ status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" });
+    expect(providerTouched).toBe(false);
   });
 
   it("validates contract entries independently", () => {

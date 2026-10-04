@@ -253,19 +253,20 @@ export type AuthorizedReadResult =
   | { status: "NOT_FOUND"; mode: ProviderReadAdapter["mode"] }
   | { status: "READ"; mode: ProviderReadAdapter["mode"]; capabilityId: string; resource: ExternalResource; provenance: { provider: ExternalProvider; source: ExternalResource["source"]; observedAt: string; authorizationGrantId: string; bindingId: string } };
 
-/** A read is allowed only for a specific live grant, exact action scope and resource binding.
- * This checks provider scope only; the caller must separately enforce CZ authority.
- */
+/** A read requires both server-resolved CZ authority and a provider grant scoped to this resource. */
 export async function readBoundExternalResource(input: {
   state: ConnectionFabricState;
   connectionId: string;
   capabilityId: string;
   resourceId: string;
   adapter: ProviderReadAdapter;
+  /** Must resolve the authenticated Person's CZ authority server-side; never derive it from client fields. */
+  authorizeInstitutionalRead: () => boolean | Promise<boolean>;
   now?: string;
 }): Promise<AuthorizedReadResult> {
   const definition = providerCapabilityCatalog.find((item) => item.id === input.capabilityId);
   if (!definition || definition.access !== "READ") return { status: "DENIED", reason: "CAPABILITY_NOT_READ_ONLY" };
+  if (!await input.authorizeInstitutionalRead()) return { status: "DENIED", reason: "CZ_AUTHORITY_NOT_GRANTED" };
   const connection = input.state.connections.find((item) => item.id === input.connectionId && item.provider === definition.provider && item.status === "CONNECTED");
   if (!connection) return { status: "DENIED", reason: "CONNECTION_NOT_ACTIVE" };
   const now = input.now ?? new Date().toISOString();
