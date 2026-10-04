@@ -28,7 +28,7 @@ import {
 } from "./foundation";
 import { authenticateHuly } from "./huly-auth";
 import { compileInstitutionalContext } from "./essenthius/context";
-import { codexCliAuthenticated, discoverHabitatCapabilities, discoverHabitatConnections, discoverHabitatResources, projectCurrentCapabilities } from "./essenthius/capabilities";
+import { codexCliAuthenticated, discoverHabitatCapabilities, discoverHabitatConnections, discoverHabitatResources, projectCurrentCapabilities, type CurrentCapability } from "./essenthius/capabilities";
 import { readActiveDirection } from "./essenthius/active-direction";
 import { projectConnectedWorld } from "./essenthius/connected-world";
 import { parseConnectionFabricState } from "@cz/connection-fabric";
@@ -130,7 +130,14 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
   const externalCapabilities = externalProviders.flatMap((provider) => provider.capabilities.map((capability) => ({
     id: `external:${capability.id}`,
     label: `${provider.label}: ${capability.label}`,
-    enables: capability.reason,
+    enables: capability.enables,
+    provider: provider.label,
+    resource: capability.resourceType,
+    latency: capability.latency,
+    risk: capability.risk,
+    reversibility: capability.reversible ? "YES" as const : "NO" as const,
+    approvalPolicy: capability.approvalPolicy as CurrentCapability["approvalPolicy"],
+    provenance: capability.provenance,
     readWrite: capability.access === "READ" ? "READ_ONLY" as const : capability.access === "DRAFT" ? "DRAFT_ONLY" as const : "WRITE_AFTER_HUMAN_CONFIRMATION" as const,
     authorityRequired: capability.authorityRequired,
     costUsageClass: "Custo externo desconhecido até existir conexão e leitura de condições do provedor.",

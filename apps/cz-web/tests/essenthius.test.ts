@@ -103,6 +103,8 @@ describe("Essenthius composition boundaries", () => {
 
   it("reports concrete product capabilities separately from personal capability candidates", () => {
     const projected = projectCurrentCapabilities({ codexAuthenticated: true, localModelInstalled: true, hulyConfigured: true, hasOpenWork: true, hasIntentions: true, hasProjects: true, hasOpenOpportunities: true, hasSubmittedProposals: true, hasCommitments: true, hasEvidenceEligibleClaims: false, hasCompletedWork: true, hasEligibleExecutionAgreement: false });
+    expect(projected.length).toBeGreaterThan(0);
+    expect(projected.every((item) => item.provider && item.resource && item.latency && item.risk && item.reversibility && item.approvalPolicy && item.provenance)).toBe(true);
     expect(projected.find((item) => item.id === "cz:create-work")).toMatchObject({ availability: "AVAILABLE_WITH_HUMAN_CONFIRMATION", readWrite: "WRITE_AFTER_HUMAN_CONFIRMATION", actionEntrypoint: "/conversations" });
     expect(projected.find((item) => item.id === "cz:profile-manual")).toMatchObject({ availability: "AVAILABLE", readWrite: "DIRECT_HUMAN_WRITE" });
     expect(projected.find((item) => item.id === "essenthius:codex-interpretation")?.availability).toBe("AVAILABLE");

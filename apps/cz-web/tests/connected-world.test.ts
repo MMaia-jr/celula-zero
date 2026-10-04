@@ -12,6 +12,7 @@ describe("Connected World readback", () => {
     expect(providers.every((provider) => provider.status === "NOT_CONNECTED" && !provider.liveUseAvailable)).toBe(true);
     expect(providers.every((provider) => provider.sandboxStatus === "CONTRACT_TESTS_ONLY_NOT_A_REAL_CONNECTION")).toBe(true);
     expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.availability === "NOT_CONFIGURED" && capability.costStatus === "UNKNOWN")).toBe(true);
+    expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.provider && capability.resourceType && capability.latency && capability.risk && capability.approvalPolicy && capability.provenance)).toBe(true);
   });
 
   it("keeps configured records distinct from executable live adapters and omits private references", () => {
@@ -30,6 +31,7 @@ describe("Connected World readback", () => {
     expect(github.capabilities.find((item) => item.id === "github:repository.read")?.availability).toBe("CONFIGURED_BUT_UNAVAILABLE");
     expect(github.capabilities.find((item) => item.id === "github:issue.create")?.availability).toBe("CONFIGURED_BUT_UNAVAILABLE");
     expect(github.capabilities.find((item) => item.id === "github:repository.read")?.reason).toContain("não há adapter live instalado");
+    expect(github.capabilities.find((item) => item.id === "github:repository.read")?.enables).toContain("Encontrar código e contexto");
     const serialized = JSON.stringify(github);
     expect(serialized).not.toContain("private-keychain-locator");
     expect(serialized).not.toContain("private-subject");

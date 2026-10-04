@@ -25,6 +25,13 @@ export interface CurrentCapability {
   id: string;
   label: string;
   enables: string;
+  provider: string;
+  resource: string;
+  latency: "LOCAL" | "INTERACTIVE" | "BACKGROUND" | "VARIABLE" | "UNKNOWN" | "NOT_APPLICABLE";
+  risk: "LOW" | "MODERATE" | "HIGH" | "UNKNOWN";
+  reversibility: "YES" | "NO" | "CONDITIONAL" | "UNKNOWN";
+  approvalPolicy: "SESSION_READ" | "DIRECT_HUMAN_ACTION" | "HUMAN_CONFIRMATION" | "HIGH_RISK_CONFIRMATION" | "SELECTIVE_HUMAN_ACCEPTANCE" | "EXPLICIT_RESTORE_CONFIRMATION" | "READ_WITHIN_GRANTED_SCOPE" | "DRAFT_ONLY" | "NOT_APPLICABLE";
+  provenance: string;
   readWrite: "READ_ONLY" | "DRAFT_ONLY" | "DIRECT_HUMAN_WRITE" | "WRITE_AFTER_HUMAN_CONFIRMATION";
   authorityRequired: string;
   costUsageClass: string;
@@ -32,6 +39,34 @@ export interface CurrentCapability {
   reason: string;
   actionEntrypoint: string | null;
 }
+
+type CapabilityRuntimeMetadata = Pick<CurrentCapability, "provider" | "resource" | "latency" | "risk" | "reversibility" | "approvalPolicy" | "provenance">;
+const capabilityRuntimeMetadata: Record<string, CapabilityRuntimeMetadata> = {
+  "cz:read-current-state": { provider: "Célula Zero", resource: "FoundationStore local", latency: "LOCAL", risk: "LOW", reversibility: "YES", approvalPolicy: "SESSION_READ", provenance: "Leitura autorizada do estado CZ local." },
+  "cz:locate-work": { provider: "Célula Zero", resource: "Work e deep link", latency: "LOCAL", risk: "LOW", reversibility: "YES", approvalPolicy: "SESSION_READ", provenance: "Projetado dos Works duráveis visíveis à Person." },
+  "cz:create-work": { provider: "Célula Zero", resource: "Work", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "A proposta não muta estado; a criação ocorre após confirmação CZ." },
+  "cz:create-project": { provider: "Célula Zero", resource: "Project", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Project local ligado à intenção de origem." },
+  "cz:open-opportunity": { provider: "Célula Zero", resource: "Opportunity", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Opportunity local dentro de Project existente." },
+  "cz:submit-proposal": { provider: "Célula Zero", resource: "Proposal", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Proposal atribuída; não cria Commitment ou Agreement." },
+  "cz:decide-proposal": { provider: "Célula Zero", resource: "Commitment e decisão", latency: "LOCAL", risk: "HIGH", reversibility: "NO", approvalPolicy: "HIGH_RISK_CONFIRMATION", provenance: "Decision humana e autoridade Cell são verificadas no servidor." },
+  "cz:define-agreement": { provider: "Célula Zero", resource: "Agreement", latency: "LOCAL", risk: "HIGH", reversibility: "CONDITIONAL", approvalPolicy: "HIGH_RISK_CONFIRMATION", provenance: "Agreement versionado, sem obrigação econômica inferida." },
+  "cz:record-human-decision": { provider: "Célula Zero", resource: "Decision", latency: "LOCAL", risk: "HIGH", reversibility: "NO", approvalPolicy: "DIRECT_HUMAN_ACTION", provenance: "A decisão é atribuída à ação direta da Person autenticada." },
+  "cz:record-work-learning": { provider: "Célula Zero", resource: "Work result e Learning", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "DIRECT_HUMAN_ACTION", provenance: "Relato de resultado e aprendizado atribuído à Person." },
+  "cz:attach-attributed-evidence": { provider: "Célula Zero", resource: "Artifact e Claim", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Evidência atribuída não equivale a Verification." },
+  "cz:capability-growth": { provider: "Célula Zero", resource: "CapabilityCandidate", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Candidate ligado a Learning; não é capacidade verificada." },
+  "cz:profile-manual": { provider: "Célula Zero", resource: "Profile", latency: "LOCAL", risk: "LOW", reversibility: "YES", approvalPolicy: "DIRECT_HUMAN_ACTION", provenance: "Edição manual da presença da própria Person." },
+  "essenthius:model-control": { provider: "Célula Zero", resource: "Preferência do thread", latency: "LOCAL", risk: "LOW", reversibility: "YES", approvalPolicy: "DIRECT_HUMAN_ACTION", provenance: "Preferência persistida por conversa; identidade Essenthius permanece." },
+  "cz:profile-assist": { provider: "Essenthius", resource: "ProfileDraft", latency: "INTERACTIVE", risk: "MODERATE", reversibility: "YES", approvalPolicy: "SELECTIVE_HUMAN_ACCEPTANCE", provenance: "Draft usa fontes atribuídas e só altera campos aceitos." },
+  "cz:experience-draft": { provider: "Essenthius", resource: "Experience", latency: "INTERACTIVE", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Data e fatos omitidos permanecem desconhecidos até revisão." },
+  "cz:meeting": { provider: "Célula Zero", resource: "Meeting textual", latency: "LOCAL", risk: "MODERATE", reversibility: "CONDITIONAL", approvalPolicy: "HUMAN_CONFIRMATION", provenance: "Room persistente; participante só aparece com relação observada." },
+  "essenthius:codex-interpretation": { provider: "Codex CLI via InstitutionalIntelligencePort", resource: "Interpretation", latency: "INTERACTIVE", risk: "MODERATE", reversibility: "YES", approvalPolicy: "SESSION_READ", provenance: "Resposta do modelo é Interpretation, não decisão ou execução." },
+  "executor:codex-cli": { provider: "Codex CLI via Execution Fabric", resource: "Isolated worktree e Result Package", latency: "VARIABLE", risk: "HIGH", reversibility: "CONDITIONAL", approvalPolicy: "HIGH_RISK_CONFIRMATION", provenance: "Executor exige autorização específica, worktree limpo e escopo fechado." },
+  "provider:ollama-local": { provider: "Ollama local", resource: "Background inference", latency: "BACKGROUND", risk: "LOW", reversibility: "YES", approvalPolicy: "NOT_APPLICABLE", provenance: "Local AI é somente background nesta máquina." },
+  "provider:kimi": { provider: "Kimi", resource: "Remote inference", latency: "UNKNOWN", risk: "UNKNOWN", reversibility: "UNKNOWN", approvalPolicy: "NOT_APPLICABLE", provenance: "Não configurado; não foi invocado." },
+  "auth:huly": { provider: "Huly Accounts", resource: "Authenticated Account subject", latency: "INTERACTIVE", risk: "MODERATE", reversibility: "YES", approvalPolicy: "SESSION_READ", provenance: "Autenticação técnica; Account não é Person nem authority." },
+  "cz:snapshot-recovery": { provider: "Célula Zero", resource: "Snapshot Foundation", latency: "VARIABLE", risk: "HIGH", reversibility: "CONDITIONAL", approvalPolicy: "EXPLICIT_RESTORE_CONFIRMATION", provenance: "Restore tem preview, identidade, backup, digest e confirmação." },
+  "cz:historical-project-economy": { provider: "Historical CZ source", resource: "Historical economy semantics", latency: "NOT_APPLICABLE", risk: "LOW", reversibility: "YES", approvalPolicy: "NOT_APPLICABLE", provenance: "Fonte histórica inspecionável; sem conexão a dados remotos." },
+};
 
 export function projectCurrentCapabilities(input: {
   codexAuthenticated: boolean;
@@ -47,7 +82,7 @@ export function projectCurrentCapabilities(input: {
   hasCompletedWork: boolean;
   hasEligibleExecutionAgreement: boolean;
 }): CurrentCapability[] {
-  return [
+  const capabilities: Array<Omit<CurrentCapability, keyof CapabilityRuntimeMetadata>> = [
     { id: "cz:read-current-state", label: "Ler o contexto da Célula", enables: "Reconstruir Person, Cell, relação, trabalho e continuidade local autorizada.", readWrite: "READ_ONLY", authorityRequired: "Sessão CZ válida e cell.read resolvida no servidor.", costUsageClass: "Sem chamada externa por si só.", availability: "AVAILABLE", reason: "Contexto local derivado do FoundationStore; fonte canônica e direção local ficam separadas.", actionEntrypoint: "/" },
     { id: "cz:locate-work", label: "Encontrar e abrir trabalho", enables: input.hasOpenWork ? "Localizar os Works abertos reais e criar um deep link validado." : "Abrir a área de trabalho quando existir um Work.", readWrite: "READ_ONLY", authorityRequired: "Sessão CZ válida; IDs são selecionados somente do contexto autorizado.", costUsageClass: "Sem chamada externa por si só.", availability: input.hasOpenWork ? "AVAILABLE" : "CONFIGURED_BUT_UNAVAILABLE", reason: input.hasOpenWork ? "Há Work aberto no estado durável local." : "Não há Work aberto no estado local atual.", actionEntrypoint: "/cells" },
     { id: "cz:create-work", label: "Propor e criar um Work", enables: "Preparar Work a partir da conversa e criar somente após confirmação humana.", readWrite: "WRITE_AFTER_HUMAN_CONFIRMATION", authorityRequired: "Confirmação explícita e cell.update verificado no servidor.", costUsageClass: "Persistência local; interpretação pode consumir quota da conta conectada.", availability: "AVAILABLE_WITH_HUMAN_CONFIRMATION", reason: "A criação passa pelo Action Gateway; a proposta do modelo não grava estado.", actionEntrypoint: "/conversations" },
@@ -73,6 +108,15 @@ export function projectCurrentCapabilities(input: {
     { id: "cz:snapshot-recovery", label: "Exportar e recuperar estado local", enables: "Exportar snapshot; recuperação requer validação, backup e confirmação explícita.", readWrite: "WRITE_AFTER_HUMAN_CONFIRMATION", authorityRequired: "Exportação pela sessão; restore exige autoridade CZ e confirmação explícita após dry-run.", costUsageClass: "Operação local, sem serviço externo.", availability: "AVAILABLE_WITH_HUMAN_CONFIRMATION", reason: "Snapshot/restore usam caminho local e cópia de segurança; restore não é merge automático.", actionEntrypoint: "/you" },
     { id: "cz:historical-project-economy", label: "Economia remota histórica", enables: "Consultar semânticas de economia histórica somente como fonte de domínio.", readWrite: "READ_ONLY", authorityRequired: "Nenhum dado remoto é lido ou alterado neste Habitat.", costUsageClass: "Sem chamada externa; integração ao estado local não estabelecida.", availability: "HISTORICAL_ONLY", reason: "Os contratos remotos históricos existem, mas não estão conectados aos registros deste Habitat local.", actionEntrypoint: null },
   ];
+  return capabilities.map((capability) => {
+    const metadata = capabilityRuntimeMetadata[capability.id];
+    if (!metadata) throw new Error(`CAPABILITY_RUNTIME_METADATA_MISSING:${capability.id}`);
+    const approvalPolicy = capability.readWrite === "READ_ONLY" ? "SESSION_READ"
+      : capability.readWrite === "DRAFT_ONLY" ? "SELECTIVE_HUMAN_ACCEPTANCE"
+        : capability.readWrite === "DIRECT_HUMAN_WRITE" ? "DIRECT_HUMAN_ACTION"
+          : metadata.approvalPolicy;
+    return { ...capability, ...metadata, approvalPolicy };
+  });
 }
 
 export async function codexCliAuthenticated() {

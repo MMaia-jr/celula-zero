@@ -25,18 +25,39 @@ function capabilityLabel(id: string) {
   return labels[id] ?? "Ação externa";
 }
 
+function capabilityEnables(id: string) {
+  const descriptions: Record<string, string> = {
+    "github:repository.read": "Encontrar código e contexto em repositórios autorizados.",
+    "github:issue.read": "Consultar issues incluídas no acesso concedido.",
+    "github:issue.create": "Preparar uma issue para revisão antes de enviá-la.",
+    "github:pull_request.open": "Preparar uma mudança de software para revisão; abrir PR exige confirmação de alto risco.",
+    "linear:team.read": "Localizar equipes disponíveis na conta conectada.",
+    "linear:issue.read": "Consultar issues cobertas pelo acesso concedido.",
+    "linear:issue.create": "Preparar uma issue para revisão antes de criá-la.",
+    "google:gmail.thread.read": "Consultar threads do Gmail cobertas pelo acesso concedido.",
+    "google:gmail.draft": "Preparar um rascunho sem enviar e-mail.",
+    "google:drive.file.read": "Consultar arquivos selecionados e autorizados do Drive.",
+    "google:calendar.event.read": "Consultar eventos do Calendar cobertos pelo acesso concedido.",
+    "google:calendar.event.create": "Preparar um evento para confirmação antes de convidar pessoas.",
+  };
+  return descriptions[id] ?? "Usar uma capacidade externa explicitamente autorizada.";
+}
+
 export interface ConnectedWorldCapability {
   id: string;
   label: string;
+  enables: string;
   provider: ExternalProvider;
   resourceType: string;
   access: "READ" | "DRAFT" | "WRITE";
+  latency: "INTERACTIVE" | "BACKGROUND" | "VARIABLE";
   availability: CapabilityAvailability;
   authorityRequired: string;
   approvalPolicy: string;
   costStatus: "UNKNOWN";
   risk: "LOW" | "MODERATE" | "HIGH";
   reversible: boolean;
+  provenance: string;
   reason: string;
 }
 
@@ -64,15 +85,18 @@ export function projectConnectedWorld(state: ConnectionFabricState): ConnectedPr
     const capabilities = providerCapabilities.map(({ definition, availability, reason }) => ({
       id: definition.id,
       label: capabilityLabel(definition.id),
+      enables: capabilityEnables(definition.id),
       provider,
       resourceType: definition.resourceType,
       access: definition.access,
+      latency: definition.latencyClass,
       availability,
       authorityRequired: definition.authorityRequirement,
       approvalPolicy: definition.approvalPolicy,
       costStatus: "UNKNOWN" as const,
       risk: definition.risk,
       reversible: definition.reversible,
+      provenance: definition.provenance,
       reason,
     }));
     const liveUseAvailable = capabilities.some((capability) => capability.availability === "AVAILABLE" || capability.availability === "AVAILABLE_WITH_HUMAN_CONFIRMATION");
