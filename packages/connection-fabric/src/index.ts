@@ -215,8 +215,16 @@ export function parseConnectionFabricState(input: unknown): ConnectionFabricStat
   const sourceRecords = Array.isArray(source.records) ? source.records as Array<Record<string, unknown>> : null;
   if (state.authorizationGrants.length && !sourceRecords) throw new Error("GRANT_CONSENT_RECORD_SOURCE_MISSING");
   for (const grant of state.authorizationGrants) {
-    if (!sourceRecords?.some((record) => record.id === grant.consentRecordId && record.kind === "OriginalRecord" && record.purpose === "connection_authorization" && record.authorId === grant.grantedByPersonId))
+    const connection = connections.get(grant.connectionId)!;
+    const consent = sourceRecords?.find((record) => record.id === grant.consentRecordId && record.kind === "OriginalRecord" && record.purpose === "connection_authorization" && record.authorId === grant.grantedByPersonId);
+    if (!consent)
       throw new Error("GRANT_CONSENT_RECORD_INVALID");
+    if (connection.owner.kind === "PERSON" && grant.grantedByPersonId !== connection.owner.id) throw new Error("GRANTOR_CONNECTION_OWNER_MISMATCH");
+    const visibility = consent.visibility && typeof consent.visibility === "object" ? consent.visibility as Record<string, unknown> : null;
+    const consentScopeMatches = connection.owner.kind === "PERSON"
+      ? visibility?.scope === "private" && visibility.ownerId === connection.owner.id
+      : visibility?.scope === "cell" && (connection.owner.kind !== "CELL" || visibility.cellId === connection.owner.id);
+    if (!consentScopeMatches) throw new Error("GRANT_CONSENT_VISIBILITY_INVALID");
   }
   for (const resource of state.externalResources) if (accounts.get(resource.accountId)?.provider !== resource.provider) throw new Error("EXTERNAL_RESOURCE_ACCOUNT_REFERENCE_INVALID");
   for (const binding of state.capabilityBindings) {

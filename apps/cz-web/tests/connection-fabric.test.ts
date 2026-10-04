@@ -124,7 +124,7 @@ describe("Connection Fabric contracts", () => {
     const state = parseConnectionFabricState({
       connections: [connection],
       authorizationGrants: [{ id: "grant-1", connectionId: connection.id, grantedByPersonId: "person-1", scopes: ["github:read_repository"], consentRecordId: "consent-1", grantedAt: now }],
-      records: [{ id: "consent-1", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person-1" }],
+      records: [{ id: "consent-1", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person-1", visibility: { scope: "private", ownerId: "person-1" } }],
       credentialReferences: [{ id: "credential-1", provider: "github", store: "OS_KEYCHAIN", locator: "cz/github/account-fixture", status: "AVAILABLE", createdAt: now }],
       externalAccounts: [account],
       externalResources: [resource],
@@ -152,5 +152,12 @@ describe("Connection Fabric contracts", () => {
     const connection = { id: "connection", owner: { kind: "PERSON", id: "person" }, provider: "github", status: "PENDING_AUTHORIZATION", createdAt: now };
     expect(() => parseConnectionFabricState({ connections: [connection], authorizationGrants: [{ id: "grant", connectionId: "connection", grantedByPersonId: "person", scopes: ["*"], consentRecordId: "missing-consent", grantedAt: now }], records: [] })).toThrow("GRANT_CONSENT_RECORD_INVALID");
     expect(() => parseConnectionFabricState({ connections: [{ id: "duplicate", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "PENDING_AUTHORIZATION", createdAt: now }, { id: "duplicate", owner: { kind: "PERSON", id: "person-1" }, provider: "linear", status: "PENDING_AUTHORIZATION", createdAt: now }] })).toThrow("CONNECTION_FABRIC_DUPLICATE_ID");
+  });
+
+  it("does not let personal connection consent become cell-shared access", () => {
+    const connection = { id: "personal", owner: { kind: "PERSON", id: "person-1" }, provider: "github", status: "CONNECTED", createdAt: now };
+    const grant = { id: "grant", connectionId: "personal", grantedByPersonId: "person-1", scopes: ["*"], consentRecordId: "consent", grantedAt: now };
+    expect(() => parseConnectionFabricState({ connections: [connection], authorizationGrants: [grant], records: [{ id: "consent", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "person-1", visibility: { scope: "cell", cellId: "cell-1" } }] })).toThrow("GRANT_CONSENT_VISIBILITY_INVALID");
+    expect(() => parseConnectionFabricState({ connections: [connection], authorizationGrants: [{ ...grant, grantedByPersonId: "other-person" }], records: [{ id: "consent", kind: "OriginalRecord", purpose: "connection_authorization", authorId: "other-person", visibility: { scope: "private", ownerId: "other-person" } }] })).toThrow("GRANTOR_CONNECTION_OWNER_MISMATCH");
   });
 });

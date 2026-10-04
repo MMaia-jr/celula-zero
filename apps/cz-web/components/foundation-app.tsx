@@ -799,7 +799,7 @@ export function FoundationApp({ section, initial, newMeeting = false, initialTar
   const activeWork = workItems.filter((work) => work.status === "active");
   const completedWork = workItems.filter((work) => work.status === "complete");
   const projects = view.projects ?? [];
-  const activityRecords = view.records.filter((record) => record.kind !== "Interpretation" && (record.kind !== "OriginalRecord" || ["intention", "experience", "profile", "external_identity", "cell", "meeting_opened", "work_create", "work_complete", "work_consequence", "learning", "next_possibility", "agreement", "action_authorization", "human_decision", "evidence_attachment", "economic_status", "governance_mandate", "bootstrap_authorization", "source_observation", "capability_candidate"].includes(record.purpose)));
+  const activityRecords = view.records.filter((record) => record.kind !== "Interpretation" && (record.kind !== "OriginalRecord" || ["intention", "experience", "profile", "external_identity", "cell", "meeting_opened", "work_create", "work_complete", "work_consequence", "learning", "next_possibility", "agreement", "action_authorization", "human_decision", "evidence_attachment", "economic_status", "governance_mandate", "bootstrap_authorization", "source_observation", "capability_candidate", "connection_authorization"].includes(record.purpose)));
   const promotableInputs = [...intentions, ...humanSpeeches].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   const projectSourceIds = new Set(projects.flatMap((project) => project.events.map((event) => typeof event.payload.sourceRecordId === "string" ? event.payload.sourceRecordId : "")));
   const projectActivity = projects.flatMap((project) => project.events.map((event) => ({ ...event, projectTitle: project.title }))).sort((left, right) => left.occurredAt.localeCompare(right.occurredAt));
@@ -1604,6 +1604,7 @@ export function FoundationApp({ section, initial, newMeeting = false, initialTar
                                 economic_status: "Estado econômico informado",
                                 governance_mandate: "Consequência de mandato registrada",
                                 capability_candidate: "Possibilidade de capacidade relatada",
+                                connection_authorization: "Acesso a um serviço autorizado",
                                 meeting_opened: "Um encontro começou",
                               }[r.purpose]
                             : r.kind === "Decision" ? "Decisão humana" : r.kind}

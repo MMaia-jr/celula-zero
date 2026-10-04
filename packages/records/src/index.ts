@@ -49,6 +49,7 @@ export type InstitutionalRecord = BaseRecord &
           | "bootstrap_authorization"
           | "source_observation"
           | "capability_candidate"
+          | "connection_authorization"
           | "meeting_opened";
       }
     | {
