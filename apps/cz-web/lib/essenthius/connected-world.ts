@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-import { activeAuthorizationGrant, providerCapabilityCatalog, registerCapabilities, type CapabilityAvailability, type ConnectionFabricState, type ExternalProvider } from "@cz/connection-fabric";
+import { activeAuthorizationGrant, providerCapabilityCatalog, registerCapabilities, type CapabilityAvailability, type CapabilityDefinition, type ConnectionFabricState, type ExternalProvider } from "@cz/connection-fabric";
 
 const providerPresentation: Record<ExternalProvider, { label: string; purpose: string }> = {
   github: { label: "GitHub", purpose: "Repositórios, issues e pull requests de software." },
@@ -54,6 +54,7 @@ export interface ConnectedWorldCapability {
   availability: CapabilityAvailability;
   authorityRequired: string;
   approvalPolicy: string;
+  costClass: CapabilityDefinition["costClass"];
   costStatus: "UNKNOWN";
   risk: "LOW" | "MODERATE" | "HIGH";
   reversible: boolean;
@@ -147,6 +148,7 @@ export function projectConnectedWorld(state: ConnectionFabricState, now = new Da
       availability,
       authorityRequired: definition.authorityRequirement,
       approvalPolicy: definition.approvalPolicy,
+      costClass: definition.costClass,
       costStatus: "UNKNOWN" as const,
       risk: definition.risk,
       reversible: definition.reversible,

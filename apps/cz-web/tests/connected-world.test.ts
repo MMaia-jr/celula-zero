@@ -29,7 +29,7 @@ describe("Connected World readback", () => {
     expect(providers.map((provider) => provider.provider)).toEqual(["github", "linear", "google"]);
     expect(providers.every((provider) => provider.status === "NOT_CONNECTED" && !provider.liveUseAvailable)).toBe(true);
     expect(providers.every((provider) => provider.sandboxStatus === "CONTRACT_TESTS_ONLY_NOT_A_REAL_CONNECTION")).toBe(true);
-    expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.availability === "NOT_CONFIGURED" && capability.costStatus === "UNKNOWN")).toBe(true);
+    expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.availability === "NOT_CONFIGURED" && capability.costClass === "EXTERNAL_BILLING_UNKNOWN" && capability.costStatus === "UNKNOWN")).toBe(true);
     expect(providers.flatMap((provider) => provider.capabilities).every((capability) => capability.provider && capability.targetResourceTypes.length > 0 && capability.latency && capability.risk && capability.approvalPolicy && capability.provenance)).toBe(true);
   });
 

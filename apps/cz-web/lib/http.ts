@@ -141,7 +141,7 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
     provenance: capability.provenance,
     readWrite: capability.access === "READ" ? "READ_ONLY" as const : capability.access === "DRAFT" ? "DRAFT_ONLY" as const : "WRITE_AFTER_HUMAN_CONFIRMATION" as const,
     authorityRequired: capability.authorityRequired,
-    costUsageClass: "Custo externo desconhecido até existir conexão e leitura de condições do provedor.",
+    costUsageClass: `${capability.costClass}; valor monetário desconhecido até existir conexão e leitura das condições do provedor.`,
     availability: capability.availability,
     reason: `${provider.status === "NOT_CONNECTED" ? "Conta real não conectada. " : ""}${capability.reason} Adaptador sandbox serve somente para testes contratuais e não representa uma conta real.`,
     actionEntrypoint: null,
