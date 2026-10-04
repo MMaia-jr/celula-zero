@@ -1,5 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 import { test, expect } from "@playwright/test";
+test("Google is the normal login path and email link stays a collapsed fallback", async ({ page }) => {
+  await page.goto("/login");
+  await expect(page.getByRole("button", { name: "Continuar com Google" })).toBeVisible();
+  await expect(page.getByLabel("E-mail autorizado")).toBeHidden();
+  await page.getByText("Problemas com o Google? Usar link de e-mail como alternativa").click();
+  await expect(page.getByLabel("E-mail autorizado")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Enviar link de fallback ↗" })).toBeVisible();
+});
+
 test("enter, produce profile/experience, persist, export, logout and return", async ({
   page,
 }) => {
