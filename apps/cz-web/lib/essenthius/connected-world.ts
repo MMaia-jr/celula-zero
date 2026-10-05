@@ -10,7 +10,10 @@ const providerPresentation: Record<ExternalProvider, { label: string; purpose: s
 function capabilityLabel(id: string) {
   const labels: Record<string, string> = {
     "github:repository.read": "Ler repositórios",
+    "github:branch.read": "Ler branches",
+    "github:commit.read": "Ler commits",
     "github:issue.read": "Ler issues",
+    "github:pull_request.read": "Ler pull requests",
     "github:issue.create": "Criar issue após autorização",
     "github:pull_request.open": "Abrir pull request após confirmação de alto risco",
     "linear:team.read": "Ler times",
@@ -28,7 +31,10 @@ function capabilityLabel(id: string) {
 function capabilityEnables(id: string) {
   const descriptions: Record<string, string> = {
     "github:repository.read": "Encontrar código e contexto em repositórios autorizados.",
+    "github:branch.read": "Consultar branches do repositório autorizado.",
+    "github:commit.read": "Consultar commits do repositório autorizado.",
     "github:issue.read": "Consultar issues incluídas no acesso concedido.",
+    "github:pull_request.read": "Consultar pull requests incluídos no acesso concedido.",
     "github:issue.create": "Preparar uma issue para revisão antes de enviá-la.",
     "github:pull_request.open": "Preparar uma mudança de software para revisão; abrir PR exige confirmação de alto risco.",
     "linear:team.read": "Localizar equipes disponíveis na conta conectada.",
@@ -156,13 +162,14 @@ export function projectConnectedWorld(state: ConnectionFabricState, now = new Da
       reason,
     }));
     const liveUseAvailable = capabilities.some((capability) => capability.availability === "AVAILABLE" || capability.availability === "AVAILABLE_WITH_HUMAN_CONFIRMATION");
-    const connected = connections.some((item) => {
+    const activeConnection = connections.find((item) => {
       if (item.status !== "CONNECTED" || !item.externalAccountId || !item.credentialReferenceId) return false;
       const account = state.externalAccounts.find((candidate) => candidate.id === item.externalAccountId && candidate.provider === provider && candidate.source === "PROVIDER_READBACK");
       const credential = state.credentialReferences.find((candidate) => candidate.id === item.credentialReferenceId && candidate.provider === provider && candidate.status === "AVAILABLE");
       const grant = activeAuthorizationGrant(item, state.authorizationGrants, now);
       return Boolean(account && credential && grant);
     });
+    const connected = Boolean(activeConnection);
     const hasSandboxConnection = connections.some((item) => item.status === "CONNECTED" && state.externalAccounts.some((account) => account.id === item.externalAccountId && account.provider === provider && account.source === "SANDBOX_FIXTURE"));
     const status = !connections.length ? "NOT_CONNECTED" : connected ? "CONNECTED" : hasSandboxConnection ? "SANDBOX_ONLY" : "NEEDS_ATTENTION";
     return { provider, ...providerPresentation[provider], status, liveUseAvailable, sandboxStatus: "CONTRACT_TESTS_ONLY_NOT_A_REAL_CONNECTION", capabilities };

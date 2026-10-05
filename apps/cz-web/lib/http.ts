@@ -43,6 +43,7 @@ import { executionPlanSchema, executeInIsolatedWorktree, executionResultFileName
 import { completeExecutionJob, expireStaleExecutionJobs, failExecutionJob } from "./execution-state";
 import { canAct } from "@cz/authority";
 import { digestRecoveryValue, parseRecoveryState, recoverySummary, recoveryEnvelopeSchema } from "./recovery";
+import { revokeConnection } from "./connections/oauth";
 
 const authorizedEpisodeSchema = z.object({
   sourceRecordId: z.string().min(1).max(160), requestKey: z.string().regex(/^[a-zA-Z0-9-]{16,80}$/), confirmed: z.literal(true), finalAuthorization: z.literal("AUTHORIZE_EXACT_CHAIN_AND_CODEX_EXECUTION"),
@@ -174,7 +175,9 @@ async function capabilitiesFor(view: NonNullable<ReturnType<typeof currentView>[
 function setSessionCookie(response: NextResponse, token: string) {
   response.cookies.set(cookie, token, {
     httpOnly: true,
-    sameSite: "strict",
+    // OAuth providers return through a top-level GET callback. POST mutations
+    // remain protected by the exact same-origin check below.
+    sameSite: "lax",
     secure: false,
     path: "/",
     maxAge: 8 * 60 * 60,
@@ -290,6 +293,14 @@ export async function handle(request: NextRequest) {
     }
     if (!principal)
       return NextResponse.json({ error: "Entre novamente para continuar." }, { status: 401 });
+
+    if (data.action === "connection_revoke") {
+      const parsed = z.object({ action: z.literal("connection_revoke"), provider: z.enum(["github", "linear", "google"]) }).strict().safeParse(data);
+      if (!parsed.success) return NextResponse.json({ error: "A conexão a revogar não foi identificada." }, { status: 400 });
+      const actor = currentActor(db.read(), principal);
+      const revocation = await revokeConnection(db, actor, parsed.data.provider);
+      return NextResponse.json({ view: currentView(db.read(), principal).view, authenticated: true, connectionRevoked: revocation.revoked, providerRevoked: revocation.providerRevoked });
+    }
 
     if (data.action === "thread_model_preference") {
       const parsed = z.object({ action: z.literal("thread_model_preference"), threadId: z.string().min(1).max(180), preference: z.enum(["auto", "codex-cli", "ollama-local"]) }).strict().safeParse(data);

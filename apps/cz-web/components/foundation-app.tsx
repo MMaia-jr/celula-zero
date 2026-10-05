@@ -46,6 +46,8 @@ async function api(
   turnId?: string;
   turnStatus?: "interpreted" | "unavailable";
   actionExecuted?: boolean;
+  connectionRevoked?: boolean;
+  providerRevoked?: boolean;
   executionReturned?: boolean;
   error?: string;
   profileDraft?: ProfileDraftProposal[];
@@ -251,6 +253,15 @@ export function FoundationApp({ section, initial, newMeeting = false, initialTar
     return () => window.clearTimeout(timer);
   }, [load]);
   useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const query = new URLSearchParams(window.location.search);
+      if (query.has("connection")) setNotice("A conexão foi autorizada e os metadados permitidos foram lidos. Ações externas continuam sujeitas à autoridade CZ e confirmação aplicável.");
+      const connectionError = query.get("connection_error");
+      if (connectionError) setError(connectionError);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+  useEffect(() => {
     if (!(["home", "discover", "cells"] as Section[]).includes(section) || !authenticated || !view) return;
     const timer = window.setTimeout(() => void loadCapabilities(), 0);
     return () => window.clearTimeout(timer);
@@ -357,6 +368,17 @@ export function FoundationApp({ section, initial, newMeeting = false, initialTar
       flight.current = false;
       setBusy(false);
     }
+  }
+  async function disconnectExternalConnection(provider: "github" | "linear" | "google", label: string) {
+    if (!window.confirm(`Revogar o acesso de ${label}? A CZ bloqueará novos usos locais e tentará revogar o acesso no provedor.`)) return;
+    setBusy(true); setError(""); setNotice("");
+    try {
+      const data = await api({ action: "connection_revoke", provider });
+      setView(data.view ?? null);
+      setNotice(data.providerRevoked ? `Acesso de ${label} revogado na CZ e no provedor.` : `A CZ bloqueou novos usos de ${label}; a revogação remota precisa de atenção.`);
+      await loadCapabilities();
+    } catch (e) { setError((e as Error).message); }
+    finally { setBusy(false); }
   }
   async function save(command: Command, form?: HTMLFormElement) {
     if (flight.current) return;
@@ -975,7 +997,9 @@ export function FoundationApp({ section, initial, newMeeting = false, initialTar
                   <div className="connected-world-list">{connectedProviders.map((provider) => <details className="connected-provider" key={provider.provider}>
                     <summary><strong>{provider.label}</strong><span>{provider.status === "CONNECTED" ? "Conectado" : provider.status === "NEEDS_ATTENTION" ? "Precisa de atenção" : provider.status === "SANDBOX_ONLY" ? "Somente exemplo de teste" : "Ainda não conectado"}</span></summary>
                     <p>{provider.purpose}</p>
-                    <p>{provider.liveUseAvailable ? "O escopo está concedido, mas esta Alpha ainda não consegue acessar o serviço ao vivo." : "Sem ação ao vivo disponível nesta instalação."}</p>
+                    <p>{provider.liveUseAvailable ? "A conta está conectada; cada acesso ainda passa pela autoridade da Célula." : "Sem ação ao vivo disponível nesta instalação."}</p>
+                    {provider.status !== "CONNECTED" && <Link className="text-button" href={`/api/connections/${provider.provider}/start`}>Conectar {provider.label} com autorização explícita ↗</Link>}
+                    {provider.status === "CONNECTED" && <button className="secondary" disabled={busy} onClick={() => void disconnectExternalConnection(provider.provider, provider.label)}>Desconectar e revogar</button>}
                     <details><summary>Ver acessos, autoridade e limites</summary>{provider.capabilities.map((capability) => <div className="connected-capability" key={capability.id}><strong>{capability.label}</strong><p>Estado: {capabilityAvailabilityLabel(capability.availability)}. {capability.reason}</p><p>Destino exigido: {capability.targetResourceTypes.join(" ou ").toLowerCase().replaceAll("_", " ")}.</p><p>Autoridade: {capability.authorityRequired}</p><p>Classe de custo/uso: {capability.costClass.replaceAll("_", " ").toLowerCase()}; custo monetário exato: desconhecido. Risco: {capability.risk.toLowerCase()}; reversível: {capability.reversible ? "sim" : "não"}.</p></div>)}<p>Fixtures sandbox não são contas e não constituem leituras de dados externos.</p></details>
                   </details>)}</div>
                 </section>
@@ -1531,7 +1555,9 @@ export function FoundationApp({ section, initial, newMeeting = false, initialTar
                 <div className="connected-world-list">{connectedProviders.map((provider) => <details className="connected-provider" key={provider.provider}>
                   <summary><strong>{provider.label}</strong><span>{provider.status === "CONNECTED" ? "Conectado" : provider.status === "NEEDS_ATTENTION" ? "Precisa de atenção" : "Ainda não conectado"}</span></summary>
                   <p>{provider.purpose}</p>
-                  <p>{provider.liveUseAvailable ? "O escopo está concedido, mas esta Alpha ainda não consegue acessar o serviço ao vivo." : "Sem ação ao vivo disponível nesta instalação."}</p>
+                  <p>{provider.liveUseAvailable ? "A conta está conectada; cada acesso ainda passa pela autoridade da Célula." : "Sem ação ao vivo disponível nesta instalação."}</p>
+                  {provider.status !== "CONNECTED" && <Link className="text-button" href={`/api/connections/${provider.provider}/start`}>Conectar {provider.label} com autorização explícita ↗</Link>}
+                  {provider.status === "CONNECTED" && <button className="secondary" disabled={busy} onClick={() => void disconnectExternalConnection(provider.provider, provider.label)}>Desconectar e revogar</button>}
                   <details><summary>Ver acessos, autoridade e limites</summary>{provider.capabilities.map((capability) => <div className="connected-capability" key={capability.id}><strong>{capability.label}</strong><p>Estado: {capabilityAvailabilityLabel(capability.availability)}. {capability.reason}</p><p>Destino exigido: {capability.targetResourceTypes.join(" ou ").toLowerCase().replaceAll("_", " ")}.</p><p>Autoridade: {capability.authorityRequired}</p><p>Classe de custo/uso: {capability.costClass.replaceAll("_", " ").toLowerCase()}; custo monetário exato: desconhecido. Risco: {capability.risk.toLowerCase()}; reversível: {capability.reversible ? "sim" : "não"}.</p></div>)}<p>Fixtures sandbox não são contas e não constituem leituras de dados externos.</p></details>
                 </details>)}</div>
               </section>
